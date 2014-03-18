@@ -1,5 +1,6 @@
 /include
 /local
+/share
 
 *.py[cod]
 
