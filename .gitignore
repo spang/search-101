@@ -1,3 +1,6 @@
+/include
+/local
+
 *.py[cod]
 
 # C extensions
