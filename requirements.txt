@@ -1,0 +1,5 @@
+Pygments==1.6
+Whoosh==2.6.0
+argparse==1.2.1
+bpython==0.12
+wsgiref==0.1.2
