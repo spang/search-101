@@ -1,14 +1,17 @@
 import re
 import sys
 import json
+import calendar
 
 from glob import glob
+
+from dateutil.parser import parse as parse_date
 
 
 def main():
     for filename in glob('gutentexts/*.txt'):
         print filename
-        meta_filename = '_'.join([filename, 'meta.json'])
+        meta_filename = ''.join([filename, '.json'])
         text = file(filename, 'r').read()
         encoding = re.search(r'^Character set encoding: (.*)$', text,
                              flags=re.M).groups()[0].strip()
@@ -21,13 +24,22 @@ def main():
         # NOTE: I can't actually figure out how to match a literal ] in a
         # Python regex, go figure. We just wildcard it instead.
         release_date = re.search(
-            r'^(?:Release|Posting) Date: (.*?)(?: \[(?:EBook|Etext) #[0-9]+.*)?$',
-            text, flags=re.M).groups()[0].strip().decode(encoding)
+            r'^(?:Release|Posting) Date: (.*?)(?: \[(?:[Ee](?:[Bb]ook|[Tt]ext)) #[0-9]+.*)?$',
+            text,
+            flags=re.M).groups()[0].strip().decode(encoding)
+        if release_date is not None:
+            release_date = \
+                calendar.timegm(parse_date(release_date).timetuple())
         language = re.search(r'^Language: (.*)$', text,
                              flags=re.M).groups()[0].strip().decode(encoding)
+        try:
+            content = text.decode(encoding=encoding)
+        except UnicodeDecodeError:
+            # sometimes people lie
+            content = text.decode(encoding='latin-1')
 
         d = dict(title=title, author=author, language=language,
-                 release_date=release_date, encoding=encoding)
+                 release_date=release_date, content=content)
 
         with open(meta_filename, 'w') as meta_file:
             json.dump(d, meta_file, encoding='utf-8')
