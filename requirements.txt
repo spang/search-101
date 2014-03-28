@@ -5,3 +5,4 @@ bpython==0.12
 wsgiref==0.1.2
 dateutil==2.2
 Flask==0.10.1
+python-dateutil==2.2
