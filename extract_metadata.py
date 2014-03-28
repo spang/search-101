@@ -1,3 +1,4 @@
+import os
 import re
 import sys
 import json
@@ -12,6 +13,10 @@ def main():
     for filename in glob('gutentexts/*.txt'):
         print filename
         meta_filename = ''.join([filename, '.json'])
+        id_ = re.match('^([0-9]+)(?:[-]\d)?.txt$',
+                       os.path.basename(os.path.split(filename)[1]))\
+            .groups()[0]
+
         text = file(filename, 'r').read()
         encoding = re.search(r'^Character set encoding: (.*)$', text,
                              flags=re.M).groups()[0].strip()
@@ -38,7 +43,7 @@ def main():
             # sometimes people lie
             content = text.decode(encoding='latin-1')
 
-        d = dict(title=title, author=author, language=language,
+        d = dict(id=id_, title=title, author=author, language=language,
                  release_date=release_date, content=content)
 
         with open(meta_filename, 'w') as meta_file:
