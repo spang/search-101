@@ -1,0 +1,44 @@
+<html>
+<head>
+<script type=text/javascript src="{{
+url_for('static', filename='jquery.js') }}"></script></script>
+<script type=text/javascript>
+  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script></script>
+<link type='text/css' rel='stylesheet'
+  href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body bgcolor="white">
+
+<script type=text/javascript>
+  $(function() {
+    $('#searchButton').click(function() {
+      $.getJSON($SCRIPT_ROOT + '/_search', {
+        query: $('input[name="query"]').val()
+      }, function(data) {
+        console.log(data);
+        var output = '<table><tr><th>title</th><th>author</th></tr>';
+        $.each(data['results'], function(i, entry) {
+          output += '<tr><td class="title">' + entry.title + '</td>';
+          output += '<td class="author">' + entry.author + '</td></tr>';
+        });
+        output += '</table>';
+        $("#result").html(output);
+      });
+      return false;
+    });
+  });
+</script>
+
+<h1>Search Books</h1>
+<p>
+  <input type="text" size=22 name="query" id="searchField">
+  <input type="submit" size=22 value="Search", id="searchButton">
+</p>
+<div class="container">
+  <div id="result">
+  </div>
+</div>
+
+</body>
+</html>
