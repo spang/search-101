@@ -14,7 +14,7 @@ try:
 Got index reader in `r`.
 
 Play around with the contents of the index!
-See http://pythonhosted.org//Whoosh/api/reading.html for help.
+See http://pythonhosted.org/Whoosh/api/reading.html for help.
 """)
 except OSError:
     print >>sys.stderr, "Can't find index in 'ex_index'. Create it first!"
