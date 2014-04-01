@@ -1,0 +1,2504 @@
+Project Gutenberg's An Example of Communal Currency, by J. Theodore Harris
+
+This eBook is for the use of anyone anywhere at no cost and with
+almost no restrictions whatsoever.  You may copy it, give it away or
+re-use it under the terms of the Project Gutenberg License included
+with this eBook or online at www.gutenberg.org
+
+
+Title: An Example of Communal Currency
+       The facts about the Guernsey Market House
+
+Author: J. Theodore Harris
+
+Release Date: August 2, 2010 [EBook #33331]
+
+Language: English
+
+Character set encoding: ISO-8859-1
+
+*** START OF THIS PROJECT GUTENBERG EBOOK AN EXAMPLE OF COMMUNAL CURRENCY ***
+
+
+
+
+Produced by Barbara Kosker and the Online Distributed
+Proofreading Team at http://www.pgdp.net (This file was
+produced from images generously made available by The
+Internet Archive/American Libraries.)
+
+
+
+
+
+
+    +-----------------------------------------------+
+    |                                               |
+    | Bolded text has been marked =like so=.        |
+    |                                               |
+    +-----------------------------------------------+
+
+
+
+
+ LONDON SCHOOL OF ECONOMICS AND
+ POLITICAL SCIENCE
+
+
+
+
+ AN EXAMPLE OF COMMUNAL CURRENCY
+
+
+
+
+ By
+
+ J. THEODORE HARRIS, B.A.
+
+
+
+
+ With a Preface by
+ SIDNEY WEBB, LL.B.
+
+
+
+
+ 1/- NET
+
+
+
+
+ LONDON
+ P. S. KING & SON
+ ORCHARD HOUSE, WESTMINSTER
+ 1911
+
+
+
+
+ PEOPLE'S BANKS
+
+ A RECORD OF SOCIAL AND ECONOMIC SUCCESS
+
+ By H. W. WOLFF
+
+ _Third Edition, Newly Revised and Enlarged_
+ _Demy 8vo, Cloth, 600 pp._ =6s.= _net_
+
+  CONTENTS--Introduction, The General Idea, The Two Problems, The Two
+      Aspects of the Question, Credit to Agriculture, The "Credit
+      Associations" of Schulze-Delitzsch, Raiffeisen Village Banks,
+      Adaptations, "Assisted" Co-operative Credit, Co-operative
+      Credit in Austria and Hungary, The "Banche Popolari" Italy, The
+      "Casse Rurali" of Italy, Co-operative Credit in Belgium,
+      Co-operative Credit in Switzerland, Co-operative Credit in
+      France, Offshoots and Congeners, Co-operative Credit in India,
+      Conclusion.
+
+ "We may confidently refer those who desire information on the
+ point to the book with which Mr. Wolff has provided us. It will
+ be a most useful thing if it is widely read, and the lessons which it
+ contains are put in practice."--_Athenæum._
+
+ "The book is the most systematic and intelligent account of these
+ institutions which has been published."--_Banker's Magazine (New
+ York)._
+
+ "It is the most complete book on the subject."--_Mr. G. N.
+ Pierson, late Dutch Prime Minister and Minister of Finance._
+
+ "There was manifest need of just such a book.... A mine of
+ valuable information."--_Review of Reviews._
+
+ "This is an excellent book in every way, and thoroughly deserves
+ the careful attention of all who are concerned for the welfare of the
+ people."--_Economic Review._
+
+
+ LONDON: P. S. KING & SON
+ ORCHARD HOUSE, WESTMINSTER
+
+
+
+
+ STUDIES IN ECONOMICS AND POLITICAL SCIENCE
+
+ Edited by the Hon. W. PEMBER REEVES,
+ Director of the London School of Economics
+
+ No. 21 in the Series of Monographs by Writers connected
+ with the London School of Economics and Political Science
+
+
+
+
+ AN EXAMPLE OF COMMUNAL CURRENCY
+
+
+
+
+ AN EXAMPLE OF COMMUNAL CURRENCY:
+
+ THE FACTS ABOUT THE GUERNSEY MARKET HOUSE
+
+
+
+
+ COMPILED FROM ORIGINAL DOCUMENTS
+ BY
+ J. THEODORE HARRIS, B.A.
+
+ WITH A PREFACE BY
+ SIDNEY WEBB, LL.B.
+
+
+
+
+ LONDON
+ P. S. KING & SON
+ ORCHARD HOUSE, WESTMINSTER
+ 1911
+
+
+
+
+CONTENTS
+
+                                                      PAGE
+
+ PREFACE                                               vii
+
+ INTRODUCTION                                            1
+
+ CHAP.
+
+    I. CONSTITUTION OF GUERNSEY                          4
+
+   II. THE SECURITY OF THE NOTES                         6
+
+  III. MUNICIPAL ENTERPRISE--THE ISSUE OF THE NOTES      9
+
+   IV. THE UTILITY OF THE NOTES                         20
+
+    V. FIRST RUMBLINGS OF OPPOSITION                    25
+
+   VI. THE REPLY OF THE STATES                          30
+
+  VII. THE CRISIS                                       45
+
+ VIII. THE END                                          55
+
+       CONCLUSION                                       59
+
+       APPENDIX                                         61
+
+
+
+
+PREFACE
+
+
+Those who during the past thirty or forty years have frequented working
+men's clubs or other centres of discussion in which, here and there, an
+Owenite survivor or a Chartist veteran was to be found, will often have
+heard of the Guernsey Market House. Here, it would be explained, was a
+building provided by the Guernsey community for its own uses, without
+borrowing, without any toll of interest, and, indeed, without cost. To
+many a humble disputant the Guernsey Market House seemed, in some
+mysterious way, to have been exempt from that servitude to previously
+accumulated capital in which the whole creation groaneth and travaileth.
+By the simple expedient of paying for the work in Government
+notes--issued to the purveyors of material, the master-workmen and the
+operatives, accepted as currency throughout the island, and eventually
+redeemed out of the annual market revenues--all tribute to the
+capitalist was avoided. In face of this successful experiment, the fact
+that we, in England, continued to raise loans and subject ourselves to
+"drag at each remove a lengthening chain" of interest on public debt,
+often seemed so perplexingly foolish as to be inexplicable, except as
+the outcome of some deep-laid plot of "the money power."
+
+When first I heard of this Guernsey Market House, as in some mysterious
+way exempted from the common lot, I was curious to enquire what
+transaction had, in fact, taken place in an island which was, after all,
+not so far removed in space or time from the Lombard Street that I knew.
+In all the writings of the economists (for which my estimate was at that
+time, as indeed it is now, such as I could not easily put into
+appropriate words), I found no mention of this Phoenix among
+market-houses. I fear that, too hastily, I dismissed the story as
+mythical.
+
+Now Mr. J. Theodore Harris--having, I suspect, a warmer feeling for the
+incident than he has allowed to appear in these scientific pages--has
+done what perhaps I or some other economic student of the eighties or
+nineties ought to have done, namely, gone to Guernsey to dig up, out of
+the official records, the incident as it actually occurred. What is
+interesting is that he has found that the myth of the veteran Owenite or
+Chartist is, in all essentials, confirmed by the documents. The story is
+true. The Guernsey Market House was built without a loan and without the
+payment of interest.
+
+It does not follow, however, that it was any more built without the aid
+of capital, than was St. Paul's Cathedral or the Manchester Ship Canal.
+Mr. Harris, contenting himself with the austerely exact record drawn
+from the documents, does not indulge in any speculative hypothesis as to
+who provided the capital, or who bore the burden that would otherwise
+have been interest. Let me use the fuller privilege of the
+preface-writer, and supply some hypothetical elucidations.
+
+What the Guernsey community did was that which nearly every community
+has done at one time or another, namely, issue paper money. The part of
+the story that we do not know is (_a_) what thereupon happened to the
+aggregate amount of "currency" of all kinds then in circulation within
+the island, in relation to the work which that currency had to do; (_b_)
+what happened to the prices of commodities.
+
+It may well have been that the issue of paper money was promptly
+followed by some shipments of metallic money to England or
+France--perhaps even in payment for imported materials for the market
+house--so that the aggregate amount of "currency" in the island was not
+in fact increased. Accordingly, no change of prices may have taken
+place. In such a case, Guernsey would merely have substituted paper for
+gold in its currency. The gold-capital heretofore in use as currency,
+and there, of course, yielding no capitalist any toll of interest,
+would, in effect, have been borrowed to expend upon the building of the
+Market House. And, as paper money probably served the purposes of the
+island every bit as well as gold, nobody was any the worse. By giving up
+the needless extravagance of using gold coins as counters, and by taking
+to paper counters instead, Guernsey really got its Market House without
+cost. The same resource is open to any community already possessing a
+gold currency, and becoming civilised and self-restrained and sensible
+enough to arrange to do without gold counters in its internal trade. But
+Guernsey could not have gone on equipping itself with endless municipal
+buildings as out of a bottomless purse. The resource is a limited one.
+This is a trick which can only be played once. When the gold has once
+been withdrawn from the currency, and diverted to another use, there is
+no more left with which to repeat the apparent miracle.
+
+On the other hand, there may easily have been no special shipments of
+metallic money from the island, and the aggregate "currency" may have
+been increased, in relation to the work that it had to do, by the amount
+of the note issue. In that case, the economist would, for reasons into
+which I have no space to go on the present occasion, expect to see a
+gradual and silent rise of prices. Such a rise would seem, to the
+ordinary Guernsey housekeeper and shopkeeper, as inevitable, and at the
+same time as annoying as any other of those mysterious increases in the
+cost of eggs and meat that Anthony Trollope described with such
+uneconomic charm in _Why Frau Frohmann raised her prices_--a work which
+I do not find prescribed, as it might well be, for undergraduate
+reading.
+
+There is even a third hypothesis, to which Mr. Harris has directed my
+attention. There may have been, before the note issue, an actual dearth
+of currency, or a growing disproportion between the amount of the
+currency and the work that it had to do. Mr. Harris infers from his
+reading that such a stringency had been actually experienced in
+Guernsey, and that it was for this reason that successive attempts were
+made to prevent foreign coins from being gradually withdrawn from the
+island. Such a stringency, the economist would infer, would produce a
+progressive fall of prices, leading, by the silent operations of
+external trade, to a gradual readjustment of the amount of currency in
+circulation, by influx of gold from outside, until a new equilibrium had
+been reached. If the Guernsey Government's note issue happened to be
+made at such a moment, it may well have taken the place of the
+hypothetical inflow of gold, so far as the island currency was
+concerned. It may even have averted a fall in prices that would
+otherwise have taken place, the economic effect on the consumer's
+pockets being in that case much the same as if an actual rise had
+occurred. But the Guernsey Government, on this hypothesis, would, by
+substituting paper for gold, have gained for the community the
+equivalent of the cost of the addition to the gold currency which
+expanding population and trade were making necessary; and this gain was
+expended in building the Market House.
+
+Unfortunately we do not know how prices behaved to the Guernsey
+housekeeper between 1815 and 1837. Perhaps another student will look
+this up. What is interesting to us in this argument is the fact that,
+_if prices generally did rise_, in consequence of the issue of the paper
+money, even by only one half-penny in the shilling--if eggs, for
+instance, sold twenty-four for a shilling, instead of twenty-five--this
+represented a burden laid on the Guernsey people as consumers, exactly
+analogous to a tax (say an octroi duty) of four per cent. on all their
+purchases. On this hypothesis, which I carefully abstain from presenting
+as anything but hypothetical, because we are unable to verify it by
+comparison with the facts, the economist would say that this burden or
+tax was what they imposed on themselves, and notably upon the poor, by
+increasing the currency, instead of borrowing the capital from
+elsewhere. Instead of paying interest on a loan (to be levied, perhaps,
+as an income tax on incomes over a certain minimum) they unwittingly
+chose to pay more for their bread and butter. The seriousness of this
+possible result lies in the definitely ascertained fact that salaries
+and wages rise more slowly, and usually to a smaller extent, than the
+prices of commodities.
+
+Now, which of these speculative explanations is the true one does not
+greatly matter to-day when all the consumers, rich and poor, are dead
+and gone. What does concern us is that we should not misconstrue the
+Guernsey example. We already use paper money in this country to a small
+extent. We could certainly with economic advantage save a great part of
+the cost (three or four millions sterling a year) that we now pay for
+the luxury of having so many gold sovereigns wandering about in our
+pockets. We may one day find the uncounted reserve of capital that in
+our gold currency we already possess, virtually in common ownership,
+come in very usefully on an emergency (which is, perhaps, what happened
+at Guernsey). But we must beware of thinking that the issue of paper
+money offers some magical way of getting things without having to use
+capital, or we may find ourselves one day, to the unmeasured hardship of
+the poor among us, stupidly burdening ourselves as consumers with higher
+prices and increased cost of living all round.
+
+There are, of course, other reasons in favour (_a_) of paper money being
+issued by the Government, instead of this valuable and responsible
+prerogative being abandoned to individual bankers or joint stock
+companies, to the great financial loss of the community as a whole; and
+(_b_) of the whole business of banking--which means the organising of
+credit and the custody of savings--being conducted by the Government
+itself, in order that the power which banking gives may be exercised
+exclusively under public control, and for corporate instead of for
+individual ends, and in order that the profit which banking yields may
+accrue to the benefit of the community as a whole, instead of to
+particular capitalists. But that is another story. The Guernsey
+Government stopped short at the issue of paper money--which is not
+banking--and even gave up this right at the bidding of private banking
+companies.
+
+ SIDNEY WEBB.
+
+ 41, Grosvenor Road, Westminster.
+ _December, 1910._
+
+
+
+
+AN EXAMPLE OF COMMUNAL CURRENCY
+
+
+
+
+INTRODUCTION
+
+
+There are many persons who have heard from one source or another of the
+way in which the States of Guernsey built their Market House by means of
+non-interest-bearing notes. Some of these--enthusiasts for the reform of
+the currency--can dilate for hours on the wisdom of the financial policy
+of Daniel de Lisle Brock, can tell how, at the opening of the Market he
+"sprinkled the packages (of redeemed notes) with perfume, and while the
+band was playing a dirge he laid them on the fire, where they were
+quickly consumed," and can even quote from his famous speech on that
+occasion.
+
+A few years ago some members of the Co-operative Brotherhood Trust,
+which is a Society that has among its objects a desire to revive the
+principles of Robert Owen's Labour Exchange, thought it worth while to
+make enquiries as to the Guernsey scheme. They realised that an ounce of
+fact was worth a ton of theory. But what were the facts? Were these
+notes circulated in the island as a medium of exchange? How were they
+redeemed? Could a citizen demand gold for them? When the above mentioned
+enthusiasts were tackled with these practical questions, there was
+suddenly noticed a certain hesitancy; and when asked point blank what
+was the year in which this famous Market House was built, no one could
+say.
+
+Enquiries were then made from inhabitants of the island itself. The
+information gathered was vague and not much to the point. With a few
+notable exceptions, the average Guernseyman seems to know or care little
+of the financial policy of the island at the beginning of the nineteenth
+century. Even from those interested nothing very definite was to be
+learned. The enquirers at last came near to doubting whether the
+non-interest-bearing notes had ever existed except in the imagination of
+the enthusiasts. Only first-hand enquiry on the spot would suffice.
+
+One Guernseyman, a teacher, kindly encouraged the writer to visit the
+island himself, promising him introductions and access to all the
+official documents and newspapers of the time. Through the courtesy of
+the Greffier and the Librarian of the Guille-Allés Library every
+facility was granted to the writer and his wife to carry out their
+research. The politeness and kindness of these officials and other
+inhabitants of Guernsey are hereby most cordially acknowledged.
+
+In the following pages it is the writer's desire to place the facts
+before the public as he has gleaned them from the official records of
+the States and the newspapers of the time. He feels tempted to discuss
+the _pros_ and _cons_ of the system adopted by the States of Guernsey
+for over twenty years; but this little treatise will probably be of most
+use if it is confined to a mere narration of facts. Incidentally,
+however, it will be seen that some of the queries which led to the
+research have been answered. From the nature of the case this narration
+will consist largely of quotations. It must inevitably fail to convey to
+the reader the thrilling interest aroused as the story, exceeding all
+the romance of the enthusiasts, led its slow but fascinating course
+through many volumes, and the quaint old French documents gave up their
+secrets in the modern well-equipped Record Office.
+
+
+
+
+CHAPTER I
+
+CONSTITUTION OF GUERNSEY.
+
+
+Guernsey is the second in size of the four Channel Isles, Jersey,
+Guernsey, Alderney and Sark, which one used to repeat with such gusto in
+one's schoolboy days. The Channel Isles are the last remnant of our
+French possessions. Or rather, as the Islanders might claim--and as it
+is reported some do--England belongs by right of conquest to the Channel
+Isles. However that may be, for all practical purposes, the government
+of Guernsey is autonomous--and very jealously does the Guernseyman guard
+this autonomy.
+
+It has its own Parliament, "The States" (Les États), consisting to-day
+of 49 Members. At the time of which we write there were 32 Members, as
+follows:--
+
+The Bailiff, who, as at the present time, acted as President.
+
+The Procureur du Roi, corresponding to our Attorney-General.
+
+12 Jurats or Magistrates, appointed for life by the "States of
+Election."
+
+8 Rectors.
+
+10 Connétables or Parishioners.
+
+The Rectors as spiritual leaders and the Connétables as civil
+functionaries represented the ten parishes of the island, and though the
+latter were elected to office they were always from the leading
+families, which formed an extremely close oligarchy. Bailiff, Jurats and
+Rectors still sit in this undifferentiated Parliament, to which has been
+added a slightly more democratic element however, nine Deputies being
+elected by the Ratepayers of the whole Island.
+
+It was, and still is, the Bailiff's duty to summon this "States of
+Deliberation," formerly at his own discretion, now at regular intervals.
+He does this by means of issuing a _Billet d'Etat_, in which he comments
+on the business to come before the States and in which he formulates
+certain resolutions. On these resolutions the States only vote _for_ or
+_against_. This Billet d'Etat is in French, still the official
+language--the only one used in the deliberations in former days.
+
+The whole takes us back in thought to Norman or early English times.
+Probably even the Norman patois of the modern rural deputies is the
+speech of the present time nearest to that in which our ancestors
+transacted their business.
+
+This legislative body represents the King's Council, in the same way
+that the supreme judicial body, still bearing the name of La Cour
+Royale, represents the King's Court.
+
+The decisions of the States are subject to the approval of the Privy
+Council, to whom there is a right of appeal.
+
+
+
+
+CHAPTER II
+
+THE SECURITY OF THE NOTES
+
+
+Guernsey, like other places, fell on evil days early in the nineteenth
+century, the period of history with which we have to deal; and the
+islanders suffered from the burden of a heavy debt and from the
+depression and want of employment which followed the close of the
+Napoleonic wars.
+
+Its condition at this time is graphically described in the following
+extracts taken from a document presented by the States to the Privy
+Council in 1829.
+
+"In this Island, eminently favoured by nature, antecedently to the new
+roads first projected by Sir John Doyle, Bart., nothing had been done by
+art or science towards the least improvement; nothing for the display or
+enjoyment of local beauties and advantages; not a road, not even an
+approach to Town, where a horse and cart could pass abreast; the deep
+roads only four feet six inches wide, with a footway of two to three
+feet, from which nothing but the steep banks on each side could be seen,
+appeared solely calculated for drains to the waters, which running over
+them rendered them every year deeper and narrower. Not a vehicle,
+hardly a horse kept for hire; no four-wheeled carriage existed of any
+kind, and the traveller landing in a town of lofty houses, confined and
+miserably paved streets, from which he could only penetrate into the
+country by worse roads, left the island in haste and under the most
+unfavourable impressions.
+
+"In 1813 the sea, which had in former times swallowed up large tracts,
+threatened, from the defective state of its banks, to overflow a great
+extent of land. The sum required to avert the danger was estimated at
+more than £10,000, which the adjoining parishes subject to this charge
+were not in a condition to raise. The state of the finance was not more
+consolatory with a debt of £19,137, and an annual charge for interest
+and ordinary expenses of £2,390, the revenue of £3,000 left only £600
+for unforeseen expenses and improvements.
+
+"Thus at the peace, this Island found itself with little or no trade;
+little or no disposable revenue, no attraction for visitors, no
+inducement for the affluent to continue their abode, and no prospect of
+employment for the poor."
+
+After considering various means of raising a revenue, the States asked
+the Privy Council for permission to levy a duty on spirituous liquors.
+Notwithstanding some opposition by the inhabitants, permission was
+granted by an Order in Council of the 23rd July, 1814, to raise 1s. per
+gallon on spirituous liquors consumed in the Island. This was granted
+for a period of five years.
+
+A second Order in Council, dated 19th June, 1819, renewed the duty for
+ten years. Again there was opposition from a section of the inhabitants.
+This made itself felt by the insertion in the Order of the following
+words:--"That One Thousand Pounds per annum of the produce of the said
+duty be applied solely to the liquidation of the present debt, together
+with such surplus as shall remain out of the produce of the tax in any
+year after defraying the expenses of roads and embankments and
+unforeseen contingencies. And that the States of the said Island do not
+exceed in any case the amount of their annual income without the consent
+previously obtained of His Royal Highness in Council. And the said
+States are hereby directed to return annually to the Privy Council an
+account of the produce and application of the said Tax."
+
+In 1825 the Lieutenant-Governor, Sir John Colborne, desired to erect a
+new College and to carry on other important works. But these plans could
+not be accomplished without the assurance of the renewal of the duty. A
+third Order in Council of 30th September, 1825, gave this permission for
+a period of fifteen years, that is to say, from 1829 to 1844. On this
+occasion there was no opposition from any of the inhabitants.
+
+As will be seen in the next chapter, it was this duty on spirituous
+liquors that formed the security on which the notes were issued.
+
+
+
+
+CHAPTER III
+
+MUNICIPAL ENTERPRISE--THE ISSUE OF NOTES
+
+      "_Guernsey should make up only one great family whose
+      interests are common. Only by union and concord can she
+      enjoy firm and lasting prosperity._"
+
+
+Although, as we shall see, the first notes that were issued were not for
+the Market, it is interesting to find that there is some foundation for
+the tradition identifying them with it. The plan was first suggested in
+connection with a scheme for the enlarging of the Market.
+
+This was a much needed improvement. "Humanity cries out, every
+Saturday," reports a States Committee, "against the crush, which it is
+difficult to get out of; and every day of the week against the lack of
+shelter for the people who, often arriving wet or heated, remain exposed
+for whole hours to wind and rain, to the severity of cold and to the
+heat of the sun."
+
+A Committee, appointed 12th April, 1815, to consider the question,
+having brought in a scheme for enlarging the Market, recommended the
+issue of State Notes. The Bailiff submitted the following resolution for
+the consideration of the States at their meeting on 29th March,
+1816:--"Whether in order to meet the expenditure it would not be
+desirable to issue State Notes of One Pound each (_Billets des États
+d'une Livre Sterling_) up to £6,000, the States undertaking not to issue
+any, under any pretext whatever, beyond the said sum before having
+previously cancelled the said £6,000."
+
+Notwithstanding the Committee's opinion that the enlargement of the
+Market could not be recommended without this issue, and the precautions
+suggested for the issue of the Notes, the States rejected the
+proposition.
+
+However, the promoters of the idea appear to have been nothing daunted,
+and to have met with success on their second attempt. For we find that
+on the 17th October of the same year the Finance Committee reported that
+£5,000 was wanted for roads, and a monument to the late Governor, while
+only £1,000 was in hand. They recommended that the remaining £4,000
+should be raised by State Notes of £1, 1,500 of which should be payable
+on 15th April, 1817, or any Saturday after by the Receiver of the Duty,
+1,250 on 15th October, 1817, and 1,250 on 15th April, 1818.
+
+"In this manner, without increasing the debt of the States, we can
+easily succeed in finishing the works undertaken, leaving moreover in
+the coffers sufficient money for the other needs of the States."
+
+The States agreed to this and appointed a Committee of three (Nicolas
+Maingy, Senior, Jean Lukis and Daniel de Lisle), who were exclusively
+charged with the duty of issuing the Notes, taking all the precautions
+they thought necessary. They were to pay them out on the order of M. le
+Superviseur (Jean Guille), and to receive them back from the Receiver of
+the Duty when paid in, in order to cancel them.
+
+These Notes seem to have served their purpose; for in the record of the
+decisions of the States on the 18th June, 1818, is found the following
+entry:--"The said States unanimously authorise the issue of new Notes up
+to £1,250, to be put at the disposal of Jean Guille, Esq., Jurat, for
+the needs of the State; and they ask the said gentlemen, Daniel de
+Lisle, Nicolas Maingy and Jean Lukis, kindly to help in the matter.
+Which Notes shall be payable at a fixed time to be determined by the
+States' Committee named for this purpose at the time of the last issue
+of Notes."
+
+The need for enlarging and covering the Market was meanwhile being more
+and more pressed, the site and certain buildings having been purchased
+on 10th April, 1817, for £5,000, which was borrowed at 4-½ per
+cent.[1] A Committee reported on this subject to the meeting of the
+States on 6th October, 1819. In their recommendation they proposed "the
+issue of Notes of £1 sterling, payable at different times on the receipt
+of the part of the Duty left at the disposal of the States."
+Notwithstanding the pathetic appeal already recorded, the proposal of
+the Committee to enlarge and to cover the Market was lost by a majority
+of one.
+
+The advocates for improving the Market, however, persevered, and
+presented to the States Meeting of 12th May, 1820, five plans. The plan
+of John Savery Brock at a cost of £5,500 was agreed to by a majority of
+19 to 10.
+
+The following quotation from the Committee's report shows the benefits
+which they considered would arise from their scheme for raising the
+£5,500 required.
+
+ "The means of meeting this would be to apply to
+ it the sums now in litigation with the town         £1,000
+
+ Twenty-shilling Notes put at the disposal of
+ the Committee                                        4,500
+                                                    -------
+                                                     £5,500
+
+
+But provision must be made for the repayment of the Notes issued, and
+the means recommended by your Committee are as follows--
+
+ "The 36 shops, built for butchers according to
+ the plan recommended, would produce at £5
+ sterling per annum                                    £180
+
+ From this must be deducted £20 for hiring the
+ house at the corner and £10 for repairs                 30
+                                                     ------
+                                                       £150
+
+ The States should grant for 10 years after the
+ first year                                             300
+                                                     ------
+ This would give an income of                          £450
+
+This sum would be spent each year in paying off and cancelling as many
+Notes.
+
+"Thus, at the end of ten years, all the Notes would be cancelled and the
+States would be in possession of an income of £150 per annum, which
+would be a return for the £3,000 spent by them.
+
+"Looked at from all sides the scheme shows nothing but the greatest
+advantage for the public and for the States. It should please those who
+have at heart the diminution of the debt, since the States in addition
+to the £1,000 set aside for this purpose, take a further £300 out of
+their treasury in order to increase their income (_en prenant 300l. de
+plus sur leurs épargnes pour accroître leur revenu_)."
+
+Thus it appears that the money for building the Meat Market, still
+standing, was raised without a loan, the States paying off the Notes at
+the rate of £450 a year as the duty on spirits and the rents came in.
+The Market is described in Jacob's _Annals of the British Norman Isles_,
+Part I., published in 1830, as a handsome new building, "one of the most
+convenient, both for the buyers and sellers, that can be found in any
+part of the world." "For the mode of raising the funds for its erection
+and support (well worth the attention of all corporate bodies)" we are
+referred to an Appendix IV. which was to appear at the end of Part II.,
+to be published in December, 1831.[2]
+
+Diligent search in contemporary records showed no trace of the elaborate
+ceremony described in the tradition current among enthusiasts, though
+the _Mercury_ of the 5th October, 1822, announced in its advertisement
+column that the opening would take place on Saturday, 12th October,
+1822.
+
+The following week the _Mercury_ chronicles the handing over by the
+Committee of the keys of the new Market to the butchers. "A large crowd
+gathered in the square, of whom only a few succeeded in entering the
+enclosure. A speech was made by one of the Committee, to which one of
+the butchers made a reply. The band of the East Regiment took part and
+the church bells rang till five in the evening."
+
+The next issue of Notes seems to have been to pay off the floating debt.
+On 14th June, 1820, the States authorised the issue of 4,000 £1 Notes
+for this purpose. In recommending this course the Finance Committee
+makes some interesting reflections. "Respecting the floating debt, which
+consists of sums payable at times more or less distant, it would be easy
+to discharge it by £1 Notes put into circulation as need requires. The
+extinction of the whole of the floating debt could thus be brought about
+without the necessity of new loans. If loans should be raised it would
+be necessary to provide for payment both of the principal and of the
+interest. If, on the contrary, recourse is had to £1 Notes, the interest
+alone which would have been paid will suffice."
+
+On 23rd June, 1821, the States authorise the issue of 580 £1 Notes to
+buy a house whose site is wanted for the new Market.
+
+On 15th September of the same year the issue is authorised of 4,500 £1
+Notes to diminish the interest-bearing debt of the States. In
+recommending this, the Finance Committee remarks:--"The States could
+increase the number [of Notes in circulation] without danger up to
+10,000 in payment of the debt, and the Committee recommends this course
+as most advantageous to the States' finance, as well as to the public,
+who, far from making the slightest difficulty in taking them, look for
+them with eagerness."
+
+On 30th June, 1824, on the united recommendation of the Market and
+Finance Committees, 5,000 £1 Notes are issued to pay off the £5,000
+originally paid for the Market in 1817 (see p. 11). "By this means the
+interest of £200 (_sic_) a year will be saved and applied moreover every
+year to withdraw from circulation £1 Notes issued for the construction
+of the Market."
+
+On 29th March, 1826, a further issue is authorised for the purpose of
+Elizabeth College and Parochial Schools, provided that the total number
+of Notes in circulation shall not exceed £20,000. In summoning the
+States on this occasion, the Bailiff, Daniel de Lisle Brock,[3]
+expresses the opinion that paper money is of great use to the States.
+There is no inconvenience because the Notes are issued with great care.
+
+This statement as to great care is borne out by the words of the
+resolution passed 12th May, 1826, authorising the issue of £5 Notes, not
+exceeding £8,000 worth, voted for the Isle of Sark and other purposes.
+After asking Nicolas Maingy, Jean Lukis and Daniel de Lisle "to sign the
+said Notes in the name and under the guarantee of the States," it goes
+on to say, "and in default of one or other of these gentlemen through
+absence or illness, the States authorise the remainder of the three, the
+Finance Committee and M. le Superviseur to choose conjointly another
+reputable person for the signature of the said Notes. Which said Finance
+Committee Supervisor and those authorised to sign are charged and
+requested to watch over and be present at (_veiller et assister à_) the
+destruction of the said Notes at the times fixed for their repayment."
+
+Extra precautions seem to have been taken 28th June, 1826, when another
+issue, not exceeding £2,000 worth of £5 Notes was authorised. For we
+find that "The States appoint Josias le Marchant, Pierre le Cocq,
+Jurats, and the Rev. Thomas Grut, a Special Committee, whose duty it is
+to see to the liquidation of all the anticipations at the times fixed by
+the States, and where these anticipations consist in Notes of one or
+five pounds to see to the destruction of the very Notes or of earlier
+Notes to the same amount. Which Committee is commanded to make a report
+to the States at least once each year certifying the liquidation and
+destruction of the said anticipations and of the said Notes."
+
+Further care is shown by the fact that on 26th March, 1828, the States
+appointed the Finance Committee "to replace the used and worn-out Notes
+by new Notes, payable at the same time as the destroyed notes would
+have been." Testimony is borne by this wear and tear to the extent to
+which the Notes circulated.
+
+Plans for the improvements in Rue de la Fontaine, a street adjoining the
+Markets, being adopted on 15th November, 1827, an issue of £1 Notes up
+to £11,000 was authorised to be cancelled by the proceeds of rents.
+
+In 1828 and 1829 issues of Notes were authorised for various purposes,
+including £8,500 for the College and £11,000 in connection with the Rue
+de la Fontaine scheme.
+
+At one of the sittings of the States in the year 1829, William Collings,
+a member of the Finance Committee, stated that there were 48,183 Notes
+in circulation.
+
+On 18th March, 1834, £1,000 was voted for cholera precautions, to be
+raised either at 3 per cent. interest or in £1 Notes. The latter course
+seems to have been adopted.
+
+From the foregoing it will be noticed that during the 20 years over
+£80,000 worth of Notes were authorised by the States to be issued. These
+were mostly of the value of £1, though some £5 Notes were authorised.
+
+In 1837 there were still in circulation 55,000, which in that year were
+reduced, as will be seen in a subsequent chapter, by 15,000.
+
+It may be asked whether there is any evidence that the Notes were
+destroyed as directed. From various sources we found records of at
+least 18,000 being destroyed. For instance, in the _Gazette_ of 3rd
+March, 1827, there is the following:--
+
+         "Market Accounts for 1826.
+  Notes to Bearer of £1 destroyed.
+ 22 March, 1826                      £400
+  7 November, 1826                   £420
+  1 March, 1827                      £122
+                                    -----
+                                     £942
+
+ Total of Notes issued for the Market,      £11,296
+   "    "  destroyed       "     "            3,626
+                                            -------
+           Leaving in circulation            £7,670."
+
+FOOTNOTES:
+
+[1] This purchase was in itself an interesting piece of municipal
+history. "By an Order in Council," says Jacob in his _Annals of British
+Norman Isles_, p. 153, "the Meat Market Company were to be allowed by
+the States, certain duties on all the cattle killed, so long as they
+remained proprietors of the Market; but the States were allowed at any
+future time to take the same into their own possession on the payment of
+what the proprietors had advanced. The States did this on the 10th
+April, 1817, at an expense of £5,000." (See p. 16.)
+
+[2] We have been unsuccessful in our efforts to obtain Part II. either
+in Guernsey or in London, and wonder whether it was ever published.
+
+[3] Daniel de Lisle Brock was Bailiff from 24th May, 1821, to 12th
+January, 1843.
+
+
+
+
+CHAPTER IV
+
+THE UTILITY OF THE NOTES
+
+
+There is abundant evidence throughout the records that the system was
+appreciated.
+
+Jacob's _Annals_ (1830), in a chapter on Currency, mentions the Notes
+incidentally. "All these, with the one pound Guernsey States' Notes, are
+in much request, being very commodious for the internal affairs of the
+island."
+
+The Bailiff, Daniel de Lisle Brock, who seems undoubtedly to have been
+the inspiring genius of the scheme, says in his _Billet d'Etat_, 15th
+November, 1827--
+
+"An individual with an income of £9,000, who spends only half of it
+wishes to build a house at a cost of £13,000. He therefore makes an
+arrangement with his timber merchant, his mason, his carpenter and
+others to pay them out of his savings, so that they shall receive a part
+each year for five years. Can it be said that he is contracting debts?
+Will he not have at the end of the five years both his house and his
+original income of £9,000?
+
+"The States are precisely in the same position as regards the £13,000
+which they have to pay out of their income during the five years
+included in the said table. This sum will be paid in instalments of
+£2,600 per annum, with as much ease as were much heavier engagements in
+1826 and 1827.
+
+"The time has passed when the public could be frightened by exaggerated
+reports about the debt; most complete publicity keeps everyone
+acquainted with the real state of affairs; my greatest wish is that
+nothing should be hidden."
+
+Frequent references to the saving of interest are to be found, and to
+the fact that improvements in the island could not have been carried out
+but for this system.
+
+Wm. Collings, speaking at the States Meeting, 26th March, 1828, on a
+financial proposition, gives it as his opinion that interest now paid
+might be spared if the States issued more Notes. The Rev. T. Brock at
+the same meeting supports the contention, as Notes can be issued without
+inconvenience.
+
+In the _Billet d'Etat_ for 21st September, 1836, in a long discourse on
+the circulation, Daniel de Lisle Brock says, "To bring about the
+improvements, which are the admiration of visitors and which contribute
+so much to the joy, the health and the well-being of the inhabitants,
+the States have been obliged to issue Notes amounting to £55,000. If it
+had been necessary, and if it were still necessary to pay interest on
+this sum, it would be so much taken from the fund ear-marked to pay for
+the improvements made and to carry out new ones. This fund belongs
+especially to the industrious poor who execute the works and generally
+to the whole island which enjoys them. It ought to be sacred to all."
+
+Mr. John Hubert, in the debate at this meeting, is reported by the
+_Comet_ to have referred to the fact that "the roads and other works had
+been constructed for the public good," and to have said that "without
+issuing Notes for the payment of those works it would have been
+impossible to have executed them."
+
+Mr. H. O. Carré, in the same debate, said, "The States, by having Notes
+to the amount of £55,000 in circulation, effected a saving of £1,600 per
+annum. Here, then, was a revenue of £1,600 raised without causing a
+farthing's expense to any individual of the public generally, for not
+one could urge that he suffered a farthing's loss by it. It was
+therefore the interest of every one to support, not the credit, but the
+interest of the States. Those who wished to traffic on the public
+property were in fact laying a tax on that public, for they were
+diminishing, by so much as they forced States' Notes out of circulation,
+the public revenue, for if the States, in consequence of a diminished
+revenue by the effect of Bank paper, have to make loans, those loans
+must in the end be repaid by the public--which would be a taxing of the
+public for the benefit of private individuals."
+
+Further contemporary testimony to the estimation in which the Notes were
+held may be gleaned from the papers of the time, of which there were
+three, issued at least once a week. In these occur letters from
+Publicola, Verax, Vindex, Un ami de son pays, Un Habitant, Campagnard,
+etc. Some of these were probably inspired, and sometimes they show a
+partisan bias. The references of most value are the incidental ones
+occurring in discussions on the improvements or in the criticisms of
+_ordonnances_ on the currency. The coinage at this time was in a
+confused state, there being both English and French money, some of it of
+very poor quality, in circulation.
+
+The _Gazette_ of 22nd July, 1826, refers to allegations made by the
+Jersey authorities as a reason for their refusing to register an Act
+authorising the issue of £5,000 in Notes. The opponents of the measure
+had alluded to supposed evils arising therefrom in Guernsey. But the
+_Gazette_ emphatically declares that "these Notes have neither directly
+nor indirectly burdened commerce in any way, nor contributed to the rise
+in exchange that is experienced."
+
+A letter in the _Gazette_ of 25th April, 1829, on the subject of
+"Monnaie," written at the request of Sir J. Colborne, the
+Lieutenant-Governor, suggests that people in authority in Jersey
+interested in Banks oppose State Notes, lest these should be preferred
+to theirs. The leader of the same issue of the _Gazette_ states that
+"the generality of the inhabitants have confidence in the States' Notes
+(it being always understood that the issue of Notes shall be kept within
+just limits) because they know that the whole property of the island
+forms the guarantee for their payment."
+
+"Campagnard" in the _Gazette_ of 28th February, 1829, suggests the need
+of some other currency than States' Notes for trade in France or with
+London and Paris, but feels alarm at anything that might stop the public
+works in the island.
+
+The difficulty of getting cash for notes is alluded to only when the
+period of controversy referred to in the next chapter is reached. But
+for about the first ten years of their issue it would appear that no
+exception was taken to the notes nor difficulty experienced in their
+use. External exchange seems to have flourished side by side with this
+internal currency.
+
+
+
+
+CHAPTER V
+
+FIRST RUMBLINGS OF OPPOSITION
+
+
+The feeling in favour of the system was not however entirely unanimous.
+In 1826 we find the first trace of opposition which gradually grew and
+grew until, as we shall see later, it was decided in 1837 that the
+States should not issue any more Notes.
+
+Whether the opposition was entirely due to this financial system as such
+is open to question. Errors of judgment with reference to the Fountain
+Street improvement may have been made. Self-interest on the part of some
+may have been one of the factors. Into these questions the writer cannot
+enter here. All that he wishes to point out is that it seems to him from
+studying the records that there were various currents of opposition
+which centred round the issue of Paper Money by the States.
+
+In September, 1826, three members of the States, Josias le Marchant,
+James Carey and Jean le Marchant, the two latter being members of the
+Finance Committee, thought that the King's consent should be obtained
+for works to be undertaken in Fountain Street. They considered that the
+anticipations of future revenues were "not only fatal to their credit
+but contrary to the order of His Majesty in Council, 19th June, 1819,
+viz., 'that the States of the said Island do not exceed in any case the
+amount of their annual income without the consent previously obtained of
+His Royal Highness in Council.'"
+
+Daniel de Lisle Brock, after consulting La Cour Royale (the Supreme
+Court of Judicature), writes his views in a _Billet d'Etat_, and summons
+the States to meet 22nd November, 1826. In his words, which we quote at
+some length, are seen both his enthusiasm and his caution.
+
+"It was not possible, as every one must admit, to do without
+anticipations; but these differ from a debt in that a certain clear and
+definite income is appropriated for meeting them, at certain fixed
+times. They are only assignations on assured funds ear-marked for their
+payment. Watch must be kept, it is true, that they are paid from these
+same funds. For by letting the period during which they should end pass,
+and by spending on anything else the income appropriated to them, they
+would become a permanent debt. The experience of several years has shown
+us that these assignations may be used without danger, and that they
+have been fully paid off as they fell due.
+
+"The advantage which has resulted is manifest. If we had had to wait
+till funds were in hand to set to work at Fountain Street, who could
+have foreseen when, if ever, this moment would arrive. Is it nothing,
+in the midst of this short life, when it is a question of an object of
+the first necessity among the wants of the community, to have
+anticipated by sixteen or seventeen years the enjoyment of this object?
+Doubtless evil is close to good: the abuse of the best things is always
+possible. Is this a reason for forbidding the use of what is good and
+profitable? Is it not better to procure it as soon as possible whilst
+availing ourselves of the means at our disposal to avoid its abuse?
+Whilst these means are employed, and so long as the income is
+sufficient, there is only one possible danger--that of allowing the time
+for meeting these anticipations to pass without paying them, and thus of
+seeing the debt increased by the amount of the non-cancelled
+obligations. This danger is seen to vanish when we consider the
+precaution taken by the States, the watchfulness of all their Members,
+the Committee which they have appointed specially for this purpose, when
+we think of the publicity, of the exact acquaintance from year to year
+which all the inhabitants have of the liabilities, the receipts and
+expenditure of the States. All this watchfulness and all this publicity
+are the strongest safeguard that could be given against any danger in
+this respect."
+
+The Resolution to refer the matter to the King was lost, only five
+voting for it; and a resolution was carried expressing confidence in the
+present method.
+
+In the following year, 1827, the Guernsey Banking Company, now known as
+the Old Bank, was founded from the firm of Priaulx, Le Marchant, Rougier
+& Company. Jean le Marchant was Vice-President of this Bank. It is said
+that at the States Meeting on 15th November, when objections were raised
+lest the States' Notes should suffer, the Bailiff seemed to foresee no
+danger. "Good Bills are better than bad coin."
+
+Notwithstanding the decision of the States in 1826, the three Jurats,
+Josias le Marchant, James Carey and Jean le Marchant were still uneasy,
+and on 10th April, 1829, complained direct to Whitehall that "the States
+had exceeded their annual revenues for works of public utility without
+the express sanction of the superior authority, and had for these same
+works contracted liabilities which exceeded the means of the States."
+
+The Privy Council on the 19th June forwarded the complaint to the States
+and asked for an explanation.
+
+The States, at their meeting, 27th August, 1829, instructed a Committee
+to examine the charges, draw up a report and answer, and submit the same
+to the States. The Committee selected was the Finance Committee, which
+was revised at this time, the chief change being the omission of the two
+complainants, James Carey and Jean le Marchant.
+
+A guess may be hazarded that this Committee appointed Daniel de Lisle
+Brock to draft the reply.
+
+This interesting document fortunately exists not only in French but in
+English (doubtless for the benefit of the Privy Council). In
+characteristic language, enthusiastic and patriotic, while clear and
+matter of fact, it sets out the present situation and sketches the
+history of the Island since the close of the War. The greater part of it
+appears in the next chapter.
+
+
+
+
+CHAPTER VI
+
+THE REPLY OF THE STATES
+
+
+With a few slight omissions the following is the official translation of
+"The Answer of the States of Guernsey to the Complaint of three of their
+Members dated the 10th April, and transmitted by their Lordships's Order
+of 19th June, 1829.
+
+"My Lords,
+
+Discarding from their minds allusions and topics of a personal nature
+and every sentiment of recrimination, the States of Guernsey are
+desirous of vindicating themselves in the manner most becoming the
+respect due to your Lordships, and the consciousness of right, by
+setting facts against errors, reason against fears, 'honest deeds
+against faltering words.'
+
+"To judge of the States by any particular act or period would be to
+dismiss all consideration of previous motives and future benefits, of
+connecting causes and effects. Comprehensive views of the general policy
+of the States can alone enable them to prove, and your Lordships to
+judge, of the wisdom and propriety of their measures. Taking, therefore,
+a retrospect of the period which immediately preceded the grant of the
+duty on Spirituous Liquors first graciously conceded in 1814; they deem
+it necessary to lay before your Lordships a summary account of the state
+of this Island, at, and from that period.
+
+"The steps taken during the war for the prevention of smuggling had
+deprived this Island of the trade which the supply of that traffic
+occasioned, and a great portion of the inhabitants of their usual
+occupation, consisting not in smuggling themselves, but in importing the
+goods and making the small packages in which those goods were sold in
+the Island; Privateering, adventurous speculations, and the great
+expenditure of fleets and garrisons compensated in some measure for the
+loss of this occupation, but when the war ceased also, a general want of
+employment and consequent distress ensued.
+
+       *       *       *       *       *
+
+"In 1813 the sea which had in former times swallowed up large tracts,
+threatened from the defective state of its banks to overflow a great
+extent of land. The sum required to avert the danger was estimated at
+more than £10,000, which the adjoining parishes subject to this charge
+were not in a condition to raise. The state of the finance was not more
+consolatory, with a debt of £19,137, and an annual charge for interest
+and ordinary expenses of £2,390, the revenue of £3,000 left only £600
+for unforeseen expenses and improvements.
+
+"Thus at the peace, this Island found itself with little or no trade;
+little or no disposable revenue; no attraction for visitors, no
+inducement for the affluent to continue their abode, and no prospect of
+employment for the poor. No wonder, therefore, if emigration became the
+object of the rich in search of those good roads, carriages and other
+comforts which they could not find at home, and the only resource of the
+other classes, whose distress was likely to be aggravated by the
+non-residence of the former. Misery and depopulation appeared
+inevitable, from the peace to the year 1819 inclusive, more than five
+hundred native and other British subjects embarked for the United
+States, and more prepared to follow.
+
+"It is said, the powers of the human mind in society lie at times torpid
+for ages; at others, are roused into action by the urgency of great
+occasions, and astonish the world by their effects. This has, in some
+measure, been verified in this Island, for though nothing done in so
+small a community can cause a general sensation, its exertions may yet
+produce wonderful results, within its own sphere. It is the duty of the
+States to show that, roused by the deplorable situation above described,
+they took, and have since pursued the steps best adapted to meet the
+exigency of the case, and that those steps have been attended with
+complete success.
+
+"To increase the revenue was an indispensable preliminary, but to do
+so, no other means lay within the power of the States than a tax on the
+several parishes according to the rates at which they were respectively
+assessed, and to this tax there were insuperable objections....
+
+"Under these circumstances was the application made for the duty on
+spirituous liquors: and notwithstanding the opposition of many of the
+inhabitants His Royal Highness the Prince Regent, was graciously pleased
+by an Order in Council of 23rd July, 1814 to authorise the States to
+raise 1s. per Gallon on all such liquors consumed in this Island for the
+term of 5 years. The same duty was renewed for 10 years by virtue of a
+second Order in Council of 19th June, 1819 after similar opposition. And
+on the declaration at Your Lordships' bar of the advocate deputed by the
+opponents that a clause to the following effect would reconcile them to
+the measure, and no objection being made to it on the part of the
+States, these words were inserted in the gracious Order in question:
+viz.:--'That One Thousand Pounds per annum of the produce of the said
+duty be applied solely to the liquidation of the present debt, together
+with such surplus as shall remain out of the produce of the tax in any
+year after defraying the expenses of roads and embankments and
+unforeseen contingencies. And that the States of the said Island do not
+exceed in any case the amount of their annual income without the consent
+previously obtained of His Royal Highness in Council: and the said
+States are hereby directed to return annually to the Privy Council an
+account of the produce and application of the said tax.'
+
+"In 1825 the Lt. Governor Sir John Colborne, and the States, having
+extended their views to the erection of a new College and other
+important works which could not be undertaken without the assurance of a
+renewal of the duty, constituting the chief part of the revenue, a third
+Order in Council of the 30th September, 1825, conceded to the States the
+right of levying the same for 15 years, beginning on the 1st September,
+1829, and this without the smallest opposition from any of the
+inhabitants, and without the conditions annexed to the second Order.
+
+"With gratitude for the means placed at their disposal the States feel
+an honest pride in the recital of the manner in which those means have
+been applied. First, considering the danger arising from the bad state
+of the sea embankments, and the hardship of subjecting particular
+parishes to a charge for the general safety to which they were unequal,
+the States took on themselves the present repairs, and future
+maintenance of those embankments. This essential object connected with
+the paved slips or avenues to the beach, has been attended with an
+expence of £14,681 19s., without including five or six thousand for a
+breakwater to defend the line of houses at Glatney, on the North side
+of the Town.
+
+"Independently of the sums contributed by Government towards the
+military roads, from twenty-nine to thirty thousand pounds have been
+expended by the Island on the roads, so that in lieu of those before
+described, there are now fifty-one miles of roads of the first class, as
+good as those of any country, with excellent footways on all of them,
+and 17 miles of the second class.
+
+"Not only the main Harbour, Piers, Quays, Buoys and Sea Marks have been
+attended to, and at a great expense, but, in order to facilitate the
+exportation of the granite from the North of the Island, the Harbour of
+St. Sampson has been rendered secure and convenient by a new Breakwater
+and Quay.
+
+"The situation and state of the Town were thought to preclude all hopes
+of much amelioration, but the widening of High Street, and other
+streets, the reducing the precipitous ascent to the Government and Court
+House, the clearing away of the unsightly buildings that obstructed the
+view and approach to those public edifices, the new sewers, pavements,
+and, above all, the Public Markets and new Fountain Street, attest the
+solicitude of the States towards the Town, and surprise those who return
+to it after a few years absence. Add to these the enlarging and
+improving of the Court House and Record Office, where the public have
+daily access, and where are kept the contracts and registry of all the
+real property (of) the Island. Add also the New College, which, with
+the laying out of its grounds and the roads round its precincts,
+contributes to the embellishment of the town, induces families from
+other places to settle in the Island, on account of their children, and
+affords to the inhabitants the ready means of a good education.
+
+"The advantage resulting from all these improvements has not been
+confined to their utility, or to the increased activity given to
+industry, and the circulation of money by the public expenditure: they
+have excited in all classes a similar spirit of improvement, which
+displays itself in the embellishment of the premises already built upon,
+and above all in the number of handsome dwellings since erected. In the
+Town parish alone 401 houses have been built since the year 1819 at an
+expense of upwards of £207,000, and few towns do now present a more
+animated scenery around them, or one where ornament and comfort are more
+generally united; the same comfort and improvement are witnessed in
+every direction, and at the greatest distances from town. And thus it
+is, that the public works have not only given life and activity to every
+species of industry by the immediate effects of their utility, as for
+example to the building of a number of mills in the Island, before
+supplied with most of its flour from abroad, and now enabled to
+manufacture it for exportation, but and still more by the consequent
+impulse communicated on all sides, prompting the wealthy to lay out for
+private mansions greater sums than were expended for public works and
+creating a permanent source of employment, by the future expenses which
+the repairs and occupations of those mansions will require.
+
+"The extent of benefits conferred is sufficiently attested by the
+concurrent testimony of inhabitants and strangers. The sole objects of
+His Majesty and of His Most Honorable Privy Council are the public good
+and general happiness; the States might therefore, confidently look for
+indulgence, even if, in promoting those objects, they had fallen into
+some little deviation from the strict letter of any particular Order.
+But implicit obedience to the Royal Authority in Council being their
+paramount duty, they cannot rest satisfied under the imputation of
+having, even unintentionally, derogated from that duty.
+
+"The words of the second Order in Council have already been cited. The
+right of levying the duty on spirituous liquors is granted for ten
+years: a condition is annexed purporting that the States shall not
+exceed their annual income, and on the contrary that out of the produce
+of the duty, one thousand pounds shall be applied annually to the
+extinction of the debt; that condition is naturally in force for the
+same period, and for the same period only, as the grant to which it is
+annexed; it is necessarily so limited, because the means by which it is
+to be fulfilled, the produce of the duty, ceases at the end of the ten
+years for which the duty is granted.
+
+"The States are bound to prove that they have complied with the
+conditions of that Order; they did so comply, when wishing to erect a
+new Market, they applied for and obtained the order of 10th October,
+1820, which imposed on them, at their own request, the further
+obligation of an annual payment of £450 for 10 years;
+
+ This sum began to be paid in 1822, and has been paid
+ for 8 years, during which the obligation amount to        £3,600  0  0
+
+ The former obligation amounts, for the 10 years
+ now elapsed to                                           £10,000  0  0
+                                                          -------------
+ Total amount of the two obligations imposed              £13,600  0  0
+
+ The debt at the commencement of the 10 years
+ elapsed amounted in rents and money, including
+ the cost of the Market, to                               £43,668 15  2
+
+ The Debt, Rents and Market included, has been
+ reduced to                                               £27,740  0  0
+                                                          -------------
+
+ Total amount of the sums actually applied to the
+ payment of the Debt                                      £15,928 15  2
+
+"The conditions of the second Order in Council have thus been more than
+fulfilled, by the application of £2,328 15s. 2d. to the payment of the
+debt over and above the obligations imposed. Those conditions,
+incidentally introduced in the second Order, do not in any way form a
+part of the third Order now in force.
+
+"Though released from the positive conditions of the former Order, the
+States have shown no intention, and do by no means desire to depart from
+its general spirit; graciously offered by the third Order in Council to
+continue their improvements, they came to the following resolution on
+22nd November, 1826: 'That far from entertaining any wish of augmenting
+the Debt the States recognise the principle that it should not exceed,
+at the end of the 15 years for which the duty is further granted, the
+sum to which the Debt shall amount at the end of the 10 years present
+duty: they impose on themselves that obligation anew, and bind
+themselves by the most solemn engagement not to increase the debt.'
+
+       *       *       *       *       *
+
+"What cause of alarm can there then possibly exist? What prospect, on
+the contrary, the States humbly ask, can be more gratifying than that of
+remaining with our New College, new Harbours built and to be built, new
+Markets of every description, new Roads in every direction, new streets,
+one of thirty feet instead of seven in the greatest thoroughfare between
+town and country, in short, with nearly all the greatest improvements
+that can be desired, paid for to the last shilling; and all this
+according to the statement of the plaintiffs themselves, with the debt
+reduced to £15,000, and the revenue augmented £1,700 per annum, by those
+very improvements.
+
+       *       *       *       *       *
+
+"In the Markets and Fountain Street, the States have undertaken works
+essentially necessary. The cost might be supposed to exceed the means of
+the States, if credit did not in the first instance furnish the chief
+expense without the charge of interest, and if the works themselves did
+not provide for the extinction of the engagements incurred.
+
+"The views of the States are to render these public improvements a
+source of future revenue, which shall again afford the means of further
+and greater improvements.
+
+"The same plan has been acted upon with success in several places, and
+particularly at Bath and Liverpool,[4] to the permanent increase of
+their revenues, and to the general benefit of those places, and of the
+country at large. It is difficult indeed to conceive whence can arise
+the objections to measures, which without laying the least burthen on
+anyone, surely and quietly operate to the general good, except it be
+from the disinclinations of most persons to enter into that close
+examination of figures necessary to a right understanding, and the
+distrust consequent on the need of that examination and comprehension.
+In our case, it may be added, that accustomed, on the subject of
+improvement, to a long apathy confirmed by the state of a revenue
+inadequate to the least undertaking, works of magnitude when first
+proposed created the greatest alarm. The new roads were opposed by the
+far greater number of those who were to derive the most benefit from
+their use, and who from experience are now clamorous for more. The
+Market was only voted the third time it was offered to the consideration
+of the States, although it was represented that independently of its
+various advantages, it would in a short time permanently add to the
+revenue. Experience has proved the correctness of that view of the
+question, and opening the eyes of the public, has turned their
+sentiments of fear and distrust to one of perfect confidence. Hence it
+was that the public voice called on the States to realise the benefits
+likely to result from the substitution of a street thirty feet wide, in
+lieu of one of seven feet, in the heart, and connecting the two
+extremities of the Town, and forming the principal avenue from the
+Country to the Harbour; twenty to thirty carts frequently waited at one
+end until those from the other had passed. Such a thoroughfare in the
+most populous quarter could not but be fraught with danger, and the
+accidents that occurred were numerous, while the closeness of the
+street, height of the houses, and filth collected at the back of them
+were a constant source of nuisance and disease. Never was a measure
+voted with so much unanimity and general satisfaction as the removal of
+this public nuisance, and rebuilding Fountain Street, notwithstanding it
+to be now the ground of the complaint before your Lordships.
+
+       *       *       *       *       *
+
+"Relatively to so small a section of the Empire, great things have been
+done with slender means; that so much has been done may with truth be
+ascribed to the fairness and disinterestedness which have marked every
+resolution of the States, and its execution; to the vigilant and
+gratuitous superintendence of their Committees, and to the public spirit
+of the inhabitants.
+
+"Devoted to the good of His Majesty's service, and not resting on
+isolated facts, the States have laid open the whole of their conduct and
+views, and beg leave to refer to their worthy and highly respected
+Lieutenant-Governor Major General Ross for the correctness of their
+statement, and for the situation of the Island. They have the approval
+of their fellow-subjects and of their conscience, but they would feel
+deeply humiliated if they did not merit and obtain the commendation of
+your Lordships."
+
+The Reply is accompanied by five appendices giving detailed figures to
+substantiate the argument and point out errors in the figures of the
+complainants. It is not necessary to weary the reader with these.
+Appendix I., however, is interesting, as it shows that more than half
+the Debt of the States consisted of these Notes on which no Interest was
+paid.
+
+
+"APPENDIX I.
+
+ Debt of the States:--
+
+ To the Savings Bank at 3 per cent. first vote        £10,000
+
+ To individuals                                           557
+                                                      -------
+ At 3 per cent. interest                              £10,557
+
+ In Notes of 20s. each                                 14,443
+
+ 135 Quarters 2 Bushels 8 Denerels, and 18
+ sous 8 Deniers Rents equal to                          2,740
+                                                      -------
+                                                      £27,740
+
+ Deduct from this the balance still due by the
+ Market, and carried to the joint account of
+ the Market and Fountain Street                         6,100
+                                                      -------
+                                                      £21,640[5]"
+
+The scope of the remaining Appendices is shown by their titles:--
+
+Appendix II.: Plan of Finance adopted by the States and to be pursued
+during the fifteen years from this date, ending in 1844 inclusive.
+
+Appendix III.: Remarks on the Statement of account making part of the
+complaint presented against the States.
+
+Appendix IV.: Joint account of Fountain Street and the Market.
+
+Appendix V.: Amount of the Produce on the Duty of 1s. per Gal. on all
+spirits consumed in the Island of Guernsey, and the manner in which it
+has been expended during the Ten years for which the said Duty was
+granted, beginning September 1st, 1819. In obedience to Order of H.M. in
+Council of June, 1819.
+
+This reply was very favourably received by the States at their Meeting
+23rd December 1829 and adopted almost unanimously. One of the Rectors
+spoke of it as "most judicious and consolatory, especially considering
+that room had been given for the exercise of opposite feelings."
+
+The leader writer in the _Gazette_ recommended the reply to "the
+particular attention of every true Guernseyman." Improvements in the
+Island were due to M. le Bailiff, against whom and whom alone the
+complaint is directed. "As a wise administrator he has known how to
+contrive the means of effecting this great good without imposing the
+least tax or inconveniencing his fellow citizens."
+
+FOOTNOTES:
+
+[4] See Appendix.
+
+[5] Market.
+
+    The cost was               £12,748
+    Paid off since 1822          6,648
+                               -------
+    Balance due on Market        6,100
+
+
+
+
+CHAPTER VIII
+
+THE CRISIS
+
+
+No trace was found of any reply or acknowledgment by the Privy Council.
+Presumably they were satisfied with the answer submitted by the States.
+
+But not so the opponents.
+
+In addition to the Old Bank already mentioned, another Bank, the
+Commercial Bank, had been started in 1830. Both of these appear to have
+issued notes at their own discretion. Consequently the Island seems to
+have been flooded with paper money, and an awkward situation had arisen.
+The Commercial Bank claimed an equal right with the Old Bank and even
+with the States to issue notes. The Finance Committee, it was stated,
+had refused to confer with the Commercial Bank. So long as the Banks had
+a right to issue notes they appear to have had it in their power to put
+pressure on the States. For they could thus put into circulation a
+currency beyond that required for the internal needs of the Island.
+
+Daniel de Lisle Brock summoned the States to consider the matter,
+evidently with the intention of obtaining an injunction against the
+issue of notes by the Banks.
+
+His message to the States Meeting, held 21st September, 1836, is very
+spirited and defends the rights of the States as against private
+individuals, as will be seen from the following lengthy quotation.
+
+"If there is one incontestable principle it is that all matters relating
+to the current coin of any country have their source in the supreme
+prerogative, and that no one has the right to arrogate to himself the
+power of circulating a private coinage on which he imprints for his own
+profit an arbitrary value. If this is true for metal coins still more so
+is it for paper money which in itself has no value whatever.
+
+"Has not experience shown us the danger of private paper money? Can we
+have forgotten the disastrous period when payment of one hundred
+thousand one-pound notes put into circulation by two banks enjoying good
+credit was suddenly stopped? Have we forgotten the ruin of some, the
+distress of others, the embarrassment of all? Have we not quite recently
+seen a bank established by people considered immensely rich, advancing
+large sums for distilleries, steam boats and other projects, and coming
+to an end in less than two years with a composition with its creditors
+who thought themselves lucky to get a few shillings in the pound?
+
+"With these facts before our eyes we must realise the necessity of
+limiting the issue of paper money to the needs, the custom, and the
+benefit of the community in general. Permission cannot be granted to
+certain individuals to play with the wealth and prosperity of society,
+to take from it its hard cash and to give it in exchange rags of paper.
+What incentive can they offer to persuade the public to give up to them
+valuable bills for worthless ones, certainty for uncertainty? What
+advantage can they pretend will accrue to the public from the loss of
+its currency and the possible depreciation of their paper? These general
+reflections will find their application. Let no one exclaim against the
+possibility of the supposed danger. The wealth of the present
+stockholders of our banks is well known, their names suffice to inspire
+the greatest confidence; but apart from extraordinary events, the
+ordinary casualties of life may bring about in a short time the change
+of all these names, and there may remain in their place only men of
+straw.
+
+       *       *       *       *       *
+
+"The States are met in order to take counsel together on measures for
+its defence. For an object so important they ought to count on the help
+of all friends of their country.
+
+"Speaking of the present banks, and it is necessary to refer to them, no
+one desires more than I do to see them flourish, provided that it is not
+at the expense of the public interest. Several of the stockholders seem
+to rely for success on the issue of paper-money, as if this were the
+principal aim of the business of banking. This aim, on the contrary, is
+quite foreign to real bankers--one finds them in all the great towns of
+Europe enjoying colossal fortunes--they never dream of paper-money;
+their functions are confined to discounting bills, furnishing bills on
+all countries, taking money on deposit at low interest to lend it again
+at the legal rate on landed estates, or property of assured value, and
+to a number of other services required by commerce: each transaction
+yields a profit which should suffice. A bank of this kind was wanting in
+the Island. The first of the two existing ones was formed under the most
+favourable auspices, nothing could exceed its credit: although it issued
+paper money it did not seem inclined to push this circulation to the
+point of annoyance to the States. It even made common cause with them
+when it was a question of replacing the old coins with new, and
+contributed half the expense. If it had shown itself more obliging and
+ready at any time to supply bills for those who, money in hand, wanted
+them to meet engagements in London or Paris, it would have continued the
+only bank for all business. But as it would not put itself out in any
+way, the second bank was started by merchants in order to escape from
+the domination and caprice of the first.
+
+"The second bank should have kept, and still ought to keep, to the
+legitimate business of banking transactions. It appeared to have for its
+principal object the issue of paper money; even on its origin it
+suggested that the States and the two banks should weekly make a mutual
+exchange of their respective notes, each party paying interest for the
+balance of notes remaining against it; in this way all the notes of the
+States would have found themselves in the coffers of the Banks and
+paying interest to them. Though this proposition was not accepted, the
+States were not the less troubled with requests for cash in payment of
+their notes, and these requests are daily--not only for the ordinary
+household needs, as might have been expected, but for sending abroad,
+for if there are drafts to be cashed by the bank for anyone who wishes
+for money to send to France or to Jersey, the drafts are paid in States
+Notes, in order that the money shall ultimately come from this last
+named source. The Bank makes no secret of its pretensions: there are, it
+says, three parties for issuing paper money; this issue cannot rise
+above £90,000 since the circulation in the country does not allow for
+more, the States ought to have only one-third of the issue, the two
+banks the two remaining thirds. This is a fine way of making the
+division, and very convenient certainly for the Commercial Bank. It
+would even have some show of justice if the parties had equal rights,
+and if the public had no interest in the matter; but the rights are not
+equal--the bank has none to put forward, that of the States is
+incontestable: they exercise it for the welfare and advantage of the
+whole Island which they represent. Consequently the public has the
+greatest interest in preserving for the States the power of issuing
+paper-money without interruption. Let the bank reply to the questions
+already put; let it say what inducement it can offer the public to drive
+out of circulation the States Notes, the profit on which benefits all,
+especially the productive classes, and substitute for it Bank notes, the
+profit on which benefits only individuals of the unproductive classes?
+Now is the time to ask the proprietors themselves and ascertain whether
+in starting a bank they ever had the intention of letting it work to the
+detriment of their country? The public Treasury is the heart of the
+State--did they ever wish, do they to-day wish to strike it with a
+dagger? I know that we live in a financial age, that it is reproached
+with indifference to every generous sentiment, and that the love of
+money and the lust for gain absorb all other passions. In spite of that
+I have not lost all confidence in the patriotism of the members of the
+bank, they have the greatest personal interest in supporting the States
+in their efforts for the improvement of their country, efforts which
+contribute so greatly to the prosperity of internal commerce, to the
+residence of inhabitants of means, and to the wealth of strangers.
+Finance is the pivot on which turns the administration of affairs. The
+least disturbance imposes on me the duty of sounding the alarm and
+summoning the States. What I have said will be sufficient, I hope, to
+persuade the bank to maintain a friendly course. The bank should feel
+that it is not enough to intend not to injure, but that it is necessary
+to abandon any step which, even without its wish, would be prejudicial
+to the interests of the country. It should recognise that, as regards
+the circulation of paper-money, the States have, for a long time and for
+the common good, been in possession of the ground which it seems to wish
+to invade, which, however, it cannot occupy without injustice.
+
+"Every war, it is said, ends where it should have begun--in peace. I am
+firmly convinced of this truth; and experience has shown me that in
+civil life as in political, war might almost always be avoided to the
+great advantage of both parties, and that lawsuits, like wars, have for
+end rather the injury of the adverse party than good to oneself. The
+States are on the defensive, and such war is just and inevitable if any
+war is. It is, moreover, a war in which all the inhabitants who are the
+friends of their country will eagerly unite for the defence of the
+States in their just rights--thus united they will defend them with
+complete success. For this purpose the States will doubtless appoint a
+Committee with the fullest powers to propose, in case of need, measures
+which may ultimately become necessary.
+
+"I do not forsee that the case will require it, and I should wish to
+avoid, as far as possible, any foreign intervention--but if the efforts
+of the States were not sufficient to defend their rights there would be
+no alternative, they would find themselves obliged to petition His
+Majesty in Council to consent to restrict the issue of one pound notes,
+and only to permit the putting into circulation of the number absolutely
+required by the States. Under the present circumstances this would be an
+indispensable measure, and it can scarcely be doubted that a humble
+request to this effect would be graciously received."
+
+The debate, reported at length in the local papers, was a heated one. It
+first raged round the third proposition, which appealed in general terms
+to the islanders to rally round the States. The following is the
+proposition as translated by the _Comet_ of 22nd September, 1836:--"That
+in execution of the numerous ameliorations that have taken place during
+the last 20 or 30 years, the States having put into circulation about
+55,000 One Pound Notes, as a financial measure in favour of the public
+generally, if they are of opinion to defend the rights of the States
+against those who wish, for the advantage of a few individuals only, to
+hinder the circulation of the States Notes, for the purpose of
+substituting those of private individuals in lieu thereof; and whether
+it would not be proper to make an appeal to all the inhabitants, who are
+the friends of their country, to invite them to afford their assistance
+in supporting with all their might the notes belonging to the States."
+
+This was carried by 18 votes to 11. The minority represented chiefly
+town rather than country parishes, the Jurats being equally divided, and
+included at least two persons closely connected with the Banks. The
+victory of States Notes seemed complete, and the fourth Proposition
+appointing a Committee to give effect to the decision was carried by a
+large majority. It is as follows:--
+
+"If they are of opinion to name a Committee that shall be authorised in
+a special manner to defend the rights and interests of the States, and
+of the public:--to do their utmost by every conciliatory measure in
+their power, and above all, to agree to an arrangement that shall screen
+the States from all interruption in the circulation of their Notes,
+which have been issued for the benefit and advantage of the public, with
+the design of gradually diminishing the number annually. And in the
+event of such an arrangement not taking place, to adopt every measure,
+and make every necessary sacrifice for supporting the circulation of the
+States Notes. And finally, should the case require it, to propose to the
+States the adoption of those ulterior measures deemed requisite by the
+Committee, for the general interests of the island."
+
+The meeting ended with a fine fighting speech from the Bailiff. He
+reiterated the principle of the States being the sovereign power in
+issuing currency, claimed that the Cour Royale had the right of stopping
+the private issue of notes, and pointed to the example of England, where
+only £5 notes were permitted in the country, and these under a heavy
+tax, while only the Bank of England might issue notes in and around
+London. He showed that it was a choice between notes issued for the
+benefit of individuals and notes issued for the public good. He defended
+the improvements carried out by the States, and once again declared that
+they had been advantageous in giving employment to the poor, security to
+the rich and encouragement to commerce.
+
+
+
+
+CHAPTER VIII
+
+THE END
+
+
+One can imagine the enthusiasm and the satisfaction with which the
+majority returned home. One anticipates a triumphant report in the
+Bailiff's best vein; and expects that the banks will in future have to
+confine themselves to the operations permitted to English banks, while
+the States restore equilibrium by causing the withdrawal of superfluous
+notes and confining future issues, once again entirely in their own
+hands, to quantities proportioned to the needs of the island.
+
+With surprise, the subsequent proceedings are found to be on quite
+different lines. Truth is stranger than fiction. The prosaic facts are
+as follows:--
+
+The Bailiff in presenting his _Billet d'Etat_ to the States Meeting,
+29th March, 1837, reported on the arrangement made by the Committee with
+the two Banks. He brought forward no proposition on the matter on which
+the States should deliberate. He simply states that:--
+
+"After some preliminary conferences the Committee received the following
+letter:--
+
+ 'To D. De Lisle Brock, Esq.,
+ Bailiff, etc., etc., etc.,
+ Guernsey, 8th Oct., 1836.
+
+ Sir,
+
+To settle the differences now existing between the States and the Banks,
+and to promote an amicable adjustment between them, we propose:
+
+That the States should withdraw immediately £15,000 of their Notes, nor
+have at any time more than £40,000 in circulation, give up all Banking
+transactions, and cease to collect the notes of the Banks.
+
+In consideration thereof the Banks engage whenever they draw bills
+either on London or Paris, to take States' Notes for one half at least
+of their amount and to pass them to the public as their own.
+
+The Banks further engage to supply the States annually with £10,000 in
+cash, each bank to provide for one half, by payments of £250 at a time,
+and this free of expence and in exchange for States' Notes.
+
+The above agreement to remain in force until three months notice be
+given by either party to the others to annul the same.
+
+ We remain respectfully, Sir,
+
+ _Signed_ for Priaulx, Le Marchant & Co.
+ Thomas D. Utermarck,
+ Abraham J. Le Mesurier.
+
+ For the Commercial Banking Co.,
+ H. D. G. Agnew }
+ T. De Putron   } Managers.'
+
+"And asked M. Le Bailiff to reply as follows:--
+
+ 'Court House, Guernsey,
+ 9 Oct., 1836.
+
+ Gentlemen,
+
+The Committee named by the States on the 21st September for the purpose
+of conferring with the Banks which you represent, on the subject of the
+one pound notes current in this island, have taken into consideration
+the proposals which you have transmitted to them, under yesterday's
+date, 8th Oct.
+
+The Committee adopt those proposals as the basis of the arrangement so
+desirable to be entered into, and from this day to be in force between
+the States and the Banks.--They do so, because the States may at any
+time, within 3 months, release themselves from the obligations which
+that arrangement imposes; and above all, because the sacrifice of
+pecuniary gain on the part of the States which it may deem to occasion,
+will be more than compensated by the harmony and good feeling which it
+will tend to promote among the inhabitants, and which constituting the
+chief happiness of a well regulated community, can hardly be too highly
+estimated.
+
+With sentiments of a like friendly nature, sincerely entertained by the
+Committee towards yourselves, and the rest of their fellow citizens,
+
+ I have the honour to be, Gentlemen,
+
+ Your obedient humble servant
+
+ Daniel De Lisle Brock,
+ President of the States' Committee.'
+
+"In consequence of this arrangement the Committee decided that £10,000
+sterling of the total one pound notes in circulation on account of
+Fountain Street should be withdrawn as a Savings Bank loan at an
+interest of 3 per cent. per annum. Also that five thousand of those
+forming part of the old debt, called the Permanent Debt, should be
+withdrawn to be converted into obligations at 3 per cent. per annum."
+
+In the discussion at the States Meeting on a proposition to authorise
+the payment of a sum spent on repairs to the coasts, there were
+references by three Members of the States to the fact that the
+expenditure of the States would be increased by having to pay interest
+on the 15,000 £1 notes withdrawn from circulation.
+
+The same fact is alluded to in a few words by Daniel De Lisle Brock
+himself in his _Billet d'Etat_ to the States, 20th September, 1838.
+Commenting on the Finance Committee's Report, he tabulates five items of
+annual loss, among which is found the terse remark, "The founding of the
+commercial banks causes an annual loss of £450."
+
+Although the States thus agreed not to issue any more Notes, to complete
+the history it should be recorded that these £40,000--to be perfectly
+accurate the total amount in 1906 was £41,318--are still in circulation
+in the Island.
+
+
+
+
+CONCLUSION
+
+
+As stated in the Introduction, the writer has determined, though
+somewhat tempted, not to discuss the interesting and debatable points
+that arise from a consideration of this subject. He is satisfied, for
+the present, with placing the facts before the public. He leaves those
+facts for abler minds than his to make such use of as they may desire.
+Great care has been taken to record only that for which there is chapter
+and verse.
+
+But he would like, in conclusion, to remark that it seems to him that
+the States, even to-day, still derive some little benefit from having a
+portion of their "Debt" on which they pay no interest. This may be
+gathered from the following table made up from facts taken from the
+_Billet d'Etat_ presented to the States 22nd August, 1906, at which
+meeting the writer was an interested spectator.
+
+Summary of the indebtedness of the States of Guernsey:--
+
+ ------------------------------------+------------------+---------------
+                                     | Balance 31 Dec., | Interest paid
+                                     |      1905.       | during 1905.
+ ------------------------------------+------------------+---------------
+                                     |          £       |       £
+  States General Account Obligations |       68,570     |  1,953 19  3
+  Special Loan Obligations           |       57,500     |  2,295  0  0
+  Notes of _20s._ each payable to    |                  |
+    Bearer                           |       41,318     |       nil
+  "Rentes" estimated capitalised     |                  |
+    indebtedness thereon             |        7,059     |       nil
+  Departmental borrowings            |       33,000     |    965  8  0
+                                     |                  | Paid by Depts.
+                                     |                  |   to General
+                                     |                  |   Account.
+                                     +------------------+---------------
+      Total indebtedness             |     £207,447     |     ----
+ ------------------------------------+------------------+---------------
+
+The circulation of these Notes in the Island to-day is, if nothing more,
+an interesting relic of an interesting financial policy which certainly
+was in vogue in Guernsey for over 20 years (1816-1837).
+
+The mystery surrounding the abrupt catastrophe is yet undeciphered and
+is likely to remain so, as there seems no material from which to glean
+what took place during those few but momentous days between the 21st
+September and 9th October. Was there treachery? was it but the
+inevitable fate of the "best-laid schemes o' mice and men"? or was it a
+unique and deplorable economic tragedy?
+
+
+
+
+APPENDIX
+
+
+We have not yet discovered anything with reference to a successful plan
+at Bath to which Daniel de Lisle Brock here alludes (see page 40). We
+assume the reference to Liverpool is to the fact that during a time of
+financial panic the Liverpool Corporation was empowered by Statute 33,
+Geo. III., c. 31 (10th May, 1793), to issue notes of £5, £10, £50 and
+£100 for value received or other due security.
+
+This Act entitled "An Act to enable the Common Council of the Town of
+Liverpool in the County of Lancaster on behalf of and on account of the
+Corporation of the said Town to issue negotiable notes for a limited
+time and to a limited amount," was passed after the Corporation of
+Liverpool had failed to obtain a loan of £100,000 from the Bank of
+England.
+
+The £50 and £100 notes bore interest not exceeding the lawful rate and
+at 12 months' date. The £5 and £ 10 notes were payable to bearer on
+demand without interest. The total issue was at no time to exceed
+£300,000. Returns had to be forwarded to the House of Commons from time
+to time. From one of these returns we learn that the notes issued to
+28th February, 1795, amounted to £140,390, based on security valued at
+£155,907 16s. 6d. In a report forwarded 23rd April, 1794, it was stated
+that £52,985 worth of notes were in circulation at that date.
+
+Great care was taken in the issue of the notes. The Committee of the
+Corporation that was responsible for the same met daily.
+
+In order to give a wider utility to the notes, London correspondents
+were appointed and a large number were made payable in London. This made
+it possible for the Corporation itself to apply to the Committee for a
+large loan of £50,000.
+
+The security on which advances were made were very various. It included
+cotton, timber, iron, hops, whale oil, bills of exchange, ships on the
+stocks and the Alt rates.
+
+       *       *       *       *       *
+
+For further particulars of this interesting incident, the reader is
+referred to Sidney and Beatrice Webb's _English Local Government_: "The
+Manor and the Borough," p. 485, and to E. C. K. Gonner's Article,
+"Municipal Bank Notes in Liverpool, 1793-95," which appeared in the
+_Economic Journal_, Vol. VI., 1896, pp. 484-487, to whom the writer is
+largely indebted for the above facts.
+
+
+
+
+STUDIES IN ECONOMICS AND POLITICAL SCIENCE
+
+_A Series of Monographs by Lecturers and Students connected with the
+London School of Economics and Political Science_
+
+EDITED BY THE DIRECTOR OF THE LONDON SCHOOL OF ECONOMICS AND POLITICAL
+SCIENCE
+
+=1. The History of Local Rates in England.= The substance of five
+lectures given at the School in November and December, 1896. By
+EDWIN CANNAN, M.A., LL.D. 1896; 140 pp., Cr. 8vo, cloth, 2s.
+6d. _P. S. King & Son._
+
+=2. Select Documents Illustrating the History of Trade Unionism.=
+I.--THE TAILORING TRADE. By F. W. GALTON. With a Preface by SIDNEY
+WEBB, LL.B. 1896; 242 pp., Cr. 8vo, cloth. 5s. _P. S. King & Son._
+
+=3. German Social Democracy.= Six lectures delivered at the School in
+February and March, 1896. By the Hon. BERTRAND RUSSELL, B.A.,
+late Fellow of Trinity College, Cambridge. With an Appendix on Social
+Democracy and the Woman Question in Germany. By ALYS RUSSELL,
+B.A. 1896; 204 pp., Cr. 8vo, cloth. 3s. 6d. _P. S. King & Son._
+
+=4. The Referendum in Switzerland.= By M. SIMON DEPLOIGE,
+University of Louvain. With a letter on the Referendum in Belgium by
+M. J. VAN DEN HEUVEL, Professor of International Law in the
+University of Louvain. Translated by C. P. TREVELYAN, M.A.,
+Trinity College. Cambridge, and edited with Notes, Introduction,
+Bibliography, and Appendices, by LILIAN TOMN (Mrs. Knowles), of
+Girton College, Cambridge, Research Student at the School. 1898; x. and
+334 pp., Cr. 8vo, cloth. 7s. 6d. _P. S. King & Son._
+
+=5. The Economic Policy of Colbert.= By A. J. SARGENT, M.A.,
+Senior Hulme Exhibitioner, Brasenose College, Oxford; and Whately
+Prizeman, 1897, Trinity College, Dublin. 1899; viii. and 138 pp., Cr.
+8vo, cloth. 2s. 6d. _P. S. King & Son._
+
+=6. Local Variations in Wages.= (The Adam Smith Prize, Cambridge
+University, 1898.) By F. W. LAWRENCE, M.A., Fellow of Trinity
+College, Cambridge. 1899; viii. and 90 pp., with Index and 18 Maps and
+Diagrams. Quarto, 11 in. by 8-½ in., cloth. 8s. 6d. _Longmans, Green &
+Co._
+
+=7. The Receipt Roll of the Exchequer for Michaelmas Term of the
+Thirty-first Year of Henry II. (1185).= A unique fragment transcribed
+and edited by the Class in Palæography and Diplomatic, under the
+supervision of the Lecturer, HUBERT HALL, F.S.A., of H.M.
+Public Record Office. With thirty-one Facsimile Plates in Collotype and
+Parallel readings from the contemporary Pipe Roll. 1899; vii. and 37
+pp.; Folio, 15-½ in. by 11-½ in., in green cloth; 5 copies left.
+Apply to the Director of the London School of Economics.
+
+=8. Elements of Statistics.= By ARTHUR L. BOWLEY, M.A., F.S.S.,
+Cobden and Adam Smith Prizeman, Cambridge; Guy Silver Medallist of the
+Royal Statistical Society; Newmarch Lecturer, 1897-98. 1901; _Third
+edition_, 1907; viii. and 336 pp. Demy 8vo, cloth, 40 Diagrams. 10s. 6d.
+net. _P. S. King & Son._
+
+=9. The Place of Compensation in Temperance Reform.= By C. P.
+SANGER, M.A., late Fellow of Trinity College, Cambridge;
+Barrister-at-Law. 1901; viii. and 136 pp., Cr. 8vo, cloth. 2s. 6d. _P.
+S. King & Son._
+
+ (_Out of print._)
+
+=10. A History of Factory Legislation, 1802-1901.= By B. L.
+HUTCHINS and A. HARRISON (Mrs. SPENCER), B.A., D.Sc. (Econ.),
+London. Second Edition. With a Preface by SIDNEY WEBB, LL.B.
+1911; xviii. and 372 pp., Demy 8vo, cloth. 6s. net. _P. S.
+King & Son._
+
+=11. The Pipe Roll of the Exchequer of the See of Winchester for the
+Fourth Year of the Episcopate of Peter Des Roches (1207).= Transcribed
+and edited from the original Roll in the possession of the
+Ecclesiastical Commissioners by the Class in Palæography and Diplomatic,
+under the supervision of the Lecturer, HUBERT HALL, F.S.A., of
+H.M. Public Record Office. With a Frontispiece giving a Facsimile of the
+Roll. 1903; xlviii. and 100 pp., Folio, 13-½ in. by 8-½ in., green
+cloth. 15s. net. _P. S. King & Son._
+
+=12. Self-Government in Canada and How it was Achieved: The Story of
+Lord Durham's Report.= By F. BRADSHAW, M.A., Senior Hulme
+Exhibitioner, Brasenose College, Oxford. 1903; 414 pp., Demy 8vo, cloth.
+3s. 6d. net. _P. S. King & Son._
+
+=13. History of the Commercial and Financial Relations Between England
+and Ireland from the Period of the Restoration.= By ALICE EFFIE
+MURRAY (Mrs. Radice), D.Sc. (Econ.), former Student at Girton
+College, Cambridge; Research Student of the London School of Economics
+and Political Science. 1903; 486 pp., Demy 8vo, cloth. 3s. 6d. net. _P.
+S. King & Son._
+
+=14. The English Peasantry and the Enclosure of Common Fields.= By
+GILBERT SLATER, M.A., St. John's College, Cambridge; D.Sc.
+(Econ.), London. 1906; 337 pp., Demy 8vo, cloth. 10s. 6d. net.
+_Constable & Co., Ltd._
+
+=15. A History of the English Agricultural Labourer.= By DR. W.
+HASBACH, Professor of Economics in the University of Kiel. With a
+Preface by Sidney Webb, LL.B. Translated from the Second Edition (1908),
+by Ruth Kenyon. Cloth, 7s. 6d. net. _P. S. King & Son._
+
+=16. A Colonial Autocracy: New South Wales under Governor Macquarie,
+1810-1821.= By MARION PHILLIPS, B.A., Melbourne, D.Sc. (Econ.),
+London. 1909; xxiii., 336 pp., Demy 8vo, cloth, 10s 6d. net. _P. S. King
+& Son._
+
+=17. India and the Tariff Problem.= By Professor H. B. LEES SMITH,
+M.A., M.P. 1909; 120 pp., Crown 8vo, cloth. 3s. 6d. net. _Constable
+& Co., Ltd._
+
+=18. Practical Notes on the Management of Elections.= Three Lectures
+delivered at the School in November, 1909, by ELLIS T. POWELL,
+LL.B., B.Sc. (Econ.), Fellow of the Royal Historical and Royal
+Economic Societies, of the Inner Temple, Barrister-at-Law. 1909; 52 pp.,
+8vo, paper, 1s. 6d. net. _P. S. King & Son._
+
+=19. The Political Development of Japan.= By G. E. UYEHARA,
+B.A., Washington, D.Sc. (Econ.) London. 1910 xxiv., 296 pp., Demy
+8vo, cloth. 8s. 6d. net. _Constable & Co., Ltd._
+
+=20. National and Local Finance.= By J. WATSON GRICE, B.Sc.
+(Econ.), London. With a Preface by Sidney Webb, LL.B. 1910; 428 pp.,
+Demy 8vo, cloth. 10s. 6d. net. _P. S. King & Son._
+
+=21. An Example of Communal Currency.= By J. THEODORE HARRIS,
+B.A. With a Preface by Sidney Webb, LL.B. Crown 8vo. 1s. net. _P.
+S. King & Son._
+
+
+_Series of Bibliographies by Students of the School._
+
+=1. A Bibliography of Unemployment and the Unemployed.= By F. ISABEL
+TAYLOR, B.Sc. (Econ.), London. With a Preface by Sidney Webb, LL.B.
+1909; xix., 71 pp., Demy 8vo, cloth, 2s. net; paper, 1s. 6d. net. _P. S.
+King & Son._
+
+
+_Series of Geographical Studies._
+
+=1. The Reigate Sheet of the One-inch Ordnance Survey.= A Study in the
+Geography of the Surrey Hills. By ELLEN SMITH. Introduction by
+H. J. Mackinder, M.A., M.P. 1910; xix., 110 pp., 6 maps, 23
+illustrations, Crown 8vo, cloth. 3s. 6d. net. _A. & C. Black._
+
+
+
+
+100 YEARS AGO
+
+Guernsey Experimented Successfully with Communal Currency,
+
+TO-DAY
+
+The Co-operative Brotherhood Trust, Ltd.,
+
+is Experimenting with Co-operative Currency.
+
+It has a small circle of Manufacturers, Merchants and Private
+Individuals using and circulating its currency. If you believe in its
+practicability, join it and help to ensure its success. If you want to
+know more about it, write for full information to--
+
+THE SECRETARY,
+
+37, NEWINGTON GREEN ROAD, LONDON, N.
+
+
+
+
+WORKS BY HENRY W. WOLFF
+
+Co-operative Banking
+
+Its Principles and its Practice, with a Chapter on Co-operative Mortgage
+Credit
+
+_Demy 8vo, Cloth_, =7s. 6d.= _net_
+
+"Mr. Wolff is the author of a successful work."--_Times._
+
+
+A Co-operative Credit Handbook
+
+Demy 8vo, 96 pages. 1s. net
+
+      CONTENTS--Preface, General Remarks, Banks based upon Shares
+      (Limited Liability Societies), Model Rules for such (with
+      Annotations), Village Banks (Unlimited Liability Societies),
+      Model Rules for such (with Annotations). Appendix: Form of
+      Application, Forms of Bond for Borrower, Form of Fortnightly
+      Balance Sheet, Model Cash Book.
+
+
+Co-operative Credit Banks
+
+A Help for the Labouring and Cultivating Classes. 6d.
+
+
+Village Banks
+
+How to Start Them--How to Work Them--What the Rich may do to Help Them,
+etc. 6d.
+
+
+LONDON: P. S. KING & SON
+
+ORCHARD HOUSE, WESTMINSTER
+
+
+
+    +-----------------------------------------------+
+    |             Transcriber's Note:               |
+    |                                               |
+    | Inconsistent hyphenation and spelling in the  |
+    | original document have been preserved.        |
+    |                                               |
+    | Typographical errors corrected in the text:   |
+    |                                               |
+    | Page 11  isue changed to issue                |
+    | Page 61  VIII changed to VII                  |
+    +-----------------------------------------------+
+
+       *       *       *       *       *
+
+
+
+
+
+
+End of the Project Gutenberg EBook of An Example of Communal Currency, by 
+J. Theodore Harris
+
+*** END OF THIS PROJECT GUTENBERG EBOOK AN EXAMPLE OF COMMUNAL CURRENCY ***
+
+***** This file should be named 33331-8.txt or 33331-8.zip *****
+This and all associated files of various formats will be found in:
+        http://www.gutenberg.org/3/3/3/3/33331/
+
+Produced by Barbara Kosker and the Online Distributed
+Proofreading Team at http://www.pgdp.net (This file was
+produced from images generously made available by The
+Internet Archive/American Libraries.)
+
+
+Updated editions will replace the previous one--the old editions
+will be renamed.
+
+Creating the works from public domain print editions means that no
+one owns a United States copyright in these works, so the Foundation
+(and you!) can copy and distribute it in the United States without
+permission and without paying copyright royalties.  Special rules,
+set forth in the General Terms of Use part of this license, apply to
+copying and distributing Project Gutenberg-tm electronic works to
+protect the PROJECT GUTENBERG-tm concept and trademark.  Project
+Gutenberg is a registered trademark, and may not be used if you
+charge for the eBooks, unless you receive specific permission.  If you
+do not charge anything for copies of this eBook, complying with the
+rules is very easy.  You may use this eBook for nearly any purpose
+such as creation of derivative works, reports, performances and
+research.  They may be modified and printed and given away--you may do
+practically ANYTHING with public domain eBooks.  Redistribution is
+subject to the trademark license, especially commercial
+redistribution.
+
+
+
+*** START: FULL LICENSE ***
+
+THE FULL PROJECT GUTENBERG LICENSE
+PLEASE READ THIS BEFORE YOU DISTRIBUTE OR USE THIS WORK
+
+To protect the Project Gutenberg-tm mission of promoting the free
+distribution of electronic works, by using or distributing this work
+(or any other work associated in any way with the phrase "Project
+Gutenberg"), you agree to comply with all the terms of the Full Project
+Gutenberg-tm License (available with this file or online at
+http://gutenberg.org/license).
+
+
+Section 1.  General Terms of Use and Redistributing Project Gutenberg-tm
+electronic works
+
+1.A.  By reading or using any part of this Project Gutenberg-tm
+electronic work, you indicate that you have read, understand, agree to
+and accept all the terms of this license and intellectual property
+(trademark/copyright) agreement.  If you do not agree to abide by all
+the terms of this agreement, you must cease using and return or destroy
+all copies of Project Gutenberg-tm electronic works in your possession.
+If you paid a fee for obtaining a copy of or access to a Project
+Gutenberg-tm electronic work and you do not agree to be bound by the
+terms of this agreement, you may obtain a refund from the person or
+entity to whom you paid the fee as set forth in paragraph 1.E.8.
+
+1.B.  "Project Gutenberg" is a registered trademark.  It may only be
+used on or associated in any way with an electronic work by people who
+agree to be bound by the terms of this agreement.  There are a few
+things that you can do with most Project Gutenberg-tm electronic works
+even without complying with the full terms of this agreement.  See
+paragraph 1.C below.  There are a lot of things you can do with Project
+Gutenberg-tm electronic works if you follow the terms of this agreement
+and help preserve free future access to Project Gutenberg-tm electronic
+works.  See paragraph 1.E below.
+
+1.C.  The Project Gutenberg Literary Archive Foundation ("the Foundation"
+or PGLAF), owns a compilation copyright in the collection of Project
+Gutenberg-tm electronic works.  Nearly all the individual works in the
+collection are in the public domain in the United States.  If an
+individual work is in the public domain in the United States and you are
+located in the United States, we do not claim a right to prevent you from
+copying, distributing, performing, displaying or creating derivative
+works based on the work as long as all references to Project Gutenberg
+are removed.  Of course, we hope that you will support the Project
+Gutenberg-tm mission of promoting free access to electronic works by
+freely sharing Project Gutenberg-tm works in compliance with the terms of
+this agreement for keeping the Project Gutenberg-tm name associated with
+the work.  You can easily comply with the terms of this agreement by
+keeping this work in the same format with its attached full Project
+Gutenberg-tm License when you share it without charge with others.
+
+1.D.  The copyright laws of the place where you are located also govern
+what you can do with this work.  Copyright laws in most countries are in
+a constant state of change.  If you are outside the United States, check
+the laws of your country in addition to the terms of this agreement
+before downloading, copying, displaying, performing, distributing or
+creating derivative works based on this work or any other Project
+Gutenberg-tm work.  The Foundation makes no representations concerning
+the copyright status of any work in any country outside the United
+States.
+
+1.E.  Unless you have removed all references to Project Gutenberg:
+
+1.E.1.  The following sentence, with active links to, or other immediate
+access to, the full Project Gutenberg-tm License must appear prominently
+whenever any copy of a Project Gutenberg-tm work (any work on which the
+phrase "Project Gutenberg" appears, or with which the phrase "Project
+Gutenberg" is associated) is accessed, displayed, performed, viewed,
+copied or distributed:
+
+This eBook is for the use of anyone anywhere at no cost and with
+almost no restrictions whatsoever.  You may copy it, give it away or
+re-use it under the terms of the Project Gutenberg License included
+with this eBook or online at www.gutenberg.org
+
+1.E.2.  If an individual Project Gutenberg-tm electronic work is derived
+from the public domain (does not contain a notice indicating that it is
+posted with permission of the copyright holder), the work can be copied
+and distributed to anyone in the United States without paying any fees
+or charges.  If you are redistributing or providing access to a work
+with the phrase "Project Gutenberg" associated with or appearing on the
+work, you must comply either with the requirements of paragraphs 1.E.1
+through 1.E.7 or obtain permission for the use of the work and the
+Project Gutenberg-tm trademark as set forth in paragraphs 1.E.8 or
+1.E.9.
+
+1.E.3.  If an individual Project Gutenberg-tm electronic work is posted
+with the permission of the copyright holder, your use and distribution
+must comply with both paragraphs 1.E.1 through 1.E.7 and any additional
+terms imposed by the copyright holder.  Additional terms will be linked
+to the Project Gutenberg-tm License for all works posted with the
+permission of the copyright holder found at the beginning of this work.
+
+1.E.4.  Do not unlink or detach or remove the full Project Gutenberg-tm
+License terms from this work, or any files containing a part of this
+work or any other work associated with Project Gutenberg-tm.
+
+1.E.5.  Do not copy, display, perform, distribute or redistribute this
+electronic work, or any part of this electronic work, without
+prominently displaying the sentence set forth in paragraph 1.E.1 with
+active links or immediate access to the full terms of the Project
+Gutenberg-tm License.
+
+1.E.6.  You may convert to and distribute this work in any binary,
+compressed, marked up, nonproprietary or proprietary form, including any
+word processing or hypertext form.  However, if you provide access to or
+distribute copies of a Project Gutenberg-tm work in a format other than
+"Plain Vanilla ASCII" or other format used in the official version
+posted on the official Project Gutenberg-tm web site (www.gutenberg.org),
+you must, at no additional cost, fee or expense to the user, provide a
+copy, a means of exporting a copy, or a means of obtaining a copy upon
+request, of the work in its original "Plain Vanilla ASCII" or other
+form.  Any alternate format must include the full Project Gutenberg-tm
+License as specified in paragraph 1.E.1.
+
+1.E.7.  Do not charge a fee for access to, viewing, displaying,
+performing, copying or distributing any Project Gutenberg-tm works
+unless you comply with paragraph 1.E.8 or 1.E.9.
+
+1.E.8.  You may charge a reasonable fee for copies of or providing
+access to or distributing Project Gutenberg-tm electronic works provided
+that
+
+- You pay a royalty fee of 20% of the gross profits you derive from
+     the use of Project Gutenberg-tm works calculated using the method
+     you already use to calculate your applicable taxes.  The fee is
+     owed to the owner of the Project Gutenberg-tm trademark, but he
+     has agreed to donate royalties under this paragraph to the
+     Project Gutenberg Literary Archive Foundation.  Royalty payments
+     must be paid within 60 days following each date on which you
+     prepare (or are legally required to prepare) your periodic tax
+     returns.  Royalty payments should be clearly marked as such and
+     sent to the Project Gutenberg Literary Archive Foundation at the
+     address specified in Section 4, "Information about donations to
+     the Project Gutenberg Literary Archive Foundation."
+
+- You provide a full refund of any money paid by a user who notifies
+     you in writing (or by e-mail) within 30 days of receipt that s/he
+     does not agree to the terms of the full Project Gutenberg-tm
+     License.  You must require such a user to return or
+     destroy all copies of the works possessed in a physical medium
+     and discontinue all use of and all access to other copies of
+     Project Gutenberg-tm works.
+
+- You provide, in accordance with paragraph 1.F.3, a full refund of any
+     money paid for a work or a replacement copy, if a defect in the
+     electronic work is discovered and reported to you within 90 days
+     of receipt of the work.
+
+- You comply with all other terms of this agreement for free
+     distribution of Project Gutenberg-tm works.
+
+1.E.9.  If you wish to charge a fee or distribute a Project Gutenberg-tm
+electronic work or group of works on different terms than are set
+forth in this agreement, you must obtain permission in writing from
+both the Project Gutenberg Literary Archive Foundation and Michael
+Hart, the owner of the Project Gutenberg-tm trademark.  Contact the
+Foundation as set forth in Section 3 below.
+
+1.F.
+
+1.F.1.  Project Gutenberg volunteers and employees expend considerable
+effort to identify, do copyright research on, transcribe and proofread
+public domain works in creating the Project Gutenberg-tm
+collection.  Despite these efforts, Project Gutenberg-tm electronic
+works, and the medium on which they may be stored, may contain
+"Defects," such as, but not limited to, incomplete, inaccurate or
+corrupt data, transcription errors, a copyright or other intellectual
+property infringement, a defective or damaged disk or other medium, a
+computer virus, or computer codes that damage or cannot be read by
+your equipment.
+
+1.F.2.  LIMITED WARRANTY, DISCLAIMER OF DAMAGES - Except for the "Right
+of Replacement or Refund" described in paragraph 1.F.3, the Project
+Gutenberg Literary Archive Foundation, the owner of the Project
+Gutenberg-tm trademark, and any other party distributing a Project
+Gutenberg-tm electronic work under this agreement, disclaim all
+liability to you for damages, costs and expenses, including legal
+fees.  YOU AGREE THAT YOU HAVE NO REMEDIES FOR NEGLIGENCE, STRICT
+LIABILITY, BREACH OF WARRANTY OR BREACH OF CONTRACT EXCEPT THOSE
+PROVIDED IN PARAGRAPH F3.  YOU AGREE THAT THE FOUNDATION, THE
+TRADEMARK OWNER, AND ANY DISTRIBUTOR UNDER THIS AGREEMENT WILL NOT BE
+LIABLE TO YOU FOR ACTUAL, DIRECT, INDIRECT, CONSEQUENTIAL, PUNITIVE OR
+INCIDENTAL DAMAGES EVEN IF YOU GIVE NOTICE OF THE POSSIBILITY OF SUCH
+DAMAGE.
+
+1.F.3.  LIMITED RIGHT OF REPLACEMENT OR REFUND - If you discover a
+defect in this electronic work within 90 days of receiving it, you can
+receive a refund of the money (if any) you paid for it by sending a
+written explanation to the person you received the work from.  If you
+received the work on a physical medium, you must return the medium with
+your written explanation.  The person or entity that provided you with
+the defective work may elect to provide a replacement copy in lieu of a
+refund.  If you received the work electronically, the person or entity
+providing it to you may choose to give you a second opportunity to
+receive the work electronically in lieu of a refund.  If the second copy
+is also defective, you may demand a refund in writing without further
+opportunities to fix the problem.
+
+1.F.4.  Except for the limited right of replacement or refund set forth
+in paragraph 1.F.3, this work is provided to you 'AS-IS' WITH NO OTHER
+WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+WARRANTIES OF MERCHANTIBILITY OR FITNESS FOR ANY PURPOSE.
+
+1.F.5.  Some states do not allow disclaimers of certain implied
+warranties or the exclusion or limitation of certain types of damages.
+If any disclaimer or limitation set forth in this agreement violates the
+law of the state applicable to this agreement, the agreement shall be
+interpreted to make the maximum disclaimer or limitation permitted by
+the applicable state law.  The invalidity or unenforceability of any
+provision of this agreement shall not void the remaining provisions.
+
+1.F.6.  INDEMNITY - You agree to indemnify and hold the Foundation, the
+trademark owner, any agent or employee of the Foundation, anyone
+providing copies of Project Gutenberg-tm electronic works in accordance
+with this agreement, and any volunteers associated with the production,
+promotion and distribution of Project Gutenberg-tm electronic works,
+harmless from all liability, costs and expenses, including legal fees,
+that arise directly or indirectly from any of the following which you do
+or cause to occur: (a) distribution of this or any Project Gutenberg-tm
+work, (b) alteration, modification, or additions or deletions to any
+Project Gutenberg-tm work, and (c) any Defect you cause.
+
+
+Section  2.  Information about the Mission of Project Gutenberg-tm
+
+Project Gutenberg-tm is synonymous with the free distribution of
+electronic works in formats readable by the widest variety of computers
+including obsolete, old, middle-aged and new computers.  It exists
+because of the efforts of hundreds of volunteers and donations from
+people in all walks of life.
+
+Volunteers and financial support to provide volunteers with the
+assistance they need, are critical to reaching Project Gutenberg-tm's
+goals and ensuring that the Project Gutenberg-tm collection will
+remain freely available for generations to come.  In 2001, the Project
+Gutenberg Literary Archive Foundation was created to provide a secure
+and permanent future for Project Gutenberg-tm and future generations.
+To learn more about the Project Gutenberg Literary Archive Foundation
+and how your efforts and donations can help, see Sections 3 and 4
+and the Foundation web page at http://www.pglaf.org.
+
+
+Section 3.  Information about the Project Gutenberg Literary Archive
+Foundation
+
+The Project Gutenberg Literary Archive Foundation is a non profit
+501(c)(3) educational corporation organized under the laws of the
+state of Mississippi and granted tax exempt status by the Internal
+Revenue Service.  The Foundation's EIN or federal tax identification
+number is 64-6221541.  Its 501(c)(3) letter is posted at
+http://pglaf.org/fundraising.  Contributions to the Project Gutenberg
+Literary Archive Foundation are tax deductible to the full extent
+permitted by U.S. federal laws and your state's laws.
+
+The Foundation's principal office is located at 4557 Melan Dr. S.
+Fairbanks, AK, 99712., but its volunteers and employees are scattered
+throughout numerous locations.  Its business office is located at
+809 North 1500 West, Salt Lake City, UT 84116, (801) 596-1887, email
+business@pglaf.org.  Email contact links and up to date contact
+information can be found at the Foundation's web site and official
+page at http://pglaf.org
+
+For additional contact information:
+     Dr. Gregory B. Newby
+     Chief Executive and Director
+     gbnewby@pglaf.org
+
+
+Section 4.  Information about Donations to the Project Gutenberg
+Literary Archive Foundation
+
+Project Gutenberg-tm depends upon and cannot survive without wide
+spread public support and donations to carry out its mission of
+increasing the number of public domain and licensed works that can be
+freely distributed in machine readable form accessible by the widest
+array of equipment including outdated equipment.  Many small donations
+($1 to $5,000) are particularly important to maintaining tax exempt
+status with the IRS.
+
+The Foundation is committed to complying with the laws regulating
+charities and charitable donations in all 50 states of the United
+States.  Compliance requirements are not uniform and it takes a
+considerable effort, much paperwork and many fees to meet and keep up
+with these requirements.  We do not solicit donations in locations
+where we have not received written confirmation of compliance.  To
+SEND DONATIONS or determine the status of compliance for any
+particular state visit http://pglaf.org
+
+While we cannot and do not solicit contributions from states where we
+have not met the solicitation requirements, we know of no prohibition
+against accepting unsolicited donations from donors in such states who
+approach us with offers to donate.
+
+International donations are gratefully accepted, but we cannot make
+any statements concerning tax treatment of donations received from
+outside the United States.  U.S. laws alone swamp our small staff.
+
+Please check the Project Gutenberg Web pages for current donation
+methods and addresses.  Donations are accepted in a number of other
+ways including checks, online payments and credit card donations.
+To donate, please visit: http://pglaf.org/donate
+
+
+Section 5.  General Information About Project Gutenberg-tm electronic
+works.
+
+Professor Michael S. Hart is the originator of the Project Gutenberg-tm
+concept of a library of electronic works that could be freely shared
+with anyone.  For thirty years, he produced and distributed Project
+Gutenberg-tm eBooks with only a loose network of volunteer support.
+
+
+Project Gutenberg-tm eBooks are often created from several printed
+editions, all of which are confirmed as Public Domain in the U.S.
+unless a copyright notice is included.  Thus, we do not necessarily
+keep eBooks in compliance with any particular paper edition.
+
+
+Most people start at our Web site which has the main PG search facility:
+
+     http://www.gutenberg.org
+
+This Web site includes information about Project Gutenberg-tm,
+including how to make donations to the Project Gutenberg Literary
+Archive Foundation, how to help produce our new eBooks, and how to
+subscribe to our email newsletter to hear about new eBooks.

@@ -1,0 +1,698 @@
+The Project Gutenberg EBook of Kyphosis and other Variations in
+Soft-shelled Turtles, by Hobart M. Smith
+
+This eBook is for the use of anyone anywhere at no cost and with
+almost no restrictions whatsoever.  You may copy it, give it away or
+re-use it under the terms of the Project Gutenberg License included
+with this eBook or online at www.gutenberg.net
+
+
+Title: Kyphosis and other Variations in Soft-shelled Turtles
+
+Author: Hobart M. Smith
+
+Release Date: August 8, 2010 [EBook #33373]
+
+Language: English
+
+Character set encoding: ASCII
+
+*** START OF THIS PROJECT GUTENBERG EBOOK KYPHOSIS IN SOFT-SHELLED TURTLES ***
+
+
+
+
+Produced by Chris Curnow, Joseph Cooper, Josephine Paolucci
+and the Online Distributed Proofreading Team at
+http://www.pgdp.net.
+
+
+
+
+
+
+
+Kyphosis and other Variations in Soft-shelled Turtles
+
+BY
+
+HOBART M. SMITH
+
+University of Kansas Publications
+Museum of Natural History
+
+Volume 1, No. 6, pp. 117-124
+July 7, 1947
+
+UNIVERSITY OF KANSAS
+LAWRENCE
+1947
+
+UNIVERSITY OF KANSAS PUBLICATIONS, MUSEUM OF NATURAL HISTORY
+
+Editors: E. Raymond Hall, Chairman, Donald S. Farner,
+Donald F. Hoffmeister
+
+Volume 1, No. 6, pp. 117-124
+July 7, 1947
+
+UNIVERSITY OF KANSAS
+Lawrence, Kansas
+
+PRINTED BY
+FERD VOILAND, JR., STATE PRINTER
+TOPEKA, KANSAS
+1947
+
+[Illustration]
+
+21-6301
+
+
+
+
+Kyphosis and other Variations in Soft-shelled Turtles
+
+By
+
+HOBART M. SMITH
+
+
+Kyphotic (hump-backed) soft-shelled turtles have been known for many
+years in Asia and America. Gressitt (Peking Natural History Bulletin, 2
+(pt. 4): 413-415, figs. 1-5, 1937) has reviewed accounts of such
+turtles, and recorded the anomaly in _Amyda sinensis_ (Wiegmann) and _A.
+steindachneri_ (Siebenrock) of Asia and in unidentified species in the
+United States. Records of kyphosis in American species apparently are
+few.
+
+Three skeletons in the University of Kansas Museum of Natural History
+demonstrate occurrence of the condition in at least 3 American species:
+_Amyda emoryi_ (Agassiz), _A. mutica_ (Le Sueur) and _A. spinifera_ (Le
+Sueur). The specimen of _A. emoryi_ (Catalog No. 2219) was taken at
+Phoenix, Maricopa Co., Arizona, by Victor H. Householder, on May 1,
+1926. The second specimen, called to my attention by C. W. Hibbard, was
+taken in 1936 from the Kansas River at Lawrence, Douglas Co., Kansas, by
+Max Wheatley, to whom I am indebted for the accompanying photographs and
+permission to describe the specimen which he has added to the Museum's
+collections (No. 23230). The identity of No. 23230 is established as _A.
+mutica_ by the absence of spines (see fig. 3) and by a number of cranial
+characters. The specimen of _A. spinifera_ (No. 23026) is without
+locality data; its identification is verified by the presence of spines
+on the front of the carapace.
+
+In the specimen of _A. mutica_ (see figures) the hump forms a smooth,
+high curve, closely resembling the condition in Gressitt's specimens of
+_A. steindachneri_ (_op. cit._: fig. 1). In the other two the hump is
+lower and its apex forms a relatively sharp angle; in the specimen of
+_A. spinifera_ the posterior face of the hump is more nearly vertical
+than the anterior face. In _A. emoryi_ the rear edge of the apex is
+sharply inclined (at an angle of about 45 deg.), whereas the remainder of
+the surface slants at an angle of about 35 deg.
+
+In the accompanying table of measurements of specimens in the University
+of Kansas Museum of Natural History the height is measured from the end
+of the rib opposite the highest elevation to the crest of the elevation,
+by projected lines. The length is measured from the anterior border of
+the nuchal plate to the posterior edge of the last costal plate. The
+width is measured from tip to tip of the longest ribs. Catalogue
+numbers of the specimens, with indication of the localities of capture
+are as follows: Nos. 2215-9, 2803, 2824, 2837, Phoenix, Maricopa Co.,
+Arizona; Nos. 19459-60, Ozark, Franklin Co., Arkansas; Nos. 2225-9,
+Lewisville, Lafayette Co., Arkansas; Nos. 1867-70, 1874-6, 1879, 1881,
+1930-1, 2666, 2761-2, 2826, 2838-42, Devalls Bluff, Prairie Co.,
+Arkansas; No. 16528, Orange Co., Florida; Nos. 1872, 1878, 1943, 1964,
+Doniphan Lake, Doniphan Co., Kansas; No. 2220, Douglas Co., Kansas; No.
+23230, Kansas River, Douglas Co., Kansas; No. 18159, Harper Co., Kansas;
+No. 2757, Smoky Hill River, Trego Co., Kansas; No. 23026, no data.
+
+The three abnormal specimens vary in width/height ratio from 1.83 to
+3.14. In the 37 normal turtles measured, the corresponding ratio is 4.64
+to 7.85. The ratio of 4.64 is possibly subject to correction since the
+shell tends to warp in some specimens, especially in those retaining the
+skin about the periphery of the shell. The warping does not produce a
+marked convexity in transverse section, but does so in longitudinal
+section. Accordingly the height as here measured is little effected, and
+the comparison with width rather than length of shell provides for the
+lesser error from warping. There appears to be no close correlation of
+proportions with either size or sex.
+
+It is of interest that _Amyda ferox_ is the most distinctive in
+proportions of the carapace. Its carapace is longer in relation to its
+width than that of any of the other species. The average relative length
+of the carapace of _A. emoryi_ is intermediate between that of _A.
+ferox_ and the averages of _A. spinifera_ and _A. mutica_, but the
+overlap in range with the latter two is complete.
+
+The cause for kyphotic anomalies is unknown. That it is accompanied by a
+greater degree of growth in the vertebral column than in the periphery
+of the costal plates is obvious. There seems to be no well-established
+accommodation for the difference in growth, since the hump produced by
+it varies considerably in form.
+
+There is no trend from small to large specimens in size of the hump;
+large and small humps occur in both large and small specimens.
+Accordingly it seems that the humped condition is developed in the late
+embryo or early post-embryonic life, and does not later change.
+
+An apparently reasonable hypothesis is that the costal plates ankylose
+distally with the ribs early enough in embryonic life so that any
+differential in growth rate between them and the vertebral column is
+translated into abnormal contortions of the body. Agassiz and others
+have shown that the costal plates normally do not fuse with the ribs by
+the time of hatching; the fusion then does not normally occur in the
+embryonic stage. Presumably, once fused, the costal plates and vertebral
+column normally have equal growth rates, since the height/width ratio
+does not change significantly with increased size. It is well known that
+fusion takes place in young specimens soon after hatching; in all
+skeletons examined of this genus, from the smallest (62 mm. in length)
+to the largest (295 mm.), the fusion has occurred. Therefore, the normal
+time of fusion must be approximately at the time of hatching.
+
+Although costal plates and the vertebral column grow in direct
+proportion to each other throughout life from a period shortly after
+hatching, the vertebral column apparently grows more rapidly than the
+costals shortly before and possibly also shortly after hatching, at
+least in kyphotic and probably also in normal specimens. An
+exceptionally early date of fusion of costal plates and ribs would thus
+result in a kyphotic condition, and it may well be assumed that the
+earlier the fusion, the greater the hypertrophy would be. Whether or not
+this hypothesis correctly accounts for kyphosis in turtles can be
+ascertained only by further study.
+
+Stejneger (Bull. Mus. Comp. Zool., 94: 12, 1944) regards the presence of
+8 neurals as opposed to 7 as an important peculiarity of _A. mutica_.
+The 42 specimens for which the number of neurals is recorded reveals,
+however, that there is greater variation than previously supposed: in 16
+_A. mutica_ more than half (9) have 7 neurals and the remainder (7) have
+8. Eight neurals were recorded also in 2 of 18 _spinifera_, and in 1 of
+7 _A. emoryi_. Seven neurals are present in the single specimen of _A.
+ferox_ examined.
+
+It is of interest also that the number of costals, which has been
+reported to be consistently 7 in New World species and 8 in Old World
+species, varies markedly. In New World specimens, one _A. mutica_ has 7
+on one side, 8 on the other, and 8 occur on both sides of one other (of
+a total of 16 examined). One of twenty _A. spinifera_, and one of eight
+_A. emoryi_ have 8; the single _A. ferox_ (Schneider) has 7. Accordingly
+the suggestion by H. M. Smith (Field Mus. Nat. Hist. Zool. Ser., 23:19,
+1939) that _Platypeltis_ Baur be resurrected for the American
+soft-shelled turtles on the basis of the occurrence of only 7 costals,
+is untenable.
+
+The generic allocation of American soft-shelled turtles has varied
+considerably in recent years: Smith (_loc. cit._) uses _Platypeltis_;
+Pope (Turtles of the United States and Canada, p. 343, 1939) uses
+_Trionyx_ Geoffroy; and Stejneger (_op. cit._, p. 8) uses _Amyda_
+Geoffroy. As stated above, use of _Platypeltis_ at the present time is
+unwarranted, since no constant difference has been discovered that would
+support generic separation of Asiatic and American members of this
+group. New World turtles should be placed either in _Trionyx_ or in
+_Amyda_, depending upon the interpretation of type designation for the
+latter name. Malcolm Smith (Bull. Raffles Mus. 3:2, 1930) and others
+have considered that, as a part of the original description, Geoffroy
+(Ann. Mus. Hist. Nat. Paris, 14:20, 1809) designated the type species of
+his new generic name _Trionyx_ as _aegypticus_ E. Geoffroy (=
+_triunguis_ Forskal a well-recognized species). Stejneger argues that
+Geoffroy did not adequately designate a type from among the many species
+he treated in his genus _Trionyx_, and that it remained for Fitzinger
+(Syst. Rept., p. 30, 1843) to select one of these as a type; he chose
+_coromandelicus_ Geoffroy, which is a synonym of _granosa_ Schoeppff, a
+species belonging to a different genus (as now recognized) from that to
+which _triunguis_ belongs, although Geoffroy had made the mistake of
+considering both groups as members of his genus _Trionyx_. Now if
+Fitzinger's type designation is accepted, the name _Trionyx_ is to be
+applied to that group containing _granosa_ (only one other form is known
+in the genus, and both forms occur only in India and Burma), whereas the
+name _Amyda_ of Geoffroy (_op. cit._, p. 1) is applied to the genus (as
+now recognized) which includes _triunguis_ and some 20 other species of
+Asia and North America. The type of _Amyda_ is a typical member from
+Asia (_cartilagineus_ Boddaert). On the other hand, if Geoffroy's type
+designation is accepted, the American forms (and the others of that
+genus) would take the generic name _Trionyx_, of which _Amyda_ would be
+a synonym, and the genus to which _granosa_ belongs would take the name
+_Lissemys_ Malcolm Smith (Fauna Brit. India, Rept. Amph., 1:154, 1931).
+
+Stejneger discussed the various aspects of this problem (_op. cit._, pp.
+6, 7), and I can add nothing to his discussion. His arguments for the
+acceptance of Fitzinger's type designation rather than that of Geoffroy
+are well founded upon the statement of the International Rules of
+Zoological Nomenclature, while those of Smith are not. In weighing these
+two alternatives, the practical value of maintenance of the "status quo"
+is not here important, for the whole system of nomenclature in this
+field is completely upset; _any_ conclusive decision would be of great
+practical value and one alternative holds no special, practical
+advantage over the other. Accordingly, it seems reasonable to consider
+the matter closed with Stejneger's analysis, retaining _Amyda_ for the
+American and related species of soft-shelled turtles. That this
+assemblage contains natural subgroups that may warrant subdivision into
+other genera is obvious, but to none of these will the name _Trionyx_ be
+applicable.
+
+
+Table of Data on _Amyda_
+
+Transcriber's note: Legend has been created for the column headings to
+make the table fit.
+
+Column headings:
+
+A: Number
+B: Sex (M = male, F. = female)
+C: Width (mm.)
+D: Length (mm.)
+E: Ratio, width-length
+F: Height (mm.)
+G: Ratio, width-height
+H: Neurals
+I: Costals
+
+================+==========+===+=====+=====+======+====+======+===+=====
+    SPECIES     |    A     | B |  C  |  D  |  E   | F  |  G   | H | I
+----------------+----------+---+-----+-----+------+----+------+---+-----
+    _emoryi_    |  2219[A] |   |  81 |  62 | 1.30 | 34 | 2.38 |   | 7
+       "        |  2215    | M |     |     |      |    |      | 7 | 7
+       "        |  2216    |   | 104 |  88 | 1.18 | 18 | 5.77 | 8 | 7
+       "        |  2217    |   |     |     |      |    |      | 7 | 8
+       "        |  2218    |   | 106 |  93 | 1.14 | 21 | 5.04 | 7 | 7
+       "        |  2803    | F | 150 | 132 | 1.13 | 28 | 5.35 | 7 | 7
+       "        |  2824    | F | 204 | 198 | 1.03 | 32 | 6.37 | 7 | 7
+       "        |  2837    | F |     |     |      |    |      | 7 | 7
+       "        | 19460    |   |  97 |  77 | 1.26 | 14 | 6.93 | 8 | 7
+                |          |   |     |     |      |    |      |   |
+ _ferox mutica_ | 16528    | F | 282 | 295 | 0.99 | 53 | 5.32| 7 |  7
+       "        |  2841    | F |  99 |  75 | 1.32 | 16 | 6.18 | 7 | 7
+       "        | 23230[A] |   | 101 |  78 | 1.29 | 55 | 1.83 | 7 | 7
+       "        |  2838    | F | 106 |  79 | 1.34 | 17 | 6.23 | 7 | 7
+       "        |  1964    | M | 110 |  95 | 1.15 | 18 | 6.11 | 7 | 7
+       "        |  2839    | F | 115 |  77 | 1.49 | 18 | 6.39 | 7 | 7
+       "        |  2840    | F | 115 |  85 | 1.35 | 17 | 6.76 | 8 | 7-8
+       "        | 19459    |   | 131 | 106 | 1.23 | 20 | 6.55 | 7 | 7
+       "        |  2220    | F | 144 | 116 | 1.24 | 22 | 6.54 | 7 | 7
+       "        |  1874    |   | 162 | 137 | 1.18 | 32 | 5.06 | 7 | 7
+       "        |  1930    | F | 180 | 138 | 1.30 | 33 | 5.45 | 8 | 7
+       "        |  1875    |   | 181 | 164 | 1.10 | 39 | 4.64 | 8 | 8
+       "        |  1881    | F |     |     |      |    |      | 8 | 7
+       "        |  1868    | M | 185 | 167 | 1.10 | 39 | 4.74 | 7 | 7
+       "        |  1876    | F | 190 | 177 | 1.07 | 33 | 5.75 | 8 | 7
+       "        |  1870    | F | 194 | 166 | 1.27 | 35 | 5.54 | 8 | 7
+       "        |  1943    |   |  98 |  76 | 1.29 | 18 | 5.44 | ? | 7
+                |          |   |     |     |      |    |      |   |
+  _spinifera_   |  1872    |   | 129 | 101 | 1.27 | 17 | 7.59 | 7 | 7
+       "        |  1931    | M | 148 | 102 | 1.45 | 26 | 5.69 | 7 | 7
+       "        | 18159    | F | 151 | 129 | 1.17 | 26 | 5.80 | ? | 7
+       "        |  1878    | F | 163 | 132 | 1.23 | 25 | 6.52 | 8 | 7
+       "        |  2225    | F | 165 | 131 | 1.17 | 21 | 7.85 | 7 | 7
+       "        | 23026[A] | F | 170 | 133 | 1.27 | 54 | 3.14 | 7 | 7
+       "        |  2227    | F | 191 | 175 | 1.09 | 39 | 4.89 | 7 | 7
+       "        |  2228    | F | 196 | 167 | 1.17 |    |      | 7 | 7
+       "        |  1867    | M | 207 | 164 | 1.26 | 26 | 7.58 | 7 | 7
+       "        |  2757    |   | 213 | 196 | 1.08 | 30 | 7.10 | 7 | 8
+       "        |  2229    |   | 215 | 178 | 1.20 | 28 | 6.78 | 7 | 7
+       "        |  2762    | F | 219 | 184 | 1.19 | 40 | 5.47 | 7 | 7
+       "        |  1879    |   | 223 | 187 | 1.19 | 38 | 5.87 | 7 | 7
+       "        |  2761    | F | 233 | 182 | 1.28 | 43 | 5.41 | 7 | 7
+       "        |  2666    |   | 234 | 208 | 1.12 | 42 | 5.57 | 8 | 7
+       "        |  2226    | F | 239 | 215 | 1.11 | 38 | 6.29 | 7 | 7
+       "        |  1869    |   | 245 | 211 | 1.16 | 44 | 5.55 | 7 | 7
+       "        |  2842    |   | 245 | 219 | 1.12 | 45 | 5.44 | 7 | 7
+       "        |  2826    | F | 245 | 237 | 1.03 | 45 | 5.44 | 7 | 7
+----------------+----------+---+-----+-----+------+----+------+---+-----
+
+[Footnote A: Kyphotic]
+
+_University of Kansas, Museum of Natural History, Lawrence, Kansas._
+
+[Illustration: FIGS. 1-3. _Amyda mutica_, Univ. Kans., Mus. Nat. Hist.,
+No. 23230, Lawrence, Kansas. All views approximately half natural size.
+1, Frontal view. 2, Lateral view. 3, Dorsal view.]
+
+
+
+
+
+End of the Project Gutenberg EBook of Kyphosis and other Variations in
+Soft-shelled Turtles, by Hobart M. Smith
+
+*** END OF THIS PROJECT GUTENBERG EBOOK KYPHOSIS IN SOFT-SHELLED TURTLES ***
+
+***** This file should be named 33373.txt or 33373.zip *****
+This and all associated files of various formats will be found in:
+        http://www.gutenberg.org/3/3/3/7/33373/
+
+Produced by Chris Curnow, Joseph Cooper, Josephine Paolucci
+and the Online Distributed Proofreading Team at
+http://www.pgdp.net.
+
+
+Updated editions will replace the previous one--the old editions
+will be renamed.
+
+Creating the works from public domain print editions means that no
+one owns a United States copyright in these works, so the Foundation
+(and you!) can copy and distribute it in the United States without
+permission and without paying copyright royalties.  Special rules,
+set forth in the General Terms of Use part of this license, apply to
+copying and distributing Project Gutenberg-tm electronic works to
+protect the PROJECT GUTENBERG-tm concept and trademark.  Project
+Gutenberg is a registered trademark, and may not be used if you
+charge for the eBooks, unless you receive specific permission.  If you
+do not charge anything for copies of this eBook, complying with the
+rules is very easy.  You may use this eBook for nearly any purpose
+such as creation of derivative works, reports, performances and
+research.  They may be modified and printed and given away--you may do
+practically ANYTHING with public domain eBooks.  Redistribution is
+subject to the trademark license, especially commercial
+redistribution.
+
+
+
+*** START: FULL LICENSE ***
+
+THE FULL PROJECT GUTENBERG LICENSE
+PLEASE READ THIS BEFORE YOU DISTRIBUTE OR USE THIS WORK
+
+To protect the Project Gutenberg-tm mission of promoting the free
+distribution of electronic works, by using or distributing this work
+(or any other work associated in any way with the phrase "Project
+Gutenberg"), you agree to comply with all the terms of the Full Project
+Gutenberg-tm License (available with this file or online at
+http://gutenberg.net/license).
+
+
+Section 1.  General Terms of Use and Redistributing Project Gutenberg-tm
+electronic works
+
+1.A.  By reading or using any part of this Project Gutenberg-tm
+electronic work, you indicate that you have read, understand, agree to
+and accept all the terms of this license and intellectual property
+(trademark/copyright) agreement.  If you do not agree to abide by all
+the terms of this agreement, you must cease using and return or destroy
+all copies of Project Gutenberg-tm electronic works in your possession.
+If you paid a fee for obtaining a copy of or access to a Project
+Gutenberg-tm electronic work and you do not agree to be bound by the
+terms of this agreement, you may obtain a refund from the person or
+entity to whom you paid the fee as set forth in paragraph 1.E.8.
+
+1.B.  "Project Gutenberg" is a registered trademark.  It may only be
+used on or associated in any way with an electronic work by people who
+agree to be bound by the terms of this agreement.  There are a few
+things that you can do with most Project Gutenberg-tm electronic works
+even without complying with the full terms of this agreement.  See
+paragraph 1.C below.  There are a lot of things you can do with Project
+Gutenberg-tm electronic works if you follow the terms of this agreement
+and help preserve free future access to Project Gutenberg-tm electronic
+works.  See paragraph 1.E below.
+
+1.C.  The Project Gutenberg Literary Archive Foundation ("the Foundation"
+or PGLAF), owns a compilation copyright in the collection of Project
+Gutenberg-tm electronic works.  Nearly all the individual works in the
+collection are in the public domain in the United States.  If an
+individual work is in the public domain in the United States and you are
+located in the United States, we do not claim a right to prevent you from
+copying, distributing, performing, displaying or creating derivative
+works based on the work as long as all references to Project Gutenberg
+are removed.  Of course, we hope that you will support the Project
+Gutenberg-tm mission of promoting free access to electronic works by
+freely sharing Project Gutenberg-tm works in compliance with the terms of
+this agreement for keeping the Project Gutenberg-tm name associated with
+the work.  You can easily comply with the terms of this agreement by
+keeping this work in the same format with its attached full Project
+Gutenberg-tm License when you share it without charge with others.
+
+1.D.  The copyright laws of the place where you are located also govern
+what you can do with this work.  Copyright laws in most countries are in
+a constant state of change.  If you are outside the United States, check
+the laws of your country in addition to the terms of this agreement
+before downloading, copying, displaying, performing, distributing or
+creating derivative works based on this work or any other Project
+Gutenberg-tm work.  The Foundation makes no representations concerning
+the copyright status of any work in any country outside the United
+States.
+
+1.E.  Unless you have removed all references to Project Gutenberg:
+
+1.E.1.  The following sentence, with active links to, or other immediate
+access to, the full Project Gutenberg-tm License must appear prominently
+whenever any copy of a Project Gutenberg-tm work (any work on which the
+phrase "Project Gutenberg" appears, or with which the phrase "Project
+Gutenberg" is associated) is accessed, displayed, performed, viewed,
+copied or distributed:
+
+This eBook is for the use of anyone anywhere at no cost and with
+almost no restrictions whatsoever.  You may copy it, give it away or
+re-use it under the terms of the Project Gutenberg License included
+with this eBook or online at www.gutenberg.net
+
+1.E.2.  If an individual Project Gutenberg-tm electronic work is derived
+from the public domain (does not contain a notice indicating that it is
+posted with permission of the copyright holder), the work can be copied
+and distributed to anyone in the United States without paying any fees
+or charges.  If you are redistributing or providing access to a work
+with the phrase "Project Gutenberg" associated with or appearing on the
+work, you must comply either with the requirements of paragraphs 1.E.1
+through 1.E.7 or obtain permission for the use of the work and the
+Project Gutenberg-tm trademark as set forth in paragraphs 1.E.8 or
+1.E.9.
+
+1.E.3.  If an individual Project Gutenberg-tm electronic work is posted
+with the permission of the copyright holder, your use and distribution
+must comply with both paragraphs 1.E.1 through 1.E.7 and any additional
+terms imposed by the copyright holder.  Additional terms will be linked
+to the Project Gutenberg-tm License for all works posted with the
+permission of the copyright holder found at the beginning of this work.
+
+1.E.4.  Do not unlink or detach or remove the full Project Gutenberg-tm
+License terms from this work, or any files containing a part of this
+work or any other work associated with Project Gutenberg-tm.
+
+1.E.5.  Do not copy, display, perform, distribute or redistribute this
+electronic work, or any part of this electronic work, without
+prominently displaying the sentence set forth in paragraph 1.E.1 with
+active links or immediate access to the full terms of the Project
+Gutenberg-tm License.
+
+1.E.6.  You may convert to and distribute this work in any binary,
+compressed, marked up, nonproprietary or proprietary form, including any
+word processing or hypertext form.  However, if you provide access to or
+distribute copies of a Project Gutenberg-tm work in a format other than
+"Plain Vanilla ASCII" or other format used in the official version
+posted on the official Project Gutenberg-tm web site (www.gutenberg.net),
+you must, at no additional cost, fee or expense to the user, provide a
+copy, a means of exporting a copy, or a means of obtaining a copy upon
+request, of the work in its original "Plain Vanilla ASCII" or other
+form.  Any alternate format must include the full Project Gutenberg-tm
+License as specified in paragraph 1.E.1.
+
+1.E.7.  Do not charge a fee for access to, viewing, displaying,
+performing, copying or distributing any Project Gutenberg-tm works
+unless you comply with paragraph 1.E.8 or 1.E.9.
+
+1.E.8.  You may charge a reasonable fee for copies of or providing
+access to or distributing Project Gutenberg-tm electronic works provided
+that
+
+- You pay a royalty fee of 20% of the gross profits you derive from
+     the use of Project Gutenberg-tm works calculated using the method
+     you already use to calculate your applicable taxes.  The fee is
+     owed to the owner of the Project Gutenberg-tm trademark, but he
+     has agreed to donate royalties under this paragraph to the
+     Project Gutenberg Literary Archive Foundation.  Royalty payments
+     must be paid within 60 days following each date on which you
+     prepare (or are legally required to prepare) your periodic tax
+     returns.  Royalty payments should be clearly marked as such and
+     sent to the Project Gutenberg Literary Archive Foundation at the
+     address specified in Section 4, "Information about donations to
+     the Project Gutenberg Literary Archive Foundation."
+
+- You provide a full refund of any money paid by a user who notifies
+     you in writing (or by e-mail) within 30 days of receipt that s/he
+     does not agree to the terms of the full Project Gutenberg-tm
+     License.  You must require such a user to return or
+     destroy all copies of the works possessed in a physical medium
+     and discontinue all use of and all access to other copies of
+     Project Gutenberg-tm works.
+
+- You provide, in accordance with paragraph 1.F.3, a full refund of any
+     money paid for a work or a replacement copy, if a defect in the
+     electronic work is discovered and reported to you within 90 days
+     of receipt of the work.
+
+- You comply with all other terms of this agreement for free
+     distribution of Project Gutenberg-tm works.
+
+1.E.9.  If you wish to charge a fee or distribute a Project Gutenberg-tm
+electronic work or group of works on different terms than are set
+forth in this agreement, you must obtain permission in writing from
+both the Project Gutenberg Literary Archive Foundation and Michael
+Hart, the owner of the Project Gutenberg-tm trademark.  Contact the
+Foundation as set forth in Section 3 below.
+
+1.F.
+
+1.F.1.  Project Gutenberg volunteers and employees expend considerable
+effort to identify, do copyright research on, transcribe and proofread
+public domain works in creating the Project Gutenberg-tm
+collection.  Despite these efforts, Project Gutenberg-tm electronic
+works, and the medium on which they may be stored, may contain
+"Defects," such as, but not limited to, incomplete, inaccurate or
+corrupt data, transcription errors, a copyright or other intellectual
+property infringement, a defective or damaged disk or other medium, a
+computer virus, or computer codes that damage or cannot be read by
+your equipment.
+
+1.F.2.  LIMITED WARRANTY, DISCLAIMER OF DAMAGES - Except for the "Right
+of Replacement or Refund" described in paragraph 1.F.3, the Project
+Gutenberg Literary Archive Foundation, the owner of the Project
+Gutenberg-tm trademark, and any other party distributing a Project
+Gutenberg-tm electronic work under this agreement, disclaim all
+liability to you for damages, costs and expenses, including legal
+fees.  YOU AGREE THAT YOU HAVE NO REMEDIES FOR NEGLIGENCE, STRICT
+LIABILITY, BREACH OF WARRANTY OR BREACH OF CONTRACT EXCEPT THOSE
+PROVIDED IN PARAGRAPH F3.  YOU AGREE THAT THE FOUNDATION, THE
+TRADEMARK OWNER, AND ANY DISTRIBUTOR UNDER THIS AGREEMENT WILL NOT BE
+LIABLE TO YOU FOR ACTUAL, DIRECT, INDIRECT, CONSEQUENTIAL, PUNITIVE OR
+INCIDENTAL DAMAGES EVEN IF YOU GIVE NOTICE OF THE POSSIBILITY OF SUCH
+DAMAGE.
+
+1.F.3.  LIMITED RIGHT OF REPLACEMENT OR REFUND - If you discover a
+defect in this electronic work within 90 days of receiving it, you can
+receive a refund of the money (if any) you paid for it by sending a
+written explanation to the person you received the work from.  If you
+received the work on a physical medium, you must return the medium with
+your written explanation.  The person or entity that provided you with
+the defective work may elect to provide a replacement copy in lieu of a
+refund.  If you received the work electronically, the person or entity
+providing it to you may choose to give you a second opportunity to
+receive the work electronically in lieu of a refund.  If the second copy
+is also defective, you may demand a refund in writing without further
+opportunities to fix the problem.
+
+1.F.4.  Except for the limited right of replacement or refund set forth
+in paragraph 1.F.3, this work is provided to you 'AS-IS' WITH NO OTHER
+WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+WARRANTIES OF MERCHANTIBILITY OR FITNESS FOR ANY PURPOSE.
+
+1.F.5.  Some states do not allow disclaimers of certain implied
+warranties or the exclusion or limitation of certain types of damages.
+If any disclaimer or limitation set forth in this agreement violates the
+law of the state applicable to this agreement, the agreement shall be
+interpreted to make the maximum disclaimer or limitation permitted by
+the applicable state law.  The invalidity or unenforceability of any
+provision of this agreement shall not void the remaining provisions.
+
+1.F.6.  INDEMNITY - You agree to indemnify and hold the Foundation, the
+trademark owner, any agent or employee of the Foundation, anyone
+providing copies of Project Gutenberg-tm electronic works in accordance
+with this agreement, and any volunteers associated with the production,
+promotion and distribution of Project Gutenberg-tm electronic works,
+harmless from all liability, costs and expenses, including legal fees,
+that arise directly or indirectly from any of the following which you do
+or cause to occur: (a) distribution of this or any Project Gutenberg-tm
+work, (b) alteration, modification, or additions or deletions to any
+Project Gutenberg-tm work, and (c) any Defect you cause.
+
+
+Section  2.  Information about the Mission of Project Gutenberg-tm
+
+Project Gutenberg-tm is synonymous with the free distribution of
+electronic works in formats readable by the widest variety of computers
+including obsolete, old, middle-aged and new computers.  It exists
+because of the efforts of hundreds of volunteers and donations from
+people in all walks of life.
+
+Volunteers and financial support to provide volunteers with the
+assistance they need are critical to reaching Project Gutenberg-tm's
+goals and ensuring that the Project Gutenberg-tm collection will
+remain freely available for generations to come.  In 2001, the Project
+Gutenberg Literary Archive Foundation was created to provide a secure
+and permanent future for Project Gutenberg-tm and future generations.
+To learn more about the Project Gutenberg Literary Archive Foundation
+and how your efforts and donations can help, see Sections 3 and 4
+and the Foundation web page at http://www.pglaf.org.
+
+
+Section 3.  Information about the Project Gutenberg Literary Archive
+Foundation
+
+The Project Gutenberg Literary Archive Foundation is a non profit
+501(c)(3) educational corporation organized under the laws of the
+state of Mississippi and granted tax exempt status by the Internal
+Revenue Service.  The Foundation's EIN or federal tax identification
+number is 64-6221541.  Its 501(c)(3) letter is posted at
+http://pglaf.org/fundraising.  Contributions to the Project Gutenberg
+Literary Archive Foundation are tax deductible to the full extent
+permitted by U.S. federal laws and your state's laws.
+
+The Foundation's principal office is located at 4557 Melan Dr. S.
+Fairbanks, AK, 99712., but its volunteers and employees are scattered
+throughout numerous locations.  Its business office is located at
+809 North 1500 West, Salt Lake City, UT 84116, (801) 596-1887, email
+business@pglaf.org.  Email contact links and up to date contact
+information can be found at the Foundation's web site and official
+page at http://pglaf.org
+
+For additional contact information:
+     Dr. Gregory B. Newby
+     Chief Executive and Director
+     gbnewby@pglaf.org
+
+
+Section 4.  Information about Donations to the Project Gutenberg
+Literary Archive Foundation
+
+Project Gutenberg-tm depends upon and cannot survive without wide
+spread public support and donations to carry out its mission of
+increasing the number of public domain and licensed works that can be
+freely distributed in machine readable form accessible by the widest
+array of equipment including outdated equipment.  Many small donations
+($1 to $5,000) are particularly important to maintaining tax exempt
+status with the IRS.
+
+The Foundation is committed to complying with the laws regulating
+charities and charitable donations in all 50 states of the United
+States.  Compliance requirements are not uniform and it takes a
+considerable effort, much paperwork and many fees to meet and keep up
+with these requirements.  We do not solicit donations in locations
+where we have not received written confirmation of compliance.  To
+SEND DONATIONS or determine the status of compliance for any
+particular state visit http://pglaf.org
+
+While we cannot and do not solicit contributions from states where we
+have not met the solicitation requirements, we know of no prohibition
+against accepting unsolicited donations from donors in such states who
+approach us with offers to donate.
+
+International donations are gratefully accepted, but we cannot make
+any statements concerning tax treatment of donations received from
+outside the United States.  U.S. laws alone swamp our small staff.
+
+Please check the Project Gutenberg Web pages for current donation
+methods and addresses.  Donations are accepted in a number of other
+ways including including checks, online payments and credit card
+donations.  To donate, please visit: http://pglaf.org/donate
+
+
+Section 5.  General Information About Project Gutenberg-tm electronic
+works.
+
+Professor Michael S. Hart is the originator of the Project Gutenberg-tm
+concept of a library of electronic works that could be freely shared
+with anyone.  For thirty years, he produced and distributed Project
+Gutenberg-tm eBooks with only a loose network of volunteer support.
+
+
+Project Gutenberg-tm eBooks are often created from several printed
+editions, all of which are confirmed as Public Domain in the U.S.
+unless a copyright notice is included.  Thus, we do not necessarily
+keep eBooks in compliance with any particular paper edition.
+
+
+Most people start at our Web site which has the main PG search facility:
+
+     http://www.gutenberg.net
+
+This Web site includes information about Project Gutenberg-tm,
+including how to make donations to the Project Gutenberg Literary
+Archive Foundation, how to help produce our new eBooks, and how to
+subscribe to our email newsletter to hear about new eBooks.

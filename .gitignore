@@ -5,6 +5,7 @@
 /etc
 /gutenindex
 /ex_index
+*.txt.json
 
 *.py[cod]
 

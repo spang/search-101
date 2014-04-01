@@ -1,0 +1,2547 @@
+The Project Gutenberg EBook of Pamela Censured, by Anonymous
+
+This eBook is for the use of anyone anywhere at no cost and with
+almost no restrictions whatsoever.  You may copy it, give it away or
+re-use it under the terms of the Project Gutenberg License included
+with this eBook or online at www.gutenberg.net
+
+
+Title: Pamela Censured
+
+Author: Anonymous
+
+Commentator: Charles Batten, Jr.
+
+Release Date: September 16, 2010 [EBook #33735]
+
+Language: English
+
+Character set encoding: ISO-8859-1
+
+*** START OF THIS PROJECT GUTENBERG EBOOK PAMELA CENSURED ***
+
+
+
+
+Produced by Chris Curnow, Joseph Cooper, Josephine Paolucci
+and the Online Distributed Proofreading Team at
+http://www.pgdp.net.
+
+
+
+
+
+
+
+THE AUGUSTAN REPRINT SOCIETY
+
+PAMELA CENSURED
+
+(_1741_)
+
+_Introduction by_
+
+CHARLES BATTEN, JR.
+
+PUBLICATION NUMBER _175_
+
+WILLIAM ANDREWS CLARK MEMORIAL LIBRARY
+
+_University of California, Los Angeles_
+
+_1976_
+
+
+GENERAL EDITORS
+
+     William E. Conway, William Andrews Clark Memorial Library
+     George Robert Guffey, University of California, Los Angeles
+     Maximillian E. Novak, University of California, Los Angeles
+     David S. Rodes, University of California, Los Angeles
+
+ADVISORY EDITORS
+
+     James L. Clifford, Columbia University
+     Ralph Cohen, University of Virginia
+     Vinton A. Dearing, University of California, Los Angeles
+     Arthur Friedman, University of Chicago
+     Louis A. Landa, Princeton University
+     Earl Miner, Princeton University
+     Samuel H. Monk, University of Minnesota
+     Everett T. Moore, University of California, Los Angeles
+     Lawrence Clark Powell, William Andrews Clark Memorial Library
+     James Sutherland, University College, London
+     H. T. Swedenberg, Jr., University of California, Los Angeles
+     Robert Vosper, William Andrews Clark Memorial Library
+
+CORRESPONDING SECRETARY
+
+     Beverly J. Onley, William Andrews Clark Memorial Library
+
+
+
+
+INTRODUCTION
+
+
+The publication of _Pamela; or, Virtue Rewarded_ on 6 November 1740
+occasioned the kind of immediate and hyperbolic praise which would have
+turned the head of an author less vain than Richardson. Proclaimed by
+Aaron Hill as being "the Soul of Religion," and by Knightley Chetwood as
+the book next to the Bible which ought to be saved "if all the Books in
+England were to be burnt," _Pamela_ seemed certain of universal acclaim,
+especially when the Reverend Benjamin Slocock praised it extravagantly
+from the pulpit of St. Saviour's in Southwark within two months of its
+initial printing. Even the "Objections" voiced by several correspondents
+and published at the beginning of the second edition of _Pamela_ (14
+February 1741) seemed relatively inconsequential when weighed against
+the _Gentleman's Magazine's_ assertion in January 1741 that every
+Londoner with the slightest curiosity was reading _Pamela_.[1]
+
+Literary and moral opposition to _Pamela_ gradually began to mount,
+however. April 1741 saw the publication of the first and perhaps most
+perceptive attacks on Richardson's novel: _An Apology for the Life of
+Mrs. Shamela Andrews_ appeared on 2 April, followed by _Pamela Censured:
+In a Letter to the Editor_ some twenty-three days later. While we now
+feel certain that Henry Fielding wrote _Shamela_, the author of _Pamela
+Censured_ has eluded us.[2] Though both works attack _Pamela_ on moral
+grounds and incidentally make unflattering comments about Colley Cibber,
+their literary methods differ so greatly that it is impossible to tell
+whether or not _Shamela_ influenced _Pamela Censured_ to any extent.
+
+Fielding's parody is too well known to be described in detail here.
+Though his sophisticated wit lashes out in a number of directions, he
+attacks _Pamela_ on primarily two fronts: in prefatory letters he
+assails those who would praise Richardson's novel for its moral lessons,
+while in the body of _Shamela_ he burlesques the psychological
+motivations of Pamela herself, showing that she is motivated by
+mercenary "vartue" rather than angelic virtue. In spite of its hasty
+composition, _Shamela_ clearly displays a kind of literary charm and
+insight that was soon to characterize _Joseph Andrews_ and _Tom Jones_.
+
+Because it lacks Fielding's wit, _Pamela Censured_ is now almost
+forgotten even though it elicited an even stronger response than
+_Shamela_ from some of Richardson's defenders and detractors. The
+"Introduction" to _Pamela's Conduct in High Life_ (1741), for instance,
+airily dismisses _Shamela's_ "low Humour adapted to the Standard of a
+_petit Maitre's_ Capacity" which has been applauded only "among the Weak
+and Vicious." By contrast, the same work devotes an entire four pages to
+answering the various charges levelled by _Pamela Censured_ after first
+attacking its author for giving readers "such an Idea of his own vicious
+Inclination, that it would not ... wrong him to think the Shrieks of a
+Woman in Labour would excite his Passions, and the Agonies of a dying
+Woman enflame his Blood, and stimulate him to commit a Rape." Aaron
+Hill, who had apparently ignored the publication of _Shamela_, angrily
+conveyed to Richardson a rumor that _Pamela Censured_ was a bookseller's
+contrivance written in order to promote sales among readers with
+prurient interests. (Richardson, distressed over such a suggestion,
+emphatically wrote "Quite mistaken!" in the margin of Hill's letter.)
+But if this stratagem was not employed to boost sales in England, it
+perhaps was used across the Channel, where _Pamela Censured_, under the
+title _Pamela, Zedelyk Beoordeeld_, appeared in Holland some months
+before a complete Dutch translation of Richardson's novel was ever
+published.[3]
+
+To Richardson's contemporaries, _Pamela Censured_ must consequently have
+seemed a much more serious attack than _Shamela_. The humor of
+Fielding's parody might be misinterpreted or at least dismissed as
+"low"; in _Pamela Censured_, the rather personal attack on the author of
+_Pamela_ and the precise censure of specific passages could not,
+however, be misconstrued or ignored. Moreover, the critical principle
+behind _Pamela Censured_ appears quite sound, at least on its most
+simple level: _Pamela_ is bad because it violates what might be called a
+literary "truth in labeling" law. Casting himself in the role of
+"consumer advocate," the author of _Pamela Censured_ systematically
+attempts to show that _Pamela_ fails to live up to the advertisement on
+its title page:
+
+     a SERIES of FAMILIAR LETTERS FROM A Beautiful Young DAMSEL,
+     To her PARENTS. Now first Published in order In order to
+     cultivate the Principles of VIRTUE and RELIGION in the Minds
+     of the YOUTH of BOTH SEXES. A Narrative which has its
+     Foundation in TRUTH and NATURE; and at the same time that it
+     agreeably entertains, by a Variety of _curious_ and
+     _affecting_ INCIDENTS, is intirely divested of all those
+     Images, which, in too many Pieces calculated for Amusement
+     only, tend to _inflame_ the Minds they should _instruct_.
+
+In applying this test to _Pamela_, the author of _Pamela Censured_
+displays a curious mixture of naiveté and sophistication. His first
+attack involves a silly and perhaps consciously dishonest misreading of
+the words "Now first Published" on _Pamela's_ title page. While this
+phrase clearly means that Pamela's letters are now being published for
+the first time, _Pamela Censured_ attacks _Pamela_ for claiming to be
+the first work ever aimed at cultivating "the Principles of VIRTUE and
+RELIGION in the Minds of the YOUTH of BOTH SEXES." When _Pamela
+Censured_ later assails _Pamela_ for not telling a true story, as the
+title page advertises, it naively fails to understand that by the time
+of _Pamela's_ publication the guise of telling a true story had
+virtually become a fictional convention.
+
+But when _Pamela Censured_ considers the implications of _Pamela's_
+fictionality, it raises two valid literary problems, treating the first
+in a cursory fashion and devoting to the second most of its space and
+attention. If, as _Pamela Censured_ first of all asserts, the "editor"
+of _Pamela_ is really the author, then all of the prefatory material in
+_Pamela_ must be seen as proof of the author's immorality: he is a man
+consumed by vanity. Secondly, this author must be convicted on even more
+serious moral grounds: his fiction instructs readers to sin and enflames
+those passions which he, as a moral man, should extinguish. Not only is
+this a clear moral flaw in the author and in his book, but it also
+blatantly contradicts the promises made on the title page.
+
+In attacking _Pamela's_ morality, _Pamela Censured_ raises a problem
+inherent in virtually all narrative fiction: stories inevitably lead
+some readers to imitate the vicious characters rather than the virtuous
+ones, in spite of any moral statements made by the author or any
+punishments meted out at the end of the story. Even in "forbidding a
+silly ostler to grease the horse's teeth," as Alithea says in _The
+Country Wife_ (III, i), one may very easily teach him "to do't." Such
+concerns, of course, are not new. From Plato and Horace to the
+Neo-Humanists of the twentieth century, critics have dwelled in varying
+degrees on the moral effects of literature. The eighteenth century,
+reacting against the supposed immorality of the Restoration, often
+emphasized the _utile_, losing sight of the _dulce_ in its criticism.
+_Pamela Censured_ in its moral approach bears a striking similarity to
+Jeremy Collier's _Short View of the Immorality and Profaneness of the
+English Stage_ (1698): both virtually try to bludgeon to death literary
+works for inciting immoral actions. In one respect, however, _A Short
+View_ exercises a bit more control than does _Pamela Censured_. While
+Collier refuses to quote directly from the offensive literature,
+affirming that his intention is "rather to kill the _Root_ than
+_Transplant_ it," the author of _Pamela Censured_ meticulously provides
+his readers with a compendium of the so-called dirty parts of _Pamela_.
+Such attention to the morality of literature, moreover, may easily
+backfire. The anonymous author of _A Vindication of the Stage_ (1698)
+concludes that Collier's "dwelling so long on the Subject of Debauchery,
+argues something of Delight and Pleasure in the Case." Likewise, the
+author of _Pamela's Conduct in High Life_ sees the treatment of sexual
+immodesty in _Pamela Censured_ as evidence of "how much of the Goat"
+there is in the author's "Constitution."[4]
+
+More importantly, however, _Pamela Censured_--as the first sustained
+criticism of what is probably the first English novel--amasses much of
+the moral ammunition which was to be fired at realistic novels during
+the eighteenth century. Echoes of _Pamela Censured_ may, for instance,
+be heard in Clara Reeve's _Progress of Romance_ (1785), where Hortensia
+comments that in reading, "The seeds of vice and folly are sown in the
+heart,--the passions are awakened,--false expectations are raised.--A
+young woman is taught to expect adventures and intrigues." Euphrasia,
+who expresses Clara Reeve's attitudes throughout the work, qualifies
+this statement, pointing out that these ill effects come from reading
+novels, but not romances.[5] Indeed, romances do not mislead readers
+precisely because they are so removed from real life. Moreover,
+romances morally instruct readers without hazarding the pitfalls
+inherent in novels. Dr. John Gregory's _Comparative View_ (1765), for
+instance, concludes that:
+
+     Notwithstanding the ridiculous extravagance of the old
+     Romance in many particulars, it seems calculated to produce
+     more favourable effects on the morals of Mankind, than our
+     modern Novels.--If the former did not represent men as they
+     really are, it represented them better; its Heroes were
+     patterns of courage, generosity, truth, humanity, and the
+     most exalted virtues. Its Heroines were distinguished for
+     modesty, delicacy, and the utmost dignity of manners.--The
+     latter [i.e., novels] represent Mankind too much what they
+     are, paint such scenes of pleasure and vice as are unworthy
+     to see the light, and thus in a manner hackney youth in the
+     ways of wickedness, before they are well entered into the
+     World; expose the fair sex in the most wanton and shameless
+     manner to the eyes of the world.[6]
+
+Novels tend to "inflame the Passions and corrupt the Heart" of the
+reader because they treat real life with all its sordid concerns: sex,
+social status, pride, money, and the like. If the novel describes such
+matters in a realistic fashion, "warm scenes" will inevitably creep into
+it. As _Pamela Censured_ complains, men are inflamed by the description
+of a woman's body, especially when she seems about to be ravished; women
+are corrupted into believing they can seduce a man into a lucrative
+marriage without any moral or physical danger. Novels, moreover, are
+most likely to inflame and corrupt young readers, who lack experience
+and who are frequently ruled by their passions.[7]
+
+To a moral man like Richardson, the criticisms in _Pamela Censured_ must
+have seemed painfully serious. The pamphlet virtually proclaims his
+novel a total failure by showing that it tends "to _excite
+Lasciviousness_"--not "the Principles of VIRTUE and RELIGION"--among its
+readers. In addition, _Pamela_ is especially pernicious since its title
+page advertises that it is written for the "YOUTH of BOTH SEXES,"
+precisely those people who--according to _Pamela Censured_--must not
+read this book. _Pamela Censured_ concludes with an appeal to the author
+of _Pamela_ to emend or strike out entirely the offending passages from
+his novel.
+
+Richardson's revisions bear witness to the seriousness with which he
+took such criticism. For the fifth edition (22 September, 1741), he
+toned down the extravagant praises in the introductory letters, and for
+the sixth edition (7 December 1741), he entirely omitted these letters,
+substituting in their place a table of contents. The "warm scenes"
+furthermore gradually began to loose their warmth. In the fifth edition,
+Pamela now lies face down on the floor while Mr. B peeks through the
+keyhole (Letter XV). _Pamela Censured_ had attacked the original passage
+for exciting "Passions of Desire" by picturing Pamela stretched out on
+the floor, presumably having collapsed on her back (p. 31). Richardson's
+change indicates more about his sense of decorum and his attention to
+_Pamela Censured_ than about his ignorance--as Eaves and Kimpel
+imply--concerning sexual perversions.[8]
+
+By the time Richardson's carefully corrected fourteenth edition appeared
+in 1801, even more changes had crept into those passages which _Pamela
+Censured_ found particularly objectionable. Mr. B no longer offers "to
+take" Pamela "on his Knee, with some Force"; he now more modestly lifts
+her up and offers "to set" her on his knee, without any mention of force
+(Letter XV). While Mr. B originally "by Force Kissed" Pamela's "Neck and
+Lips," he now simply kisses Pamela--no portion of her anatomy
+mentioned--while she struggles against him (Letter XV). Likewise,
+instead of passionately putting his hand in Pamela's bosom, Mr. B in the
+revised version merely tries to kiss her neck (Letter XV) or continues
+holding her in his arms (Letter XXV). Because of her lover's more modest
+approach in Letter XXV, Pamela no longer breaks out "in a cold clammy
+sweat." Pamela's reasons for not succumbing to Mr. B's advances (Letter
+XIX), which _Pamela Censured_ found morally shoddy, are clarified
+somewhat by the inclusion of a new moralizing passage concerning her
+relation to Mr. B:
+
+     He may make me great offers, and may, perhaps, intend to
+     deck me out in finery, the better to gratify his own pride;
+     but I should be a wicked creature indeed, if, for the sake
+     of riches or favour, I should forfeit my good name; yea, and
+     worse than any other young body of my sex; because I can so
+     contentedly return to my poverty again, and think it less
+     disgrace to be obliged to live upon rye-bread and water, as
+     I used to do, than to be a harlot to the greatest man in the
+     world.
+
+To make Pamela's moral purity even clearer, Richardson causes tears to
+appear in Mrs. Jervis's eyes as she hears Pamela's virtuous
+protestations. Though the reader originally watches Pamela pull off her
+stays and "stockens," these details are now omitted (Letter XXV). Mr.
+B's clothing loses some of its extravagance, his dressing gown no longer
+being silver (Letter XXV) and his waistcoat no longer trimmed in gold
+(Letter XXVII). Moreover, Mr. B exercises a bit more restraint (or at
+least Pamela's descriptions seem a bit less ambiguous): while in the
+first edition he comes to Pamela's bed, in the later version he simply
+approaches her "bed-side" (Letter XV). For the fourteenth edition,
+Richardson omits the "obscene ... double Entendre" in which Mr. B wishes
+he could have Pamela "as Quick another Way" (Letter XXVII). In an almost
+passive fashion, Mr. B releases Pamela from his clutches, "loosing his
+arms with an air," while in the original version he obviously keeps a
+passionate hold on her (Saturday Morning [37th day of confinement]).
+During Mr. B's last attempt at rape, Pamela no longer offers up her
+prayers "all undrest" (though she does have her underclothes in her
+hand), and Mr. B no longer approaches her bed breathing "all quick and
+short." Once the attempted rape is over and Pamela awakens from her
+faint, she (in the revised version) does not speculate concerning "the
+Liberties taken with her in her deplorable State" (Tuesday Night [40th
+day of confinement]). Finally, Pamela is now less brazen when led by Mr.
+B into the alcove where he proclaims his love. She now prudently
+considers that she can safely go there for two reasons: the alcove has
+"a passage through it" and Mr. B had already led her there "once without
+stopping" (Wednesday Morning [41st day of confinement]).[9]
+
+While Richardson's revisions may seem extensive, they in no respect
+remove or change all of the objectionable passages that _Pamela
+Censured_ so severely criticizes. A considerable amount of hanky-panky
+remains in the last version of _Pamela_. Mr. B, for instance, still
+tries to examine Pamela "to her under Petticoat" (Letter XXIV), and he
+even gets to grope--though only once--for her breasts (Tuesday Night
+[40th day of confinement]). It should not be surprising, however, that
+Richardson failed to achieve the "successful" expurgations found in
+Victorian bowdlerizations of his novel. While he undoubtedly tried to
+clean up his descriptions, Richardson nevertheless had to keep in mind
+his novel's artistic integrity (something the bowdlerizers did not do).
+In order to show the stages through which a virtuous young woman must
+realistically pass when tempted by a physically attractive, though
+morally reprehensible young man, Richardson had to describe attempted
+rapes and their effects. In so doing, he undoubtedly hoped his readers
+would keep in mind the morally unambiguous end of his novel (which,
+incidentally, _Pamela Censured_ virtually ignores). Some "warm scenes,"
+as a consequence, seem necessary in this novel, and to remove all of
+them would, in effect, change _Pamela_ into something radically
+different, namely a romance.
+
+Though most of the attack in _Pamela Censured_ simply reflects the
+author's prejudice against the sexual implications of realistic
+descriptions, the pamphlet occasionally alludes to a further moral
+problem, one which has bothered readers since the time of Fielding.
+"Instead of being artless and innocent," Pamela seems to have "as much
+Knowledge of the Arts of the Town, as if she had been born and bred in
+_Covent_ Garden" (pp. 21-22). As a consequence, she appears "mighty
+skillful" (p. 26) in her dealings with Mr. B. In spite of these hints,
+_Pamela Censured_ stops short of concluding--as _Shamela_ does--that
+Pamela is motivated by an immoral desire to trap Mr. B into marriage
+rather than by an overwhelming desire to maintain her virtue at any
+cost. Perhaps the author of _Pamela Censured_ contemplated this moral
+ambiguity as the subject of his projected "Second Epistle" (p. 64), a
+work which seems never to have appeared in print, if indeed it was ever
+written.
+
+_Pamela Censured_, nevertheless, casually makes a provocative comparison
+which, if developed, might easily have thrown light on the artistic
+reasons behind Pamela's morally questionable actions. In its opening
+pages, _Pamela Censured_ indicates that _Pamela_, at least in its title,
+is less "modest" than Chevalier de Mouhy's _La Paysanne parvenue_
+(1735-37), published in English as _The Fortunate Country Maid. Being
+the Entertaining Memoirs of the Present Celebrated Marchioness of L----
+V----: Who from a Cottage, through a Great Variety of Diverting
+Adventures, Became a Lady of the First Quality in the Court of France_
+(1741). One can only wish that _Pamela Censured_ had developed its
+comparison in a thorough and sophisticated fashion, indicating the moral
+implications of the differences between these two stories.
+
+_The Fortunate Country Maid_, first of all, bears a striking resemblance
+to _Pamela_: in both works the heroines, almost identical in social
+position, face similar trials and ultimately are rewarded in the same
+fashion. A brief description of the plot of _The Fortunate Country Maid_
+should adequately indicate these similarities to anyone already familiar
+with _Pamela_. Jenny, the heroine of _The Fortunate Country Maid_, comes
+from the lower social ranks, her father a common woodcutter in the
+forest of Fountainbleau. The young Marquis of L---- V----, son of
+Jenny's godfather, singles her out for his special attention because of
+her beauty and charm. Though conscious of the social distinctions which
+bar her marriage to the Marquis, Jenny nonetheless falls in love with
+him, all the while uneasy that she might be "ruined." Her fears indeed
+are not ill-founded. After learning social amenities in the household of
+the Countess of N----, her godmother, Jenny embarks on a series of
+trials, including an attempted rape, an offer to be set up as a kept
+woman, threats of an arranged marriage, and even proposals for a
+clandestine wedding. Held a virtual prisoner, Jenny ponders the
+advisability of escape; ultimately she decides that it would be better
+to forfeit her life rather than loose her reputation. One of her last
+conflicts involves a menacing Swiss soldier who tries to take her into
+his custody. When the Marquis appears to be on the point of death, Jenny
+clearly recognizes the genuine depth of her love for him. At the
+conclusion of the story, Jenny and the Marquis are married, the Marquis'
+father finally accepting this unconventional alliance only after having
+been convinced of Jenny's virtue. Everyone seems to live happily ever
+after, including Jenny's parents, who move from their cottage to the
+Estate de F---- A----, property which they will one day own. This
+happiness, however, is tempered somewhat by the realization that Jenny
+and the Marquis must carefully justify their marriage to the society in
+which they live.
+
+It is tempting, because of the obvious similarities between these two
+works, to suggest that Richardson knew and was influenced by _The
+Fortunate Country Maid_. On the other hand we perhaps should not doubt
+Richardson's basic honesty when he says "I am not acquainted in the
+least with the French Language or Writers: And that it was Chance and
+not Skill or Learning, that made me fall into this way of
+Scribbling."[10] In any event, these parallels must raise provocative
+questions concerning Richardson's possible indebtedness to this work.
+
+In spite of these overwhelming similarities, the plots of _Pamela_ and
+_The Fortunate Country Maid_ fundamentally differ in one important
+respect. In _Pamela_, Mr. B tries to rape the heroine; he offers to make
+her his whore: he attempts to arrange for her a dishonorable marriage
+with Parson Williams; and he ultimately weds her himself. In contrast,
+the Marquis of L---- V---- stands virtually outside the action during
+most of _The Fortunate Country Maid_. Jenny fends off a rape, but it is
+attempted by Chevalier d'Elbieux; she rejects the position of a whore,
+but it is offered by M. de G---- and his housekeeper (who incidentally
+is much like Mrs. Jervis); she avoids an arranged marriage, but it is
+proposed by M. de G---- and M. Gripart. Jenny does eventually, however,
+marry the Marquis. Once the Chevalier d'Elbieux--villain of the first
+part of the story--reforms and becomes a monk, the role of villain
+devolves on the Marquis of L---- V----'s father, who tries to block at
+all turns the impending marriage between his son and this peasant girl.
+It is the elder Marquis who causes St. Fal to imprison Jenny, and it is
+Jenny's plot to avoid the elder Marquis which causes her to be
+threatened by the Colbrand-like Swiss. Throughout all this, the young
+Marquis remains unblemished, his proposal of a clandestine marriage and
+his excessive jealousy simply indicating his passionate love, not his
+moral turpitude.
+
+The implications of this important difference between Mr. B and the
+Marquis of L---- V---- should be clear to us even if they were not to
+the author of _Pamela Censured_. As Ralph Rader indicates in a recent
+essay dealing with, among other things, the narrative form of _Pamela_:
+"Richardson's chief problem in the novel is the need his form imposes to
+make Mr. B. both a villain and a hero. B. must threaten Pamela and
+threaten her increasingly, else our sense of her danger and the merit
+which develops from her response to danger will not increase, as the
+form requires, along lines that make her ultimate reward possible; but
+the more directly and villainously he does threaten her, the less
+acceptable he will appear as an ultimate and satisfactory reward for
+her, something that the form requires also."[11] Jenny's reward, her
+marriage to the Marquis of L---- V----, raises no serious moral
+questions since the Marquis remains virtuous throughout the story.
+Moreover, while Jenny carefully protects her chastity, she does not in
+any sense seem motivated by mercenary desires since the preservation of
+her chastity does not necessarily lead to her marriage with the Marquis.
+Pamela's reward, on the other hand, is marriage to a vicious though
+presumably reformed rake. The preservation of her chastity, furthermore,
+seems motivated by mercenary goals. Finding herself in a situation where
+she either looses her chastity and becomes Mr. B's whore or preserves
+her chastity and becomes his wife, Pamela clearly chooses the more
+profitable alternative.
+
+The artistic success of _Clarissa_ undoubtedly reflects in part the
+lesson Richardson learned from such moral attacks as _Pamela Censured_
+and _Shamela_. While "warm scenes" remain in his second novel--as indeed
+they must in any realistic portrayal of male-female
+relations--Richardson continually tempers these scenes with clear
+indications of Lovelace's vicious nature and careful forebodings of
+Clarissa's tragic fate. Moreover, unlike Pamela, whose reward is
+marriage to her would-be rapist, Clarissa escapes from her seducer,
+achieving a morally unambiguous reward, her heroic death.
+
+University of California
+
+Los Angeles
+
+
+
+
+NOTES TO THE INTRODUCTION
+
+
+[1] Aaron Hill to Samuel Richardson, 17 December 1740, printed in
+"Introduction to this Second Edition," _Pamela; or, Virtue Rewarded_,
+ed. T. C. Duncan Eaves and Ben D. Kimpel (Boston: Houghton Mifflin Co.,
+1971), p. 9; Knightley Chetwood to Ralph Courteville, 27 January 1741,
+cited in _Pamela_, ed. Eaves and Kimpel, p. vi; _Gentleman's Magazine_,
+11 (1741), 56.
+
+[2] For dates of publication, see T. C. Duncan Eaves and Ben D. Kimpel,
+_Samuel Richardson: A Biography_ (Oxford: Clarendon Press, 1971), pp.
+127, 129; concerning Fielding's composition of _Shamela_, see Charles B.
+Woods, "Fielding and the Authorship of _Shamela_," _PQ_, 25 (1946),
+248-72.
+
+[3] B. W., "Introduction," _Pamela's Conduct in High Life_ (London: Ward
+and Chandler, 1741), I, xii-xiii; Alan Dugald McKillop, _Samuel
+Richardson: Printer and Novelist_ (Chapel Hill: Univ. of North Carolina
+Press, 1936), p. 78; _The Richardson-Stinstra Correspondence and
+Stinstra's Prefaces to Clarissa_, ed. William C. Slattery (Carbondale:
+Southern Illinois Univ. Press, 1969), pp. xxiii-xxiv.
+
+[4] Collier, _A Short View of the Immorality, and Profaneness of the
+English Stage_ (London: S. Keble, R. Sare, and H. Hindmarsh, 1698),
+chap. I; _A Vindication of the Stage, with the Usefulness and Advantages
+of Dramatick Representations_ (London: Joseph Wild, 1698), p. 6;
+_Pamela's Conduct_, I, xiii.
+
+[5] _The Progress of Romance and the History of Charoba, Queen of
+AEgypt_ (1785; rpt. New York: Facsimile Text Society, 1930), II, 78.
+
+[6] _A Comparative View of the State and Faculties of Man with Those of
+the Animal World_ (London: J. Dodsley, 1765), pp. 138-39.
+
+[7] As twentieth-century readers, we are probably more familiar
+with--and more sympathetic to--the side that supported the ethical
+superiority of novels over romances. Much of Catherine Moreland's
+education in Jane Austen's _Northanger Abbey_ (1818), for instance,
+involves her gradual realization of the inferiority of romances. Her
+errors continue as long as she expects to lead a life like that of Emily
+in Ann Radcliffe's _Mysteries of Udolpho_ (1794). Crucial to Catherine's
+education is her discovery "that human nature, at least in the midland
+counties of England," is not "to be looked for" in romances (chap. xxv).
+Romances can be dangerous since they often provide faulty models of
+moral action for readers who are likely to confuse romantic adventures
+with the roles they must assume in real life. This attack on romances in
+_Northanger Abbey_, moreover, is neither new nor unique, Catherine
+Moreland being but the literary descendant of such eighteenth-century
+"female quixotes" as Polly Peachum, Lydia Languish, Polly Honeycomb, and
+Lydia Melford.
+
+[8] Eaves and Kimpel, _Samuel Richardson_, p. 129.
+
+[9] For a more thorough discussion of Richardson's revisions, see T. C.
+Duncan Eaves and Ben D. Kimpel, "Richardson's Revisions of _Pamela_,"
+_Studies in Bibliography_, 20 (1967), 61-88.
+
+[10] Richardson's letter to William Warburton, 14 April 1748, cited in
+Eaves and Kimpel, _Samuel Richardson_, p. 118.
+
+[11] "Defoe, Richardson, Joyce, and the Concept of Form in the Novel,"
+in _Autobiography, Biography, and the Novel_ (Los Angeles: William
+Andrews Clark Memorial Library, 1973), p. 36.
+
+
+
+
+BIBLIOGRAPHICAL NOTE
+
+
+The facsimile of _Pamela Censured_ (1741) is reproduced by permission
+from the copy (Shelf Mark: *EC7/R3961/T741p) in the Houghton Library,
+Harvard University. The total type-page (p. 7) measures 166 x 83 mm.
+
+
+
+
+PAMELA CENSURED:
+
+IN A LETTER TO THE EDITOR:
+
+SHEWING
+
+That under the Specious Pretence of Cultivating the Principles of Virtue
+in the Minds of the Youth of both Sexes, the MOST ARTFUL and ALLURING
+AMOROUS IDEAS are convey'd.
+
+And that, instead of being divested of all Images that tend to
+_inflame_; Her Letters abound with Incidents, which must necessarily
+raise in the unwary Youth that read them, EMOTIONS _far distant_ from
+the PRINCIPLES of VIRTUE.
+
+Exemplified in many Quotations, with a CRITICAL REVIEW, and REMARKS upon
+the _Whole_.
+
+     Ridet hoc, inquam, Venus ipsa; rident
+     Simplices Nymphæ, ferus & Cupido,
+     Semper ardentes acuens Sagittas
+       Cote Cruenta.
+                  HORAT.
+
+_LONDON:_
+
+Printed for J. ROBERTS, at the _Oxford Arms_, in _Warwick-Lane_.
+MDCCXLI.
+
+[Illustration]
+
+
+
+
+To the REVEREND
+
+Doctor _SLOCOCK_,
+
+CHAPLAIN of St. _Saviour's_ in _Southwark_.
+
+
+REVEREND SIR,
+
+When a Person, whose _Profession_ and _Character_ in the World claim a
+_Reverence_ and _Attention_, exerts himself in earnestly recommending a
+Piece to our Perusal, as he bespeaks Esteem for it, so consequently we
+are induced to be more curious in our Inspection thereof; especially if
+that Recommendation is back'd by the Sanction of being deliver'd from
+the _most solemn Place_, and from whence we are to expect Nothing but
+Truth and Virtue. _PAMELA_ has been honour'd in this Manner, both the
+_Pulpit_ and the _Press_ have joined in its Praises, and extoll'd it as
+the most perfect Piece of the Kind. This excited me to the Reading, and
+pleas'd that this Age had been capable of producing so much finish'd
+Excellence, which I concluded it must be from the extraordinary
+Encomiums so lavishly bestow'd on it, I open'd the Book with an Esteem
+but little short of Veneration; but upon Perusal was amazed to find
+Passages, which a Gentleman who is set apart and devoted, not only to
+Morality, but the strictest Virtue and Piety, must be conscious to
+himself are inconsistent with either, and even blush at them while he
+reads: No Divine, I imagine, would recommend any Thing in his Sacred
+Function, but what might be repeated there, without Offence to Decency
+and Morality, at least, or but what is even capable of inculcating in
+our Minds the Doctrine there deliver'd. That I think _Pamela_ is
+deficient in both is the Occasion of this Address to You, and Subject of
+the following Epistle to the Editor, which I submit to Your Judgment; if
+I am mistaken in my Censures I shall as readily retract them, as I hope
+all those who have applauded it for the most perfect Pattern of Virtue
+and Instruction, will their superabundant Praises, when they find the
+Passages I have cited rather deserve Expulsion. I am,
+
+     _SIR_,
+
+       _Your Humble Servant_,
+
+[Illustration]
+
+
+
+
+Pamela _Censured_, &c.
+
+
+_SIR_,
+
+As You have pleased in Your _Third_ Edition of _Pamela_, or (what you
+call) _Virtue Rewarded_, to insert Extracts from several curious
+recommendatory Letters, to perswade us that nothing could every equal
+this Performance, I hope as I dissent from those Gentlemens Opinion, you
+will with Impartiality receive my Reasons for so doing; nor condemn me
+less for _honestly disapproving_, than you caress them for _fulsomely
+flattering_.
+
+The Pompous Promise of your Title Page, the Manner in which it is
+introduced, and your undertaking in a Series of familiar Letters, from
+a beautiful Young Virgin to her Parents to inculcate Virtue, the very
+Mention of such a Method of Instruction, has, I don't doubt induced
+Numbers, as it did me, to read your _Pamela_, and by contributing to the
+large Sale thereof, made the World (as is generally the Case) judge of
+the Worth of it.
+
+The _Porch_ erected with cunning Symmetry, and shining with agreeable
+Colours allures us in; _Nature_, _Truth_, _Virtue_ and _Religion_; Words
+that are sure to please not only the Innocent Youth, but the more
+Thinking and experienced Sage, are press'd into the Service of the first
+Page; and so artfully rank'd that they at once invite us to proceed and
+assure us that the Production can be nothing less than a Miracle: Nay so
+much are you convinc'd of it's _Worth_, so happy in the Consideration of
+your own Desert, that, tacitly condemning all former Writings of the
+like Kind, You assume to yourself the Merit of prescribing _Virtue_, and
+cultivating both that and _Religion_ (which by the way I never knew were
+distinct before) in the Minds of the YOUTH of BOTH SEXES, and that you
+have the Honour of now _First_ publishing these Things to the World: Was
+no Romance or Novel ever published with a Design to recommend moral
+Virtue?--Is _Pamela_ the First of that Kind! No surely; as to your
+Title, _La Paysanne parvenue_ now translated into _English_, a little
+_French_ Novel, is something more modest, and as much calculated for the
+Encouragement of Virtue. That is a plain Tale, it is recommended and
+received as such but _Pamela_ is first a _Series of Letters_ from a Girl
+to her Parents, which it is presumed are offered us as Originals, and
+then immediately we are told it is a _Narrative_ which has it's
+_Foundation_ in _Truth_, and _Nature_; now what can any Man that would
+reduce this to the Language of his own Opinion and Judgment call it,
+but, _a Romance form'd in Manner of a literary Correspondence founded on
+a Tale which the Author had heard, and modell'd into it's present
+Shape_. Allowing this, which is the modestest Construction I can put
+upon it, and that it was founded upon Truth, yet several Things may and
+have been added thereto: Art and Invention, have been used; and however
+_true_ the _Foundation_ may have been, yet a few _Removes_ and
+_Transitions_, may make it deviate into a _downright Falsehood_: In all
+Additions, and what may by some be called Embellishments to the Story,
+_Fancy_ must take Place and where that presides, any Gentleman who is
+too much troubled with it, knows the Consequence: From thence _Imaginary
+Characters_ will arise, still spreading and increasing, and the busy
+Phantom will ever be pleased at shadowy Beings of it's own Formation;
+yet the Substance that gave those Shadows may be founded on _Truth_;
+but thus extended like the Reflections from a declining Summer Evening's
+Sun, it may please _Children_ with their seeming _gigantic_ Heights,
+while _Men_ acknowledge it but as the last feeble _Efforts_ of his
+_Light_.
+
+But notwithstanding all the great Things you promise us at first, of
+_Truth_, _Virtue_ and _Religion_, and that your Book is intirely
+_divested_ of all those Images which in _too many_ Pieces tend only to
+_inflame_ the Mind, yet give me Leave to say, Sir, that I believe you
+will find but few of the many Pieces which you so self-assumingly
+condemn that abound with more Instances of _inflaming_ Sentiments than
+your own, as in the Course of this Epistle, I shall point out to you.
+
+Nor does the Process of your Work fall short of your first setting out;
+you there as an _Editor_ arrogate to yourself all the Praise that the
+most lavish could bestow on your Desert, had it been real and silent;
+_Fame_ founded by a Stranger's Breath, comes tuneful to the Ear, but
+self-blown grows harsh and dissonant, and we condemn, the Conceitedness
+and Affectation of what we might otherwise esteem.
+
+And here give me Leave to observe, Sir, that tho' your great Modesty for
+some particular Reasons, one of which appears to be, that you could not
+otherwise be acquitted of intolerable Vanity in applauding yourself as
+you have done, has induced you to stile yourself only _Editor_; yet,
+Sir, from several Sentences undesignedly dropt, where the Current of
+your own agreeable Flattery has carried you beyond your Depth, I can't
+help thinking that you are more than barely _Editor_. The Story may have
+it's _Foundation_ in _Truth_ and _Nature_; but the Superstructure is
+_your own_; the fictitious _Pamela_ may bear the Resemblance of some
+happy rural Maid, who for her Virtue and Beauty may have been raised
+from the _Plain_ to the _Toilette_, from the _Sheepcote_ to the _Mansion
+House_, but the _natural Air_, the _dignified Simplicity_, the _measur'd
+Fulness_ in it are properly to be ascribed to you: I shall therefore
+henceforward treat you as HALF-EDITOR, HALF-AUTHOR of _Pamela_. I am not
+ignorant what Art and Industry have been employed, privately to intimate
+that what gave Rise to this _inimitable_ and so much commended Piece,
+was an Occurrence of the like Kind that happen'd some time since in the
+Family of a certain _Noble Lord_; if this be the Case, I must confess
+'tis so highly _shadow'd_ that the Outlines of your Draughts are almost
+obscured, and suffer us only to guess at the Likeness. Nor can I help
+joining with one of your complemental Friends, and acknowledge, that
+your Picture in _resembling Life outglows it_.
+
+First then, as _Editor_, you launch forth into all the extravagant
+Praises that ever could enter the Heart of a young Author, before his
+first favourite Performance was condemn'd by the Public. In this
+Disguise you take a full Aim, and by presenting your Readers with a
+_Prologue_ to your own _Praise_, you would _prepossess_ them with
+_Applause_, and fondly _surfeit_ on the _Eccho_. The many Eulogia in
+your Preface stated with Ifs, and artfully in the Conclusion bestowed on
+_Pamela_ are but an Abstract of what fulsome Praises an Author wou'd
+privately entertain himself with, or indeed look like what the
+Booksellers are very often forced to say to make a bad Copy go off.
+However they may tickle the Ears, they can never charm the Sense, and in
+plain English may be render'd thus:
+
+     "_I the Editor_ tell you and command you to believe, that
+     this Book, called _Pamela_, will _divert_, _entertain_,
+     _instruct_, and _improve_ the _Youth of both Sexes_.
+
+     "It is the best System of _Religion_ and _Morality_ extant,
+     _delightful_ and _profitable_ to the _younger Class_ of
+     Readers, as well as those of _maturer Years_ and
+     Understanding.
+
+     "All the _social Duties_ in high and low Life, are set forth
+     in the most exemplary Lights. _Vice_ is made _odious_,
+     _Virtue_ truely _lovely_; the Characters _justly_ drawn, and
+     _equally_ supported; the _Man_ of _Fortune_, _Passion_, or
+     _Intrigue_ rightly instructed; practical _Examples_ given to
+     the Ladies in the most critical and affecting Cases, either
+     of _Virgin_, _Bride_, or _Wife_: These represented in so
+     _lively_ a Manner, that the Passions of every _sensible_
+     Reader must be affected; and his that are not, _I pronounce_
+     him a _Fool_. Yet though the Passions are so much touched,
+     there is not a _single Idea_ throughout the _Whole_ that
+     shall shock the _exactest Purity_, nor shall a Lady be put
+     to the Blush, even where she may very naturally expect it.
+
+     "Besides all this, believe me, Sirs, 'tis every Word _true_;
+     nor do I at all doubt the Success of the Sale; because I
+     confidently _assert_, that all the _desireable Ends_ are
+     _obtained in these Sheets_; and if any one should dispute
+     it, I will convince him by two incontestable Proofs. First,
+     that I know from MY OWN Passions, that I never perused these
+     engaging Scenes without being uncommonly _moved_: And, for
+     that Reason, I insist upon it, that every Man who reads them
+     must be the same: And next, that I, as an _Editor_, judge
+     with more Impartiality than an _Author_ can do."
+
+What Vanity is this! Did it ever appear more conspicuous in the Writings
+of any one? The worthy Gentleman who is appointed to preside over the
+_British_ Muses, hath been frequently accused of being a perfect Master
+in this Art; nay, so far indeed does it extenuate the Crime, that he
+acknowledges the Foible. He has long been allowed to reign sole Monarch
+of the Realms of _Effrontery_ and _Vanity_; but in you, Sir, let him
+dread a formidable _Rival_.
+
+The positively pronouncing a Thing quite perfect, and the only good one
+of its Kind upon your meer _ipse Dixi_, is something so novel, and
+tacitly calling all Fools who shall dare to swerve from that Opinion,
+gives it such an Air of Consequence and assur'd Success, as may prevail
+on many, who search no farther than the Surface to believe it to _be_
+what it is _represented_; but to Persons who may be as _sensible_, tho'
+perhaps not so bigotted to an Opinion, as the Editor, it must only
+afford Matter for Laughter and Ridicule.
+
+If it is not ludicrous, (tho' what can be too light a Counterpoise for
+such frothy Affectation!) I once met with a Story from an honest Country
+Man, which seems very applicable to the Case in Question. A Doctor, says
+the Farmer, once did us the Honour of a Visit at our Village, he
+appeared in all the Ornament of Dress necessary to excite Curiosity in
+simple unmeaning Clowns, he began his Harangue, by inveighing bitterly
+against the Errors and Tricks of his Brother Practitioners, their Advice
+was deficient, their Drugs unwholsome, and instead of healing, they did
+but taint the Body; he only prescribed what was proper, and his Arcanum
+was the grand Restorative of Health then _first published_, with a
+salutary Design of confirming the whole Country's Health to the utter
+Ruin of all Physicians, Apothecaries, _&c._ Name what Disease you would,
+his little Pill was an immediate and sovereign Remedy. During the
+Doctor's Oration there appear'd behind him a surly Sort of a Fellow,
+dress'd in all the Accoutrements that could be collected together to
+make him look terrible, yet through all, you might discern a sly leering
+Grin: No sooner had the Doctor pronounced his Nostrum universal, but
+_Andrew_ (for he, it seems, was the formidable Hero in Disguise)
+advancing forward with an Air military flourishes his broad Sword over
+his Head; and being mildly ask'd by the Doctor, what was the Occasion
+of that tremendous Visage, he boldly answered----_to Kill any one that
+dare dispute it_.
+
+Thus you, Sir, as _Editor_ stand boldly a _Swiss_ at your own Portal, to
+invite in your Friends with recommendatory Letters, and hard strain'd
+complemental Rhimes to yourself as _Author_, to usher your doughty
+Performance into the World.
+
+I shall pass over them in a cursory Manner, as they only appear to be
+_Aiders_ and _Abetters_, and not principally concerned; they only tend
+to sound forth the Praise of the Book, and amount to little more than
+what the Vulgar call a _Puff_. The first of them insinuates a _French
+Translation_, and as I see one is since advertised to be published, it
+may not be amiss to congratulate the Gentleman, whoever he is, on his
+lucky Thought, and wish him as much Success on his being _Translator_,
+as you have met with in being _Editor_; tho' upon Consideration I must
+confess that would be doing wrong, for as I think the Book to have a bad
+Tendency in general, (which I shall endeavour to prove presently) to
+transmit it into another Language is but spreading the Infection
+farther.
+
+The next Epistle abounds with the same fulsome Flattery as the former,
+it is there--"full of Instruction and Morality,--a pure clear Fountain
+of Truth and Innocence;--a Magazine of Virtue and unblemish'd
+Thoughts:--ALL others tend only to corrupt our Principles and mislead
+our Judgments, but _Pamela_ must be for the universal Benefit of
+Mankind, 'twill reclaim the Vicious, and mend the Age in general."
+
+The Introduction to the Second Edition is only calculated to load us
+with still more Stuff of the same Kind as the former; You would do well,
+Sir, before you so confidently affirm the Gentleman who hath given his
+Opinion upon the Objections that have been offered to be a Person of
+_distinguish'd Taste_ and _Abilities_, either to have let us known _who_
+he was, or some of his former Works, which might have convinced us of
+those _Abilities_, for I think the long Harangue prefix'd to _Pamela_
+will never be deem'd a sufficient Proof thereof----The Gentleman himself
+acknowledges that _when it has dwelt all Day long upon the Ear, it takes
+Possession all night of the Fancy_; That is, I suppose, it contributes
+to make his _Dreams_ something pleasanter than usual; and I am sorry if
+I am mistaken, but it seems to me, that he wrote his Dissertation half
+awake and half asleep, just as he was disturb'd from one of those
+agreeable Reveries----His Return from his Walk in the Snow and the
+Reflection there made, is far from holding good, if it shall appear that
+the Author of _Pamela_, instead of being Father to _Millions of Minds_,
+serves only to inspire them with Thoughts and Ideas, which must
+infallibly make the Mind subservient to the Body, and Reason not only
+fall a Victim to, but, quite debauch'd, assist the sensual Appetites.
+
+The Objections pretended to be made by an anonymous Gentleman were in my
+Opinion only formed on Purpose for the Sake of the Answers; so passing
+over them:--_Parson_ Williams's _Dove_ without serpentine Mixture; the
+natural Story of the little Boy, for which Sort of Admirers _Pamela_
+seems to be more immediately calculated, &c. I come to the Objection the
+Gentleman makes himself, which I cant think would be sufficiently
+_obviated_ by any _Alteration_ in the _Front of another Edition_, while
+the same is retained in the very Body of the Story; his Objection take
+in his own Words.
+
+"There are Mothers or Grandmothers (saith he) in all Families of
+affluent Fortune who tho' they may have none of _Lady Davers's
+Insolence_, will be apt to feel one of her _Fears_--That the Example of
+a Gentleman so amiable as Mr. _B----_ may be follow'd by the _Jackies_
+their Sons, with too blind and unreflecting a Readiness; nor does the
+Answer of that Gentleman to his Sister's Reproach come quite up to the
+Point they will rest on: For though indeed it is true, all the World
+would acquit the best Gentleman in it, if he married such a Waiting Maid
+as _Pamela_, yet there is an ill discerning Partiality in Passion that
+will overthrow all the Force of that Argument: _Because every beloved
+Maid would be a Pamela_, in a Judgment obscured by her Influence."
+
+Nor can I think he has stated his own Objection as strong as it might
+be, or even sufficiently answer'd it as it is, for where he recommends
+"the purpos'd Excitement of Persons in _Pamela's_ Condition of Life, by
+an Emulation of her Sweetness, Humility, Modesty, Patience and Industry
+to attain some faint Hope of arriving in Time within View of her
+Happiness?----What a delightful Reformation, says he, should we see in
+all Families, where the Vanity of their Maids took no Turn toward
+Ambition to please, but by such innocent Pleasures as _Pamelia's_."
+
+This is first of all making an Objection, then denying it to be one; for
+what does he defend in the last Paragraph, but the very Thing that is
+allowed to be the general bad Tendency of the Book, _viz_: That every
+Maid Servant from what low Stock soever she sprung, if she is pretty
+modest, _&c._ has an undoubted Right to attempt to entice her Master to
+Marriage:----Nay in what he allows is proposed to teach the _Gay World_
+and the _Fortunate_, he more particularly acknowledges it to be
+this.----"By Comparison with that infinite Remoteness of her Condition
+from the Reward which her Virtue procured her, one great Proof is
+derived, (_which_, says he expressly; _is Part of the Moral of Pamela_)
+that Advantages from _Birth_, and Distinction of _Fortune_ have no Power
+at all, when consider'd against those of _Behaviour_ and Temper of Mind:
+Because where the _last_ are not added, all the _first_ will be boasted
+in Vain. Whereas she who possesses the last, finds _no Want_ of the
+first in her Influence."----If this is proper Instructions for young
+Ladies I am deceived, for by the same Rule that it may hold good with
+_Servant Maids_ in regard to their obtaining their _Young Masters_
+(which he would call as above----_the Reward their Virtue procured
+them._). It must equally make the Ladies conclude that if they can find
+any thing mere deserving in their _Footmen_ than the _Young Gentlemen_,
+who by a suitable Rank and Fortune are designed to be their Suitors,
+they are under no Obligation to chuse the latter, but _are
+meritoriously_ throwing down all Distinction of _Family_ and taking up
+with the former.
+
+Thus much, Sir, I have thought proper to observe in regard to your
+Assistants; now give me Leave to say, that I think your _Pamela_ so far
+from being a proper Entertainment for the Youth of both Sexes,
+especially the young Ladies, that it is indisputable no young Girl
+however innocent she may be; at the Age when Nature softens and moulds
+the tender yielding Heart to Love can possibly read several Passages in
+it, which I shall point out, without conceiving Ideas she otherwise
+might never have dream'd of; and instead of recommending it to my
+Daughters I would keep it from their Sight, as too pernicious for them
+to converse with.
+
+But before I enter into any particular Parts, I will take a short
+Summary of the whole Tale as you would willingly have it represented,
+with my Objections thereto, and wherein I think you fall short of what
+you have promised in your Title Page, and is directly the Reverse of the
+Encomiums bestow'd in your Preface.
+
+The Foundation of _Pamela_'s Story is _Truth_ and _Nature_ as you have
+laid it down at first, pursuant to this you would have represented to
+us, in the Characters you have drawn, a Young Girl born of honest but
+mean Parents, who by some Means or other had procured for their only
+surviving Child a Place in a Lady of Fashion's Family, where her
+Education and growing Beauty just at her blooming Age, by the Death of
+her old Lady, left her a warm Temptation to a succeeding Heir, who had
+joined all the Prejudices of modern polite Education to the insulting
+Affluence of Fortune; he accordingly among his deceased Mother's
+Treasure finds this beauteous Virgin, and thinking that his Fortune
+might or juvenile Gaiety attract her an easy devoted Prey to his amorous
+Inclinations, he tries all Arts to seduce her thereto, but finding them
+all ineffectual, he at last flies even to Threats and Anger to force her
+to gratify a then raging brutal Passion which became too fierce to be
+endured, and too predominant to be stifled or overcome, and in order to
+bring her to Compliance, he is guilty of the basest Treachery and
+Perfidiousness; for instead of letting her return in Safety to her
+Father and Mother as he had promised her, and which more speciously to
+make her believe, he complements her with his own Chariot to carry her,
+but at the same Time gives private Orders to his Servants to convey her
+far from the Place she desires to go to, there to be immur'd like a
+Prisoner, and all this in Hopes of forcing her into Compliance. There
+commited to the safe Custody of a _Swiss_, and one that is nothing
+better than an _old Bawd_; there a thousand Difficulties surround her,
+the poor artless Maid still unacquainted with Love, and all it's little
+Artifices, here lights of a Minister, who professing a Value and Esteem
+For her, undertakes at the Hazard and Expence of his own Welfare and
+Subsistence to engage in her Cause and procure her Liberty; but meeting
+with a severe Disappointment even to his then seeming utter Ruin, the
+Design proves abortive, and the poor Girl is still left to further and
+terrible Trials of her Chastity; 'till at last overcomeing all, she
+captivates her Tyrant, binds him in _soft Fetters of Love_, when he only
+means to enslave her in _Chains of Lust_. Thus by a quick Transition
+from a Servant Maid, she becomes the lawful Mistress of the Dwelling she
+so lately waited in; and is supposed to give as excellent Example as a
+_Wife_, as she gave of _Chastity_ as a Maid. And _thus is Virtue
+Rewarded_.
+
+The most sanguine of your Admirers could not, I fancy, more inpartially
+state the Case, as it has been represented by them in your Behalf. Now
+let us examine what is the Opinion of as many on the other Side. Their
+first great Charge, is, that in the narrative Part of her Letters, you
+have interspersed too many Scenes that directly tend to inflame the
+Minds of Youth: Next, that _Pamela_ instead of being artless and
+innocent sets out at first with as much Knowledge of the Arts of the
+Town, as if she had been born and bred in _Covent_ Garden, all her Life
+Time; that your fine Gentleman does not come up to the Character you
+would fain have him be thought to assume, that his Sister Lady _Davers_,
+is little better than a downright _Billingsgate_, and her poor Lord is
+the only one who meets with Pity. That Mrs. _Jewkes_ might take
+_Colbrand_ with her and set up in a House somewhere in the Purlieus of
+_St. Giles_, while honest Mother _Jervis_ might marry _Jonathan_, and
+perhaps be promoted to a little Inn of Squire _B_'s in the Country, even
+that Mrs. _Pamela_ stopp'd at in her Journey to the _Lincolnshire_
+Estate. Thus, Sir, do many enter into Conversation with the Character of
+Men of Taste and Pleasantry, find Fault in Opposition to the exuberant
+Praises bestow'd on _Pamela_ by others.
+
+I however was much more pleas'd for my own Part with the Opinion of a
+stay'd sober Gentleman, who was then call'd upon to declare his
+Sentiments, tho' I don't send it to you as an Extract from a _Curious
+Letter_, neither was it submitted to him, as a Gentleman of the MOST
+distinguish'd Taste and Abilities. But to the best of my Remembrance he
+express'd himself something like the following Manner.
+
+I don't approve, said he, of the _Extravagancies_ which People have run
+into on both sides of the Question in regard to _Pamela_, neither of
+those who have cried it up as a Masterpiece in its Kind and the most
+perfect Thing that ever was published; nor of those who depreciate it as
+the most insignificant Trifle they ever met with, and hardly worth
+Notice, on the contrary, I think it is very artfully work'd up, and the
+Passions so strongly touch'd that it is impossible for Youth to read it
+without Sympathy, and even wishing themselves in such a Situation, which
+must be attended with very bad Consequences. _Pamela_ under the Notion
+of being a Virtuous Modest Girl will be introduced into all Families,
+and when she gets there, what Scenes does she represent? Why a fine
+young Gentleman endeavouring to debauch a beautiful Girl of Sixteen. The
+Advances are regular, and the amorous Conflicts so agreeably and warmly
+depicted, that the young Gentleman Reader will at the best be tempted to
+rehearse some of the same Scenes with some _Pamela_ or other in the
+Family, and the Modest Young Lady can never read the Description of
+Naked Breasts being run over with the Hand, and Kisses given with such
+Eagerness that they cling to the Lips; but her own soft Breasts must
+heave at the Idea and secretly sigh for the same Pressure; what then can
+she do when she comes to the closer Struggles of the Bed, where the
+tender Virgin lies panting and exposed, if not to the last Conquest,
+(which I think the Author hath barely avoided) at least to all the
+Liberties which ungoverned Hands of a determined Lover must be supposed
+to take? If she is contented with only wishing for the same Trial to
+shew the Steadiness of her Virtue it is sufficient; but if Nature should
+be too powerful, as Nature at Sixteen is a very formidable Enemy tho'
+Shame and the Censure of the World may restrain her from openly
+gratifying the criminal Thought, yet she privately may seek Remedies
+which may drive her to the most unnatural Excesses.
+
+This then, said he, in short is my Opinion of _Pamela_; that the _Story_
+is prettily related, the _Passions_ finely wrought up, and the
+_Catastrophe_ beautifully concluded, but in the Course of the Narrative,
+and almost interspersed throughout the Whole, there are such _Scenes_ of
+_Love_, and such _lewd Ideas_, as must fill the Youth that read them
+with _Sentiments_ and _Desires_ worse than ROCHESTER can, and for this
+Reason, they will start at a gross Expression, which if nicely and
+artfully convey'd they'll dwell on with Rapture. Therefore I think it
+wholly _unfit_ for _Youth_, and declare freely I would by no Means trust
+my _Daughters_ with reading it.
+
+This Gentleman's Opinion induced me to read over your _Pamela_, and I
+really find it too true: There is a perfect System of Intrigue, and
+they begin so gently by Degrees, and are led on so methodically to the
+last Grand Attack, and this with amorous Attacks in View, even thro' the
+gravest Sentences of Morality that it is impossible to read it without
+endeavouring to gratify the Passion he hath raised; let us view _Pamela_
+then, divested of the Drapery in which she is enclos'd, tho' not hid,
+and then her Charms will appear thus: The wise Father will never think
+it proper for his Son's Closet, and the careful Mother banish that with
+other Novels and Romances from her Daughter's Cabinet.
+
+_PAMELA_ begins from the Death of her Lady, and tho' she gives the
+Narrative in her own Person, yet let us take it as a Tale only, without
+any Consideration had to it's being epistolary, and the loose Images
+will be the more connected, and glare the stronger; which Mr. Editor,
+that I may not misrepresent, I will quote in your own Words, and make
+Remarks on them as they occur.
+
+The young Gentleman coming to take Possession of his Treasure, finds
+this young Virgin among it, the good old Gentlewoman, on her Death-bed,
+recommends her to his Care with one Design, and he receives her with
+quite another. Here's a fine Field open'd for a luscious Tale, the Game
+is started, and the Author like a staunch Sportsman never once loses
+Sight;----Mr. _B._ begins very tenderly: After a little Toying, Kissing,
+_&c._ he makes Miss a Present of several fine Things, and here, says the
+Author, I'll just give my Readers a soft Touch to see how they will
+entertain amorous Reflections; _p._ 12. "I was inwardly ashamed to take
+the Stockens; for Mrs. _Jervis_ was not there; If she had, it would have
+been nothing. I believe I received them very awkwardly; for he smiled at
+my Awkwardness, and said, _Don't blush_, Pamela: _Dost think I don't
+know pretty Maids wear Shoes and Stockens?_" Yes, to be sure, and
+Garters and Stomachers and Smocks,----but ola! little Miss would have
+cried, that's a Pah Word, and my Mamma wont let me read such naughty
+Books!
+
+Well! the young Gentleman grows a little bolder, his Sister indeed the
+good Lady _Davers_! She thinks the poor Girl is designed to be ruin'd:
+And she does no more to prevent it then shake her Head and cry, _Ah
+Brother!_ Now Miss is at Work in the Summer House, and let us see the
+Interview, I assure you the Scene rises a little, and the _innocent
+Girl_ appears mighty skillful; p. 17, 18. "I saw some Reason to
+_suspect_; for he would _look upon me_, whenever he saw me, _in such a
+manner as shew'd not well_; and at last he came to me, as I was in the
+Summer-house in the little Garden, at work with my Needle, and Mrs.
+_Jervis_ was just gone from me; and I would have gone out; but he said,
+No, don't go, _Pamela_; I have something to say to you; and you always
+fly me, when I come near you, as if you were afraid of me. I was much
+out of Countenance, you may well think; but said at last, It does not
+become your poor Servant to stay in your Presence, Sir, without your
+Business requir'd it; and I hope I shall always know my Place. Well,
+says he, my Business does require it sometimes, and I have a Mind you
+should stay to hear what I have to say to you. I stood all-confounded,
+and began to tremble, and the more when he took me by the Hand; for now
+no Soul was near us. My Sister _Davers_, said he (and seem'd, I thought,
+to be as much at a Loss for Words as I) would have had you live with
+_her_; but she would not do for you what I am resolved to do, if you
+continue faithful and obliging. What say'st thou, my Girl? said he, with
+some Eagerness; had'st thou not better stay with me, than go to my
+Sister _Davers_? _He look'd so_, as fill'd me with Affrightment; _I
+don't know how_; wildly, I thought. I said, when I could speak, Your
+Honour will forgive me; but as you have no Lady for me to wait upon, and
+my good Lady has been now dead this Twelvemonth, I had rather, if it
+would not displease you, wait upon Lady _Davers_, _because_--I was
+proceeding, and he said a little hastily _Because_ you are a little
+Fool, and know not what's good for yourself. I tell you, I will make a
+Gentlewoman of you, if you'll be obliging, and don't stand in your own
+Light, and so saying, _he put his Arm about me and kiss'd me_! Now you
+will say, all his Wickedness appear'd plainly. I _struggled, and
+trembled_, and was so benumb'd with Terror, _that I sunk down, not in a
+Fit, and yet not myself; and I found myself in his Arms, quite void of
+Strength; and he kissed me two or three times, with frightful
+Eagerness_.----At last I burst from him, and was getting out of the
+Summer House; but he held me back, and shut the Door." He then bids her
+have done blubbering, and offers her some Money. After this Miss is
+afraid to lie alone, and wants a Confidante. Well good Mrs. _Jervis_ to
+be sure is glad of the Offer, and some Time passes 'till the 'Squire
+comes to Town again. And here the Author (fearing least his Male Readers
+should have no Entertainment, the former being more adapted to improve
+the Female,) contrives to give us an Idea of _Pamela_'s hidden Beauties,
+and very decently to spread her upon the Floor, for all who will peep
+thro' the Door to surfeit on the Sight; but first takes care to put them
+in Life by a Flurry lest they should appear too dead and languid: _p._
+30. "At last he came in again, but, alas! with Mischief in his heart!
+and raising me up, he, said, Rise, _Pamela_, rise; you are your own
+Enemy. Your perverse Folly will be your Ruin; I tell you this, that I am
+very much displeased with the Freedoms you have taken with my Name to my
+House-keeper, as also to your Father and Mother; and you may as well
+have _real_ Cause to take these Freedoms with me, as to make my Name
+suffer for _imaginary_ ones. And saying so, he offered _to take me on
+his Knee, with some Force_. O how I was terrify'd! I said, like as I had
+read in a Book a Night or two before, Angels, and Saints, and all the
+Host of Heaven, defend me! And may I never survive one Moment, that
+fatal one in which I shall forfeit my Innocence. Pretty Fool! said he,
+how will you forfeit your Innocence, if you are oblig'd to yield to a
+Force you cannot withstand? Be easy, said he; for let the worse happen
+that can, _you'll_ have the Merit, and I the Blame; and it will be a
+Subject for Letters to your Father and Mother, and a Tale in the Bargain
+for Mrs. _Jervis_. He by Force kissed my Neck and Lips; Who even blamed
+_Lucretia_, but the _Ravisher_ only? And I am content to take all the
+Blame upon me; as I have all ready born too great a Share for what I
+have deservd. May I, said I, _Lucretia_ like, justify myself with my
+Death, if I am used barbarously? O my good Girl! said he, tauntingly,
+you are well read, I see; and we shall make out between us, before we
+have done, a pretty Story in Romance, I warrant ye. He then put his Hand
+in my Bosom, and the Indignation gave me double Strength, and I got
+loose from him by a sudden Spring, and ran out of the Room and the next
+Chamber being open, I made shift to get into it, and threw-to the Door;
+and the Key being of the Inside, it locked; but he followed me so close,
+he got hold of my Gown, and tore a Piece off, which hung without the
+Door. I just remember I got into the Room; for I knew nothing further of
+the Matter till afterwards; for I fell into a Fit with my Fright and
+Terror, _and there I lay, till he, as I suppose, looking through the
+Key-hole,_ SPY'D ME LYING ALL ALONG UPON THE FLOOR, STRETCH'D OUT AT MY
+LENGTH; and then he call'd Mrs. _Jervis_ to me, who, by his Assistance,
+bursting open the Door, he went away, I seeming to be coming to myself;
+and bid her say nothing of the Matter, if she was wise. Poor Mrs.
+_Jervis_ thought it was worse."
+
+Was not the Squire very modest to withdraw? for she lay in such a pretty
+Posture that Mrs. _Jervis thought it was worse_, and Mrs. _Jervis_ was
+a Woman of Discernment; but however _Pamela_ did no more than what
+Ladies of Fashion do to their Footmen every Morning, shew herself in
+Dishabille or so.
+
+The Young Lady by thus discovering a few latent Charms, as the snowy
+Complexion of her Limbs, and the beautiful Symmetry and Proportion which
+a Girl of about fifteen or sixteen must be supposed to shew by tumbling
+backwards, after being put in a Flurry by her Lover, and agitated to a
+great Degree takes her smelling Bottle, has her Laces cut, and all the
+pretty little necessary Things that the most luscious and warm
+Description can paint, or the fondest Imagination conceive. How artfully
+has the Author introduced an Image that no Youth can read without
+Emotion! The Idea of peeping thro' a Key-hole to see a fine Woman
+extended on a Floor in a Posture that must naturally excite Passions of
+Desire, may indeed be read by one in his _grand Climacteric_ without
+ever wishing to see one in the same Situation, but the Editor of
+_Pamela_ directs himself to the _Youth_ of both Sexes, therefore all the
+Instruction they can possibly receive from this Passage is, first to the
+young Men that the more they endeavour to find out the hidden Beauties
+of their Mistresses, the more they must approve them; and for that
+Purpose all they have to do, is, to move them by some amorous Dalliance
+to give them a _transient View_ of the _Pleasure_ they are afterwards to
+reap from the _beloved Object_. And Secondly, to the young Ladies that
+whatever Beauties they discover to their Lovers, provided they grant not
+the last Favour, they only ensure their Admirers the more; and by a
+Glimpse of Happiness captivate their Suitor the better. So that a young
+Lover in order to encourage his _growing Virtue_ is not to blame to see
+his Mistress in her Shift, nor the young Lady to permit it, if she can
+discreetly do it so as not to let him think she is sensible of it, 'tis
+as much as to say, ye Rakes! Raise the Inclination of the Girls 'till
+they can scarce refuse complying, then let them fly from ye to their
+Chambers, and there reveal in private to your longing Sight the Beauties
+which upon no Account they would openly entertain ye with.
+
+The lovely, the innocent _Pamela_, after her Master had seen her like _a
+new born Venus rising from the Waves_, as one of the Poets expresses it,
+seems to know nothing of the Matter, and yet with all the Inconsistence
+imaginable expresses herself as cunningly and knowing upon the Subject
+as the best bred Town Lass of them all could have done: The Squire
+offers her Money, which she refuses; and in her Conversation with Mrs.
+_Jervis_, upon that Head, she expresses herself thus: _p._ 41. "After
+such Offers, and such Threatnings, and his comparing himself to a wicked
+Ravisher, in the very Time of his last Offer; and making a Jest of me,
+that we should make a pretty Story in Romance; can I stay, and be safe?
+Has he not demean'd him self twice? And it behoves me to beware of the
+third Time, for fear he should lay his Snares surer; for mayhap he did
+not expect a poor Servant would resist her Master so much. And must it
+not be look'd upon as a sort of Warrant for such Actions, if I stay
+after this? For I think, when one of our Sex finds she is attempted, it
+is an Encouragement to a Person to proceed, if one puts one's self in
+the Way of it, when one can help it; and it shews one can forgive what
+in short ought, _not_ to be forgiven: Which is no small Countenance to
+foul Actions, I'll assure you."
+
+Yet notwithstanding all this, her _Virtue_ is only founded on _Shame_,
+and she seems to imply that could she be secure from the Censure of the
+World she would not hesitate to commit the Sin, _p._ 44. "Well, but,
+Mrs. _Jervis_, said I, let me ask you, if he can stoop to like such a
+poor Girl as I, as perhaps he may (for I have read of Things almost as
+strange, from great Men to poor Damsels) What can it be _for_?--He may
+condescend, mayhap, to think I may be good enough for his Harlot; and
+those Things don't disgrace Men, that ruin poor Women, as the World
+goes. And so, if I was wicked enough, he would keep me till I was
+undone, and 'till his Mind changed; for even wicked Men, I have read,
+soon grow weary of Wickedness of _one_ Sort, and love _Variety_. Well
+then, poor _Pamela_ must be turn'd off, and look'd upon as a vile
+abandon'd Creature, and every body would despise her; ay, and _justly_
+too, Mrs. _Jervis_; for she that can't keep her Virtue, ought to live in
+Disgrace." Fine Instruction truly! That is, My Master lik'd me, he would
+have made a Harlot of me, but then if I should consent, he may be tired
+perhaps in a Month or two, or meet with Somebody he likes better, then
+poor _Pamela_ will be turn'd off, and the World will call her a Fool.
+
+I must now address you Sir, as Author and acknowledge that your Skill in
+Intrigue is most apparent, not content with permitting us to fill our
+Fancy with the naked Charms of the lovely _Pamela_, luxuriant in your
+Art, you contrive to give us her Picture in a simple rural Dress; the
+Squire fir'd at the View of those lovely Limbs is still kept warm by
+Variety, and, cloath'd in a Disguise, they are again to attack him in
+another Shape: She, who could charm so much in a loose Undress on the
+Floor, must doubtless keep that Ardour still alive, dress'd in the
+unaffected Embellishments of a neat Country Girl. And tho' the _Servant
+Maid_ might fail to please, the _Farmer's Daughter_ must inevitably
+catch the _Country Squire_; yet how artfully is this _Masquerade_
+introduced! The poor Girl for not complying at once to his Request, is
+threaten'd to be turn'd away, and accordingly to go Home to her Father
+and Mother, in a Condition agreeable to theirs, dresses herself in the
+most alluring Habit that her Circumstances will afford: p. 63. "I
+trick'd myself up as well as I could in my Garb, and put on my
+round-ear'd Cap; _but with a green Knot however_, and my home-spun Gown
+and Petticoat, and plain-leather Shoes; but yet they are what they call
+_Spanish_ Leather, and my ordinary Hose, ordinary I mean to what I have
+been lately used to; tho' I shall think good Yarn may do very well for
+every Day, when I come home. A plain Muslin Tucker I put on, and my
+black Silk Necklace, instead of the _French_ Necklace my Lady gave me;
+and put the Ear-rings out of my Ears; and when I was quite 'quipp'd, I
+took my Straw Hat in my Hand, with its two blue Strings, and look'd
+about me in the Glass, as proud as any thing----To say Truth, I never
+lik'd myself so well in my Life."
+
+_PAMELA_ is now become a beautiful young Rustic, each latent Grace, and
+every blooming Charm is called forth to wound, not in affected Finery,
+but in an artful Simplicity; nor is your Conduct less, Sir, in
+introducing her to the Squire: Beauties that might grow familiar to the
+Eye and pall upon the Passion by being often seen in one Habit, thus
+varied take a surer Aim to strike.----The Instruction here then is to
+the _Ladies_, that by altering their Appearance they are more likely to
+catch their Lover's Affections than by being always the same; and that a
+neat cherry cheek'd Country Lass tripping along with a Straw Hat in her
+Hand may _allure_, when perhaps a pale faced Court Lady might be
+_despised_; and I dare say, that no young Gentleman who reads this, but
+wishes himself in Mrs. _Jervis_'s Place to _turn_ Pamela _about and
+about and examine all her Dress to her under Petticoat_.
+
+The next Thing is how to introduce her to the Squire, and in that Mrs.
+_Jervis_ is as decently drawn in for a Procuress as can be; he sees her
+talking with Mrs. _Jervis_, and thinking her to be a _fresh Lady_, sends
+for Mrs. _Jervis_ to him, who notwithstanding she would do all she can
+to preserve the Maiden's Virtue, yet insists upon her going to him in
+her new Garb, tho' she must certainly know it could only tend to
+_inflame_ his Desire the more, and urge him to still greater Liberties:
+_p._ 65, 66: "She stept to me, and told me, I must go in with her to my
+Master; but, said she, for Goodness sake, let him not find you out; for
+he don't know you. O fie, Mrs. _Jervis_, said I, how could you serve me
+so? Besides, it looks too free both _in me_, and _to him_. I tell you,
+said she, you _shall_ come in; and pray don't reveal yourself till he
+finds you out. So I went in, foolish as I was; tho' I must have been
+seen by him another Time, if I had not then. And she would make me take
+my Straw-hat in my Hand. I dropt a low Curt'sy, but said never a Word. I
+dare say, he knew me as soon as he saw my Face; but was as cunning as
+_Lucifer_. He came up to me, and took me by the Hand, and said, whose
+pretty Maiden are you?--I dare say you are _Pamela_'s Sister, you are so
+like her. So neat, so clean, so pretty! Why, Child, you far surpass your
+Sister _Pamela_! I was all Confusion, and would have spoken, but he took
+me about the Neck; Why, said he, you are very pretty, Child; I would not
+be so free with your Sister, you may believe; but I must kiss you. O
+Sir, said I, I am _Pamela_, indeed I am _Pamela_, _her ownself_! He
+kissed me for all I could do; and said, Impossible! You are a lovelier
+Girl by half than _Pamela_; and sure I may be innocently free with you,
+tho' I would not do her so much Favour. This was a sad Bite upon me
+indeed, and what I could not expect; and Mrs. _Jervis_ look'd like a
+Fool as much as I, for her Officiousness. At last I got away, and ran
+out of the Parlour, _most sadly vex'd, as you may well think_."
+
+This occasioned an Emotion in him, which is admirably described, but in
+a Piece designed only to encourage Virtue, no ways necessary to be
+introduced: _p._ 67. "He then took me in his Arms, and presently push'd
+me from him. Mrs. _Jervis_, said he, take the little Witch from me; I
+can neither bear, nor forbear her! (Strange Words these!)--But stay, you
+shan't go! Yet begone!--No, come back again. I thout he was mad, for my
+Share; for he _knew not what he would have_. But I was going however,
+and he stept after me, and took hold of my Arm, and brought me in again:
+I am sure he made my Arm black and blue; for the Marks are upon it
+still. Sir, Sir, said I, pray have Mercy; I will, I will come in! He sat
+down, and _look'd at me_, and, as I thought afterwards, as sillily as
+such a poor Girl as I."
+
+Nat. _Lee's fiery Kisses_, _melting Raptures_, and the most luxuriant
+Flowers of amorous Rhetoric cannot more fully express the Onset of a
+declining stifled Passion kindled anew; the warm Struggle, the sudden
+Grasp, and the languishing Eye can hardly be painted in stronger Terms:
+And tho' I think it beautiful Colouring, yet I should be sorry my Son or
+Daughter should be delighted with it. What follows this, is what any one
+might expect, the Squire, fired with this View of his _Pamela_, grows
+more eager to accomplish his Designs; but least the Reader should
+mistake the Purport of the Author, he takes Care to inform them of it by
+the Mouth of Mrs. _Jervis_: p. 73, 74. "Upon my Word, says she,
+_Pamela_, I don't wonder he loves you; for, without Flattery, you are a
+charming Girl! and I never saw you look more lovely in my Life, than in
+that same new Dress of yours. And then it was such a Surprize upon us
+all!----I believe truly, you owe some of your Danger to the lovely
+_Appearance_ you made."
+
+Squire _B._ supposed to be quite impatient, as I observed before, had
+now resolved to have a last Trial; and for that Purpose concealed
+himself in the Room where _Pamela_ lay; _p._ 71. "I went to Mrs.
+_Jervis_'s Chamber; and, O my dear Father and Mother, my wicked Master
+had hid himself, base Gentleman as he is! In her Closet, where she has a
+few Books, and Chest of Drawers, and such-like. I little suspected it;
+tho' I used, till this sad Night, always to look into that Closet,
+another in the Room, and under the Bed, ever since the Summer House
+Trick, but never found any Thing; and so I did not do it then, being
+fully resolved to be angry with Mrs. _Jervis_ for what had happened in
+the Day, and so thought of nothing else. I sat myself down on one Side
+of the Bed, and she on the other, and we began to undress ourselves." A
+very fine Instruction this Passage must give us truly! Here he again is
+to feast his Eyes with her naked Charms, and wait but a little longer
+before he rushes out to seize them as his own: _p._ 74. "Hush! said I,
+Mrs. _Jervis_, did you not hear something stir in the Closet? No, silly
+Girl! said she; your Fears are always awake.----But indeed, said I, I
+think I heard something rustle.----May-be, says she, the Cat may be got
+there: But I hear nothing. I was hush, but she said, Pr'ythee, my good
+Girl, make haste to-bed. See if the Door be fast. So I did, and was
+thinking to look in the Closet; but hearing no more Noise, thought it
+needless, and so went again and sat myself down on the Bed-side, and
+went on undressing myself. And Mrs. _Jervis_, being by this Time
+undress'd, stepp'd into Bed, and bid me hasten, for she was sleepy. I
+don't know what was the Matter; but my Heart sadly misgave me; but Mr.
+_Jonathan_'s Note was enough to make it do so, with what Mrs. _Jervis_
+had said. _I pulled off my Stays and my Stockens; and all my Cloaths to
+an Under Petticoat_; and then hearing a rustling in the Closet; I said,
+Heaven protect us! but before I say my Prayers, I must look into the
+Closet. And so was going to it slip-shod, when, O dreadful! out rush'd
+my Master, in a rich silk and silver Morning Gown. I scream'd, and ran
+to the Bed; and Mrs. _Jervis_ scream'd too; and he said, I'll do you no
+Harm, if you forbear this Noise; but otherwise take what follows:
+Instantly he came to the Bed, (for I had crept into it, to Mrs.
+_Jervis_, with my Coat on, and my Shoes) and, taking me in his Arms,
+said, Mrs. _Jervis_, rise, and just step up Stairs, to keep the Maids
+from coming down at this Noise; I'll do no Harm to this Rebel."
+
+Here the lovely Nymph is undress'd in her Bed Chamber, without Reserve,
+and doing a Hundred little Actions, which every one's Fancy must help
+him to form who reads this Passage, and in the Midst of all this, the
+Squire is introduced: And however she and Mrs. _Jervis_ may endeavour to
+keep down the _Under Petticoat_, yet few Youths but would secretly wish
+to be in the Squire's Place, and naturally conclude they would not let
+the Nymph escape so easily.--Now the Scene rises, the Colours begin to
+glow and rise to the Life: _p._ 75. "_I found his Hand in my Bosom_, and
+when my Fright let me know it, _I was ready to die; and I sigh'd, and
+screamed, and fainted away_. And still he had his Arms about my Neck;
+and Mrs. _Jervis_ was about my Feet, and upon my Coat. And all in a cold
+clammy Sweat was I. _Pamela! Pamela!_ said Mrs. _Jervis_, as she tells
+me since, O--h, and gave another Shriek, my poor _Pamela_ is dead for
+certain!--And so, to be sure I was for a Time; _for I knew nothing more
+of the Matter_, one Fit following another, till about three Hours after,
+as it prov'd to be, I found myself in Bed, and Mrs. _Jervis_ sitting up
+on one Side, with her Wrapper about her, and _Rachel_ on the other."
+_Feeling of the Breasts, fainting, and dying away_, may, in your
+Opinion, Sir, be Excitements to _Virtue_, but they are too VIRTUOUS a
+Description in my Mind for any young untainted Mind to peruse.
+
+Miss after this is ill, and when she had _blubber'd_, and cried three or
+four Days, the Squire to bring her to herself, and allure her Fancy,
+takes care to shew himself to her in all the Advantages of Dress and
+Finery; _p._ 81. 'Yesterday he had a rich Suit of Cloaths brought home,
+which they call a Birth-day Suit.' Here is the Contraste to _Pamela_'s
+plain Neatness, he had found that her amiable Figure had caused fresh
+Emotions in him, and consequently he imagined his must have the same
+Effect on her. _p._ 81. 'He had these Cloaths come home, and he try'd
+them on. And before he pull'd them off, he sent for me, when nobody else
+was in the Parlor with him: _Pamela_, said he, you are so neat and so
+nice in your own Dress, (Alack-a-day, I did'n't know I was!) that you
+must be a Judge of ours. How are these Cloaths made? Do they fit me? I
+am no Judge, said I, and please your Honour; but I think they look very
+fine. His Waistcoat stood an End with Gold Lace, and he look'd very
+grand.'
+
+And at the same Time that he endeavours to charm her with his own
+Person, he as artfully allures her with the most fulsome Flattery: _p._
+83. 'Well, said he, you are an ungrateful Baggage; but I am thinking it
+would be Pity, with _these soft Hands_, and that _lovely Skin_, (as he
+called it, and took hold of my Hand) that you should again return to
+hard Work, as you must, if you go to your Father's; and so _I would
+advise her to take a House in_ London, _and let Lodgings to us Members
+of Parliament_, when we come to Town; and such a _pretty Daughter_ as
+you may pass for, will always _fill her House_, and she'll get a great
+deal of Money.'
+
+This Compliment was a little of the grossest for a fine Gentleman! But
+the Heightening is still behind: After some little tart Repartees and
+Sallies aiming at Wit, the Author seems to indulge his Genius with all
+the Rapture of lascivious Ingenuity: _p._ 84, 85. 'I wish, said he,
+(I'am almost ashamed to write it, _impudent Gentleman_) I wish, I had
+thee as QUICK ANOTHER WAY, as thou art in thy Repartees.----And he
+laugh'd, and I snatch'd my Hands from him, and I tripp'd away as fast I
+could. _Ah! thought I marry'd?_ I'm sure _'tis Time you were married_,
+or at this Rate no honest Maiden ought to live with you!' Here's Virtue
+encouraged with a Vengeance and the most obscene Idea express'd by a
+double Entendre, which falls little short of the coarsest Ribaldry; yet
+_Pamela_ is designed to _mend_ the _Taste_ and _Manners_ of the Times,
+and _instruct_ and _encourage Youth in Virtue_; if that were the Case
+there was no absolute Necessity in my Opinion for the inserting of this
+Passage. How artfully is the Turn of the Entendre wrought up for the
+INSTRUCTION of both _Sexes_. The young Gentleman will find the Squir's
+Wish to be, that his beloved _Pamela_ would quite the _cold Air_ of a
+reserved Modesty, immediately yield to his Wishes, and meet him in an
+_amorous Conflict_, with all the _Vivacity_ that simple Nature
+unrestrain'd by Art could inspire. And little Miss, who just begins to
+sigh and wish for she knows not what, will be encouraged to wish for a
+Husband, and think a _double Entendre_ strictly virtuous, even tho' it
+turns upon the _Closet Commerce_ between the Sexes: And should any one
+intrusted with her Education inform her that she is in the Wrong, or
+strive to check the rising Passion; may she not pertly answer. _Why
+sure! There's no Harm in it, for_ Pamela _does so; there are several
+such Things in that_ good Book, _and my_ Mother _recommended me to the
+reading of it, nay, and the_ Parson _says it is the_ best Book in the
+World _except the_ Bible.
+
+Miss _Pamela_ tho' very angry with her Master, yet in some Measure seems
+to be very fond of excusing him: 'He's very wicked indeed, says she, but
+then there are others as bad, 'tis Time he was married truely; for he
+grows so rampant he'll overrun the Parish else, but if he does there are
+others that will keep him in Countenance; there's Squire _Martin_ he
+keeps a Seraglio of his own, and has had _three Lyings in_, it seems, in
+his House, within these three Months; and several more of my Master's
+Companions who are as bad as he. Alack a day! What a World we live in!
+It is grown more Wonder that Men are _resisted_ than that Women
+_comply_.' Indeed Mr. _Pamela_ is very discerning of her Age!
+
+Mrs. _Jervis_ notwithstanding her motherly Goodness, seems still to be
+Procuress in Ordinary, though indeed she doth not prove so pac'd an One
+as Mrs. _Jewkes_ doth afterwards; but wou'd any sober Matron after what
+Attempts have been made before, ever so far comply with the loose
+Inclinations of her Master as to introduce him into a Closet to overhear
+a private Conversation and her Charge? But the _five Guineas_ the Squire
+gave her upon closing her yearly Accounts seem to have soften'd her a
+little more to his Interest, for in _p._ 95. she conveys him into the
+Green Room, where was a Sash Door and a Curtain conveniently that he
+might both hear and see, tho' _Pamela_ confesses _she had reason to
+remember the last Closet Work_.
+
+Her harmless Tattle o'er her Things whilst she was seperating them from
+those she intended to leave behind her, but added fresh Fuel to the
+Squire's Flame; and here he first takes Heart to make an Open
+Declaration of his Love. _p._ 102, 103. 'He took me up, in a kinder
+manner, than ever I had known; and he said, Shut the Door, _Pamela_, and
+come to me in my Closet: I want to have a little serious Talk with you.
+How can I, Sir, said I, how can I? and wrung my Hands! O pray, Sir, let
+me go out of your Presence, I beseech you. By the God that made me, said
+he, I'll do you no harm, Shut the Parlour-door, and come to me in my
+Library. He then went into his Closet, which is his Library, and full of
+rich Pictures besides; a noble Apartment, tho' called a Closet, and next
+the private Garden, into which it has a Door that opens. I shut the
+Parlour-door, as he bid me; but stood at it irresolute. Place some
+Confidence in me surely, said he, you may, when I have spoken thus
+solemnly. So I crept towards him with trembling Feet, and my Heart
+throbing through my Handkerchief. Come in, said he, when I bid you. I
+did so. Pray, Sir, said I, pity and spare me. I will said he, as I hope
+to be sav'd. He sat down upon a rich Settee; and took hold of my Hand,
+and said, Don't doubt me, _Pamela_. From this Moment I will no more
+consider you as my Servant; and I desire you'll not use me with
+Ingratitude for the Kindness I am going to express towards you. This a
+little embolden'd me; and he said, holding both my Hands in his, You
+have too much Wit and good Sense not to discover, that I, inspite of my
+Heart, and all the Pride of it, cannot _but love you_. Yes, look up to
+me, my sweet-fac'd Girl! I must say I love you; and have put on a
+Behaviour to you, that was much against my Heart, in hopes to frighten
+you to my Purposes. You see I own it ingenously.'
+
+By this Means he perswades the Maid to stay a Fortnight longer, and then
+Parson _Williams_ is first introduced: Thinks he if I can debauch this
+Girl 'tis but marrying her to my Chaplain afterwards, giving him a good
+Living and all's right; and this he brings in with an Offer of Fifty
+Guineas. However all will not do and she is to go away when she pleases;
+upon which melancholy occasion Miss must grow poetical and entertain us
+with a Ditty.
+
+The Squire's Intrigues, the Author has laid the Scene of himself; which
+take in his own Words: _p._ 114, 115. 'Here it is necessary to observe,
+that the fair _Pamela_'s Trials were not yet over; but the worst of all
+were yet to come, at a Time when she thought them at an End, and that
+she was returning to her Father: For when her Master found that her
+Virtue was not to be subdu'd, and he had in vain tried to conquer his
+Passion for her, _being a Gentleman of Intrigue_, he had order'd his
+_Lincolnshire_ Coachman to bring his travelling Chariot from thence, not
+caring to trust his Body Coachman, who, with the rest of the Servants,
+so greatly lov'd and honour'd the fair Damsel; and having given him
+Instructions accordingly, and prohibited his other Servants, on Pretence
+of resenting _Pamela_'s Behaviour, from accompanying her any Part of the
+Way, he drove her Five Miles on the Way to her Father's; and then
+turning off, cross'd the Country, and carried her onward towards his
+_Lincolnshire_ Estate. It is also to be observ'd, that the Messenger of
+her Letters to her Father, who so often pretended Business that Way, was
+an Implement in his Master's Hands, and employ'd by him for that
+Purpose; and who always gave her Letters first to him, and his Master
+used to open and read them, and then send them on.'
+
+Not to mention the little Occurrences upon the Road, the _Chaste_
+Discourse at the Inn, her Interview with Mrs. _Jewkes_, &c. we now
+transpose the Scene from _Bedfordshire_ to the Mansion House in
+_Lincolnshire_, where the poor Turtle is now coop'd up; and certainly it
+must be allowed, that the Author has contrived to heighten his _Amorous
+Tale_ by just Degrees, so as at once to court the Expectation, and raise
+the glowing Passions 'till it is almost impossible but they must burst
+forth in a Blaze.
+
+Mrs. _Jewkes_ enters into the Business with all the Assurance of an
+experienc'd Bawd. It was contrived that Miss should bait at an Inn upon
+the Road, kept by her Sister, and there Mrs. _Jewkes_ receives her fair
+Charge: p. 136. 'The naughty Woman came up to me with an Air of
+Confidence, and _kiss'd me_: See, Sister, said she, here's a _charming
+Creature_! Would she not tempt the best Lord in the Land to run away
+with her? O frightful! thought I; here's an Avowal of the Matter at
+once: I am now gone, that's certain. And so was quite silent and
+confounded; and seeing no Help for it, (for she would not part with me
+out of her Sight) I was forc'd to set out with her in the Chariot.'
+
+Her behaviour there was a Piece with the first Onset; _p._ 137. 'Every
+now and then she would be _staring in my Face_, in the Chariot, and
+_squeezing my Hand_, and saying, Why you are very pretty, my silent
+Dear! And once she offer'd to kiss me. But I said, I don't like this
+Sort of Carriage, Mrs. _Jewkes_; _it is not like two Persons of one
+Sex_. She fell a laughing very confidently, and said, That's prettily
+said, _I vow! Then thou hadst rather be kiss'd by the other Sex?
+"Isackins, I commend thee for that"!_' There are at present, I am sorry
+to say it, too many who assume the Characters of Women of Mrs.
+_Jewkes_'s Cast, I mean _Lovers of their own Sex_, _Pamela_ seems to be
+acquainted with this, and indeed shews so much Virtue, that she has no
+Objection to the Male Sex as too many of her own have.
+
+_Pamela_ begins now to shew her Skill in Intrigue. It is a trite
+Observation, that Confinement and Restraint will drive a Woman to the
+most desperate Applications for a Remedy. She is lock'd up, and no
+_Spanish Lady_ whatever could be closer confined by the most watchful
+_Duenna_; but Miss comforts herself that she shall be too hard for them
+all: _p._ 157. 'Well, thought I, I hope still, _Argus_, to be too hard
+for thee. Now _Argus_, the Poets say, had an Hundred Eyes, and was made
+to watch with them all, as she does.' The Parson here is brought upon
+the Tapis, and instead of the _harmless Dove_ hatching Piety and
+Affection, he enters into his Patron's Affairs with so much affected
+Business, as makes him rather a _Medlar_ than a _Friend_. A fine
+Complement to the Clergy by the Way!
+
+Mrs. _Jewkes_ takes all Opportunities of insinuating her Master's _good
+Qualities_, but especially his Manhood, and _Pamela_ seems as desirous
+of hearing of them: _p._ 163. 'Well, well, Lambkin, (which the Foolish
+often calls me) if I was in his Place, he should not have his Property
+in you long questionable. Why, what would you do, said I, if you were
+he?----_Not stand shill-I, shall-I, as he does; but put you and himself
+both out of your Pain._'
+
+After a long Series of Intrigue carried on between her and the Parson,
+to no Purpose, but to swell _the Grain of Mustard Seed_ to _Two
+Volumes_, a Swiss is introduced as an Assistant Guard, and Miss then
+begins to dream: _p._ 221. 'I dream'd they were both coming to my
+Bed-side, with the worst Designs; and I jump'd out of Bed in my Sleep,
+and frighted Mrs. _Jewkes_; 'till, waking with the Terror, I told her my
+Dream: And the wicked Creature only laughed, and said, _All I fear'd_
+was but a _Dream_, as well as that; and when it was _over_, and I was
+well awake, I should laugh at it as such!' These Words tho' spoke by
+Mrs. _Jewkes_ in the Character of an abandon'd Profligate, yet can be of
+no Service to Youth, who may take the latter Part only, and be apt to
+conclude, that all _Virtue_ is but a _Dream_; and certainly they were
+much better omitted than put in.
+
+Well at Length the Squire arrives in his Fine Chariot, and now the
+_Trenches_ are open'd again, and the amorous War is pursued with more
+Vigour than ever; _p._ 247, 248. 'When he had supp'd, he stood up, and
+said, O how happy for you it is, that you can at Will, thus make your
+speaking Eyes overflow in this manner, without losing any of their
+Brilliancy! You have been told, I suppose, that you are _most_ beautiful
+in your Tears!--Did you ever, said he to _her_, (who all this while was
+standing in one Corner of the Parlour) see a _more charming Creature
+than this_? Is it to be wonder'd at, that I demean myself thus to take
+Notice of her!--See, said he, and took the Glass with one Hand, and
+turn'd me round with the other, _What a Shape! what a Neck! what a Hand!
+and what a Bloom in that lovely Face!_----But who can describe the
+Tricks and Artifices, that lie lurking in her little, plotting, guileful
+Heart! 'Tis no Wonder the poor Parson was infatuated with her----I blame
+him less than I do her; for who could expect such Artifice in so young a
+Sorceress! Come hither, Hussy, said he; you and I have a dreadful
+Reckoning to make. Why don't you come, when I bid you?--Fie upon it!
+Mrs. _Pamela_, said she, what! Not stir, when his Honour commands you to
+come to him!----Who knows but his Goodness will forgive you? He came to
+me, (for I had no Power to stir) and put his Arms about my Neck, and
+would kiss me; and said, Well, Mrs. _Jewkes_, if it were not for the
+Thought of this cursed Parson, I believe in my Heart, so great is my
+Weakness, that I could _yet_ forgive this intriguing little Slut, and
+take her to my Bosom. O, said the Sycophant, you are very good, Sir,
+very forgiving, indeed!--But come, added the profligate Wretch, I hope
+you will be so good, as to take her to your Bosom; and that, by
+to-morrow Morning, you'll bring her to a better Sense of her Duty!
+
+Then follows a Proposal at large to induce her to commence a kept
+Mistress: The Particulars of which, the Author hath fully set forth, in
+order to _instruct_ the young Gentlemen of Fortune how to proceed in
+such a Case, and that young Girls of small Fortunes may see what
+tempting Things they have to trust to. 'Tis true he makes her refuse it,
+but with an Insinuation that the Offers are very advantageous.
+
+Next follows the grand _Coup d'Eclat_: A Scene so finely work'd up, that
+the warmest Imagination could scarcely form one more prevalent in the
+Cause of Vice. 'Tis true, the Sentences are artfully wrapt up, but
+whether the Ideas divested of their Tinsel Trappings and Coverings are
+too gross to _entertain_, much less capable of _instructing_ the Youth
+of either Sex: Take the Author's own Words, and let the impartial World
+determine, at least, let every Father or Mother of a Family read them,
+and seriously say, whether they ought for the Sake of this and the
+foregoing Quotations, to receive _Pamela_ into the Closets of their
+Children, or condemn it to the Flames, with the most lustful Pieces
+that ever appeared in Print? The Squire after forming a Pretence of
+going into the Country further for a Day or two, by the Assistance of
+Mrs. _Jewkes_, (who contrives to make _Nan_ her fellow Guard, drunk) is
+convey'd into the Room in the Disguise of the Maid, she patiently sits,
+and sees the lovely Creature undress herself, _&c._ but take her own
+_modest Relation_ as follows: _p._ 270, 271, 272, 273, 274. 'So I looked
+into the Closets, and kneeled down, as I used to do, to say my Prayers,
+and this _with my under Cloaths, all undrest_; and passed by the poor
+sleeping Wench, as I thought, in my Return. But, Oh! little did I think,
+it was my wicked, wicked Master in a Gown and Petticoat of hers, and her
+Apron over his Face and Shoulders. Mrs. _Jewkes_ by this Time, was got
+to-bed, on the further Side, as she used to be; and, to make room for
+the Maid, when she should awake, I got into Bed, and lay close to her.
+And I said, Where are the Keys? tho', said I, I am not so much afraid
+to-Night. Here, said the wicked Woman, put your Arm under mine, and you
+shall find them about my Wrist, as they used to be. So I did, and the
+abominable Designer _held my Hand with her Right Hand_, as my Right Arm
+was under her Left. In less than a quarter of an Hour, I said, There's
+poor _Nan_ awake; I hear her stir. Let us go to sleep, said she, and
+not mind her; She'll come to bed, when she's quite awake. Poor Soul!
+said I, I'll warrant she'll have the Head-ach finely to-morrow for it!
+Be silent said she, and go to sleep; you keep me awake; and I never
+found you in so talkative a Humour in my Life. Don't chide me, said I; I
+will say but one Thing more: Do you think _Nan_ could hear me talk of my
+Master's Offers? No, no, said she; she was dead asleep. I'm glad of
+that, said I; because I would not expose my Master to his common
+Servants, and I knew _you_ were no Stranger to his _fine_ Articles. Said
+she, I think they were fine Articles, and you were bewitch'd you did not
+close in with them: But let us go to sleep. So I was silent; and the
+pretended _Nan_ (O wicked base villainous Designer! What a Plot, what an
+unexpected Plot, was this!) seem'd to be awaking; and Mrs. _Jewkes_,
+abhorred Creature! said, Come, _Nan_!--What, are you awake at last?
+Prithee come to-bed; for Mrs. _Pamela_ is in a talking Fit, and wont go
+to sleep one while. At that the pretended She came to the Bed-side; and
+sitting down in a Chair, where the Curtain hid her, began to undress.
+Said I, poor Mrs. _Ann_, I warrant your Head aches most sadly! How do
+you do?--She answered not one Word. Said the superlatively wicked Woman,
+You know I have order'd her not to answer you. And this Plot, to be
+sure, was laid when she gave her these Orders, the Night before. I heard
+her, as I thought, _breathe all quick and short_: Indeed, said I, Mrs.
+_Jewkes_, the poor Maid is not well. What ails you, Mrs. _Ann_? And
+still no Answer was made. But, I tremble to relate it! the pretended She
+came into Bed; but _quiver'd like an Aspen-leaf_; and I, poor Fool that
+I was! pitied her much.----But well might the barbarous Deceiver tremble
+at his vile Dissimulation, and base Designs. What Words shall I find, my
+dear Mother, (for my Father should not see this shocking Part) to
+describe the rest, and my Confusion, when the guilty Wretch took my
+_left Arm_, and laid it under his Neck, as the vile Procuress held my
+_Right_; and then _he clasp'd me round my Waist_! Said I, Is the Wench
+mad! Why, how now Confidence? thinking still it had been _Nan_. But he
+kissed me with frightful Vehemence; and then his Voice broke upon me
+like a Clap of Thunder. Now, _Pamela_, said he, is the dreadful Time of
+Reckoning come, that I have threaten'd.----I scream'd out in such a
+Manner, as never any Body heard the like. But there was no body to help
+me: And both my Hands were secured, as I said. Sure never poor Soul was
+in such Agonies as I. Wicked Man! said I; wicked, abominable Woman! O
+God! my God! this _Time_, this _one_ Time! deliver me from this
+Distress! or strike me dead this Moment. And then I scream'd again and
+again. Says he, One Word with you, _Pamela_; one Word hear me but; and
+hitherto you see I offer nothing to you. Is this _nothing_, said I, to
+be in Bed here? To hold my Hands between you? I will hear, if you will
+instantly leave the Bed, and take this villainous Woman from me. Said
+she, (O Disgrace of Womankind!) What you do, Sir, do; don't stand
+dilly-dallying. She cannot exclaim worse than she has done. And she'll
+be quieter when she knows the worst. Silence! Said he to her; I must say
+one Word to you, _Pamela_; it is this: You see, now you are in my
+Power!----You cannot get from me, nor help yourself: Yet have I not
+offer'd any Thing amiss to you. But if you resolve not to comply with my
+Proposals, I will not lose this Opportunity: If you do I will yet leave
+you. O Sir, said I, leave me, leave me but, and I will do any Thing I
+ought to do. Swear then to me, said he, that you will accept my
+Proposals!--And then (for this was all detestable Grimace) _he put his
+Hand in my Bosom_. With Struggling, Fright, Terror, _I fainted away
+quite_, and did not come to myself soon; so that they both, from the
+cold Sweats that I was in, thought me dying--_And I remember no more_,
+than that, when, with great Difficulty, they brought me to myself, she
+was sitting on one side of the Bed, with her Cloaths on; and and he on
+the other with his, and in his Gown and Slippers. Your poor _Pamela_
+cannot _answer for the Liberties taken with her in her deplorable State
+of Death_. And when I saw them there, I sat up in my Bed, without any
+Regard to what Appearance I made, and nothing about my Neck; and he
+soothing me, with an Aspect of Pity and Concern, I put my Hand to his
+Mouth, and said, O tell me, yet tell me not, what I have suffered in
+this Distress! And I talked quite wild, and knew not what; for to be
+sure, I was on the Point of Distraction. He most solemnly, and with a
+bitter Imprecation, vow'd, that he had not _offer'd_ the _least
+Indecency_; that he was frighten'd at the terrible manner I was taken
+with the Fit: That he would desist from his Attempt; and begg'd but to
+see me easy and quiet, and he would leave me directly, and go to his own
+Bed. O then, said I, take from me this most wicked Woman, this vile Mrs.
+_Jewkes_, as an Earnest that I may believe you! And will you, Sir, said
+the wicked Wretch, for a _Fit or two_, give up such an _Opportunity as
+this?--I thought you had known the Sex better_.--She is now, you see,
+quite well again! This I heard; more she might say; but _I fainted away
+once more_, at these Words, and at his clasping his Arms about me
+again. And when I came a little to myself, I saw him sit there, and the
+Maid Nan, holding a Smelling-bottle to my Nose, and no Mrs. _Jewkes_.'
+
+Is this an affecting Incident entirely divested of all loose Images?
+Will any one in his Senses take upon him to say so? Can any Youth bear
+the Image of _seeing her kneel naked_, though at her Prayers, without
+Emotion: A lewd Scene suits but ill with Religion; and what an
+inconsistent Mixture of both is this? Her going to Bed, and the _proper
+Posture_ in which she is laid, may be _modest_, but I defy the most
+innocent Virgin to read it in Company without being constrain'd to
+stifle a _Conscious Blush_; or in her Closet without causing a
+Palpitation which must amount to little less than a _burning Desire_;
+_how then can any thing be said to encourage_ Virtue, _that must
+infallibly rouse each latent_ vicious Inclination _in the Heart?
+Breathing quick and short;----spreading the Arms_, while they are both
+in Bed together;----_clasping round the Waist;--putting his Hand in her
+Bosom,--struggling--fainting quite away_----'till she owns herself that
+_she cannot answer for the Liberties taken with her in that deplorable
+State of Death_. These are Images which I think no Youth can read
+without Emotion, and yet I'm afraid are such as they will chuse to
+converse with rather than any in the Book. For here the blooming Nymph,
+the long desired Object of the eager Lover's Passion, lies naked,
+defenceless and exposed in Bed, he rushes on her with all the glowing
+Ardour of an ungoverned Passion, and tho' the Author has with much ado
+just saved her from _Ravishment_, yet 'tis with the greatest Difficulty,
+and that too with a plain Confirmation, that _all Liberties were taken
+but the last_: And even that Mrs. _Jewkes_ is made to upbraid him for,
+as one that ought to know the Sex better. However, had it ended here, we
+had been deprived of another Volume; so that at all Events she must be
+saved a little longer, and the poor Squire withdraws shaking his Ears
+like a Dog that has burnt his Tail.
+
+He had tried Force long enough; in order therefore to spin out the
+Narration, he must take another Method, and try what artful Insinuations
+and Perswasions would do: _p._ 280. 'After walking about, he lead me
+into a little Alcove--He began to be very teizing, and made me sit on
+his Knee, and was so often kissing me, that I said, Sir, I don't like to
+be here at all, I assure you. Indeed you make me afraid!--And what made
+me the more so, was that he once said to Mrs. _Jewkes_, and did not
+think I heard him.--Said he, I will try _once_ more; but I have begun
+wrong. For I see Terror does but add to her Frost; but she is a charming
+Girl, and may be _thaw'd_ by _Kindness_; and I should have MELTED her
+by LOVE, instead of FREEZING her by FEAR.'
+
+This leads us on to Soothings and Blandishments, till he forms a Trap
+wherein he is caught himself, and forms an Introduction for fresh
+Characters; but even amidst all he can't forbear now and then breaking
+partly tending to the Obscene; for he supposes that had not _Pamela_
+been with him, she might have been Wife to some Plough Boy. And upon her
+answering that had it been so, she should have been content, he replies
+(V. II. _p._ 18.) intimating that the whole Manor must be at the Lord's
+Command. In _p._ 20. poor _Pamela_ is to be _press'd to Death_; _p._ 21.
+he stoops to enquire where she _garters_, and wants to _examine her
+Knees_. Which by the Way shews the Squire to be a little ignorant, or
+certainly by seeing her _undress_ twice he might have known.
+
+After a great Deal of Chitchat and Courtship, we are last arrived at the
+fixing of the last Holy Rite:--But to shew our Author's Inclination for
+a Joke (for he must doubtless be a very Merry Man) he makes Honest Sir
+_Simon Darnford_ praise her Fingers, and laughing tells her they were
+made _to touch any Key_: The fluttering Heart before Marriage is
+prettily described, Lady _Davers_'s Passion tho' a little too violent,
+and carried to the very highest Extravagance of Nature, affords us
+Matter of Diversion, as does her running a Race with _Collbrand_ of
+Laughter.----_Pamela_ herself in _p._ 167, tells us, she shan't _sleep a
+Wink the first Night_, but concludes with this comfortable Reflection,
+_that she supposes all young Maidens are the same_; and therefore very
+prudently resolves to undergo it. But in order to encourage her the
+Squire desires Good Mrs. _Jewkes_ (who is now her chief Favourite) to
+entertain her with some _pleasant_ Stories, _suitable to the Occasion_.
+And his desiring to spoil the _pretty Waist of his Pamela_, _p._ 216, so
+far from making half the Women in _England_ hurt themselves by
+Strait-lacing, that I am of Opinion, most of them assisted by that and
+some other foregoing Passages, wou'd rather endeavour to _enlarge_
+themselves in that Part, than decrease it. Nor do Mr. _Longman_ or Mrs.
+_Jervis_ seem to be of a contrary Opinion to the Squire, but both
+facetiously drink a Bumper to the _Hans in Kelder_.
+
+Thus, Sir, thro' a Series of Intrigue interwoven with Amorous Incidents
+have we traced the Lovely _Pamela_ from the _Servant Maid_ to the
+_Mistress_ of the _Mansion House_, and as I think I have marked out
+several Passages, that tend only to _inflame_ without any View at all to
+_Instruction_, that the Images they present are so far from being
+innocent, they could not be stronger invented, or more naturally
+expressed, to _excite Lasciviousness_ in the Minds of the Youth of both
+_Sexes_. I shall conclude at present, hoping that in your next Edition
+you will either amend them or entirely strike them out; not that I have
+pointed all that I think exceptionable, as it would be too long for a
+Thing of this Kind, and am of Opinion that there are Faults enough of
+different Sorts, which may possibly be the Subject of a Second Epistle:
+In the mean time, let me address myself in the most earnest Manner to
+those of maturer Years, who may chance to be your Readears, that they
+would weigh what _Virtue_ is, and how much these amorous Expressions may
+tend to corrupt their Children, before they suffer them to peruse it,
+nor be led away by the slight Viel of a few Religious Sentiments, which
+are thinly spread over them, to permit the Youth under their Care to
+discover the naked Charms of an _inflaming Passion_, which is too much
+exposed in almost every Page of this _much-admir'd_ PAMELA. I am, SIR,
+
+                                        _Your's_, &c.
+
+[Illustration]
+
+
+
+
+NOTES TO _PAMELA CENSURED_
+
+
+Title page
+
+The epigraph is from Horace's Odes II. viii. 13-16: "All this but makes
+sport for Venus (upon my word, it does!) and for the artless Nymphs, and
+cruel Cupid, ever whetting his fiery darts on blood-stained stone"
+(_Horace: The Odes and Epodes_, trans. C. E. Bennett [Cambridge, Mass.:
+Harvard Univ. Press, Loeb Classics, 1952], p. 127).
+
+Title page
+
+Little is known about James Roberts, the bookseller (see Henry R.
+Plomer, _A Dictionary of the Printers and Booksellers Who Were at Work
+in England, Scotland and Ireland from 1668 to 1725_, ed. Arundell
+Esdaile [Oxford: Oxford Univ. Press, 1922], p. 255). Undoubtedly
+familiar with Richardson, Roberts sold the _Weekly Miscellany_, which
+Richardson printed during the 1730's, and he printed Charles Povey's
+_Virgin in_ Eden (1741), which like _Pamela Censured_ attacks the
+morality of Richardson's novel.
+
+Dedication
+
+After recommending _Pamela_ from his pulpit sometime before 6 January
+1741, Dr. Benjamin Slocock (1691-1753) earned the undeserved reputation
+of having been paid by Richardson for this praise (see Eaves and Kimpel,
+_Samuel Richardson_, pp. 123-24).
+
+5.1-2
+
+The third (duodecimo) edition of _Pamela_, published 12 March 1741, is
+virtually the same in content and collation as the second edition,
+published less than a month earlier (see William Merritt Sale, Jr.,
+_Samuel Richardson: A Bibliographical Record_ [New Haven: Yale Univ.
+Press, 1936], pp. 18-19).
+
+6.9-8.17
+
+An attack on the various promises made by Richardson on the title page
+of _Pamela_.
+
+8.18-12.27
+
+An attack on _Pamela_'s "Preface by the Editor." Concerning these
+objections, the "Introduction" to _Pamela's Conduct in High Life_ finds
+fault with the author of _Pamela Censured_: "I shall pass by his
+Contradictions with Regard to the Character he draws of the Editor, or
+as he will have it _Author_, who appears in his Party-colour'd Writing a
+very _artful, silly_ Writer, a Man of fine Sense, and excellent in his
+Method of conducting the whole Piece, but at the same time vain,
+ignorant, and incorrect" (I, xiii).
+
+9.26
+
+The "certain _Noble Lord_" is probably either Sir Arthur Hesilrige or
+Lord Gainsborough (see McKillop, _Samuel Richardson_, pp. 27-29).
+
+10.1-3
+
+Quotation from the "Abstract of a second Letter from the Same Gentleman"
+in the "Introduction to this Second Edition." The "complemental" friend
+is Aaron Hill.
+
+10.21-12.5
+
+Paraphrase of Richardson's "Preface by the Editor."
+
+12.8
+
+Colley Cibber (1671-1757), the "worthy Gentleman" who then presided over
+the muses as poet laureate, frequently mentions his own vanity in _An
+Apology for the Life of Mr. Colley Cibber, Comedian_ (1740).
+
+14.16
+
+Advertised during the spring of 1741, the first French translation of
+_Pamela_ did not appear until the end of October 1741 (see McKillop,
+_Samuel Richardson_, p. 92). Jean Baptiste de Freval, author of "_To the
+Editor of the Piece intitled_ Pamela; or, Virtue Rewarded," probably had
+at least some hand in this French translation (see Paul Dottin, _Samuel
+Richardson_ [Paris: Perrin et Cie., 1931], p. 117).
+
+15.2-10
+
+Partially a paraphrase, partially a quotation of "_To my worthy Friend,
+the Editor of_ Pamela, _&c._"
+
+15.17-19.2
+
+An attack on the "Introduction to This Second Edition." Aaron Hill is
+the "Person of distinguish'd _Taste_ and _Abilities_."
+
+22.22-24
+
+_Pamela Censured_ here refuses to employ _Pamela_'s tactic of including
+parts of letters to support opinions.
+
+26.7-13
+
+Quotation from Letter VII.
+
+26.13-25
+
+_Pamela's Conduct in High Life_ brands the remarks on this page "too
+poor to censure" and "downright _silly_" (I, xiii).
+
+26.26-28.17
+
+Quotation from Letter XI.
+
+28.22-29.1
+
+This comment, according to _Pamela's Conduct in High Life_, "is like the
+Roman Persecution of the Christians, who sewed them in Bears Skins and
+then baited them. How unfair he is, and how much of the Goat he has in
+his Constitution are visible" (I, xiii).
+
+29.1-30.27
+
+Quotation from Letter XV. Concerning this passage, _Pamela's Conduct in
+High Life_ asks: "What is there immodest in this Account, what to excite
+any Passions but those of Pity for a virtuous young Creature, and
+Indignation to a tyrannical lewd Man of Fortune? How do the Fright, the
+Terror, and Apprehensions of a defenceless Virgin kindle Desire? and
+when they have deprived her of Sense, how can we fairly from the Words
+of _Pamela_'s Letter gather, that she fell in an indecent Posture?" "The
+Warmth of Imagination in this virtuous Censurer," continues _Pamela's
+Conduct in High Life_, "supplies the rest: He can't suppose that she
+could possibly fall but as he has painted her, and if the Editor has
+been defective in CONVEYING THE MOST ARTFUL AND ALLURING AMOROUS IDEAS,
+if the Letters do not abound with Incidents which must necessarily raise
+in the unwary Youth that read them EMOTIONS _far distant_ from the
+PRINCIPLES of VIRTUE. If they are not replete with _Images to enflame_,
+the Censurer endeavours to repair the Fault[. H]e, not the Editor,
+contrives to give an Idea of _Pamela_'s hidden Beauties, and would have
+you imagine she lies in the most immodest Posture, such a one as Mrs.
+_Jervis_ thought Things had gone farther, but can this be gathered from
+_Pamela_'s Account, or is not this virtuous Censurer endeavouring to
+impress in the Minds of Youth that read his Defence of Modesty and
+Virtue, _Images_ that may _enflame_? _Was not_, says he, _the 'Squire
+very modest to withdraw? for she lay in such a pretty Posture that
+Mrs._ Jervis _thought it was worse_. Why did Mrs. _Jervis_ think this
+from the pretty Posture? Nay, how could she think it from any Posture?
+when the same Account tells us she and the 'Squire were obliged to burst
+open the Door, for Mrs. _Jervis_ to get in to her Assistance; Is it not
+more reasonable for Mrs. _Jervis_ to conclude as she did, from the
+unruly lawless Passion with which she knew her Master tormented, from
+the Obstinacy of his Temper, and from the Hopes he might entertain,
+being Master of a large Fortune, that he might, born up by that, stem
+the Tide of Justice, and perpetrate the greatest Villainy with Impunity?
+We are told in the Letters that she fainted away, and fell on the Floor
+stretch'd at her Length, and as her Gown was caught in, and torn by the
+Door, she must fall too near it, in whatever Posture, to shew any
+_latent_ Beauties, but what is there indecent in this Relation? Is there
+any particular Posture described? Oh, but the Censurer lays her in one
+which may _enflame_, you must imagine as lusciously as he does; if the
+Letter has not discover'd enough, the pious Censurer lends a Hand, and
+endeavours to _surfeit your Sight_ by lifting the Covering which was
+left by the Editor, and with the Hand of a boisterous Ravisher takes the
+Opportunity of _Pamela_'s being in a Swoon to ----" (I, xiv-xv).
+
+30.28
+
+Concerning "whether the 'Squire was not modest," _Pamela's Conduct in
+High Life_ explains that Mr. B "shews he had some Humanity, and was
+touch'd with Remorse at the Distress he himself occasioned. This, no
+doubt the Censurer, who seems as much divested of Humanity as a Stranger
+to Virtue or even Decency, blames the 'Squire for in his Heart, thinks
+him a silly Country Booby, a half-paced Sinner, a Milk-sop to be capable
+of Compassion, and no doubt would gladly have had him gone thorough,
+that he might have had the Pleasure of imaginary Pimping, and have
+_surfeited his Sight_" (I, xv-(xvi)).
+
+31.6-32.19
+
+Concerning this passage, _Pamela's Conduct in High Life_ sums up its
+argument by saying: "But this unfair Censurer fearing he has not yet
+warm'd the Imagination of his Readers, lays Pamela in a Posture, and
+particularizes her latent charms, _p._ 31, and then charges his own
+luxurious Fancy on the Author, as he calls the Editor" (I, [xvi]).
+
+33.1-20
+
+Quotation from Letter XVIII.
+
+33.25-34.13
+
+Quotation from Letter XIX. Concerning this passage, _Pamela's Conduct in
+High Life_ exclaims: "Pamela talks very rationally to Mrs. _Jervis_,
+foresees Consequences, and concludes, _she that can't keep her Virtue
+ought to live in Disgrace_. At this our Censurer cries out, _Fine
+Instructions truly!_" With this, _Pamela's Conduct in High Life_ makes
+its parting stab at _Pamela Censured_: "But it is impossible with
+Decency to follow this luscious Censurer, really I had scarce Patience
+to read, and therefore you will not expect me to rake longer in his
+Dirt. I have written enough to shew you of what Stamp are all the
+Calumniators of the virtuous _Pamela_. How sensual and coarse their
+Ideas, how inhumane their Sentiments, how immoral their Principles, how
+vile their Endeavours, how unfair their Quotations, how lewd and weak
+their Remarks" (I. [xvi]).
+
+35.12-29
+
+Quotation from Letter XXIV.
+
+37.2-38.6
+
+Quotation from Letter XXIV.
+
+38.10-25
+
+Quotation from Letter XXIV.
+
+39.12-20
+
+Quotation from Letter XXV.
+
+39.24-40.10
+
+Quotation from Letter XXV.
+
+40.15-41.19
+
+Quotation from Letter XXV.
+
+42.2-17
+
+Quotation from Letter XXV.
+
+42.26-28
+
+Quotation from Letter XXVII.
+
+43.5-16
+
+Quotation from Letter XXVII.
+
+43.20-44.3
+
+Quotation from Letter XXVII.
+
+44.9-17
+
+Quotation from Letter XXVII.
+
+45.20-46.3
+
+Quotation from Letter XXVII.
+
+46.19-20
+
+Reference to Letter XXIX.
+
+46.26-48.4
+
+Quotation from Letter XXX.
+
+48.17-49.15
+
+Quotation from the narrative break at the end of Letter XXXI.
+
+50.3-13
+
+Quotation from Letter XXXII.
+
+50.15-25
+
+Quotation from Letter XXXII.
+
+51.10-14
+
+Quotation from the journal entry for "TUESDAY and WEDNESDAY," the 6th
+and 7th days of "Bondage."
+
+51.23-52.2
+
+Quotation from the journal entry for "THURSDAY," the 8th day of
+"Bondage."
+
+52.7-15
+
+Quotation from the journal entry for "MONDAY, TUESDAY, _the 25th and
+26th Days of my heavy Restraint_."
+
+52.25-54.5
+
+Quotation from the journal entry for "SATURDAY _Morning_," the 37th day
+of "Bondage."
+
+55.10-60.4
+
+Quotation from the journal entry for "TUESDAY _Night_," the 40th day of
+"Bondage."
+
+61.18-62.2
+
+Quotation from the journal entry for "WEDNESDAY _Morning_," the 41st day
+of "Bondage."
+
+62.11-16
+
+References to the journal entry for "SATURDAY, _Six o'Clock_," the 44th
+day of "Bondage."
+
+63.2-6
+
+Reference to the journal entry for "WEDNESDAY _Evening_," the night
+before Pamela's wedding.
+
+63.10-11
+
+Reference to the journal entry for "SUNDAY, _the Fourth Day of my
+Happiness_."
+
+
+
+
+
+End of the Project Gutenberg EBook of Pamela Censured, by Anonymous
+
+*** END OF THIS PROJECT GUTENBERG EBOOK PAMELA CENSURED ***
+
+***** This file should be named 33735-8.txt or 33735-8.zip *****
+This and all associated files of various formats will be found in:
+        http://www.gutenberg.org/3/3/7/3/33735/
+
+Produced by Chris Curnow, Joseph Cooper, Josephine Paolucci
+and the Online Distributed Proofreading Team at
+http://www.pgdp.net.
+
+
+Updated editions will replace the previous one--the old editions
+will be renamed.
+
+Creating the works from public domain print editions means that no
+one owns a United States copyright in these works, so the Foundation
+(and you!) can copy and distribute it in the United States without
+permission and without paying copyright royalties.  Special rules,
+set forth in the General Terms of Use part of this license, apply to
+copying and distributing Project Gutenberg-tm electronic works to
+protect the PROJECT GUTENBERG-tm concept and trademark.  Project
+Gutenberg is a registered trademark, and may not be used if you
+charge for the eBooks, unless you receive specific permission.  If you
+do not charge anything for copies of this eBook, complying with the
+rules is very easy.  You may use this eBook for nearly any purpose
+such as creation of derivative works, reports, performances and
+research.  They may be modified and printed and given away--you may do
+practically ANYTHING with public domain eBooks.  Redistribution is
+subject to the trademark license, especially commercial
+redistribution.
+
+
+
+*** START: FULL LICENSE ***
+
+THE FULL PROJECT GUTENBERG LICENSE
+PLEASE READ THIS BEFORE YOU DISTRIBUTE OR USE THIS WORK
+
+To protect the Project Gutenberg-tm mission of promoting the free
+distribution of electronic works, by using or distributing this work
+(or any other work associated in any way with the phrase "Project
+Gutenberg"), you agree to comply with all the terms of the Full Project
+Gutenberg-tm License (available with this file or online at
+http://gutenberg.net/license).
+
+
+Section 1.  General Terms of Use and Redistributing Project Gutenberg-tm
+electronic works
+
+1.A.  By reading or using any part of this Project Gutenberg-tm
+electronic work, you indicate that you have read, understand, agree to
+and accept all the terms of this license and intellectual property
+(trademark/copyright) agreement.  If you do not agree to abide by all
+the terms of this agreement, you must cease using and return or destroy
+all copies of Project Gutenberg-tm electronic works in your possession.
+If you paid a fee for obtaining a copy of or access to a Project
+Gutenberg-tm electronic work and you do not agree to be bound by the
+terms of this agreement, you may obtain a refund from the person or
+entity to whom you paid the fee as set forth in paragraph 1.E.8.
+
+1.B.  "Project Gutenberg" is a registered trademark.  It may only be
+used on or associated in any way with an electronic work by people who
+agree to be bound by the terms of this agreement.  There are a few
+things that you can do with most Project Gutenberg-tm electronic works
+even without complying with the full terms of this agreement.  See
+paragraph 1.C below.  There are a lot of things you can do with Project
+Gutenberg-tm electronic works if you follow the terms of this agreement
+and help preserve free future access to Project Gutenberg-tm electronic
+works.  See paragraph 1.E below.
+
+1.C.  The Project Gutenberg Literary Archive Foundation ("the Foundation"
+or PGLAF), owns a compilation copyright in the collection of Project
+Gutenberg-tm electronic works.  Nearly all the individual works in the
+collection are in the public domain in the United States.  If an
+individual work is in the public domain in the United States and you are
+located in the United States, we do not claim a right to prevent you from
+copying, distributing, performing, displaying or creating derivative
+works based on the work as long as all references to Project Gutenberg
+are removed.  Of course, we hope that you will support the Project
+Gutenberg-tm mission of promoting free access to electronic works by
+freely sharing Project Gutenberg-tm works in compliance with the terms of
+this agreement for keeping the Project Gutenberg-tm name associated with
+the work.  You can easily comply with the terms of this agreement by
+keeping this work in the same format with its attached full Project
+Gutenberg-tm License when you share it without charge with others.
+
+1.D.  The copyright laws of the place where you are located also govern
+what you can do with this work.  Copyright laws in most countries are in
+a constant state of change.  If you are outside the United States, check
+the laws of your country in addition to the terms of this agreement
+before downloading, copying, displaying, performing, distributing or
+creating derivative works based on this work or any other Project
+Gutenberg-tm work.  The Foundation makes no representations concerning
+the copyright status of any work in any country outside the United
+States.
+
+1.E.  Unless you have removed all references to Project Gutenberg:
+
+1.E.1.  The following sentence, with active links to, or other immediate
+access to, the full Project Gutenberg-tm License must appear prominently
+whenever any copy of a Project Gutenberg-tm work (any work on which the
+phrase "Project Gutenberg" appears, or with which the phrase "Project
+Gutenberg" is associated) is accessed, displayed, performed, viewed,
+copied or distributed:
+
+This eBook is for the use of anyone anywhere at no cost and with
+almost no restrictions whatsoever.  You may copy it, give it away or
+re-use it under the terms of the Project Gutenberg License included
+with this eBook or online at www.gutenberg.net
+
+1.E.2.  If an individual Project Gutenberg-tm electronic work is derived
+from the public domain (does not contain a notice indicating that it is
+posted with permission of the copyright holder), the work can be copied
+and distributed to anyone in the United States without paying any fees
+or charges.  If you are redistributing or providing access to a work
+with the phrase "Project Gutenberg" associated with or appearing on the
+work, you must comply either with the requirements of paragraphs 1.E.1
+through 1.E.7 or obtain permission for the use of the work and the
+Project Gutenberg-tm trademark as set forth in paragraphs 1.E.8 or
+1.E.9.
+
+1.E.3.  If an individual Project Gutenberg-tm electronic work is posted
+with the permission of the copyright holder, your use and distribution
+must comply with both paragraphs 1.E.1 through 1.E.7 and any additional
+terms imposed by the copyright holder.  Additional terms will be linked
+to the Project Gutenberg-tm License for all works posted with the
+permission of the copyright holder found at the beginning of this work.
+
+1.E.4.  Do not unlink or detach or remove the full Project Gutenberg-tm
+License terms from this work, or any files containing a part of this
+work or any other work associated with Project Gutenberg-tm.
+
+1.E.5.  Do not copy, display, perform, distribute or redistribute this
+electronic work, or any part of this electronic work, without
+prominently displaying the sentence set forth in paragraph 1.E.1 with
+active links or immediate access to the full terms of the Project
+Gutenberg-tm License.
+
+1.E.6.  You may convert to and distribute this work in any binary,
+compressed, marked up, nonproprietary or proprietary form, including any
+word processing or hypertext form.  However, if you provide access to or
+distribute copies of a Project Gutenberg-tm work in a format other than
+"Plain Vanilla ASCII" or other format used in the official version
+posted on the official Project Gutenberg-tm web site (www.gutenberg.net),
+you must, at no additional cost, fee or expense to the user, provide a
+copy, a means of exporting a copy, or a means of obtaining a copy upon
+request, of the work in its original "Plain Vanilla ASCII" or other
+form.  Any alternate format must include the full Project Gutenberg-tm
+License as specified in paragraph 1.E.1.
+
+1.E.7.  Do not charge a fee for access to, viewing, displaying,
+performing, copying or distributing any Project Gutenberg-tm works
+unless you comply with paragraph 1.E.8 or 1.E.9.
+
+1.E.8.  You may charge a reasonable fee for copies of or providing
+access to or distributing Project Gutenberg-tm electronic works provided
+that
+
+- You pay a royalty fee of 20% of the gross profits you derive from
+     the use of Project Gutenberg-tm works calculated using the method
+     you already use to calculate your applicable taxes.  The fee is
+     owed to the owner of the Project Gutenberg-tm trademark, but he
+     has agreed to donate royalties under this paragraph to the
+     Project Gutenberg Literary Archive Foundation.  Royalty payments
+     must be paid within 60 days following each date on which you
+     prepare (or are legally required to prepare) your periodic tax
+     returns.  Royalty payments should be clearly marked as such and
+     sent to the Project Gutenberg Literary Archive Foundation at the
+     address specified in Section 4, "Information about donations to
+     the Project Gutenberg Literary Archive Foundation."
+
+- You provide a full refund of any money paid by a user who notifies
+     you in writing (or by e-mail) within 30 days of receipt that s/he
+     does not agree to the terms of the full Project Gutenberg-tm
+     License.  You must require such a user to return or
+     destroy all copies of the works possessed in a physical medium
+     and discontinue all use of and all access to other copies of
+     Project Gutenberg-tm works.
+
+- You provide, in accordance with paragraph 1.F.3, a full refund of any
+     money paid for a work or a replacement copy, if a defect in the
+     electronic work is discovered and reported to you within 90 days
+     of receipt of the work.
+
+- You comply with all other terms of this agreement for free
+     distribution of Project Gutenberg-tm works.
+
+1.E.9.  If you wish to charge a fee or distribute a Project Gutenberg-tm
+electronic work or group of works on different terms than are set
+forth in this agreement, you must obtain permission in writing from
+both the Project Gutenberg Literary Archive Foundation and Michael
+Hart, the owner of the Project Gutenberg-tm trademark.  Contact the
+Foundation as set forth in Section 3 below.
+
+1.F.
+
+1.F.1.  Project Gutenberg volunteers and employees expend considerable
+effort to identify, do copyright research on, transcribe and proofread
+public domain works in creating the Project Gutenberg-tm
+collection.  Despite these efforts, Project Gutenberg-tm electronic
+works, and the medium on which they may be stored, may contain
+"Defects," such as, but not limited to, incomplete, inaccurate or
+corrupt data, transcription errors, a copyright or other intellectual
+property infringement, a defective or damaged disk or other medium, a
+computer virus, or computer codes that damage or cannot be read by
+your equipment.
+
+1.F.2.  LIMITED WARRANTY, DISCLAIMER OF DAMAGES - Except for the "Right
+of Replacement or Refund" described in paragraph 1.F.3, the Project
+Gutenberg Literary Archive Foundation, the owner of the Project
+Gutenberg-tm trademark, and any other party distributing a Project
+Gutenberg-tm electronic work under this agreement, disclaim all
+liability to you for damages, costs and expenses, including legal
+fees.  YOU AGREE THAT YOU HAVE NO REMEDIES FOR NEGLIGENCE, STRICT
+LIABILITY, BREACH OF WARRANTY OR BREACH OF CONTRACT EXCEPT THOSE
+PROVIDED IN PARAGRAPH 1.F.3.  YOU AGREE THAT THE FOUNDATION, THE
+TRADEMARK OWNER, AND ANY DISTRIBUTOR UNDER THIS AGREEMENT WILL NOT BE
+LIABLE TO YOU FOR ACTUAL, DIRECT, INDIRECT, CONSEQUENTIAL, PUNITIVE OR
+INCIDENTAL DAMAGES EVEN IF YOU GIVE NOTICE OF THE POSSIBILITY OF SUCH
+DAMAGE.
+
+1.F.3.  LIMITED RIGHT OF REPLACEMENT OR REFUND - If you discover a
+defect in this electronic work within 90 days of receiving it, you can
+receive a refund of the money (if any) you paid for it by sending a
+written explanation to the person you received the work from.  If you
+received the work on a physical medium, you must return the medium with
+your written explanation.  The person or entity that provided you with
+the defective work may elect to provide a replacement copy in lieu of a
+refund.  If you received the work electronically, the person or entity
+providing it to you may choose to give you a second opportunity to
+receive the work electronically in lieu of a refund.  If the second copy
+is also defective, you may demand a refund in writing without further
+opportunities to fix the problem.
+
+1.F.4.  Except for the limited right of replacement or refund set forth
+in paragraph 1.F.3, this work is provided to you 'AS-IS' WITH NO OTHER
+WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+WARRANTIES OF MERCHANTIBILITY OR FITNESS FOR ANY PURPOSE.
+
+1.F.5.  Some states do not allow disclaimers of certain implied
+warranties or the exclusion or limitation of certain types of damages.
+If any disclaimer or limitation set forth in this agreement violates the
+law of the state applicable to this agreement, the agreement shall be
+interpreted to make the maximum disclaimer or limitation permitted by
+the applicable state law.  The invalidity or unenforceability of any
+provision of this agreement shall not void the remaining provisions.
+
+1.F.6.  INDEMNITY - You agree to indemnify and hold the Foundation, the
+trademark owner, any agent or employee of the Foundation, anyone
+providing copies of Project Gutenberg-tm electronic works in accordance
+with this agreement, and any volunteers associated with the production,
+promotion and distribution of Project Gutenberg-tm electronic works,
+harmless from all liability, costs and expenses, including legal fees,
+that arise directly or indirectly from any of the following which you do
+or cause to occur: (a) distribution of this or any Project Gutenberg-tm
+work, (b) alteration, modification, or additions or deletions to any
+Project Gutenberg-tm work, and (c) any Defect you cause.
+
+
+Section  2.  Information about the Mission of Project Gutenberg-tm
+
+Project Gutenberg-tm is synonymous with the free distribution of
+electronic works in formats readable by the widest variety of computers
+including obsolete, old, middle-aged and new computers.  It exists
+because of the efforts of hundreds of volunteers and donations from
+people in all walks of life.
+
+Volunteers and financial support to provide volunteers with the
+assistance they need are critical to reaching Project Gutenberg-tm's
+goals and ensuring that the Project Gutenberg-tm collection will
+remain freely available for generations to come.  In 2001, the Project
+Gutenberg Literary Archive Foundation was created to provide a secure
+and permanent future for Project Gutenberg-tm and future generations.
+To learn more about the Project Gutenberg Literary Archive Foundation
+and how your efforts and donations can help, see Sections 3 and 4
+and the Foundation web page at http://www.pglaf.org.
+
+
+Section 3.  Information about the Project Gutenberg Literary Archive
+Foundation
+
+The Project Gutenberg Literary Archive Foundation is a non profit
+501(c)(3) educational corporation organized under the laws of the
+state of Mississippi and granted tax exempt status by the Internal
+Revenue Service.  The Foundation's EIN or federal tax identification
+number is 64-6221541.  Its 501(c)(3) letter is posted at
+http://pglaf.org/fundraising.  Contributions to the Project Gutenberg
+Literary Archive Foundation are tax deductible to the full extent
+permitted by U.S. federal laws and your state's laws.
+
+The Foundation's principal office is located at 4557 Melan Dr. S.
+Fairbanks, AK, 99712., but its volunteers and employees are scattered
+throughout numerous locations.  Its business office is located at
+809 North 1500 West, Salt Lake City, UT 84116, (801) 596-1887, email
+business@pglaf.org.  Email contact links and up to date contact
+information can be found at the Foundation's web site and official
+page at http://pglaf.org
+
+For additional contact information:
+     Dr. Gregory B. Newby
+     Chief Executive and Director
+     gbnewby@pglaf.org
+
+
+Section 4.  Information about Donations to the Project Gutenberg
+Literary Archive Foundation
+
+Project Gutenberg-tm depends upon and cannot survive without wide
+spread public support and donations to carry out its mission of
+increasing the number of public domain and licensed works that can be
+freely distributed in machine readable form accessible by the widest
+array of equipment including outdated equipment.  Many small donations
+($1 to $5,000) are particularly important to maintaining tax exempt
+status with the IRS.
+
+The Foundation is committed to complying with the laws regulating
+charities and charitable donations in all 50 states of the United
+States.  Compliance requirements are not uniform and it takes a
+considerable effort, much paperwork and many fees to meet and keep up
+with these requirements.  We do not solicit donations in locations
+where we have not received written confirmation of compliance.  To
+SEND DONATIONS or determine the status of compliance for any
+particular state visit http://pglaf.org
+
+While we cannot and do not solicit contributions from states where we
+have not met the solicitation requirements, we know of no prohibition
+against accepting unsolicited donations from donors in such states who
+approach us with offers to donate.
+
+International donations are gratefully accepted, but we cannot make
+any statements concerning tax treatment of donations received from
+outside the United States.  U.S. laws alone swamp our small staff.
+
+Please check the Project Gutenberg Web pages for current donation
+methods and addresses.  Donations are accepted in a number of other
+ways including including checks, online payments and credit card
+donations.  To donate, please visit: http://pglaf.org/donate
+
+
+Section 5.  General Information About Project Gutenberg-tm electronic
+works.
+
+Professor Michael S. Hart is the originator of the Project Gutenberg-tm
+concept of a library of electronic works that could be freely shared
+with anyone.  For thirty years, he produced and distributed Project
+Gutenberg-tm eBooks with only a loose network of volunteer support.
+
+
+Project Gutenberg-tm eBooks are often created from several printed
+editions, all of which are confirmed as Public Domain in the U.S.
+unless a copyright notice is included.  Thus, we do not necessarily
+keep eBooks in compliance with any particular paper edition.
+
+
+Most people start at our Web site which has the main PG search facility:
+
+     http://www.gutenberg.net
+
+This Web site includes information about Project Gutenberg-tm,
+including how to make donations to the Project Gutenberg Literary
+Archive Foundation, how to help produce our new eBooks, and how to
+subscribe to our email newsletter to hear about new eBooks.
