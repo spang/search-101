@@ -3,6 +3,8 @@
 /share
 /doc
 /etc
+/gutenindex
+/ex_index
 
 *.py[cod]
 

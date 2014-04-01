@@ -12,7 +12,7 @@ schema = Schema(id=ID(unique=True), title=TEXT(stored=True),
                 author=TEXT(stored=True), release_date=DATETIME, language=TEXT,
                 content=TEXT)
 
-INDEX_DIR = "index"
+INDEX_DIR = "gutenindex"
 
 if not os.path.exists(INDEX_DIR):
     os.mkdir(INDEX_DIR)
