@@ -24,4 +24,11 @@ From there:
 * `source bin/activate`
 * `pip install -r requirements.txt`
 
+As our main search corpus, we'll be using a subset of public domain ebooks
+from [Project Gutenberg](http://www.gutenberg.org/). You'll want to
+pregenerate the search index for this corpus before you show up, since it
+takes a few minutes to run:
+
+* `python extract_metadata.py && python index_gutentexts.py`
+
 You should then be ready to go!
