@@ -1,0 +1,1258 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>searching module &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="../index.html" />
+    <link rel="up" title="Whoosh API" href="api.html" />
+    <link rel="next" title="sorting module" href="sorting.html" />
+    <link rel="prev" title="scoring module" href="scoring.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sorting.html" title="sorting module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="scoring.html" title="scoring module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="api.html" accesskey="U">Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-whoosh.searching">
+<span id="searching-module"></span><h1><tt class="docutils literal"><span class="pre">searching</span></tt> module<a class="headerlink" href="#module-whoosh.searching" title="Permalink to this headline">¶</a></h1>
+<p>This module contains classes and functions related to searching the index.</p>
+<div class="section" id="searching-classes">
+<h2>Searching classes<a class="headerlink" href="#searching-classes" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.searching.Searcher">
+<em class="property">class </em><tt class="descclassname">whoosh.searching.</tt><tt class="descname">Searcher</tt><big>(</big><em>reader</em>, <em>weighting=&lt;class 'whoosh.scoring.BM25F'&gt;</em>, <em>closereader=True</em>, <em>fromindex=None</em>, <em>parent=None</em><big>)</big><a class="headerlink" href="#whoosh.searching.Searcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wraps an <a class="reference internal" href="reading.html#whoosh.reading.IndexReader" title="whoosh.reading.IndexReader"><tt class="xref py py-class docutils literal"><span class="pre">IndexReader</span></tt></a> object and provides
+methods for searching the index.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>reader</strong> &#8211; An <a class="reference internal" href="reading.html#whoosh.reading.IndexReader" title="whoosh.reading.IndexReader"><tt class="xref py py-class docutils literal"><span class="pre">IndexReader</span></tt></a> object for
+the index to search.</li>
+<li><strong>weighting</strong> &#8211; A <tt class="xref py py-class docutils literal"><span class="pre">whoosh.scoring.Weighting</span></tt> object to use to
+score found documents.</li>
+<li><strong>closereader</strong> &#8211; Whether the underlying reader will be closed when
+the searcher is closed.</li>
+<li><strong>fromindex</strong> &#8211; An optional reference to the index of the underlying
+reader. This is required for <a class="reference internal" href="#whoosh.searching.Searcher.up_to_date" title="whoosh.searching.Searcher.up_to_date"><tt class="xref py py-meth docutils literal"><span class="pre">Searcher.up_to_date()</span></tt></a> and
+<a class="reference internal" href="#whoosh.searching.Searcher.refresh" title="whoosh.searching.Searcher.refresh"><tt class="xref py py-meth docutils literal"><span class="pre">Searcher.refresh()</span></tt></a> to work.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="whoosh.searching.Searcher.boolean_context">
+<tt class="descname">boolean_context</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.searching.Searcher.boolean_context" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shortcut returns a SearchContext set for unscored (boolean)
+searching.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Searcher.collector">
+<tt class="descname">collector</tt><big>(</big><em>limit=10</em>, <em>sortedby=None</em>, <em>reverse=False</em>, <em>groupedby=None</em>, <em>collapse=None</em>, <em>collapse_limit=1</em>, <em>collapse_order=None</em>, <em>optimize=True</em>, <em>filter=None</em>, <em>mask=None</em>, <em>terms=False</em>, <em>maptype=None</em>, <em>scored=True</em><big>)</big><a class="headerlink" href="#whoosh.searching.Searcher.collector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Low-level method: returns a configured
+<a class="reference internal" href="collectors.html#whoosh.collectors.Collector" title="whoosh.collectors.Collector"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.collectors.Collector</span></tt></a> object based on the given
+arguments. You can use this object with
+<a class="reference internal" href="#whoosh.searching.Searcher.search_with_collector" title="whoosh.searching.Searcher.search_with_collector"><tt class="xref py py-meth docutils literal"><span class="pre">Searcher.search_with_collector()</span></tt></a> to search.</p>
+<p>See the documentation for the <a class="reference internal" href="#whoosh.searching.Searcher.search" title="whoosh.searching.Searcher.search"><tt class="xref py py-meth docutils literal"><span class="pre">Searcher.search()</span></tt></a> method for a
+description of the parameters.</p>
+<p>This method may be useful to get a basic collector object and then wrap
+it with another collector from <tt class="docutils literal"><span class="pre">whoosh.collectors</span></tt> or with a custom
+collector of your own:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Equivalent of</span>
+<span class="c"># results = mysearcher.search(myquery, limit=10)</span>
+<span class="c"># but with a time limt...</span>
+
+<span class="c"># Create a TopCollector</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">mysearcher</span><span class="o">.</span><span class="n">collector</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c"># Wrap it with a TimeLimitedCollector with a time limit of</span>
+<span class="c"># 10.5 seconds</span>
+<span class="kn">from</span> <span class="nn">whoosh.collectors</span> <span class="kn">import</span> <span class="n">TimeLimitedCollector</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">TimeLimitCollector</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mf">10.5</span><span class="p">)</span>
+
+<span class="c"># Search using the custom collector</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">mysearcher</span><span class="o">.</span><span class="n">search_with_collector</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Searcher.context">
+<tt class="descname">context</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#whoosh.searching.Searcher.context" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates a <tt class="xref py py-class docutils literal"><span class="pre">SearchContext</span></tt> for this searcher.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Searcher.correct_query">
+<tt class="descname">correct_query</tt><big>(</big><em>q</em>, <em>qstring</em>, <em>correctors=None</em>, <em>allfields=False</em>, <em>terms=None</em>, <em>prefix=0</em>, <em>maxdist=2</em><big>)</big><a class="headerlink" href="#whoosh.searching.Searcher.correct_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a corrected version of the given user query using a default
+<a class="reference internal" href="spelling.html#whoosh.spelling.ReaderCorrector" title="whoosh.spelling.ReaderCorrector"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.spelling.ReaderCorrector</span></tt></a>.</p>
+<p>The default:</p>
+<ul class="simple">
+<li>Corrects any words that don&#8217;t appear in the index.</li>
+<li>Takes suggestions from the words in the index. To make certain fields
+use custom correctors, use the <tt class="docutils literal"><span class="pre">correctors</span></tt> argument to pass a
+dictionary mapping field names to <a class="reference internal" href="spelling.html#whoosh.spelling.Corrector" title="whoosh.spelling.Corrector"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.spelling.Corrector</span></tt></a>
+objects.</li>
+<li>ONLY CORRECTS FIELDS THAT HAVE THE <tt class="docutils literal"><span class="pre">spelling</span></tt> ATTRIBUTE in the
+schema (or for which you pass a custom corrector). To automatically
+check all fields, use <tt class="docutils literal"><span class="pre">allfields=True</span></tt>. Spell checking fields
+without <tt class="docutils literal"><span class="pre">spelling</span></tt> is slower.</li>
+</ul>
+<p>Expert users who want more sophisticated correction behavior can create
+a custom <a class="reference internal" href="spelling.html#whoosh.spelling.QueryCorrector" title="whoosh.spelling.QueryCorrector"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.spelling.QueryCorrector</span></tt></a> and use that instead
+of this method.</p>
+<p>Returns a <a class="reference internal" href="spelling.html#whoosh.spelling.Correction" title="whoosh.spelling.Correction"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.spelling.Correction</span></tt></a> object with a <tt class="docutils literal"><span class="pre">query</span></tt>
+attribute containing the corrected <a class="reference internal" href="query.html#whoosh.query.Query" title="whoosh.query.Query"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.query.Query</span></tt></a> object
+and a <tt class="docutils literal"><span class="pre">string</span></tt> attributes containing the corrected query string.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">qparser</span><span class="p">,</span> <span class="n">highlight</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qtext</span> <span class="o">=</span> <span class="s">&#39;mary &quot;litle lamb&quot;&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">qparser</span><span class="o">.</span><span class="n">QueryParser</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">,</span> <span class="n">myindex</span><span class="o">.</span><span class="n">schema</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mysearcher</span> <span class="o">=</span> <span class="n">myindex</span><span class="o">.</span><span class="n">searcher</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">correction</span> <span class="o">=</span> <span class="n">mysearcher</span><span class="p">()</span><span class="o">.</span><span class="n">correct_query</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">qtext</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">correction</span><span class="o">.</span><span class="n">query</span>
+<span class="go">&lt;query.And ...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">correction</span><span class="o">.</span><span class="n">string</span>
+<span class="go">&#39;mary &quot;little lamb&quot;&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mysearcher</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You can use the <tt class="docutils literal"><span class="pre">Correction</span></tt> object&#8217;s <tt class="docutils literal"><span class="pre">format_string</span></tt> method to
+format the corrected query string using a
+<tt class="xref py py-class docutils literal"><span class="pre">whoosh.highlight.Formatter</span></tt> object. For example, you can format
+the corrected string as HTML, emphasizing the changed words.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">hf</span> <span class="o">=</span> <span class="n">highlight</span><span class="o">.</span><span class="n">HtmlFormatter</span><span class="p">(</span><span class="n">classname</span><span class="o">=</span><span class="s">&quot;change&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">correction</span><span class="o">.</span><span class="n">format_string</span><span class="p">(</span><span class="n">hf</span><span class="p">)</span>
+<span class="go">&#39;mary &quot;&lt;strong class=&quot;change term0&quot;&gt;little&lt;/strong&gt; lamb&quot;&#39;</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>q</strong> &#8211; the <a class="reference internal" href="query.html#whoosh.query.Query" title="whoosh.query.Query"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.query.Query</span></tt></a> object to correct.</li>
+<li><strong>qstring</strong> &#8211; the original user query from which the query object was
+created. You can pass None instead of a string, in which the
+second item in the returned tuple will also be None.</li>
+<li><strong>correctors</strong> &#8211; an optional dictionary mapping fieldnames to
+<a class="reference internal" href="spelling.html#whoosh.spelling.Corrector" title="whoosh.spelling.Corrector"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.spelling.Corrector</span></tt></a> objects. By default, this method
+uses the contents of the index to spell check the terms in the
+query. You can use this argument to &#8220;override&#8221; some fields with a
+different correct, for example a
+<a class="reference internal" href="spelling.html#whoosh.spelling.GraphCorrector" title="whoosh.spelling.GraphCorrector"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.spelling.GraphCorrector</span></tt></a>.</li>
+<li><strong>allfields</strong> &#8211; if True, automatically spell check all fields, not
+just fields with the <tt class="docutils literal"><span class="pre">spelling</span></tt> attribute.</li>
+<li><strong>terms</strong> &#8211; a sequence of <tt class="docutils literal"><span class="pre">(&quot;fieldname&quot;,</span> <span class="pre">&quot;text&quot;)</span></tt> tuples to correct
+in the query. By default, this method corrects terms that don&#8217;t
+appear in the index. You can use this argument to override that
+behavior and explicitly specify the terms that should be corrected.</li>
+<li><strong>prefix</strong> &#8211; suggested replacement words must share this number of
+initial characters with the original word. Increasing this even to
+just <tt class="docutils literal"><span class="pre">1</span></tt> can dramatically speed up suggestions, and may be
+justifiable since spellling mistakes rarely involve the first
+letter of a word.</li>
+<li><strong>maxdist</strong> &#8211; the maximum number of &#8220;edits&#8221; (insertions, deletions,
+subsitutions, or transpositions of letters) allowed between the
+original word and any suggestion. Values higher than <tt class="docutils literal"><span class="pre">2</span></tt> may be
+slow.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="spelling.html#whoosh.spelling.Correction" title="whoosh.spelling.Correction"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.spelling.Correction</span></tt></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Searcher.doc_count">
+<tt class="descname">doc_count</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.searching.Searcher.doc_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of UNDELETED documents in the index.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Searcher.doc_count_all">
+<tt class="descname">doc_count_all</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.searching.Searcher.doc_count_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the total number of documents, DELETED OR UNDELETED, in
+the index.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Searcher.docs_for_query">
+<tt class="descname">docs_for_query</tt><big>(</big><em>q</em>, <em>for_deletion=False</em><big>)</big><a class="headerlink" href="#whoosh.searching.Searcher.docs_for_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an iterator of document numbers for documents matching the
+given <a class="reference internal" href="query.html#whoosh.query.Query" title="whoosh.query.Query"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.query.Query</span></tt></a> object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Searcher.document">
+<tt class="descname">document</tt><big>(</big><em>**kw</em><big>)</big><a class="headerlink" href="#whoosh.searching.Searcher.document" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience method returns the stored fields of a document
+matching the given keyword arguments, where the keyword keys are
+field names and the values are terms that must appear in the field.</p>
+<p>This method is equivalent to:</p>
+<div class="highlight-python"><div class="highlight"><pre>searcher.stored_fields(searcher.document_number(&lt;keyword args&gt;))
+</pre></div>
+</div>
+<p>Where Searcher.documents() returns a generator, this function returns
+either a dictionary or None. Use it when you assume the given keyword
+arguments either match zero or one documents (i.e. at least one of the
+fields is a unique key).</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">stored_fields</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">document</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s">u&quot;/a/b&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">stored_fields</span><span class="p">:</span>
+<span class="gp">... </span>  <span class="k">print</span><span class="p">(</span><span class="n">stored_fields</span><span class="p">[</span><span class="s">&#39;title&#39;</span><span class="p">])</span>
+<span class="gp">... </span><span class="k">else</span><span class="p">:</span>
+<span class="gp">... </span>  <span class="k">print</span><span class="p">(</span><span class="s">&quot;There is no document with the path /a/b&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Searcher.document_number">
+<tt class="descname">document_number</tt><big>(</big><em>**kw</em><big>)</big><a class="headerlink" href="#whoosh.searching.Searcher.document_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the document number of the document matching the given
+keyword arguments, where the keyword keys are field names and the
+values are terms that must appear in the field.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">docnum</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">document_number</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s">u&quot;/a/b&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Where Searcher.document_numbers() returns a generator, this function
+returns either an int or None. Use it when you assume the given keyword
+arguments either match zero or one documents (i.e. at least one of the
+fields is a unique key).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Searcher.document_numbers">
+<tt class="descname">document_numbers</tt><big>(</big><em>**kw</em><big>)</big><a class="headerlink" href="#whoosh.searching.Searcher.document_numbers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a generator of the document numbers for documents matching
+the given keyword arguments, where the keyword keys are field names and
+the values are terms that must appear in the field. If you do not
+specify any arguments (<tt class="docutils literal"><span class="pre">Searcher.document_numbers()</span></tt>), this method
+will yield <strong>all</strong> document numbers.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">docnums</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">searcher</span><span class="o">.</span><span class="n">document_numbers</span><span class="p">(</span><span class="n">emailto</span><span class="o">=</span><span class="s">&quot;matt@whoosh.ca&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Searcher.documents">
+<tt class="descname">documents</tt><big>(</big><em>**kw</em><big>)</big><a class="headerlink" href="#whoosh.searching.Searcher.documents" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience method returns the stored fields of a document
+matching the given keyword arguments, where the keyword keys are field
+names and the values are terms that must appear in the field.</p>
+<p>Returns a generator of dictionaries containing the stored fields of any
+documents matching the keyword arguments. If you do not specify any
+arguments (<tt class="docutils literal"><span class="pre">Searcher.documents()</span></tt>), this method will yield <strong>all</strong>
+documents.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">stored_fields</span> <span class="ow">in</span> <span class="n">searcher</span><span class="o">.</span><span class="n">documents</span><span class="p">(</span><span class="n">emailto</span><span class="o">=</span><span class="s">u&quot;matt@whoosh.ca&quot;</span><span class="p">):</span>
+<span class="gp">... </span>  <span class="k">print</span><span class="p">(</span><span class="s">&quot;Email subject:&quot;</span><span class="p">,</span> <span class="n">stored_fields</span><span class="p">[</span><span class="s">&#39;subject&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Searcher.get_parent">
+<tt class="descname">get_parent</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.searching.Searcher.get_parent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the parent of this searcher (if has_parent() is True), or
+else self.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Searcher.idf">
+<tt class="descname">idf</tt><big>(</big><em>fieldname</em>, <em>text</em><big>)</big><a class="headerlink" href="#whoosh.searching.Searcher.idf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the Inverse Document Frequency of the current term (calls
+idf() on the searcher&#8217;s Weighting object).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Searcher.key_terms">
+<tt class="descname">key_terms</tt><big>(</big><em>docnums</em>, <em>fieldname</em>, <em>numterms=5</em>, <em>model=&lt;class 'whoosh.classify.Bo1Model'&gt;</em>, <em>normalize=True</em><big>)</big><a class="headerlink" href="#whoosh.searching.Searcher.key_terms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the &#8216;numterms&#8217; most important terms from the documents
+listed (by number) in &#8216;docnums&#8217;. You can get document numbers for the
+documents your interested in with the document_number() and
+document_numbers() methods.</p>
+<p>&#8220;Most important&#8221; is generally defined as terms that occur frequently in
+the top hits but relatively infrequently in the collection as a whole.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">docnum</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">document_number</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s">u&quot;/a/b&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">keywords_and_scores</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">key_terms</span><span class="p">([</span><span class="n">docnum</span><span class="p">],</span> <span class="s">&quot;content&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This method returns a list of (&#8220;term&#8221;, score) tuples. The score may be
+useful if you want to know the &#8220;strength&#8221; of the key terms, however to
+just get the terms themselves you can just do this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">kws</span> <span class="o">=</span> <span class="p">[</span><span class="n">kw</span> <span class="k">for</span> <span class="n">kw</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">searcher</span><span class="o">.</span><span class="n">key_terms</span><span class="p">([</span><span class="n">docnum</span><span class="p">],</span> <span class="s">&quot;content&quot;</span><span class="p">)]</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fieldname</strong> &#8211; Look at the terms in this field. This field must
+store vectors.</li>
+<li><strong>docnums</strong> &#8211; A sequence of document numbers specifying which
+documents to extract key terms from.</li>
+<li><strong>numterms</strong> &#8211; Return this number of important terms.</li>
+<li><strong>model</strong> &#8211; The classify.ExpansionModel to use. See the classify
+module.</li>
+<li><strong>normalize</strong> &#8211; normalize the scores.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a list of (&#8220;term&#8221;, score) tuples.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Searcher.key_terms_from_text">
+<tt class="descname">key_terms_from_text</tt><big>(</big><em>fieldname</em>, <em>text</em>, <em>numterms=5</em>, <em>model=&lt;class 'whoosh.classify.Bo1Model'&gt;</em>, <em>normalize=True</em><big>)</big><a class="headerlink" href="#whoosh.searching.Searcher.key_terms_from_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the &#8216;numterms&#8217; most important terms from the given text.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>numterms</strong> &#8211; Return this number of important terms.</li>
+<li><strong>model</strong> &#8211; The classify.ExpansionModel to use. See the classify
+module.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Searcher.more_like">
+<tt class="descname">more_like</tt><big>(</big><em>docnum</em>, <em>fieldname</em>, <em>text=None</em>, <em>top=10</em>, <em>numterms=5</em>, <em>model=&lt;class 'whoosh.classify.Bo1Model'&gt;</em>, <em>normalize=False</em>, <em>filter=None</em><big>)</big><a class="headerlink" href="#whoosh.searching.Searcher.more_like" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a <a class="reference internal" href="#whoosh.searching.Results" title="whoosh.searching.Results"><tt class="xref py py-class docutils literal"><span class="pre">Results</span></tt></a> object containing documents similar to
+the given document, based on &#8220;key terms&#8221; in the given field:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Get the ID for the document you&#39;re interested in</span>
+<span class="n">docnum</span> <span class="o">=</span> <span class="n">search</span><span class="o">.</span><span class="n">document_number</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s">u&quot;/a/b/c&quot;</span><span class="p">)</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">more_like</span><span class="p">(</span><span class="n">docnum</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">&quot;Documents like&quot;</span><span class="p">,</span> <span class="n">searcher</span><span class="o">.</span><span class="n">stored_fields</span><span class="p">(</span><span class="n">docnum</span><span class="p">)[</span><span class="s">&quot;title&quot;</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">r</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">hit</span><span class="p">[</span><span class="s">&quot;title&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fieldname</strong> &#8211; the name of the field to use to test similarity.</li>
+<li><strong>text</strong> &#8211; by default, the method will attempt to load the contents
+of the field from the stored fields for the document, or from a
+term vector. If the field isn&#8217;t stored or vectored in the index,
+but you have access to the text another way (for example, loading
+from a file or a database), you can supply it using the <tt class="docutils literal"><span class="pre">text</span></tt>
+parameter.</li>
+<li><strong>top</strong> &#8211; the number of results to return.</li>
+<li><strong>numterms</strong> &#8211; the number of &#8220;key terms&#8221; to extract from the hit and
+search for. Using more terms is slower but gives potentially more
+and more accurate results.</li>
+<li><strong>model</strong> &#8211; (expert) a <tt class="xref py py-class docutils literal"><span class="pre">whoosh.classify.ExpansionModel</span></tt> to use
+to compute &#8220;key terms&#8221;.</li>
+<li><strong>normalize</strong> &#8211; whether to normalize term weights.</li>
+<li><strong>filter</strong> &#8211; a query, Results object, or set of docnums. The results
+will only contain documents that are also in the filter object.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Searcher.postings">
+<tt class="descname">postings</tt><big>(</big><em>fieldname</em>, <em>text</em>, <em>weighting=None</em>, <em>qf=1</em><big>)</big><a class="headerlink" href="#whoosh.searching.Searcher.postings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a <a class="reference internal" href="matching.html#whoosh.matching.Matcher" title="whoosh.matching.Matcher"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.matching.Matcher</span></tt></a> for the postings of the
+given term. Unlike the <a class="reference internal" href="reading.html#whoosh.reading.IndexReader.postings" title="whoosh.reading.IndexReader.postings"><tt class="xref py py-func docutils literal"><span class="pre">whoosh.reading.IndexReader.postings()</span></tt></a>
+method, this method automatically sets the scoring functions on the
+matcher from the searcher&#8217;s weighting object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Searcher.reader">
+<tt class="descname">reader</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.searching.Searcher.reader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the underlying <a class="reference internal" href="reading.html#whoosh.reading.IndexReader" title="whoosh.reading.IndexReader"><tt class="xref py py-class docutils literal"><span class="pre">IndexReader</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Searcher.refresh">
+<tt class="descname">refresh</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.searching.Searcher.refresh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a fresh searcher for the latest version of the index:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">my_searcher</span> <span class="o">=</span> <span class="n">my_searcher</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>If the index has not changed since this searcher was created, this
+searcher is simply returned.</p>
+<p>This method may CLOSE underlying resources that are no longer needed
+by the refreshed searcher, so you CANNOT continue to use the original
+searcher after calling <tt class="docutils literal"><span class="pre">refresh()</span></tt> on it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Searcher.search">
+<tt class="descname">search</tt><big>(</big><em>q</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#whoosh.searching.Searcher.search" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs a <a class="reference internal" href="query.html#whoosh.query.Query" title="whoosh.query.Query"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.query.Query</span></tt></a> object on this searcher and
+returns a <a class="reference internal" href="#whoosh.searching.Results" title="whoosh.searching.Results"><tt class="xref py py-class docutils literal"><span class="pre">Results</span></tt></a> object. See <a class="reference internal" href="../searching.html"><em>How to search</em></a> for more
+information.</p>
+<p>This method takes many keyword arguments (documented below).</p>
+<p>See <a class="reference internal" href="../facets.html"><em>Sorting and faceting</em></a> for information on using <tt class="docutils literal"><span class="pre">sortedby</span></tt> and/or
+<tt class="docutils literal"><span class="pre">groupedby</span></tt>. See <a class="reference internal" href="../searching.html#collapsing"><em>Collapsing results</em></a> for more information on using
+<tt class="docutils literal"><span class="pre">collapse</span></tt>, <tt class="docutils literal"><span class="pre">collapse_limit</span></tt>, and <tt class="docutils literal"><span class="pre">collapse_order</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>query</strong> &#8211; a <a class="reference internal" href="query.html#whoosh.query.Query" title="whoosh.query.Query"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.query.Query</span></tt></a> object to use to match
+documents.</li>
+<li><strong>limit</strong> &#8211; the maximum number of documents to score. If you&#8217;re only
+interested in the top N documents, you can set limit=N to limit the
+scoring for a faster search. Default is 10.</li>
+<li><strong>scored</strong> &#8211; whether to score the results. Overriden by <tt class="docutils literal"><span class="pre">sortedby</span></tt>.
+If both <tt class="docutils literal"><span class="pre">scored=False</span></tt> and <tt class="docutils literal"><span class="pre">sortedby=None</span></tt>, the results will be
+in arbitrary order, but will usually be computed faster than
+scored or sorted results.</li>
+<li><strong>sortedby</strong> &#8211; see <a class="reference internal" href="../facets.html"><em>Sorting and faceting</em></a>.</li>
+<li><strong>reverse</strong> &#8211; Reverses the direction of the sort. Default is False.</li>
+<li><strong>groupedby</strong> &#8211; see <a class="reference internal" href="../facets.html"><em>Sorting and faceting</em></a>.</li>
+<li><strong>optimize</strong> &#8211; use optimizations to get faster results when possible.
+Default is True.</li>
+<li><strong>filter</strong> &#8211; a query, Results object, or set of docnums. The results
+will only contain documents that are also in the filter object.</li>
+<li><strong>mask</strong> &#8211; a query, Results object, or set of docnums. The results
+will not contain any documents that are in the mask object.</li>
+<li><strong>terms</strong> &#8211; if True, record which terms were found in each matching
+document. See <a class="reference internal" href="../searching.html"><em>How to search</em></a> for more information. Default is
+False.</li>
+<li><strong>maptype</strong> &#8211; by default, the results of faceting with <tt class="docutils literal"><span class="pre">groupedby</span></tt>
+is a dictionary mapping group names to ordered lists of document
+numbers in the group. You can pass a
+<a class="reference internal" href="sorting.html#whoosh.sorting.FacetMap" title="whoosh.sorting.FacetMap"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.sorting.FacetMap</span></tt></a> subclass to this keyword argument
+to specify a different (usually faster) method for grouping. For
+example, <tt class="docutils literal"><span class="pre">maptype=sorting.Count</span></tt> would store only the count of
+documents in each group, instead of the full list of document IDs.</li>
+<li><strong>collapse</strong> &#8211; a <a class="reference internal" href="../facets.html"><em>facet</em></a> to use to collapse the
+results. See <a class="reference internal" href="../searching.html#collapsing"><em>Collapsing results</em></a> for more information.</li>
+<li><strong>collapse_limit</strong> &#8211; the maximum number of documents to allow with
+the same collapse key. See <a class="reference internal" href="../searching.html#collapsing"><em>Collapsing results</em></a> for more information.</li>
+<li><strong>collapse_order</strong> &#8211; an optional ordering <a class="reference internal" href="../facets.html"><em>facet</em></a>
+to control which documents are kept when collapsing. The default
+(<tt class="docutils literal"><span class="pre">collapse_order=None</span></tt>) uses the results order (e.g. the highest
+scoring documents in a scored search).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#whoosh.searching.Results" title="whoosh.searching.Results"><tt class="xref py py-class docutils literal"><span class="pre">Results</span></tt></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Searcher.search_page">
+<tt class="descname">search_page</tt><big>(</big><em>query</em>, <em>pagenum</em>, <em>pagelen=10</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#whoosh.searching.Searcher.search_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is Like the <a class="reference internal" href="#whoosh.searching.Searcher.search" title="whoosh.searching.Searcher.search"><tt class="xref py py-meth docutils literal"><span class="pre">Searcher.search()</span></tt></a> method, but returns
+a <a class="reference internal" href="#whoosh.searching.ResultsPage" title="whoosh.searching.ResultsPage"><tt class="xref py py-class docutils literal"><span class="pre">ResultsPage</span></tt></a> object. This is a convenience function for
+getting a certain &#8220;page&#8221; of the results for the given query, which is
+often useful in web search interfaces.</p>
+<p>For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">querystring</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;q&quot;</span><span class="p">)</span>
+<span class="n">query</span> <span class="o">=</span> <span class="n">queryparser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="n">querystring</span><span class="p">)</span>
+
+<span class="n">pagenum</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;page&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">pagelen</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;perpage&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search_page</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">pagenum</span><span class="p">,</span> <span class="n">pagelen</span><span class="o">=</span><span class="n">pagelen</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">&quot;Page </span><span class="si">%d</span><span class="s"> of </span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">pagenum</span><span class="p">,</span> <span class="n">results</span><span class="o">.</span><span class="n">pagecount</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">&quot;Showing results </span><span class="si">%d</span><span class="s">-</span><span class="si">%d</span><span class="s"> of </span><span class="si">%d</span><span class="s">&quot;</span>
+      <span class="o">%</span> <span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">offset</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">results</span><span class="o">.</span><span class="n">offset</span> <span class="o">+</span> <span class="n">results</span><span class="o">.</span><span class="n">pagelen</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+         <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)))</span>
+<span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%d</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">hit</span><span class="o">.</span><span class="n">rank</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">hit</span><span class="p">[</span><span class="s">&quot;title&quot;</span><span class="p">]))</span>
+</pre></div>
+</div>
+<p>(Note that results.pagelen might be less than the pagelen argument if
+there aren&#8217;t enough results to fill a page.)</p>
+<p>Any additional keyword arguments you supply are passed through to
+<a class="reference internal" href="#whoosh.searching.Searcher.search" title="whoosh.searching.Searcher.search"><tt class="xref py py-meth docutils literal"><span class="pre">Searcher.search()</span></tt></a>. For example, you can get paged results of a
+sorted search:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search_page</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sortedby</span><span class="o">=</span><span class="s">&quot;date&quot;</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Currently, searching for page 100 with pagelen of 10 takes the same
+amount of time as using <a class="reference internal" href="#whoosh.searching.Searcher.search" title="whoosh.searching.Searcher.search"><tt class="xref py py-meth docutils literal"><span class="pre">Searcher.search()</span></tt></a> to find the first 1000
+results. That is, this method does not have any special optimizations
+or efficiencies for getting a page from the middle of the full results
+list. (A future enhancement may allow using previous page results to
+improve the efficiency of finding the next page.)</p>
+<p>This method will raise a <tt class="docutils literal"><span class="pre">ValueError</span></tt> if you ask for a page number
+higher than the number of pages in the resulting query.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>query</strong> &#8211; the <a class="reference internal" href="query.html#whoosh.query.Query" title="whoosh.query.Query"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.query.Query</span></tt></a> object to match.</li>
+<li><strong>pagenum</strong> &#8211; the page number to retrieve, starting at <tt class="docutils literal"><span class="pre">1</span></tt> for the
+first page.</li>
+<li><strong>pagelen</strong> &#8211; the number of results per page.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#whoosh.searching.ResultsPage" title="whoosh.searching.ResultsPage"><tt class="xref py py-class docutils literal"><span class="pre">ResultsPage</span></tt></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Searcher.search_with_collector">
+<tt class="descname">search_with_collector</tt><big>(</big><em>q</em>, <em>collector</em>, <em>context=None</em><big>)</big><a class="headerlink" href="#whoosh.searching.Searcher.search_with_collector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Low-level method: runs a <a class="reference internal" href="query.html#whoosh.query.Query" title="whoosh.query.Query"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.query.Query</span></tt></a> object on this
+searcher using the given <a class="reference internal" href="collectors.html#whoosh.collectors.Collector" title="whoosh.collectors.Collector"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.collectors.Collector</span></tt></a> object
+to collect the results:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">myquery</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">&quot;cabbage&quot;</span><span class="p">)</span>
+
+<span class="n">uc</span> <span class="o">=</span> <span class="n">collectors</span><span class="o">.</span><span class="n">UnlimitedCollector</span><span class="p">()</span>
+<span class="n">tc</span> <span class="o">=</span> <span class="n">TermsCollector</span><span class="p">(</span><span class="n">uc</span><span class="p">)</span>
+
+<span class="n">mysearcher</span><span class="o">.</span><span class="n">search_with_collector</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">tc</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">tc</span><span class="o">.</span><span class="n">docterms</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">tc</span><span class="o">.</span><span class="n">results</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Note that this method does not return a <a class="reference internal" href="#whoosh.searching.Results" title="whoosh.searching.Results"><tt class="xref py py-class docutils literal"><span class="pre">Results</span></tt></a> object. You
+need to access the collector to get a results object or other
+information the collector might hold after the search.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>q</strong> &#8211; a <a class="reference internal" href="query.html#whoosh.query.Query" title="whoosh.query.Query"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.query.Query</span></tt></a> object to use to match
+documents.</li>
+<li><strong>collector</strong> &#8211; a <a class="reference internal" href="collectors.html#whoosh.collectors.Collector" title="whoosh.collectors.Collector"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.collectors.Collector</span></tt></a> object to feed
+the results into.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Searcher.suggest">
+<tt class="descname">suggest</tt><big>(</big><em>fieldname</em>, <em>text</em>, <em>limit=5</em>, <em>maxdist=2</em>, <em>prefix=0</em><big>)</big><a class="headerlink" href="#whoosh.searching.Searcher.suggest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a sorted list of suggested corrections for the given
+mis-typed word <tt class="docutils literal"><span class="pre">text</span></tt> based on the contents of the given field:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">searcher</span><span class="o">.</span><span class="n">suggest</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">&quot;specail&quot;</span><span class="p">)</span>
+<span class="go">[&quot;special&quot;]</span>
+</pre></div>
+</div>
+<p>This is a convenience method. If you are planning to get suggestions
+for multiple words in the same field, it is more efficient to get a
+<a class="reference internal" href="spelling.html#whoosh.spelling.Corrector" title="whoosh.spelling.Corrector"><tt class="xref py py-class docutils literal"><span class="pre">Corrector</span></tt></a> object and use it directly:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">corrector</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">corrector</span><span class="p">(</span><span class="s">&quot;fieldname&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">corrector</span><span class="o">.</span><span class="n">suggest</span><span class="p">(</span><span class="n">word</span><span class="p">))</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>limit</strong> &#8211; only return up to this many suggestions. If there are not
+enough terms in the field within <tt class="docutils literal"><span class="pre">maxdist</span></tt> of the given word, the
+returned list will be shorter than this number.</li>
+<li><strong>maxdist</strong> &#8211; the largest edit distance from the given word to look
+at. Numbers higher than 2 are not very effective or efficient.</li>
+<li><strong>prefix</strong> &#8211; require suggestions to share a prefix of this length
+with the given word. This is often justifiable since most
+misspellings do not involve the first letter of the word. Using a
+prefix dramatically decreases the time it takes to generate the
+list of words.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Searcher.up_to_date">
+<tt class="descname">up_to_date</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.searching.Searcher.up_to_date" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if this Searcher represents the latest version of the
+index, for backends that support versioning.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="results-classes">
+<h2>Results classes<a class="headerlink" href="#results-classes" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.searching.Results">
+<em class="property">class </em><tt class="descclassname">whoosh.searching.</tt><tt class="descname">Results</tt><big>(</big><em>searcher</em>, <em>q</em>, <em>top_n</em>, <em>docset=None</em>, <em>facetmaps=None</em>, <em>runtime=0</em>, <em>highlighter=None</em><big>)</big><a class="headerlink" href="#whoosh.searching.Results" title="Permalink to this definition">¶</a></dt>
+<dd><p>This object is returned by a Searcher. This object represents the
+results of a search query. You can mostly use it as if it was a list of
+dictionaries, where each dictionary is the stored fields of the document at
+that position in the results.</p>
+<p>Note that a Results object keeps a reference to the Searcher that created
+it, so keeping a reference to a Results object keeps the Searcher alive and
+so keeps all files used by it open.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>searcher</strong> &#8211; the <a class="reference internal" href="#whoosh.searching.Searcher" title="whoosh.searching.Searcher"><tt class="xref py py-class docutils literal"><span class="pre">Searcher</span></tt></a> object that produced these
+results.</li>
+<li><strong>query</strong> &#8211; the original query that created these results.</li>
+<li><strong>top_n</strong> &#8211; a list of (score, docnum) tuples representing the top
+N search results.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="whoosh.searching.Results.copy">
+<tt class="descname">copy</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.searching.Results.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a deep copy of this results object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Results.docnum">
+<tt class="descname">docnum</tt><big>(</big><em>n</em><big>)</big><a class="headerlink" href="#whoosh.searching.Results.docnum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the document number of the result at position n in the list
+of ranked documents.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Results.docs">
+<tt class="descname">docs</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.searching.Results.docs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a set-like object containing the document numbers that
+matched the query.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Results.estimated_length">
+<tt class="descname">estimated_length</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.searching.Results.estimated_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>The estimated maximum number of matching documents, or the
+exact number of matching documents if it&#8217;s known.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Results.estimated_min_length">
+<tt class="descname">estimated_min_length</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.searching.Results.estimated_min_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>The estimated minimum number of matching documents, or the
+exact number of matching documents if it&#8217;s known.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Results.extend">
+<tt class="descname">extend</tt><big>(</big><em>results</em><big>)</big><a class="headerlink" href="#whoosh.searching.Results.extend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Appends hits from &#8216;results&#8217; (that are not already in this
+results object) to the end of these results.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>results</strong> &#8211; another results object.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Results.facet_names">
+<tt class="descname">facet_names</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.searching.Results.facet_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the available facet names, for use with the <tt class="docutils literal"><span class="pre">groups()</span></tt>
+method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Results.fields">
+<tt class="descname">fields</tt><big>(</big><em>n</em><big>)</big><a class="headerlink" href="#whoosh.searching.Results.fields" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the stored fields for the document at the <tt class="docutils literal"><span class="pre">n</span></tt> th position
+in the results. Use <a class="reference internal" href="#whoosh.searching.Results.docnum" title="whoosh.searching.Results.docnum"><tt class="xref py py-meth docutils literal"><span class="pre">Results.docnum()</span></tt></a> if you want the raw
+document number instead of the stored fields.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Results.filter">
+<tt class="descname">filter</tt><big>(</big><em>results</em><big>)</big><a class="headerlink" href="#whoosh.searching.Results.filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes any hits that are not also in the other results object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Results.groups">
+<tt class="descname">groups</tt><big>(</big><em>name=None</em><big>)</big><a class="headerlink" href="#whoosh.searching.Results.groups" title="Permalink to this definition">¶</a></dt>
+<dd><p>If you generated facet groupings for the results using the
+<cite>groupedby</cite> keyword argument to the <tt class="docutils literal"><span class="pre">search()</span></tt> method, you can use
+this method to retrieve the groups. You can use the <tt class="docutils literal"><span class="pre">facet_names()</span></tt>
+method to get the list of available facet names.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">my_query</span><span class="p">,</span> <span class="n">groupedby</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;tag&quot;</span><span class="p">,</span> <span class="s">&quot;price&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span><span class="o">.</span><span class="n">facet_names</span><span class="p">()</span>
+<span class="go">[&quot;tag&quot;, &quot;price&quot;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span><span class="o">.</span><span class="n">groups</span><span class="p">(</span><span class="s">&quot;tag&quot;</span><span class="p">)</span>
+<span class="go">{&quot;new&quot;: [12, 1, 4], &quot;apple&quot;: [3, 10, 5], &quot;search&quot;: [11]}</span>
+</pre></div>
+</div>
+<p>If you only used one facet, you can call the method without a facet
+name to get the groups for the facet.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">my_query</span><span class="p">,</span> <span class="n">groupedby</span><span class="o">=</span><span class="s">&quot;tag&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+<span class="go">{&quot;new&quot;: [12, 1, 4], &quot;apple&quot;: [3, 10, 5, 0], &quot;search&quot;: [11]}</span>
+</pre></div>
+</div>
+<p>By default, this returns a dictionary mapping category names to a list
+of document numbers, in the same relative order as they appear in the
+results.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">mysearcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">groupedby</span><span class="o">=</span><span class="s">&quot;tag&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">docnums</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">docnums</span><span class="p">[</span><span class="s">&#39;new&#39;</span><span class="p">]</span>
+<span class="go">[12, 1, 4]</span>
+</pre></div>
+</div>
+<p>You can then use <tt class="xref py py-meth docutils literal"><span class="pre">Searcher.stored_fields()</span></tt> to get the stored
+fields associated with a document ID.</p>
+<p>If you specified a different <tt class="docutils literal"><span class="pre">maptype</span></tt> for the facet when you
+searched, the values in the dictionary depend on the
+<a class="reference internal" href="sorting.html#whoosh.sorting.FacetMap" title="whoosh.sorting.FacetMap"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.sorting.FacetMap</span></tt></a>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">myfacet</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">FieldFacet</span><span class="p">(</span><span class="s">&quot;tag&quot;</span><span class="p">,</span> <span class="n">maptype</span><span class="o">=</span><span class="n">sorting</span><span class="o">.</span><span class="n">Count</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">mysearcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">groupedby</span><span class="o">=</span><span class="n">myfacet</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">counts</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+<span class="go">{&quot;new&quot;: 3, &quot;apple&quot;: 4, &quot;search&quot;: 1}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Results.has_exact_length">
+<tt class="descname">has_exact_length</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.searching.Results.has_exact_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if this results object already knows the exact number
+of matching documents.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Results.has_matched_terms">
+<tt class="descname">has_matched_terms</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.searching.Results.has_matched_terms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the search recorded which terms matched in which
+documents.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">has_matched_terms</span><span class="p">()</span>
+<span class="go">False</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Results.is_empty">
+<tt class="descname">is_empty</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.searching.Results.is_empty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if not documents matched the query.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Results.items">
+<tt class="descname">items</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.searching.Results.items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an iterator of (docnum, score) pairs for the scored
+documents in the results.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Results.key_terms">
+<tt class="descname">key_terms</tt><big>(</big><em>fieldname</em>, <em>docs=10</em>, <em>numterms=5</em>, <em>model=&lt;class 'whoosh.classify.Bo1Model'&gt;</em>, <em>normalize=True</em><big>)</big><a class="headerlink" href="#whoosh.searching.Results.key_terms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the &#8216;numterms&#8217; most important terms from the top &#8216;docs&#8217;
+documents in these results. &#8220;Most important&#8221; is generally defined as
+terms that occur frequently in the top hits but relatively infrequently
+in the collection as a whole.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fieldname</strong> &#8211; Look at the terms in this field. This field must
+store vectors.</li>
+<li><strong>docs</strong> &#8211; Look at this many of the top documents of the results.</li>
+<li><strong>numterms</strong> &#8211; Return this number of important terms.</li>
+<li><strong>model</strong> &#8211; The classify.ExpansionModel to use. See the classify
+module.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of unicode strings.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Results.matched_terms">
+<tt class="descname">matched_terms</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.searching.Results.matched_terms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the set of <tt class="docutils literal"><span class="pre">(&quot;fieldname&quot;,</span> <span class="pre">&quot;text&quot;)</span></tt> tuples representing
+terms from the query that matched one or more of the TOP N documents
+(this does not report terms for documents that match the query but did
+not score high enough to make the top N results). You can compare this
+set to the terms from the original query to find terms which didn&#8217;t
+occur in any matching documents.</p>
+<p>This is only valid if you used <tt class="docutils literal"><span class="pre">terms=True</span></tt> in the search call to
+record matching terms. Otherwise it will raise an exception.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">myparser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s">&quot;alfa OR bravo OR charlie&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">terms</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span><span class="o">.</span><span class="n">terms</span><span class="p">()</span>
+<span class="go">set([(&quot;content&quot;, &quot;alfa&quot;), (&quot;content&quot;, &quot;charlie&quot;)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span><span class="o">.</span><span class="n">all_terms</span><span class="p">()</span> <span class="o">-</span> <span class="n">results</span><span class="o">.</span><span class="n">terms</span><span class="p">()</span>
+<span class="go">set([(&quot;content&quot;, &quot;bravo&quot;)])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Results.score">
+<tt class="descname">score</tt><big>(</big><em>n</em><big>)</big><a class="headerlink" href="#whoosh.searching.Results.score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the score for the document at the Nth position in the list
+of ranked documents. If the search was not scored, this may return
+None.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Results.scored_length">
+<tt class="descname">scored_length</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.searching.Results.scored_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of scored documents in the results, equal to or
+less than the <tt class="docutils literal"><span class="pre">limit</span></tt> keyword argument to the search.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">mysearcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<span class="go">1246</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">scored_length</span><span class="p">()</span>
+<span class="go">20</span>
+</pre></div>
+</div>
+<p>This may be fewer than the total number of documents that match the
+query, which is what <tt class="docutils literal"><span class="pre">len(Results)</span></tt> returns.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Results.upgrade">
+<tt class="descname">upgrade</tt><big>(</big><em>results</em>, <em>reverse=False</em><big>)</big><a class="headerlink" href="#whoosh.searching.Results.upgrade" title="Permalink to this definition">¶</a></dt>
+<dd><p>Re-sorts the results so any hits that are also in &#8216;results&#8217; appear
+before hits not in &#8216;results&#8217;, otherwise keeping their current relative
+positions. This does not add the documents in the other results object
+to this one.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>results</strong> &#8211; another results object.</li>
+<li><strong>reverse</strong> &#8211; if True, lower the position of hits in the other
+results object instead of raising them.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Results.upgrade_and_extend">
+<tt class="descname">upgrade_and_extend</tt><big>(</big><em>results</em><big>)</big><a class="headerlink" href="#whoosh.searching.Results.upgrade_and_extend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Combines the effects of extend() and upgrade(): hits that are also
+in &#8216;results&#8217; are raised. Then any hits from the other results object
+that are not in this results object are appended to the end.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>results</strong> &#8211; another results object.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.searching.Hit">
+<em class="property">class </em><tt class="descclassname">whoosh.searching.</tt><tt class="descname">Hit</tt><big>(</big><em>results</em>, <em>docnum</em>, <em>pos=None</em>, <em>score=None</em><big>)</big><a class="headerlink" href="#whoosh.searching.Hit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a single search result (&#8220;hit&#8221;) in a Results object.</p>
+<p>This object acts like a dictionary of the matching document&#8217;s stored
+fields. If for some reason you need an actual <tt class="docutils literal"><span class="pre">dict</span></tt> object, use
+<tt class="docutils literal"><span class="pre">Hit.fields()</span></tt> to get one.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">&quot;render&quot;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">&lt; Hit {title = u&quot;Rendering the scene&quot;} &gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">rank</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">docnum</span> <span class="o">==</span> <span class="mi">4592</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">score</span>
+<span class="go">2.52045682</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">&quot;title&quot;</span><span class="p">]</span>
+<span class="go">&quot;Rendering the scene&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">[&quot;title&quot;]</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>results</strong> &#8211; the Results object this hit belongs to.</li>
+<li><strong>pos</strong> &#8211; the position in the results list of this hit, for example
+pos = 0 means this is the first (highest scoring) hit.</li>
+<li><strong>docnum</strong> &#8211; the document number of this hit.</li>
+<li><strong>score</strong> &#8211; the score of this hit.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="whoosh.searching.Hit.fields">
+<tt class="descname">fields</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.searching.Hit.fields" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a dictionary of the stored fields of the document this
+object represents.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Hit.highlights">
+<tt class="descname">highlights</tt><big>(</big><em>fieldname</em>, <em>text=None</em>, <em>top=3</em>, <em>minscore=1</em><big>)</big><a class="headerlink" href="#whoosh.searching.Hit.highlights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns highlighted snippets from the given field:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">r</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">hit</span><span class="p">[</span><span class="s">&quot;title&quot;</span><span class="p">])</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">hit</span><span class="o">.</span><span class="n">highlights</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="../highlight.html"><em>How to create highlighted search result excerpts</em></a>.</p>
+<p>To change the fragmeter, formatter, order, or scorer used in
+highlighting, you can set attributes on the results object:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">highlight</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">terms</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">fragmenter</span> <span class="o">=</span> <span class="n">highlight</span><span class="o">.</span><span class="n">SentenceFragmenter</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>...or use a custom <a class="reference internal" href="highlight.html#whoosh.highlight.Highlighter" title="whoosh.highlight.Highlighter"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.highlight.Highlighter</span></tt></a> object:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">hl</span> <span class="o">=</span> <span class="n">highlight</span><span class="o">.</span><span class="n">Highlighter</span><span class="p">(</span><span class="n">fragmenter</span><span class="o">=</span><span class="n">sf</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">highlighter</span> <span class="o">=</span> <span class="n">hl</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fieldname</strong> &#8211; the name of the field you want to highlight.</li>
+<li><strong>text</strong> &#8211; by default, the method will attempt to load the contents
+of the field from the stored fields for the document. If the field
+you want to highlight isn&#8217;t stored in the index, but you have
+access to the text another way (for example, loading from a file or
+a database), you can supply it using the <tt class="docutils literal"><span class="pre">text</span></tt> parameter.</li>
+<li><strong>top</strong> &#8211; the maximum number of fragments to return.</li>
+<li><strong>minscore</strong> &#8211; the minimum score for fragments to appear in the
+highlights.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Hit.matched_terms">
+<tt class="descname">matched_terms</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.searching.Hit.matched_terms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the set of <tt class="docutils literal"><span class="pre">(&quot;fieldname&quot;,</span> <span class="pre">&quot;text&quot;)</span></tt> tuples representing
+terms from the query that matched in this document. You can
+compare this set to the terms from the original query to find terms
+which didn&#8217;t occur in this document.</p>
+<p>This is only valid if you used <tt class="docutils literal"><span class="pre">terms=True</span></tt> in the search call to
+record matching terms. Otherwise it will raise an exception.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">myparser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s">&quot;alfa OR bravo OR charlie&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">terms</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+<span class="gp">... </span>  <span class="k">print</span><span class="p">(</span><span class="n">hit</span><span class="p">[</span><span class="s">&quot;title&quot;</span><span class="p">])</span>
+<span class="gp">... </span>  <span class="k">print</span><span class="p">(</span><span class="s">&quot;Contains:&quot;</span><span class="p">,</span> <span class="n">hit</span><span class="o">.</span><span class="n">matched_terms</span><span class="p">())</span>
+<span class="gp">... </span>  <span class="k">print</span><span class="p">(</span><span class="s">&quot;Doesn&#39;t contain:&quot;</span><span class="p">,</span> <span class="n">q</span><span class="o">.</span><span class="n">all_terms</span><span class="p">()</span> <span class="o">-</span> <span class="n">hit</span><span class="o">.</span><span class="n">matched_terms</span><span class="p">())</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.Hit.more_like_this">
+<tt class="descname">more_like_this</tt><big>(</big><em>fieldname</em>, <em>text=None</em>, <em>top=10</em>, <em>numterms=5</em>, <em>model=&lt;class 'whoosh.classify.Bo1Model'&gt;</em>, <em>normalize=True</em>, <em>filter=None</em><big>)</big><a class="headerlink" href="#whoosh.searching.Hit.more_like_this" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new Results object containing documents similar to this
+hit, based on &#8220;key terms&#8221; in the given field:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">r</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">hit</span><span class="p">[</span><span class="s">&quot;title&quot;</span><span class="p">])</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Top 3 similar documents:&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">subhit</span> <span class="ow">in</span> <span class="n">hit</span><span class="o">.</span><span class="n">more_like_this</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+      <span class="k">print</span><span class="p">(</span><span class="s">&quot;  &quot;</span><span class="p">,</span> <span class="n">subhit</span><span class="p">[</span><span class="s">&quot;title&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fieldname</strong> &#8211; the name of the field to use to test similarity.</li>
+<li><strong>text</strong> &#8211; by default, the method will attempt to load the contents
+of the field from the stored fields for the document, or from a
+term vector. If the field isn&#8217;t stored or vectored in the index,
+but you have access to the text another way (for example, loading
+from a file or a database), you can supply it using the <tt class="docutils literal"><span class="pre">text</span></tt>
+parameter.</li>
+<li><strong>top</strong> &#8211; the number of results to return.</li>
+<li><strong>numterms</strong> &#8211; the number of &#8220;key terms&#8221; to extract from the hit and
+search for. Using more terms is slower but gives potentially more
+and more accurate results.</li>
+<li><strong>model</strong> &#8211; (expert) a <tt class="xref py py-class docutils literal"><span class="pre">whoosh.classify.ExpansionModel</span></tt> to use
+to compute &#8220;key terms&#8221;.</li>
+<li><strong>normalize</strong> &#8211; whether to normalize term weights.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.searching.ResultsPage">
+<em class="property">class </em><tt class="descclassname">whoosh.searching.</tt><tt class="descname">ResultsPage</tt><big>(</big><em>results</em>, <em>pagenum</em>, <em>pagelen=10</em><big>)</big><a class="headerlink" href="#whoosh.searching.ResultsPage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a single page out of a longer list of results, as returned
+by <a class="reference internal" href="#whoosh.searching.Searcher.search_page" title="whoosh.searching.Searcher.search_page"><tt class="xref py py-func docutils literal"><span class="pre">whoosh.searching.Searcher.search_page()</span></tt></a>. Supports a subset of the
+interface of the <a class="reference internal" href="#whoosh.searching.Results" title="whoosh.searching.Results"><tt class="xref py py-class docutils literal"><span class="pre">Results</span></tt></a> object, namely getting
+stored fields with __getitem__ (square brackets), iterating, and the
+<tt class="docutils literal"><span class="pre">score()</span></tt> and <tt class="docutils literal"><span class="pre">docnum()</span></tt> methods.</p>
+<p>The <tt class="docutils literal"><span class="pre">offset</span></tt> attribute contains the results number this page starts at
+(numbered from 0). For example, if the page length is 10, the <tt class="docutils literal"><span class="pre">offset</span></tt>
+attribute on the second page will be <tt class="docutils literal"><span class="pre">10</span></tt>.</p>
+<p>The <tt class="docutils literal"><span class="pre">pagecount</span></tt> attribute contains the number of pages available.</p>
+<p>The <tt class="docutils literal"><span class="pre">pagenum</span></tt> attribute contains the page number. This may be less than
+the page you requested if the results had too few pages. For example, if
+you do:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ResultsPage</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>but the results object only contains 3 pages worth of hits, <tt class="docutils literal"><span class="pre">pagenum</span></tt>
+will be 3.</p>
+<p>The <tt class="docutils literal"><span class="pre">pagelen</span></tt> attribute contains the number of results on this page
+(which may be less than the page length you requested if this is the last
+page of the results).</p>
+<p>The <tt class="docutils literal"><span class="pre">total</span></tt> attribute contains the total number of hits in the results.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">mysearcher</span> <span class="o">=</span> <span class="n">myindex</span><span class="o">.</span><span class="n">searcher</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pagenum</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">page</span> <span class="o">=</span> <span class="n">mysearcher</span><span class="o">.</span><span class="n">find_page</span><span class="p">(</span><span class="n">pagenum</span><span class="p">,</span> <span class="n">myquery</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s">&quot;Page </span><span class="si">%s</span><span class="s"> of </span><span class="si">%s</span><span class="s">, results </span><span class="si">%s</span><span class="s"> to </span><span class="si">%s</span><span class="s"> of </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span>
+<span class="gp">... </span>      <span class="p">(</span><span class="n">pagenum</span><span class="p">,</span> <span class="n">page</span><span class="o">.</span><span class="n">pagecount</span><span class="p">,</span> <span class="n">page</span><span class="o">.</span><span class="n">offset</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span>
+<span class="gp">... </span>       <span class="n">page</span><span class="o">.</span><span class="n">offset</span><span class="o">+</span><span class="n">page</span><span class="o">.</span><span class="n">pagelen</span><span class="p">,</span> <span class="n">page</span><span class="o">.</span><span class="n">total</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">fields</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">page</span><span class="p">):</span>
+<span class="gp">... </span>  <span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">. </span><span class="si">%r</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">page</span><span class="o">.</span><span class="n">offset</span> <span class="o">+</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">fields</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mysearcher</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>To set highlighter attributes (for example <tt class="docutils literal"><span class="pre">formatter</span></tt>), access the
+underlying <a class="reference internal" href="#whoosh.searching.Results" title="whoosh.searching.Results"><tt class="xref py py-class docutils literal"><span class="pre">Results</span></tt></a> object:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">page</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">formatter</span> <span class="o">=</span> <span class="n">highlight</span><span class="o">.</span><span class="n">UppercaseFormatter</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>results</strong> &#8211; a <a class="reference internal" href="#whoosh.searching.Results" title="whoosh.searching.Results"><tt class="xref py py-class docutils literal"><span class="pre">Results</span></tt></a> object.</li>
+<li><strong>pagenum</strong> &#8211; which page of the results to use, numbered from <tt class="docutils literal"><span class="pre">1</span></tt>.</li>
+<li><strong>pagelen</strong> &#8211; the number of hits per page.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="whoosh.searching.ResultsPage.docnum">
+<tt class="descname">docnum</tt><big>(</big><em>n</em><big>)</big><a class="headerlink" href="#whoosh.searching.ResultsPage.docnum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the document number of the hit at the nth position on this
+page.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.ResultsPage.is_last_page">
+<tt class="descname">is_last_page</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.searching.ResultsPage.is_last_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if this object represents the last page of results.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.searching.ResultsPage.score">
+<tt class="descname">score</tt><big>(</big><em>n</em><big>)</big><a class="headerlink" href="#whoosh.searching.ResultsPage.score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the score of the hit at the nth position on this page.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="exceptions">
+<h2>Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="whoosh.searching.NoTermsException">
+<em class="property">exception </em><tt class="descclassname">whoosh.searching.</tt><tt class="descname">NoTermsException</tt><a class="headerlink" href="#whoosh.searching.NoTermsException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception raised you try to access matched terms on a <a class="reference internal" href="#whoosh.searching.Results" title="whoosh.searching.Results"><tt class="xref py py-class docutils literal"><span class="pre">Results</span></tt></a>
+object was created without them. To record which terms matched in which
+document, you need to call the <a class="reference internal" href="#whoosh.searching.Searcher.search" title="whoosh.searching.Searcher.search"><tt class="xref py py-meth docutils literal"><span class="pre">Searcher.search()</span></tt></a> method with
+<tt class="docutils literal"><span class="pre">terms=True</span></tt>.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="whoosh.searching.TimeLimit">
+<em class="property">exception </em><tt class="descclassname">whoosh.searching.</tt><tt class="descname">TimeLimit</tt><a class="headerlink" href="#whoosh.searching.TimeLimit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised by <tt class="xref py py-class docutils literal"><span class="pre">TimeLimitedCollector</span></tt> if the time limit is reached
+before the search finishes. If you have a reference to the collector, you
+can get partial results by calling <tt class="xref py py-meth docutils literal"><span class="pre">TimeLimitedCollector.results()</span></tt>.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">searching</span></tt> module</a><ul>
+<li><a class="reference internal" href="#searching-classes">Searching classes</a></li>
+<li><a class="reference internal" href="#results-classes">Results classes</a></li>
+<li><a class="reference internal" href="#exceptions">Exceptions</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="scoring.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">scoring</span></tt> module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="sorting.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">sorting</span></tt> module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/searching.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sorting.html" title="sorting module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="scoring.html" title="scoring module"
+             >previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="api.html" >Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

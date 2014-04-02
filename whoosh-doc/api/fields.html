@@ -1,0 +1,763 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>fields module &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="../index.html" />
+    <link rel="up" title="Whoosh API" href="api.html" />
+    <link rel="next" title="filedb.filestore module" href="filedb/filestore.html" />
+    <link rel="prev" title="columns module" href="columns.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="filedb/filestore.html" title="filedb.filestore module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="columns.html" title="columns module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="api.html" accesskey="U">Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-whoosh.fields">
+<span id="fields-module"></span><h1><tt class="docutils literal"><span class="pre">fields</span></tt> module<a class="headerlink" href="#module-whoosh.fields" title="Permalink to this headline">¶</a></h1>
+<p>Contains functions and classes related to fields.</p>
+<div class="section" id="schema-class">
+<h2>Schema class<a class="headerlink" href="#schema-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.fields.Schema">
+<em class="property">class </em><tt class="descclassname">whoosh.fields.</tt><tt class="descname">Schema</tt><big>(</big><em>**fields</em><big>)</big><a class="headerlink" href="#whoosh.fields.Schema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents the collection of fields in an index. Maps field names to
+FieldType objects which define the behavior of each field.</p>
+<p>Low-level parts of the index use field numbers instead of field names for
+compactness. This class has several methods for converting between the
+field name, field number, and field object itself.</p>
+<p>All keyword arguments to the constructor are treated as fieldname =
+fieldtype pairs. The fieldtype can be an instantiated FieldType object,
+or a FieldType sub-class (in which case the Schema will instantiate it
+with the default constructor before adding it).</p>
+<p>For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">s</span> <span class="o">=</span> <span class="n">Schema</span><span class="p">(</span><span class="n">content</span> <span class="o">=</span> <span class="n">TEXT</span><span class="p">,</span>
+           <span class="n">title</span> <span class="o">=</span> <span class="n">TEXT</span><span class="p">(</span><span class="n">stored</span> <span class="o">=</span> <span class="bp">True</span><span class="p">),</span>
+           <span class="n">tags</span> <span class="o">=</span> <span class="n">KEYWORD</span><span class="p">(</span><span class="n">stored</span> <span class="o">=</span> <span class="bp">True</span><span class="p">))</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="whoosh.fields.Schema.add">
+<tt class="descname">add</tt><big>(</big><em>name</em>, <em>fieldtype</em>, <em>glob=False</em><big>)</big><a class="headerlink" href="#whoosh.fields.Schema.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a field to this schema.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; The name of the field.</li>
+<li><strong>fieldtype</strong> &#8211; An instantiated fields.FieldType object, or a
+FieldType subclass. If you pass an instantiated object, the schema
+will use that as the field configuration for this field. If you
+pass a FieldType subclass, the schema will automatically
+instantiate it with the default constructor.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.fields.Schema.copy">
+<tt class="descname">copy</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.fields.Schema.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a shallow copy of the schema. The field instances are not
+deep copied, so they are shared between schema copies.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.fields.Schema.has_vectored_fields">
+<tt class="descname">has_vectored_fields</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.fields.Schema.has_vectored_fields" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if any of the fields in this schema store term vectors.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.fields.Schema.items">
+<tt class="descname">items</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.fields.Schema.items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of (&#8220;fieldname&#8221;, field_object) pairs for the fields
+in this schema.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.fields.Schema.names">
+<tt class="descname">names</tt><big>(</big><em>check_names=None</em><big>)</big><a class="headerlink" href="#whoosh.fields.Schema.names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of the names of the fields in this schema.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>check_names</strong> &#8211; (optional) sequence of field names to check
+whether the schema accepts them as (dynamic) field names -
+acceptable names will also be in the result list.
+Note: You may also have static field names in check_names, that
+won&#8217;t create duplicates in the result list. Unsupported names
+will not be in the result list.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.fields.Schema.scorable_names">
+<tt class="descname">scorable_names</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.fields.Schema.scorable_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of the names of fields that store field
+lengths.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.fields.Schema.separate_spelling_names">
+<tt class="descname">separate_spelling_names</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.fields.Schema.separate_spelling_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of the names of fields that require special handling
+for generating spelling graphs... either because they store graphs but
+aren&#8217;t indexed, or because the analyzer is stemmed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.fields.Schema.stored_names">
+<tt class="descname">stored_names</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.fields.Schema.stored_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of the names of fields that are stored.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.fields.Schema.vector_names">
+<tt class="descname">vector_names</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.fields.Schema.vector_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of the names of fields that store vectors.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.fields.SchemaClass">
+<em class="property">class </em><tt class="descclassname">whoosh.fields.</tt><tt class="descname">SchemaClass</tt><big>(</big><em>**fields</em><big>)</big><a class="headerlink" href="#whoosh.fields.SchemaClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allows you to define a schema using declarative syntax, similar to
+Django models:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MySchema</span><span class="p">(</span><span class="n">SchemaClass</span><span class="p">):</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">ID</span>
+    <span class="n">date</span> <span class="o">=</span> <span class="n">DATETIME</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">TEXT</span>
+</pre></div>
+</div>
+<p>You can use inheritance to share common fields between schemas:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Parent</span><span class="p">(</span><span class="n">SchemaClass</span><span class="p">):</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">ID</span><span class="p">(</span><span class="n">stored</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">date</span> <span class="o">=</span> <span class="n">DATETIME</span>
+
+<span class="k">class</span> <span class="nc">Child1</span><span class="p">(</span><span class="n">Parent</span><span class="p">):</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">TEXT</span><span class="p">(</span><span class="n">positions</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Child2</span><span class="p">(</span><span class="n">Parent</span><span class="p">):</span>
+    <span class="n">tags</span> <span class="o">=</span> <span class="n">KEYWORD</span>
+</pre></div>
+</div>
+<p>This class overrides <tt class="docutils literal"><span class="pre">__new__</span></tt> so instantiating your sub-class always
+results in an instance of <tt class="docutils literal"><span class="pre">Schema</span></tt>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MySchema</span><span class="p">(</span><span class="n">SchemaClass</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">title</span> <span class="o">=</span> <span class="n">TEXT</span><span class="p">(</span><span class="n">stored</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">content</span> <span class="o">=</span> <span class="n">TEXT</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">MySchema</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="go">&lt;class &#39;whoosh.fields.Schema&#39;&gt;</span>
+</pre></div>
+</div>
+<p>All keyword arguments to the constructor are treated as fieldname =
+fieldtype pairs. The fieldtype can be an instantiated FieldType object,
+or a FieldType sub-class (in which case the Schema will instantiate it
+with the default constructor before adding it).</p>
+<p>For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">s</span> <span class="o">=</span> <span class="n">Schema</span><span class="p">(</span><span class="n">content</span> <span class="o">=</span> <span class="n">TEXT</span><span class="p">,</span>
+           <span class="n">title</span> <span class="o">=</span> <span class="n">TEXT</span><span class="p">(</span><span class="n">stored</span> <span class="o">=</span> <span class="bp">True</span><span class="p">),</span>
+           <span class="n">tags</span> <span class="o">=</span> <span class="n">KEYWORD</span><span class="p">(</span><span class="n">stored</span> <span class="o">=</span> <span class="bp">True</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="fieldtype-base-class">
+<h2>FieldType base class<a class="headerlink" href="#fieldtype-base-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.fields.FieldType">
+<em class="property">class </em><tt class="descclassname">whoosh.fields.</tt><tt class="descname">FieldType</tt><big>(</big><em>format</em>, <em>analyzer</em>, <em>vector=None</em>, <em>scorable=False</em>, <em>stored=False</em>, <em>unique=False</em>, <em>multitoken_query='default'</em>, <em>sortable=False</em><big>)</big><a class="headerlink" href="#whoosh.fields.FieldType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a field configuration.</p>
+<p>The FieldType object supports the following attributes:</p>
+<ul class="simple">
+<li>format (formats.Format): the storage format for the field&#8217;s contents.</li>
+<li>analyzer (analysis.Analyzer): the analyzer to use to turn text into
+terms.</li>
+<li>vector (formats.Format): the storage format for the field&#8217;s vectors
+(forward index), or None if the field should not store vectors.</li>
+<li>scorable (boolean): whether searches against this field may be scored.
+This controls whether the index stores per-document field lengths for
+this field.</li>
+<li>stored (boolean): whether the content of this field is stored for each
+document. For example, in addition to indexing the title of a document,
+you usually want to store the title so it can be presented as part of
+the search results.</li>
+<li>unique (boolean): whether this field&#8217;s value is unique to each document.
+For example, &#8216;path&#8217; or &#8216;ID&#8217;. IndexWriter.update_document() will use
+fields marked as &#8216;unique&#8217; to find the previous version of a document
+being updated.</li>
+<li>multitoken_query is a string indicating what kind of query to use when
+a &#8220;word&#8221; in a user query parses into multiple tokens. The string is
+interpreted by the query parser. The strings understood by the default
+query parser are &#8220;first&#8221; (use first token only), &#8220;and&#8221; (join the tokens
+with an AND query), &#8220;or&#8221; (join the tokens with OR), &#8220;phrase&#8221; (join
+the tokens with a phrase query), and &#8220;default&#8221; (use the query parser&#8217;s
+default join type).</li>
+</ul>
+<p>The constructor for the base field type simply lets you supply your own
+configured field format, vector format, and scorable and stored values.
+Subclasses may configure some or all of this for you.</p>
+<dl class="method">
+<dt id="whoosh.fields.FieldType.clean">
+<tt class="descname">clean</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.fields.FieldType.clean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears any cached information in the field and any child objects.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.fields.FieldType.has_morph">
+<tt class="descname">has_morph</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.fields.FieldType.has_morph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if this field by default performs morphological
+transformations on its terms, e.g. stemming.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.fields.FieldType.index">
+<tt class="descname">index</tt><big>(</big><em>value</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#whoosh.fields.FieldType.index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an iterator of (btext, frequency, weight, encoded_value)
+tuples for each unique word in the input value.</p>
+<p>The default implementation uses the <tt class="docutils literal"><span class="pre">analyzer</span></tt> attribute to tokenize
+the value into strings, then encodes them into bytes using UTF-8.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.fields.FieldType.parse_query">
+<tt class="descname">parse_query</tt><big>(</big><em>fieldname</em>, <em>qstring</em>, <em>boost=1.0</em><big>)</big><a class="headerlink" href="#whoosh.fields.FieldType.parse_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>When <tt class="docutils literal"><span class="pre">self_parsing()</span></tt> returns True, the query parser will call
+this method to parse basic query text.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.fields.FieldType.parse_range">
+<tt class="descname">parse_range</tt><big>(</big><em>fieldname</em>, <em>start</em>, <em>end</em>, <em>startexcl</em>, <em>endexcl</em>, <em>boost=1.0</em><big>)</big><a class="headerlink" href="#whoosh.fields.FieldType.parse_range" title="Permalink to this definition">¶</a></dt>
+<dd><p>When <tt class="docutils literal"><span class="pre">self_parsing()</span></tt> returns True, the query parser will call
+this method to parse range query text. If this method returns None
+instead of a query object, the parser will fall back to parsing the
+start and end terms using process_text().</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.fields.FieldType.process_text">
+<tt class="descname">process_text</tt><big>(</big><em>qstring</em>, <em>mode=''</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#whoosh.fields.FieldType.process_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Analyzes the given string and returns an iterator of token texts.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">field</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">TEXT</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">process_text</span><span class="p">(</span><span class="s">&quot;The ides of March&quot;</span><span class="p">))</span>
+<span class="go">[&quot;ides&quot;, &quot;march&quot;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.fields.FieldType.self_parsing">
+<tt class="descname">self_parsing</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.fields.FieldType.self_parsing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subclasses should override this method to return True if they want
+the query parser to call the field&#8217;s <tt class="docutils literal"><span class="pre">parse_query()</span></tt> method instead
+of running the analyzer on text in this field. This is useful where
+the field needs full control over how queries are interpreted, such
+as in the numeric field type.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.fields.FieldType.separate_spelling">
+<tt class="descname">separate_spelling</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.fields.FieldType.separate_spelling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if this field requires special handling of the words
+that go into the field&#8217;s word graph.</p>
+<p>The default behavior is to return True if the field is &#8220;spelled&#8221; but
+not indexed, or if the field is indexed but the analyzer has
+morphological transformations (e.g. stemming). Exotic field types may
+need to override this behavior.</p>
+<p>This method should return False if the field does not support spelling
+(i.e. the <tt class="docutils literal"><span class="pre">spelling</span></tt> attribute is False).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.fields.FieldType.sortable_terms">
+<tt class="descname">sortable_terms</tt><big>(</big><em>ixreader</em>, <em>fieldname</em><big>)</big><a class="headerlink" href="#whoosh.fields.FieldType.sortable_terms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an iterator of the &#8220;sortable&#8221; tokens in the given reader and
+field. These values can be used for sorting. The default implementation
+simply returns all tokens in the field.</p>
+<p>This can be overridden by field types such as NUMERIC where some values
+in a field are not useful for sorting.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.fields.FieldType.spellable_words">
+<tt class="descname">spellable_words</tt><big>(</big><em>value</em><big>)</big><a class="headerlink" href="#whoosh.fields.FieldType.spellable_words" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an iterator of each unique word (in sorted order) in the
+input value, suitable for inclusion in the field&#8217;s word graph.</p>
+<p>The default behavior is to call the field analyzer with the keyword
+argument <tt class="docutils literal"><span class="pre">no_morph=True</span></tt>, which should make the analyzer skip any
+morphological transformation filters (e.g. stemming) to preserve the
+original form of the words. Exotic field types may need to override
+this behavior.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.fields.FieldType.supports">
+<tt class="descname">supports</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#whoosh.fields.FieldType.supports" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the underlying format supports the given posting
+value type.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">field</span> <span class="o">=</span> <span class="n">TEXT</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">field</span><span class="o">.</span><span class="n">supports</span><span class="p">(</span><span class="s">&quot;positions&quot;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">field</span><span class="o">.</span><span class="n">supports</span><span class="p">(</span><span class="s">&quot;characters&quot;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.fields.FieldType.to_bytes">
+<tt class="descname">to_bytes</tt><big>(</big><em>value</em><big>)</big><a class="headerlink" href="#whoosh.fields.FieldType.to_bytes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a bytes representation of the given value, appropriate to be
+written to disk. The default implementation assumes a unicode value and
+encodes it using UTF-8.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.fields.FieldType.to_column_value">
+<tt class="descname">to_column_value</tt><big>(</big><em>value</em><big>)</big><a class="headerlink" href="#whoosh.fields.FieldType.to_column_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an object suitable to be inserted into the document values
+column for this field. The default implementation simply calls
+<tt class="docutils literal"><span class="pre">self.to_bytes(value)</span></tt>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.fields.FieldType.tokenize">
+<tt class="descname">tokenize</tt><big>(</big><em>value</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#whoosh.fields.FieldType.tokenize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Analyzes the given string and returns an iterator of Token objects
+(note: for performance reasons, actually the same token yielded over
+and over with different attributes).</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="pre-made-field-types">
+<h2>Pre-made field types<a class="headerlink" href="#pre-made-field-types" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.fields.ID">
+<em class="property">class </em><tt class="descclassname">whoosh.fields.</tt><tt class="descname">ID</tt><big>(</big><em>stored=False</em>, <em>unique=False</em>, <em>field_boost=1.0</em>, <em>spelling=False</em>, <em>sortable=False</em>, <em>analyzer=None</em><big>)</big><a class="headerlink" href="#whoosh.fields.ID" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configured field type that indexes the entire value of the field as one
+token. This is useful for data you don&#8217;t want to tokenize, such as the path
+of a file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>stored</strong> &#8211; Whether the value of this field is stored with the</td>
+</tr>
+</tbody>
+</table>
+<p>document.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.fields.IDLIST">
+<em class="property">class </em><tt class="descclassname">whoosh.fields.</tt><tt class="descname">IDLIST</tt><big>(</big><em>stored=False</em>, <em>unique=False</em>, <em>expression=None</em>, <em>field_boost=1.0</em>, <em>spelling=False</em><big>)</big><a class="headerlink" href="#whoosh.fields.IDLIST" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configured field type for fields containing IDs separated by whitespace
+and/or punctuation (or anything else, using the expression param).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>stored</strong> &#8211; Whether the value of this field is stored with the
+document.</li>
+<li><strong>unique</strong> &#8211; Whether the value of this field is unique per-document.</li>
+<li><strong>expression</strong> &#8211; The regular expression object to use to extract
+tokens. The default expression breaks tokens on CRs, LFs, tabs,
+spaces, commas, and semicolons.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.fields.STORED">
+<em class="property">class </em><tt class="descclassname">whoosh.fields.</tt><tt class="descname">STORED</tt><a class="headerlink" href="#whoosh.fields.STORED" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configured field type for fields you want to store but not index.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.fields.KEYWORD">
+<em class="property">class </em><tt class="descclassname">whoosh.fields.</tt><tt class="descname">KEYWORD</tt><big>(</big><em>stored=False</em>, <em>lowercase=False</em>, <em>commas=False</em>, <em>vector=None</em>, <em>scorable=False</em>, <em>unique=False</em>, <em>field_boost=1.0</em>, <em>spelling=False</em>, <em>sortable=False</em><big>)</big><a class="headerlink" href="#whoosh.fields.KEYWORD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configured field type for fields containing space-separated or
+comma-separated keyword-like data (such as tags). The default is to not
+store positional information (so phrase searching is not allowed in this
+field) and to not make the field scorable.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>stored</strong> &#8211; Whether to store the value of the field with the
+document.</li>
+<li><strong>comma</strong> &#8211; Whether this is a comma-separated field. If this is False
+(the default), it is treated as a space-separated field.</li>
+<li><strong>scorable</strong> &#8211; Whether this field is scorable.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.fields.TEXT">
+<em class="property">class </em><tt class="descclassname">whoosh.fields.</tt><tt class="descname">TEXT</tt><big>(</big><em>analyzer=None</em>, <em>phrase=True</em>, <em>chars=False</em>, <em>vector=None</em>, <em>stored=False</em>, <em>field_boost=1.0</em>, <em>multitoken_query='default'</em>, <em>spelling=False</em>, <em>sortable=False</em>, <em>lang=None</em><big>)</big><a class="headerlink" href="#whoosh.fields.TEXT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configured field type for text fields (for example, the body text of an
+article). The default is to store positional information to allow phrase
+searching. This field type is always scorable.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>analyzer</strong> &#8211; The analysis.Analyzer to use to index the field
+contents. See the analysis module for more information. If you omit
+this argument, the field uses analysis.StandardAnalyzer.</li>
+<li><strong>phrase</strong> &#8211; Whether the store positional information to allow phrase
+searching.</li>
+<li><strong>chars</strong> &#8211; Whether to store character ranges along with positions.
+If this is True, &#8220;phrase&#8221; is also implied.</li>
+<li><strong>vector</strong> &#8211; A <a class="reference internal" href="formats.html#whoosh.formats.Format" title="whoosh.formats.Format"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.formats.Format</span></tt></a> object to use to store
+term vectors, or <tt class="docutils literal"><span class="pre">True</span></tt> to store vectors using the same format as
+the inverted index, or <tt class="docutils literal"><span class="pre">None</span></tt> or <tt class="docutils literal"><span class="pre">False</span></tt> to not store vectors.
+By default, fields do not store term vectors.</li>
+<li><strong>stored</strong> &#8211; Whether to store the value of this field with the
+document. Since this field type generally contains a lot of text,
+you should avoid storing it with the document unless you need to,
+for example to allow fast excerpts in the search results.</li>
+<li><strong>spelling</strong> &#8211; Whether to generate word graphs for this field to make
+spelling suggestions much faster.</li>
+<li><strong>sortable</strong> &#8211; If True, make this field sortable using the default
+column type. If you pass a <a class="reference internal" href="columns.html#whoosh.columns.Column" title="whoosh.columns.Column"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.columns.Column</span></tt></a> instance
+instead of True, the field will use the given column type.</li>
+<li><strong>lang</strong> &#8211; automaticaly configure a
+<a class="reference internal" href="analysis.html#whoosh.analysis.LanguageAnalyzer" title="whoosh.analysis.LanguageAnalyzer"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.analysis.LanguageAnalyzer</span></tt></a> for the given language.
+This is ignored if you also specify an <tt class="docutils literal"><span class="pre">analyzer</span></tt>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.fields.NUMERIC">
+<em class="property">class </em><tt class="descclassname">whoosh.fields.</tt><tt class="descname">NUMERIC</tt><big>(</big><em>numtype=&lt;type 'int'&gt;</em>, <em>bits=32</em>, <em>stored=False</em>, <em>unique=False</em>, <em>field_boost=1.0</em>, <em>decimal_places=0</em>, <em>shift_step=4</em>, <em>signed=True</em>, <em>sortable=False</em>, <em>default=None</em><big>)</big><a class="headerlink" href="#whoosh.fields.NUMERIC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Special field type that lets you index integer or floating point
+numbers in relatively short fixed-width terms. The field converts numbers
+to sortable bytes for you before indexing.</p>
+<p>You specify the numeric type of the field (<tt class="docutils literal"><span class="pre">int</span></tt> or <tt class="docutils literal"><span class="pre">float</span></tt>) when you
+create the <tt class="docutils literal"><span class="pre">NUMERIC</span></tt> object. The default is <tt class="docutils literal"><span class="pre">int</span></tt>. For <tt class="docutils literal"><span class="pre">int</span></tt>, you can
+specify a size in bits (<tt class="docutils literal"><span class="pre">32</span></tt> or <tt class="docutils literal"><span class="pre">64</span></tt>). For both <tt class="docutils literal"><span class="pre">int</span></tt> and <tt class="docutils literal"><span class="pre">float</span></tt>
+you can specify a <tt class="docutils literal"><span class="pre">signed</span></tt> keyword argument (default is <tt class="docutils literal"><span class="pre">True</span></tt>).</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span> <span class="o">=</span> <span class="n">Schema</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">STORED</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="n">NUMERIC</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">signed</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ix</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">create_index</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">ix</span><span class="o">.</span><span class="n">writer</span><span class="p">()</span> <span class="k">as</span> <span class="n">w</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s">&quot;/a&quot;</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="mi">5820402204</span><span class="p">)</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
+<p>You can also use the NUMERIC field to store Decimal instances by specifying
+a type of <tt class="docutils literal"><span class="pre">int</span></tt> or <tt class="docutils literal"><span class="pre">long</span></tt> and the <tt class="docutils literal"><span class="pre">decimal_places</span></tt> keyword argument.
+This simply multiplies each number by <tt class="docutils literal"><span class="pre">(10</span> <span class="pre">**</span> <span class="pre">decimal_places)</span></tt> before
+storing it as an integer. Of course this may throw away decimal prcesision
+(by truncating, not rounding) and imposes the same maximum value limits as
+<tt class="docutils literal"><span class="pre">int</span></tt>/<tt class="docutils literal"><span class="pre">long</span></tt>, but these may be acceptable for certain applications.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">decimal</span> <span class="kn">import</span> <span class="n">Decimal</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span> <span class="o">=</span> <span class="n">Schema</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">STORED</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="n">NUMERIC</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">decimal_places</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ix</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">create_index</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">ix</span><span class="o">.</span><span class="n">writer</span><span class="p">()</span> <span class="k">as</span> <span class="n">w</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s">&quot;/a&quot;</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="n">Decimal</span><span class="p">(</span><span class="s">&quot;123.45&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>numtype</strong> &#8211; the type of numbers that can be stored in this field,
+either <tt class="docutils literal"><span class="pre">int</span></tt>, <tt class="docutils literal"><span class="pre">float</span></tt>. If you use <tt class="docutils literal"><span class="pre">Decimal</span></tt>,
+use the <tt class="docutils literal"><span class="pre">decimal_places</span></tt> argument to control how many decimal
+places the field will store.</li>
+<li><strong>bits</strong> &#8211; When <tt class="docutils literal"><span class="pre">numtype</span></tt> is <tt class="docutils literal"><span class="pre">int</span></tt>, the number of bits to use to
+store the number: 8, 16, 32, or 64.</li>
+<li><strong>stored</strong> &#8211; Whether the value of this field is stored with the
+document.</li>
+<li><strong>unique</strong> &#8211; Whether the value of this field is unique per-document.</li>
+<li><strong>decimal_places</strong> &#8211; specifies the number of decimal places to save
+when storing Decimal instances. If you set this, you will always
+get Decimal instances back from the field.</li>
+<li><strong>shift_steps</strong> &#8211; The number of bits of precision to shift away at
+each tiered indexing level. Values should generally be 1-8. Lower
+values yield faster searches but take up more space. A value
+of <cite>0</cite> means no tiered indexing.</li>
+<li><strong>signed</strong> &#8211; Whether the numbers stored in this field may be
+negative.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.fields.DATETIME">
+<em class="property">class </em><tt class="descclassname">whoosh.fields.</tt><tt class="descname">DATETIME</tt><big>(</big><em>stored=False</em>, <em>unique=False</em>, <em>sortable=False</em><big>)</big><a class="headerlink" href="#whoosh.fields.DATETIME" title="Permalink to this definition">¶</a></dt>
+<dd><p>Special field type that lets you index datetime objects. The field
+converts the datetime objects to sortable text for you before indexing.</p>
+<p>Since this field is based on Python&#8217;s datetime module it shares all the
+limitations of that module, such as the inability to represent dates before
+year 1 in the proleptic Gregorian calendar. However, since this field
+stores datetimes as an integer number of microseconds, it could easily
+represent a much wider range of dates if the Python datetime implementation
+ever supports them.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span> <span class="o">=</span> <span class="n">Schema</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">STORED</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="n">DATETIME</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ix</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">create_index</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">w</span> <span class="o">=</span> <span class="n">ix</span><span class="o">.</span><span class="n">writer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s">&quot;/a&quot;</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">w</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>stored</strong> &#8211; Whether the value of this field is stored with the
+document.</li>
+<li><strong>unique</strong> &#8211; Whether the value of this field is unique per-document.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.fields.BOOLEAN">
+<em class="property">class </em><tt class="descclassname">whoosh.fields.</tt><tt class="descname">BOOLEAN</tt><big>(</big><em>stored=False</em>, <em>field_boost=1.0</em><big>)</big><a class="headerlink" href="#whoosh.fields.BOOLEAN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Special field type that lets you index boolean values (True and False).
+The field converts the boolean values to text for you before indexing.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span> <span class="o">=</span> <span class="n">Schema</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">STORED</span><span class="p">,</span> <span class="n">done</span><span class="o">=</span><span class="n">BOOLEAN</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ix</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">create_index</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">w</span> <span class="o">=</span> <span class="n">ix</span><span class="o">.</span><span class="n">writer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s">&quot;/a&quot;</span><span class="p">,</span> <span class="n">done</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">w</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>stored</strong> &#8211; Whether the value of this field is stored with the</td>
+</tr>
+</tbody>
+</table>
+<p>document.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.fields.NGRAM">
+<em class="property">class </em><tt class="descclassname">whoosh.fields.</tt><tt class="descname">NGRAM</tt><big>(</big><em>minsize=2</em>, <em>maxsize=4</em>, <em>stored=False</em>, <em>field_boost=1.0</em>, <em>queryor=False</em>, <em>phrase=False</em>, <em>sortable=False</em><big>)</big><a class="headerlink" href="#whoosh.fields.NGRAM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configured field that indexes text as N-grams. For example, with a field
+type NGRAM(3,4), the value &#8220;hello&#8221; will be indexed as tokens
+&#8220;hel&#8221;, &#8220;hell&#8221;, &#8220;ell&#8221;, &#8220;ello&#8221;, &#8220;llo&#8221;. This field type chops the entire text
+into N-grams, including whitespace and punctuation. See <a class="reference internal" href="#whoosh.fields.NGRAMWORDS" title="whoosh.fields.NGRAMWORDS"><tt class="xref py py-class docutils literal"><span class="pre">NGRAMWORDS</span></tt></a>
+for a field type that breaks the text into words first before chopping the
+words into N-grams.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>minsize</strong> &#8211; The minimum length of the N-grams.</li>
+<li><strong>maxsize</strong> &#8211; The maximum length of the N-grams.</li>
+<li><strong>stored</strong> &#8211; Whether to store the value of this field with the
+document. Since this field type generally contains a lot of text,
+you should avoid storing it with the document unless you need to,
+for example to allow fast excerpts in the search results.</li>
+<li><strong>queryor</strong> &#8211; if True, combine the N-grams with an Or query. The
+default is to combine N-grams with an And query.</li>
+<li><strong>phrase</strong> &#8211; store positions on the N-grams to allow exact phrase
+searching. The default is off.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.fields.NGRAMWORDS">
+<em class="property">class </em><tt class="descclassname">whoosh.fields.</tt><tt class="descname">NGRAMWORDS</tt><big>(</big><em>minsize=2</em>, <em>maxsize=4</em>, <em>stored=False</em>, <em>field_boost=1.0</em>, <em>tokenizer=None</em>, <em>at=None</em>, <em>queryor=False</em>, <em>sortable=False</em><big>)</big><a class="headerlink" href="#whoosh.fields.NGRAMWORDS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configured field that chops text into words using a tokenizer,
+lowercases the words, and then chops the words into N-grams.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>minsize</strong> &#8211; The minimum length of the N-grams.</li>
+<li><strong>maxsize</strong> &#8211; The maximum length of the N-grams.</li>
+<li><strong>stored</strong> &#8211; Whether to store the value of this field with the
+document. Since this field type generally contains a lot of text,
+you should avoid storing it with the document unless you need to,
+for example to allow fast excerpts in the search results.</li>
+<li><strong>tokenizer</strong> &#8211; an instance of <tt class="xref py py-class docutils literal"><span class="pre">whoosh.analysis.Tokenizer</span></tt>
+used to break the text into words.</li>
+<li><strong>at</strong> &#8211; if &#8216;start&#8217;, only takes N-grams from the start of the word.
+If &#8216;end&#8217;, only takes N-grams from the end. Otherwise the default
+is to take all N-grams from each word.</li>
+<li><strong>queryor</strong> &#8211; if True, combine the N-grams with an Or query. The
+default is to combine N-grams with an And query.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="exceptions">
+<h2>Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="whoosh.fields.FieldConfigurationError">
+<em class="property">exception </em><tt class="descclassname">whoosh.fields.</tt><tt class="descname">FieldConfigurationError</tt><a class="headerlink" href="#whoosh.fields.FieldConfigurationError" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="whoosh.fields.UnknownFieldError">
+<em class="property">exception </em><tt class="descclassname">whoosh.fields.</tt><tt class="descname">UnknownFieldError</tt><a class="headerlink" href="#whoosh.fields.UnknownFieldError" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">fields</span></tt> module</a><ul>
+<li><a class="reference internal" href="#schema-class">Schema class</a></li>
+<li><a class="reference internal" href="#fieldtype-base-class">FieldType base class</a></li>
+<li><a class="reference internal" href="#pre-made-field-types">Pre-made field types</a></li>
+<li><a class="reference internal" href="#exceptions">Exceptions</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="columns.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">columns</span></tt> module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="filedb/filestore.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">filedb.filestore</span></tt> module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/fields.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="filedb/filestore.html" title="filedb.filestore module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="columns.html" title="columns module"
+             >previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="api.html" >Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

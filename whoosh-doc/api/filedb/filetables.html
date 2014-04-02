@@ -1,0 +1,258 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>filedb.filetables module &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="../../index.html" />
+    <link rel="up" title="Whoosh API" href="../api.html" />
+    <link rel="next" title="filedb.structfile module" href="structfile.html" />
+    <link rel="prev" title="filedb.filestore module" href="filestore.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="structfile.html" title="filedb.structfile module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="filestore.html" title="filedb.filestore module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="../api.html" accesskey="U">Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-whoosh.filedb.filetables">
+<span id="filedb-filetables-module"></span><h1><tt class="docutils literal"><span class="pre">filedb.filetables</span></tt> module<a class="headerlink" href="#module-whoosh.filedb.filetables" title="Permalink to this headline">¶</a></h1>
+<p>This module defines writer and reader classes for a fast, immutable
+on-disk key-value database format. The current format is based heavily on
+D. J. Bernstein&#8217;s CDB format (<a class="reference external" href="http://cr.yp.to/cdb.html">http://cr.yp.to/cdb.html</a>).</p>
+<div class="section" id="hash-file">
+<h2>Hash file<a class="headerlink" href="#hash-file" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.filedb.filetables.HashWriter">
+<em class="property">class </em><tt class="descclassname">whoosh.filedb.filetables.</tt><tt class="descname">HashWriter</tt><big>(</big><em>dbfile</em>, <em>magic='HSH3'</em>, <em>hashtype=0</em><big>)</big><a class="headerlink" href="#whoosh.filedb.filetables.HashWriter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements a fast on-disk key-value store. This hash uses a two-level
+hashing scheme, where a key is hashed, the low eight bits of the hash value
+are used to index into one of 256 hash tables. This is basically the CDB
+algorithm, but unlike CDB this object writes all data serially (it doesn&#8217;t
+seek backwards to overwrite information at the end).</p>
+<p>Also unlike CDB, this format uses 64-bit file pointers, so the file length
+is essentially unlimited. However, each key and value must be less than
+2 GB in length.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dbfile</strong> &#8211; a <a class="reference internal" href="structfile.html#whoosh.filedb.structfile.StructFile" title="whoosh.filedb.structfile.StructFile"><tt class="xref py py-class docutils literal"><span class="pre">StructFile</span></tt></a> object
+to write to.</li>
+<li><strong>magic</strong> &#8211; the format tag bytes to write at the start of the file.</li>
+<li><strong>hashtype</strong> &#8211; an integer indicating which hashing algorithm to use.
+Possible values are 0 (MD5), 1 (CRC32), or 2 (CDB hash).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="whoosh.filedb.filetables.HashWriter.add">
+<tt class="descname">add</tt><big>(</big><em>key</em>, <em>value</em><big>)</big><a class="headerlink" href="#whoosh.filedb.filetables.HashWriter.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a key/value pair to the file. Note that keys DO NOT need to be
+unique. You can store multiple values under the same key and retrieve
+them using <a class="reference internal" href="#whoosh.filedb.filetables.HashReader.all" title="whoosh.filedb.filetables.HashReader.all"><tt class="xref py py-meth docutils literal"><span class="pre">HashReader.all()</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.filedb.filetables.HashWriter.add_all">
+<tt class="descname">add_all</tt><big>(</big><em>items</em><big>)</big><a class="headerlink" href="#whoosh.filedb.filetables.HashWriter.add_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience method to add a sequence of <tt class="docutils literal"><span class="pre">(key,</span> <span class="pre">value)</span></tt> pairs. This
+is the same as calling <a class="reference internal" href="#whoosh.filedb.filetables.HashWriter.add" title="whoosh.filedb.filetables.HashWriter.add"><tt class="xref py py-meth docutils literal"><span class="pre">HashWriter.add()</span></tt></a> on each pair in the
+sequence.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.filedb.filetables.HashReader">
+<em class="property">class </em><tt class="descclassname">whoosh.filedb.filetables.</tt><tt class="descname">HashReader</tt><big>(</big><em>dbfile</em>, <em>length=None</em>, <em>magic='HSH3'</em>, <em>startoffset=0</em><big>)</big><a class="headerlink" href="#whoosh.filedb.filetables.HashReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reader for the fast on-disk key-value files created by
+<a class="reference internal" href="#whoosh.filedb.filetables.HashWriter" title="whoosh.filedb.filetables.HashWriter"><tt class="xref py py-class docutils literal"><span class="pre">HashWriter</span></tt></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dbfile</strong> &#8211; a <a class="reference internal" href="structfile.html#whoosh.filedb.structfile.StructFile" title="whoosh.filedb.structfile.StructFile"><tt class="xref py py-class docutils literal"><span class="pre">StructFile</span></tt></a> object
+to read from.</li>
+<li><strong>length</strong> &#8211; the length of the file data. This is necessary since the
+hashing information is written at the end of the file.</li>
+<li><strong>magic</strong> &#8211; the format tag bytes to look for at the start of the
+file. If the file&#8217;s format tag does not match these bytes, the
+object raises a <tt class="xref py py-class docutils literal"><span class="pre">FileFormatError</span></tt> exception.</li>
+<li><strong>startoffset</strong> &#8211; the starting point of the file data.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="whoosh.filedb.filetables.HashReader.all">
+<tt class="descname">all</tt><big>(</big><em>key</em><big>)</big><a class="headerlink" href="#whoosh.filedb.filetables.HashReader.all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields a sequence of values associated with the given key.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="whoosh.filedb.filetables.HashReader.open">
+<em class="property">classmethod </em><tt class="descname">open</tt><big>(</big><em>storage</em>, <em>name</em><big>)</big><a class="headerlink" href="#whoosh.filedb.filetables.HashReader.open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience method to open a hash file given a
+<a class="reference internal" href="filestore.html#whoosh.filedb.filestore.Storage" title="whoosh.filedb.filestore.Storage"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.filedb.filestore.Storage</span></tt></a> object and a name. This takes
+care of opening the file and passing its length to the initializer.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.filedb.filetables.HashReader.ranges_for_key">
+<tt class="descname">ranges_for_key</tt><big>(</big><em>key</em><big>)</big><a class="headerlink" href="#whoosh.filedb.filetables.HashReader.ranges_for_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields a sequence of <tt class="docutils literal"><span class="pre">(datapos,</span> <span class="pre">datalength)</span></tt> tuples associated
+with the given key.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="ordered-hash-file">
+<h2>Ordered Hash file<a class="headerlink" href="#ordered-hash-file" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.filedb.filetables.OrderedHashWriter">
+<em class="property">class </em><tt class="descclassname">whoosh.filedb.filetables.</tt><tt class="descname">OrderedHashWriter</tt><big>(</big><em>dbfile</em><big>)</big><a class="headerlink" href="#whoosh.filedb.filetables.OrderedHashWriter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements an on-disk hash, but requires that keys be added in order.
+An <a class="reference internal" href="#whoosh.filedb.filetables.OrderedHashReader" title="whoosh.filedb.filetables.OrderedHashReader"><tt class="xref py py-class docutils literal"><span class="pre">OrderedHashReader</span></tt></a> can then look up &#8220;nearest keys&#8221; based on
+the ordering.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.filedb.filetables.OrderedHashReader">
+<em class="property">class </em><tt class="descclassname">whoosh.filedb.filetables.</tt><tt class="descname">OrderedHashReader</tt><big>(</big><em>dbfile</em>, <em>length=None</em>, <em>magic='HSH3'</em>, <em>startoffset=0</em><big>)</big><a class="headerlink" href="#whoosh.filedb.filetables.OrderedHashReader" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dbfile</strong> &#8211; a <a class="reference internal" href="structfile.html#whoosh.filedb.structfile.StructFile" title="whoosh.filedb.structfile.StructFile"><tt class="xref py py-class docutils literal"><span class="pre">StructFile</span></tt></a> object
+to read from.</li>
+<li><strong>length</strong> &#8211; the length of the file data. This is necessary since the
+hashing information is written at the end of the file.</li>
+<li><strong>magic</strong> &#8211; the format tag bytes to look for at the start of the
+file. If the file&#8217;s format tag does not match these bytes, the
+object raises a <tt class="xref py py-class docutils literal"><span class="pre">FileFormatError</span></tt> exception.</li>
+<li><strong>startoffset</strong> &#8211; the starting point of the file data.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">filedb.filetables</span></tt> module</a><ul>
+<li><a class="reference internal" href="#hash-file">Hash file</a></li>
+<li><a class="reference internal" href="#ordered-hash-file">Ordered Hash file</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="filestore.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">filedb.filestore</span></tt> module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="structfile.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">filedb.structfile</span></tt> module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/api/filedb/filetables.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="structfile.html" title="filedb.structfile module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="filestore.html" title="filedb.filestore module"
+             >previous</a> |</li>
+        <li><a href="../../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="../api.html" >Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

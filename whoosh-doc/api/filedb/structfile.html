@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>filedb.structfile module &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="../../index.html" />
+    <link rel="up" title="Whoosh API" href="../api.html" />
+    <link rel="next" title="formats module" href="../formats.html" />
+    <link rel="prev" title="filedb.filetables module" href="filetables.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../formats.html" title="formats module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="filetables.html" title="filedb.filetables module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="../api.html" accesskey="U">Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-whoosh.filedb.structfile">
+<span id="filedb-structfile-module"></span><h1><tt class="docutils literal"><span class="pre">filedb.structfile</span></tt> module<a class="headerlink" href="#module-whoosh.filedb.structfile" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.filedb.structfile.StructFile">
+<em class="property">class </em><tt class="descclassname">whoosh.filedb.structfile.</tt><tt class="descname">StructFile</tt><big>(</big><em>fileobj</em>, <em>name=None</em>, <em>onclose=None</em><big>)</big><a class="headerlink" href="#whoosh.filedb.structfile.StructFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a &#8220;structured file&#8221; object that wraps the given file object and
+provides numerous additional methods for writing structured data, such as
+&#8220;write_varint&#8221; and &#8220;write_long&#8221;.</p>
+<dl class="method">
+<dt id="whoosh.filedb.structfile.StructFile.close">
+<tt class="descname">close</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.filedb.structfile.StructFile.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Closes the wrapped file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.filedb.structfile.StructFile.flush">
+<tt class="descname">flush</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.filedb.structfile.StructFile.flush" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flushes the buffer of the wrapped file. This is a no-op if the
+wrapped file does not have a flush method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.filedb.structfile.StructFile.read_pickle">
+<tt class="descname">read_pickle</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.filedb.structfile.StructFile.read_pickle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads a pickled object from the wrapped file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.filedb.structfile.StructFile.read_string">
+<tt class="descname">read_string</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.filedb.structfile.StructFile.read_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads a string from the wrapped file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.filedb.structfile.StructFile.read_svarint">
+<tt class="descname">read_svarint</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.filedb.structfile.StructFile.read_svarint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads a variable-length encoded signed integer from the wrapped
+file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.filedb.structfile.StructFile.read_tagint">
+<tt class="descname">read_tagint</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.filedb.structfile.StructFile.read_tagint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads a sometimes-compressed unsigned integer from the wrapped file.
+This is similar to the varint methods but uses a less compressed but
+faster format.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.filedb.structfile.StructFile.read_varint">
+<tt class="descname">read_varint</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.filedb.structfile.StructFile.read_varint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads a variable-length encoded unsigned integer from the wrapped
+file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.filedb.structfile.StructFile.write_byte">
+<tt class="descname">write_byte</tt><big>(</big><em>n</em><big>)</big><a class="headerlink" href="#whoosh.filedb.structfile.StructFile.write_byte" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes a single byte to the wrapped file, shortcut for
+<tt class="docutils literal"><span class="pre">file.write(chr(n))</span></tt>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.filedb.structfile.StructFile.write_pickle">
+<tt class="descname">write_pickle</tt><big>(</big><em>obj</em>, <em>protocol=-1</em><big>)</big><a class="headerlink" href="#whoosh.filedb.structfile.StructFile.write_pickle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes a pickled representation of obj to the wrapped file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.filedb.structfile.StructFile.write_string">
+<tt class="descname">write_string</tt><big>(</big><em>s</em><big>)</big><a class="headerlink" href="#whoosh.filedb.structfile.StructFile.write_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes a string to the wrapped file. This method writes the length
+of the string first, so you can read the string back without having to
+know how long it was.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.filedb.structfile.StructFile.write_svarint">
+<tt class="descname">write_svarint</tt><big>(</big><em>i</em><big>)</big><a class="headerlink" href="#whoosh.filedb.structfile.StructFile.write_svarint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes a variable-length signed integer to the wrapped file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.filedb.structfile.StructFile.write_tagint">
+<tt class="descname">write_tagint</tt><big>(</big><em>i</em><big>)</big><a class="headerlink" href="#whoosh.filedb.structfile.StructFile.write_tagint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes a sometimes-compressed unsigned integer to the wrapped file.
+This is similar to the varint methods but uses a less compressed but
+faster format.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.filedb.structfile.StructFile.write_varint">
+<tt class="descname">write_varint</tt><big>(</big><em>i</em><big>)</big><a class="headerlink" href="#whoosh.filedb.structfile.StructFile.write_varint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes a variable-length unsigned integer to the wrapped file.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.filedb.structfile.BufferFile">
+<em class="property">class </em><tt class="descclassname">whoosh.filedb.structfile.</tt><tt class="descname">BufferFile</tt><big>(</big><em>buf</em>, <em>name=None</em>, <em>onclose=None</em><big>)</big><a class="headerlink" href="#whoosh.filedb.structfile.BufferFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="whoosh.filedb.structfile.ChecksumFile">
+<em class="property">class </em><tt class="descclassname">whoosh.filedb.structfile.</tt><tt class="descname">ChecksumFile</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#whoosh.filedb.structfile.ChecksumFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">filedb.structfile</span></tt> module</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="filetables.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">filedb.filetables</span></tt> module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../formats.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">formats</span></tt> module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/api/filedb/structfile.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../formats.html" title="formats module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="filetables.html" title="filedb.filetables module"
+             >previous</a> |</li>
+        <li><a href="../../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="../api.html" >Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

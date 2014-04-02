@@ -1,0 +1,604 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>collectors module &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="../index.html" />
+    <link rel="up" title="Whoosh API" href="api.html" />
+    <link rel="next" title="columns module" href="columns.html" />
+    <link rel="prev" title="codec.base module" href="codec/base.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="columns.html" title="columns module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="codec/base.html" title="codec.base module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="api.html" accesskey="U">Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-whoosh.collectors">
+<span id="collectors-module"></span><h1><tt class="docutils literal"><span class="pre">collectors</span></tt> module<a class="headerlink" href="#module-whoosh.collectors" title="Permalink to this headline">¶</a></h1>
+<p>This module contains &#8220;collector&#8221; objects. Collectors provide a way to gather
+&#8220;raw&#8221; results from a <a class="reference internal" href="matching.html#whoosh.matching.Matcher" title="whoosh.matching.Matcher"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.matching.Matcher</span></tt></a> object, implement
+sorting, filtering, collation, etc., and produce a
+<a class="reference internal" href="searching.html#whoosh.searching.Results" title="whoosh.searching.Results"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.searching.Results</span></tt></a> object.</p>
+<p>The basic collectors are:</p>
+<dl class="docutils">
+<dt>TopCollector</dt>
+<dd>Returns the top N matching results sorted by score, using block-quality
+optimizations to skip blocks of documents that can&#8217;t contribute to the top
+N. The <a class="reference internal" href="searching.html#whoosh.searching.Searcher.search" title="whoosh.searching.Searcher.search"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.searching.Searcher.search()</span></tt></a> method uses this type of
+collector by default or when you specify a <tt class="docutils literal"><span class="pre">limit</span></tt>.</dd>
+<dt>UnlimitedCollector</dt>
+<dd>Returns all matching results sorted by score. The
+<a class="reference internal" href="searching.html#whoosh.searching.Searcher.search" title="whoosh.searching.Searcher.search"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.searching.Searcher.search()</span></tt></a> method uses this type of collector
+when you specify <tt class="docutils literal"><span class="pre">limit=None</span></tt> or you specify a limit equal to or greater
+than the number of documents in the searcher.</dd>
+<dt>SortingCollector</dt>
+<dd>Returns all matching results sorted by a <tt class="xref py py-class docutils literal"><span class="pre">whoosh.sorting.Facet</span></tt>
+object. The <a class="reference internal" href="searching.html#whoosh.searching.Searcher.search" title="whoosh.searching.Searcher.search"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.searching.Searcher.search()</span></tt></a> method uses this type
+of collector when you use the <tt class="docutils literal"><span class="pre">sortedby</span></tt> parameter.</dd>
+</dl>
+<p>Here&#8217;s an example of a simple collector that instead of remembering the matched
+documents just counts up the number of matches:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CountingCollector</span><span class="p">(</span><span class="n">Collector</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">top_searcher</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+        <span class="c"># Always call super method in prepare</span>
+        <span class="n">Collector</span><span class="o">.</span><span class="n">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">top_searcher</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">collect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sub_docnum</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">CountingCollector</span><span class="p">()</span>
+<span class="n">mysearcher</span><span class="o">.</span><span class="n">search_with_collector</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">count</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>There are also several wrapping collectors that extend or modify the
+functionality of other collectors. The meth:<cite>whoosh.searching.Searcher.search</cite>
+method uses many of these when you specify various parameters.</p>
+<p>NOTE: collectors are not designed to be reentrant or thread-safe. It is
+generally a good idea to create a new collector for each search.</p>
+<div class="section" id="base-classes">
+<h2>Base classes<a class="headerlink" href="#base-classes" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.collectors.Collector">
+<em class="property">class </em><tt class="descclassname">whoosh.collectors.</tt><tt class="descname">Collector</tt><a class="headerlink" href="#whoosh.collectors.Collector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for collectors.</p>
+<dl class="method">
+<dt id="whoosh.collectors.Collector.all_ids">
+<tt class="descname">all_ids</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.collectors.Collector.all_ids" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a sequence of docnums matched in this collector. (Only valid
+after the collector is run.)</p>
+<p>The default implementation is based on the docset. If a collector does
+not maintain the docset, it will need to override this method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.collectors.Collector.collect">
+<tt class="descname">collect</tt><big>(</big><em>sub_docnum</em><big>)</big><a class="headerlink" href="#whoosh.collectors.Collector.collect" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is called for every matched document. It should do the
+work of adding a matched document to the results, and it should return
+an object to use as a &#8220;sorting key&#8221; for the given document (such as the
+document&#8217;s score, a key generated by a facet, or just None). Subclasses
+must implement this method.</p>
+<p>If you want the score for the current document, use
+<tt class="docutils literal"><span class="pre">self.matcher.score()</span></tt>.</p>
+<p>Overriding methods should add the current document offset
+(<tt class="docutils literal"><span class="pre">self.offset</span></tt>) to the <tt class="docutils literal"><span class="pre">sub_docnum</span></tt> to get the top-level document
+number for the matching document to add to results.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sub_docnum</strong> &#8211; the document number of the current match within the
+current sub-searcher. You must add <tt class="docutils literal"><span class="pre">self.offset</span></tt> to this number
+to get the document&#8217;s top-level document number.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.collectors.Collector.collect_matches">
+<tt class="descname">collect_matches</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.collectors.Collector.collect_matches" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method calls <a class="reference internal" href="#whoosh.collectors.Collector.matches" title="whoosh.collectors.Collector.matches"><tt class="xref py py-meth docutils literal"><span class="pre">Collector.matches()</span></tt></a> and then for each
+matched document calls <a class="reference internal" href="#whoosh.collectors.Collector.collect" title="whoosh.collectors.Collector.collect"><tt class="xref py py-meth docutils literal"><span class="pre">Collector.collect()</span></tt></a>. Sub-classes that
+want to intervene between finding matches and adding them to the
+collection (for example, to filter out certain documents) can override
+this method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.collectors.Collector.computes_count">
+<tt class="descname">computes_count</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.collectors.Collector.computes_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the collector naturally computes the exact number of
+matching documents. Collectors that use block optimizations will return
+False since they might skip blocks containing matching documents.</p>
+<p>Note that if this method returns False you can still call <a class="reference internal" href="#whoosh.collectors.Collector.count" title="whoosh.collectors.Collector.count"><tt class="xref py py-meth docutils literal"><span class="pre">count()</span></tt></a>,
+but it means that method might have to do more work to calculate the
+number of matching documents.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.collectors.Collector.count">
+<tt class="descname">count</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.collectors.Collector.count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the total number of documents matched in this collector.
+(Only valid after the collector is run.)</p>
+<p>The default implementation is based on the docset. If a collector does
+not maintain the docset, it will need to override this method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.collectors.Collector.finish">
+<tt class="descname">finish</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.collectors.Collector.finish" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is called after a search.</p>
+<p>Subclasses can override this to perform set-up work, but
+they should still call the superclass&#8217;s method because it sets several
+necessary attributes on the collector object:</p>
+<dl class="docutils">
+<dt>self.runtime</dt>
+<dd>The time (in seconds) the search took.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.collectors.Collector.matches">
+<tt class="descname">matches</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.collectors.Collector.matches" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields a series of relative document numbers for matches
+in the current subsearcher.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.collectors.Collector.prepare">
+<tt class="descname">prepare</tt><big>(</big><em>top_searcher</em>, <em>q</em>, <em>context</em><big>)</big><a class="headerlink" href="#whoosh.collectors.Collector.prepare" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is called before a search.</p>
+<p>Subclasses can override this to perform set-up work, but
+they should still call the superclass&#8217;s method because it sets several
+necessary attributes on the collector object:</p>
+<dl class="docutils">
+<dt>self.top_searcher</dt>
+<dd>The top-level searcher.</dd>
+<dt>self.q</dt>
+<dd>The query object</dd>
+<dt>self.context</dt>
+<dd><tt class="docutils literal"><span class="pre">context.needs_current</span></tt> controls whether a wrapping collector
+requires that this collector&#8217;s matcher be in a valid state at every
+call to <tt class="docutils literal"><span class="pre">collect()</span></tt>. If this is <tt class="docutils literal"><span class="pre">False</span></tt>, the collector is free
+to use faster methods that don&#8217;t necessarily keep the matcher
+updated, such as <tt class="docutils literal"><span class="pre">matcher.all_ids()</span></tt>.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>top_searcher</strong> &#8211; the top-level <a class="reference internal" href="searching.html#whoosh.searching.Searcher" title="whoosh.searching.Searcher"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.searching.Searcher</span></tt></a>
+object.</li>
+<li><strong>q</strong> &#8211; the <a class="reference internal" href="query.html#whoosh.query.Query" title="whoosh.query.Query"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.query.Query</span></tt></a> object being searched for.</li>
+<li><strong>context</strong> &#8211; a <tt class="xref py py-class docutils literal"><span class="pre">whoosh.searching.SearchContext</span></tt> object
+containing information about the search.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.collectors.Collector.remove">
+<tt class="descname">remove</tt><big>(</big><em>global_docnum</em><big>)</big><a class="headerlink" href="#whoosh.collectors.Collector.remove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes a document from the collector. Not that this method uses the
+global document number as opposed to <a class="reference internal" href="#whoosh.collectors.Collector.collect" title="whoosh.collectors.Collector.collect"><tt class="xref py py-meth docutils literal"><span class="pre">Collector.collect()</span></tt></a> which
+takes a segment-relative docnum.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.collectors.Collector.results">
+<tt class="descname">results</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.collectors.Collector.results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a <a class="reference internal" href="searching.html#whoosh.searching.Results" title="whoosh.searching.Results"><tt class="xref py py-class docutils literal"><span class="pre">Results</span></tt></a> object containing the
+results of the search. Subclasses must implement this method</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.collectors.Collector.set_subsearcher">
+<tt class="descname">set_subsearcher</tt><big>(</big><em>subsearcher</em>, <em>offset</em><big>)</big><a class="headerlink" href="#whoosh.collectors.Collector.set_subsearcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is called each time the collector starts on a new
+sub-searcher.</p>
+<p>Subclasses can override this to perform set-up work, but
+they should still call the superclass&#8217;s method because it sets several
+necessary attributes on the collector object:</p>
+<dl class="docutils">
+<dt>self.subsearcher</dt>
+<dd>The current sub-searcher. If the top-level searcher is atomic, this
+is the same as the top-level searcher.</dd>
+<dt>self.offset</dt>
+<dd>The document number offset of the current searcher. You must add
+this number to the document number passed to
+<a class="reference internal" href="#whoosh.collectors.Collector.collect" title="whoosh.collectors.Collector.collect"><tt class="xref py py-meth docutils literal"><span class="pre">Collector.collect()</span></tt></a> to get the top-level document number
+for use in results.</dd>
+<dt>self.matcher</dt>
+<dd>A <a class="reference internal" href="matching.html#whoosh.matching.Matcher" title="whoosh.matching.Matcher"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.matching.Matcher</span></tt></a> object representing the matches
+for the query in the current sub-searcher.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.collectors.Collector.sort_key">
+<tt class="descname">sort_key</tt><big>(</big><em>sub_docnum</em><big>)</big><a class="headerlink" href="#whoosh.collectors.Collector.sort_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a sorting key for the current match. This should return the
+same value returned by <a class="reference internal" href="#whoosh.collectors.Collector.collect" title="whoosh.collectors.Collector.collect"><tt class="xref py py-meth docutils literal"><span class="pre">Collector.collect()</span></tt></a>, but without the side
+effect of adding the current document to the results.</p>
+<p>If the collector has been prepared with <tt class="docutils literal"><span class="pre">context.needs_current=True</span></tt>,
+this method can use <tt class="docutils literal"><span class="pre">self.matcher</span></tt> to get information, for example
+the score. Otherwise, it should only use the provided <tt class="docutils literal"><span class="pre">sub_docnum</span></tt>,
+since the matcher may be in an inconsistent state.</p>
+<p>Subclasses must implement this method.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.collectors.ScoredCollector">
+<em class="property">class </em><tt class="descclassname">whoosh.collectors.</tt><tt class="descname">ScoredCollector</tt><big>(</big><em>replace=10</em><big>)</big><a class="headerlink" href="#whoosh.collectors.ScoredCollector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for collectors that sort the results based on document score.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>replace</strong> &#8211; Number of matches between attempts to replace the</td>
+</tr>
+</tbody>
+</table>
+<p>matcher with a more efficient version.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.collectors.WrappingCollector">
+<em class="property">class </em><tt class="descclassname">whoosh.collectors.</tt><tt class="descname">WrappingCollector</tt><big>(</big><em>child</em><big>)</big><a class="headerlink" href="#whoosh.collectors.WrappingCollector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for collectors that wrap other collectors.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="basic-collectors">
+<h2>Basic collectors<a class="headerlink" href="#basic-collectors" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.collectors.TopCollector">
+<em class="property">class </em><tt class="descclassname">whoosh.collectors.</tt><tt class="descname">TopCollector</tt><big>(</big><em>limit=10</em>, <em>usequality=True</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#whoosh.collectors.TopCollector" title="Permalink to this definition">¶</a></dt>
+<dd><p>A collector that only returns the top &#8220;N&#8221; scored results.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>limit</strong> &#8211; the maximum number of results to return.</li>
+<li><strong>usequality</strong> &#8211; whether to use block-quality optimizations. This may
+be useful for debugging.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.collectors.UnlimitedCollector">
+<em class="property">class </em><tt class="descclassname">whoosh.collectors.</tt><tt class="descname">UnlimitedCollector</tt><big>(</big><em>reverse=False</em><big>)</big><a class="headerlink" href="#whoosh.collectors.UnlimitedCollector" title="Permalink to this definition">¶</a></dt>
+<dd><p>A collector that returns <strong>all</strong> scored results.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.collectors.SortingCollector">
+<em class="property">class </em><tt class="descclassname">whoosh.collectors.</tt><tt class="descname">SortingCollector</tt><big>(</big><em>sortedby</em>, <em>limit=10</em>, <em>reverse=False</em><big>)</big><a class="headerlink" href="#whoosh.collectors.SortingCollector" title="Permalink to this definition">¶</a></dt>
+<dd><p>A collector that returns results sorted by a given
+<tt class="xref py py-class docutils literal"><span class="pre">whoosh.sorting.Facet</span></tt> object. See <a class="reference internal" href="../facets.html"><em>Sorting and faceting</em></a> for more
+information.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>sortedby</strong> &#8211; see <a class="reference internal" href="../facets.html"><em>Sorting and faceting</em></a>.</li>
+<li><strong>reverse</strong> &#8211; If True, reverse the overall results. Note that you
+can reverse individual facets in a multi-facet sort key as well.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="wrappers">
+<h2>Wrappers<a class="headerlink" href="#wrappers" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.collectors.FilterCollector">
+<em class="property">class </em><tt class="descclassname">whoosh.collectors.</tt><tt class="descname">FilterCollector</tt><big>(</big><em>child</em>, <em>allow=None</em>, <em>restrict=None</em><big>)</big><a class="headerlink" href="#whoosh.collectors.FilterCollector" title="Permalink to this definition">¶</a></dt>
+<dd><p>A collector that lets you allow and/or restrict certain document numbers
+in the results:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">uc</span> <span class="o">=</span> <span class="n">collectors</span><span class="o">.</span><span class="n">UnlimitedCollector</span><span class="p">()</span>
+
+<span class="n">ins</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;chapter&quot;</span><span class="p">,</span> <span class="s">&quot;rendering&quot;</span><span class="p">)</span>
+<span class="n">outs</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;status&quot;</span><span class="p">,</span> <span class="s">&quot;restricted&quot;</span><span class="p">)</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">FilterCollector</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span> <span class="n">allow</span><span class="o">=</span><span class="n">ins</span><span class="p">,</span> <span class="n">restrict</span><span class="o">=</span><span class="n">outs</span><span class="p">)</span>
+
+<span class="n">mysearcher</span><span class="o">.</span><span class="n">search_with_collector</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">fc</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">fc</span><span class="o">.</span><span class="n">results</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>This collector discards a document if:</p>
+<ul class="simple">
+<li>The allowed set is not None and a document number is not in the set, or</li>
+<li>The restrict set is not None and a document number is in the set.</li>
+</ul>
+<p>(So, if the same document number is in both sets, that document will be
+discarded.)</p>
+<p>If you have a reference to the collector, you can use
+<tt class="docutils literal"><span class="pre">FilterCollector.filtered_count</span></tt> to get the number of matching documents
+filtered out of the results by the collector.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>child</strong> &#8211; the collector to wrap.</li>
+<li><strong>allow</strong> &#8211; a query, Results object, or set-like object containing
+docnument numbers that are allowed in the results, or None (meaning
+everything is allowed).</li>
+<li><strong>restrict</strong> &#8211; a query, Results object, or set-like object containing
+document numbers to disallow from the results, or None (meaning
+nothing is disallowed).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.collectors.FacetCollector">
+<em class="property">class </em><tt class="descclassname">whoosh.collectors.</tt><tt class="descname">FacetCollector</tt><big>(</big><em>child</em>, <em>groupedby</em>, <em>maptype=None</em><big>)</big><a class="headerlink" href="#whoosh.collectors.FacetCollector" title="Permalink to this definition">¶</a></dt>
+<dd><p>A collector that creates groups of documents based on
+<tt class="xref py py-class docutils literal"><span class="pre">whoosh.sorting.Facet</span></tt> objects. See <a class="reference internal" href="../facets.html"><em>Sorting and faceting</em></a> for more
+information.</p>
+<p>This collector is used if you specify a <tt class="docutils literal"><span class="pre">groupedby</span></tt> parameter in the
+<a class="reference internal" href="searching.html#whoosh.searching.Searcher.search" title="whoosh.searching.Searcher.search"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.searching.Searcher.search()</span></tt></a> method. You can use the
+<a class="reference internal" href="searching.html#whoosh.searching.Results.groups" title="whoosh.searching.Results.groups"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.searching.Results.groups()</span></tt></a> method to access the facet groups.</p>
+<p>If you have a reference to the collector can also use
+<tt class="docutils literal"><span class="pre">FacetedCollector.facetmaps</span></tt> to access the groups directly:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">uc</span> <span class="o">=</span> <span class="n">collectors</span><span class="o">.</span><span class="n">UnlimitedCollector</span><span class="p">()</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">FacetedCollector</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span> <span class="n">sorting</span><span class="o">.</span><span class="n">FieldFacet</span><span class="p">(</span><span class="s">&quot;category&quot;</span><span class="p">))</span>
+<span class="n">mysearcher</span><span class="o">.</span><span class="n">search_with_collector</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">fc</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">fc</span><span class="o">.</span><span class="n">facetmaps</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>groupedby</strong> &#8211; see <a class="reference internal" href="../facets.html"><em>Sorting and faceting</em></a>.</li>
+<li><strong>maptype</strong> &#8211; a <a class="reference internal" href="sorting.html#whoosh.sorting.FacetMap" title="whoosh.sorting.FacetMap"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.sorting.FacetMap</span></tt></a> type to use for any
+facets that don&#8217;t specify their own.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.collectors.CollapseCollector">
+<em class="property">class </em><tt class="descclassname">whoosh.collectors.</tt><tt class="descname">CollapseCollector</tt><big>(</big><em>child</em>, <em>keyfacet</em>, <em>limit=1</em>, <em>order=None</em><big>)</big><a class="headerlink" href="#whoosh.collectors.CollapseCollector" title="Permalink to this definition">¶</a></dt>
+<dd><p>A collector that collapses results based on a facet. That is, it
+eliminates all but the top N results that share the same facet key.
+Documents with an empty key for the facet are never eliminated.</p>
+<p>The &#8220;top&#8221; results within each group is determined by the result ordering
+(e.g. highest score in a scored search) or an optional second &#8220;ordering&#8221;
+facet.</p>
+<p>If you have a reference to the collector you can use
+<tt class="docutils literal"><span class="pre">CollapseCollector.collapsed_counts</span></tt> to access the number of documents
+eliminated based on each key:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">tc</span> <span class="o">=</span> <span class="n">TopCollector</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">cc</span> <span class="o">=</span> <span class="n">CollapseCollector</span><span class="p">(</span><span class="n">tc</span><span class="p">,</span> <span class="s">&quot;group&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">mysearcher</span><span class="o">.</span><span class="n">search_with_collector</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">cc</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">cc</span><span class="o">.</span><span class="n">collapsed_counts</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="../searching.html#collapsing"><em>Collapsing results</em></a> for more information.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>child</strong> &#8211; the collector to wrap.</li>
+<li><strong>keyfacet</strong> &#8211; a <tt class="xref py py-class docutils literal"><span class="pre">whoosh.sorting.Facet</span></tt> to use for collapsing.
+All but the top N documents that share a key will be eliminated
+from the results.</li>
+<li><strong>limit</strong> &#8211; the maximum number of documents to keep for each key.</li>
+<li><strong>order</strong> &#8211; an optional <tt class="xref py py-class docutils literal"><span class="pre">whoosh.sorting.Facet</span></tt> to use
+to determine the &#8220;top&#8221; document(s) to keep when collapsing. The
+default (<tt class="docutils literal"><span class="pre">orderfaceet=None</span></tt>) uses the results order (e.g. the
+highest score in a scored search).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.collectors.TimeLimitCollector">
+<em class="property">class </em><tt class="descclassname">whoosh.collectors.</tt><tt class="descname">TimeLimitCollector</tt><big>(</big><em>child</em>, <em>timelimit</em>, <em>greedy=False</em>, <em>use_alarm=True</em><big>)</big><a class="headerlink" href="#whoosh.collectors.TimeLimitCollector" title="Permalink to this definition">¶</a></dt>
+<dd><p>A collector that raises a <tt class="xref py py-class docutils literal"><span class="pre">TimeLimit</span></tt> exception if the search
+does not complete within a certain number of seconds:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">uc</span> <span class="o">=</span> <span class="n">collectors</span><span class="o">.</span><span class="n">UnlimitedCollector</span><span class="p">()</span>
+<span class="n">tlc</span> <span class="o">=</span> <span class="n">TimeLimitedCollector</span><span class="p">(</span><span class="n">uc</span><span class="p">,</span> <span class="n">timelimit</span><span class="o">=</span><span class="mf">5.8</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">mysearcher</span><span class="o">.</span><span class="n">search_with_collector</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">tlc</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">collectors</span><span class="o">.</span><span class="n">TimeLimit</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;The search ran out of time!&quot;</span><span class="p">)</span>
+
+<span class="c"># We can still get partial results from the collector</span>
+<span class="k">print</span><span class="p">(</span><span class="n">tlc</span><span class="o">.</span><span class="n">results</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>IMPORTANT: On Unix systems (systems where signal.SIGALRM is defined), the
+code uses signals to stop searching immediately when the time limit is
+reached. On Windows, the OS does not support this functionality, so the
+search only checks the time between each found document, so if a matcher
+is slow the search could exceed the time limit.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>child</strong> &#8211; the collector to wrap.</li>
+<li><strong>timelimit</strong> &#8211; the maximum amount of time (in seconds) to
+allow for searching. If the search takes longer than this, it will
+raise a <tt class="docutils literal"><span class="pre">TimeLimit</span></tt> exception.</li>
+<li><strong>greedy</strong> &#8211; if <tt class="docutils literal"><span class="pre">True</span></tt>, the collector will finish adding the most
+recent hit before raising the <tt class="docutils literal"><span class="pre">TimeLimit</span></tt> exception.</li>
+<li><strong>use_alarm</strong> &#8211; if <tt class="docutils literal"><span class="pre">True</span></tt> (the default), the collector will try to
+use signal.SIGALRM (on UNIX).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.collectors.TermsCollector">
+<em class="property">class </em><tt class="descclassname">whoosh.collectors.</tt><tt class="descname">TermsCollector</tt><big>(</big><em>child</em>, <em>settype=&lt;type 'set'&gt;</em><big>)</big><a class="headerlink" href="#whoosh.collectors.TermsCollector" title="Permalink to this definition">¶</a></dt>
+<dd><p>A collector that remembers which terms appeared in which terms appeared
+in each matched document.</p>
+<p>This collector is used if you specify <tt class="docutils literal"><span class="pre">terms=True</span></tt> in the
+<a class="reference internal" href="searching.html#whoosh.searching.Searcher.search" title="whoosh.searching.Searcher.search"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.searching.Searcher.search()</span></tt></a> method.</p>
+<p>If you have a reference to the collector can also use
+<tt class="docutils literal"><span class="pre">TermsCollector.termslist</span></tt> to access the term lists directly:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">uc</span> <span class="o">=</span> <span class="n">collectors</span><span class="o">.</span><span class="n">UnlimitedCollector</span><span class="p">()</span>
+<span class="n">tc</span> <span class="o">=</span> <span class="n">TermsCollector</span><span class="p">(</span><span class="n">uc</span><span class="p">)</span>
+<span class="n">mysearcher</span><span class="o">.</span><span class="n">search_with_collector</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">tc</span><span class="p">)</span>
+<span class="c"># tc.termdocs is a dictionary mapping (fieldname, text) tuples to</span>
+<span class="c"># sets of document numbers</span>
+<span class="k">print</span><span class="p">(</span><span class="n">tc</span><span class="o">.</span><span class="n">termdocs</span><span class="p">)</span>
+<span class="c"># tc.docterms is a dictionary mapping docnums to lists of</span>
+<span class="c"># (fieldname, text) tuples</span>
+<span class="k">print</span><span class="p">(</span><span class="n">tc</span><span class="o">.</span><span class="n">docterms</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">collectors</span></tt> module</a><ul>
+<li><a class="reference internal" href="#base-classes">Base classes</a></li>
+<li><a class="reference internal" href="#basic-collectors">Basic collectors</a></li>
+<li><a class="reference internal" href="#wrappers">Wrappers</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="codec/base.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">codec.base</span></tt> module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="columns.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">columns</span></tt> module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/collectors.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="columns.html" title="columns module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="codec/base.html" title="codec.base module"
+             >previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="api.html" >Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>“Did you mean... ?” Correcting errors in user queries &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="index.html" />
+    <link rel="next" title="Field caches" href="fieldcaches.html" />
+    <link rel="prev" title="Query expansion and Key word extraction" href="keywords.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="fieldcaches.html" title="Field caches"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="keywords.html" title="Query expansion and Key word extraction"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Whoosh 2.5.7 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="did-you-mean-correcting-errors-in-user-queries">
+<h1>&#8220;Did you mean... ?&#8221; Correcting errors in user queries<a class="headerlink" href="#did-you-mean-correcting-errors-in-user-queries" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In Whoosh 1.9 the old spelling system based on a separate N-gram index was
+replaced with this significantly more convenient and powerful
+implementation.</p>
+</div>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>Whoosh can quickly suggest replacements for mis-typed words by returning
+a list of words from the index (or a dictionary) that are close to the
+mis-typed word:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">with</span> <span class="n">ix</span><span class="o">.</span><span class="n">searcher</span><span class="p">()</span> <span class="k">as</span> <span class="n">s</span><span class="p">:</span>
+    <span class="n">corrector</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">corrector</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">mistyped_word</span> <span class="ow">in</span> <span class="n">mistyped_words</span><span class="p">:</span>
+        <span class="k">print</span> <span class="n">corrector</span><span class="o">.</span><span class="n">suggest</span><span class="p">(</span><span class="n">mistyped_word</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See the <a class="reference internal" href="api/spelling.html#whoosh.spelling.Corrector.suggest" title="whoosh.spelling.Corrector.suggest"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.spelling.Corrector.suggest()</span></tt></a> method documentation
+for information on the arguments.</p>
+<p>Currently the suggestion engine is more like a &#8220;typo corrector&#8221; than a
+real &#8220;spell checker&#8221; since it doesn&#8217;t do the kind of sophisticated
+phonetic matching or semantic/contextual analysis a good spell checker
+might. However, it is still very useful.</p>
+<p>There are two main strategies for correcting words:</p>
+<ul class="simple">
+<li>Use the terms from an index field.</li>
+<li>Use words from a word list file.</li>
+</ul>
+</div>
+<div class="section" id="pulling-suggestions-from-an-indexed-field">
+<h2>Pulling suggestions from an indexed field<a class="headerlink" href="#pulling-suggestions-from-an-indexed-field" title="Permalink to this headline">¶</a></h2>
+<p>To enable spell checking on the contents of a field, use the
+<tt class="docutils literal"><span class="pre">spelling=True</span></tt> keyword argument on the field in the schema
+definition:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">schema</span> <span class="o">=</span> <span class="n">Schema</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">TEXT</span><span class="p">(</span><span class="n">spelling</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>(If you have an existing index you want to enable spelling for, you can
+alter the schema in-place using the <tt class="xref py py-func docutils literal"><span class="pre">whoosh.writing.add_spelling()</span></tt>
+function to create the missing word graph files.)</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">You can get suggestions for fields without the <tt class="docutils literal"><span class="pre">spelling</span></tt> attribute, but
+calculating the suggestions will be slower.</p>
+</div>
+<p>You can then use the <tt class="xref py py-meth docutils literal"><span class="pre">whoosh.searching.Searcher.corrector()</span></tt> method
+to get a corrector for a field:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">corrector</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">corrector</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The advantage of using the contents of an index field is that when you
+are spell checking queries on that index, the suggestions are tailored
+to the contents of the index. The disadvantage is that if the indexed
+documents contain spelling errors, then the spelling suggestions will
+also be erroneous.</p>
+</div>
+<div class="section" id="pulling-suggestions-from-a-word-list">
+<h2>Pulling suggestions from a word list<a class="headerlink" href="#pulling-suggestions-from-a-word-list" title="Permalink to this headline">¶</a></h2>
+<p>There are plenty of word lists available on the internet you can use to
+populate the spelling dictionary.</p>
+<p>(In the following examples, <tt class="docutils literal"><span class="pre">word_list</span></tt> can be a list of unicode
+strings, or a file object with one word on each line.)</p>
+<p>To create a <a class="reference internal" href="api/spelling.html#whoosh.spelling.Corrector" title="whoosh.spelling.Corrector"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.spelling.Corrector</span></tt></a> object from a word list:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">whoosh.spelling</span> <span class="kn">import</span> <span class="n">GraphCorrector</span>
+
+<span class="n">corrector</span> <span class="o">=</span> <span class="n">GraphCorrector</span><span class="o">.</span><span class="n">from_word_list</span><span class="p">(</span><span class="n">word_list</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Creating a corrector directly from a word list can be slow for large
+word lists, so you can save a corrector&#8217;s graph to a more efficient
+on-disk form like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">graphfile</span> <span class="o">=</span> <span class="n">myindex</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">create_file</span><span class="p">(</span><span class="s">&quot;words.graph&quot;</span><span class="p">)</span>
+<span class="c"># to_file() automatically closes the file when it&#39;s finished</span>
+<span class="n">corrector</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">graphfile</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To open the graph file again very quickly:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">graphfile</span> <span class="o">=</span> <span class="n">myindex</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">open_file</span><span class="p">(</span><span class="s">&quot;words.graph&quot;</span><span class="p">)</span>
+<span class="n">corrector</span> <span class="o">=</span> <span class="n">GraphCorrector</span><span class="o">.</span><span class="n">from_graph_file</span><span class="p">(</span><span class="n">graphfile</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="merging-two-or-more-correctors">
+<h2>Merging two or more correctors<a class="headerlink" href="#merging-two-or-more-correctors" title="Permalink to this headline">¶</a></h2>
+<p>You can combine suggestions from two sources (for example, the contents
+of an index field and a word list) using a
+<a class="reference internal" href="api/spelling.html#whoosh.spelling.MultiCorrector" title="whoosh.spelling.MultiCorrector"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.spelling.MultiCorrector</span></tt></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">c1</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">corrector</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">)</span>
+<span class="n">c2</span> <span class="o">=</span> <span class="n">GraphCorrector</span><span class="o">.</span><span class="n">from_graph_file</span><span class="p">(</span><span class="n">wordfile</span><span class="p">)</span>
+<span class="n">corrector</span> <span class="o">=</span> <span class="n">MultiCorrector</span><span class="p">([</span><span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="correcting-user-queries">
+<h2>Correcting user queries<a class="headerlink" href="#correcting-user-queries" title="Permalink to this headline">¶</a></h2>
+<p>You can spell-check a user query using the
+<a class="reference internal" href="api/searching.html#whoosh.searching.Searcher.correct_query" title="whoosh.searching.Searcher.correct_query"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.searching.Searcher.correct_query()</span></tt></a> method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">qparser</span>
+
+<span class="c"># Parse the user query string</span>
+<span class="n">qp</span> <span class="o">=</span> <span class="n">qparser</span><span class="o">.</span><span class="n">QueryParser</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="n">myindex</span><span class="o">.</span><span class="n">schema</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">qp</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">qstring</span><span class="p">)</span>
+
+<span class="c"># Try correcting the query</span>
+<span class="k">with</span> <span class="n">myindex</span><span class="o">.</span><span class="n">searcher</span><span class="p">()</span> <span class="k">as</span> <span class="n">s</span><span class="p">:</span>
+    <span class="n">corrected</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">correct_query</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">qstring</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">corrected</span><span class="o">.</span><span class="n">query</span> <span class="o">!=</span> <span class="n">q</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Did you mean:&quot;</span><span class="p">,</span> <span class="n">corrected</span><span class="o">.</span><span class="n">string</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">correct_query</span></tt> method returns an object with the following
+attributes:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">query</span></tt></dt>
+<dd>A corrected <a class="reference internal" href="api/query.html#whoosh.query.Query" title="whoosh.query.Query"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.query.Query</span></tt></a> tree. You can test
+whether this is equal (<tt class="docutils literal"><span class="pre">==</span></tt>) to the original parsed query to
+check if the corrector actually changed anything.</dd>
+<dt><tt class="docutils literal"><span class="pre">string</span></tt></dt>
+<dd>A corrected version of the user&#8217;s query string.</dd>
+<dt><tt class="docutils literal"><span class="pre">tokens</span></tt></dt>
+<dd>A list of corrected token objects representing the corrected
+terms. You can use this to reformat the user query (see below).</dd>
+</dl>
+<p>You can use a <tt class="xref py py-class docutils literal"><span class="pre">whoosh.highlight.Formatter</span></tt> object to format the
+corrected query string. For example, use the
+<a class="reference internal" href="api/highlight.html#whoosh.highlight.HtmlFormatter" title="whoosh.highlight.HtmlFormatter"><tt class="xref py py-class docutils literal"><span class="pre">HtmlFormatter</span></tt></a> to format the corrected string
+as HTML:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">highlight</span>
+
+<span class="n">hf</span> <span class="o">=</span> <span class="n">highlight</span><span class="o">.</span><span class="n">HtmlFormatter</span><span class="p">()</span>
+<span class="n">corrected</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">correct_query</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">qstring</span><span class="p">,</span> <span class="n">formatter</span><span class="o">=</span><span class="n">hf</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See the documentation for
+<a class="reference internal" href="api/searching.html#whoosh.searching.Searcher.correct_query" title="whoosh.searching.Searcher.correct_query"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.searching.Searcher.correct_query()</span></tt></a> for information on the
+defaults and arguments.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">&#8220;Did you mean... ?&#8221; Correcting errors in user queries</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#pulling-suggestions-from-an-indexed-field">Pulling suggestions from an indexed field</a></li>
+<li><a class="reference internal" href="#pulling-suggestions-from-a-word-list">Pulling suggestions from a word list</a></li>
+<li><a class="reference internal" href="#merging-two-or-more-correctors">Merging two or more correctors</a></li>
+<li><a class="reference internal" href="#correcting-user-queries">Correcting user queries</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="keywords.html"
+                        title="previous chapter">Query expansion and Key word extraction</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="fieldcaches.html"
+                        title="next chapter">Field caches</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/spelling.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="fieldcaches.html" title="Field caches"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="keywords.html" title="Query expansion and Key word extraction"
+             >previous</a> |</li>
+        <li><a href="index.html">Whoosh 2.5.7 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

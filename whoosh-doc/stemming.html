@@ -1,0 +1,297 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Stemming, variations, and accent folding &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="index.html" />
+    <link rel="next" title="Indexing and searching N-grams" href="ngrams.html" />
+    <link rel="prev" title="About analyzers" href="analysis.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="ngrams.html" title="Indexing and searching N-grams"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="analysis.html" title="About analyzers"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Whoosh 2.5.7 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="stemming-variations-and-accent-folding">
+<h1>Stemming, variations, and accent folding<a class="headerlink" href="#stemming-variations-and-accent-folding" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="the-problem">
+<h2>The problem<a class="headerlink" href="#the-problem" title="Permalink to this headline">¶</a></h2>
+<p>The indexed text will often contain words in different form than the one
+the user searches for. For example, if the user searches for <tt class="docutils literal"><span class="pre">render</span></tt>, we
+would like the search to match not only documents that contain the <tt class="docutils literal"><span class="pre">render</span></tt>,
+but also <tt class="docutils literal"><span class="pre">renders</span></tt>, <tt class="docutils literal"><span class="pre">rendering</span></tt>, <tt class="docutils literal"><span class="pre">rendered</span></tt>, etc.</p>
+<p>A related problem is one of accents. Names and loan words may contain accents in
+the original text but not in the user&#8217;s query, or vice versa. For example, we
+want the user to be able to search for <tt class="docutils literal"><span class="pre">cafe</span></tt> and find documents containing
+<tt class="docutils literal"><span class="pre">café</span></tt>.</p>
+<p>The default analyzer for the <a class="reference internal" href="api/fields.html#whoosh.fields.TEXT" title="whoosh.fields.TEXT"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.fields.TEXT</span></tt></a> field does not do
+stemming or accent folding.</p>
+</div>
+<div class="section" id="stemming">
+<h2>Stemming<a class="headerlink" href="#stemming" title="Permalink to this headline">¶</a></h2>
+<p>Stemming is a heuristic process of removing suffixes (and sometimes prefixes)
+from words to arrive (hopefully, most of the time) at the base word. Whoosh
+includes several stemming algorithms such as Porter and Porter2, Paice Husk,
+and Lovins.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">whoosh.lang.porter</span> <span class="kn">import</span> <span class="n">stem</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stem</span><span class="p">(</span><span class="s">&quot;rendering&quot;</span><span class="p">)</span>
+<span class="go">&#39;render&#39;</span>
+</pre></div>
+</div>
+<p>The stemming filter applies the stemming function to the terms it indexes, and
+to words in user queries. So in theory all variations of a root word (&#8220;render&#8221;,
+&#8220;rendered&#8221;, &#8220;renders&#8221;, &#8220;rendering&#8221;, etc.) are reduced to a single term in the
+index, saving space. And all possible variations users might use in a query
+are reduced to the root, so stemming enhances &#8220;recall&#8221;.</p>
+<p>The <a class="reference internal" href="api/analysis.html#whoosh.analysis.StemFilter" title="whoosh.analysis.StemFilter"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.analysis.StemFilter</span></tt></a> lets you add a stemming filter to an
+analyzer chain.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">rext</span> <span class="o">=</span> <span class="n">RegexTokenizer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stream</span> <span class="o">=</span> <span class="n">rext</span><span class="p">(</span><span class="s">u&quot;fundamentally willows&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stemmer</span> <span class="o">=</span> <span class="n">StemFilter</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">token</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">stemmer</span><span class="p">(</span><span class="n">stream</span><span class="p">)]</span>
+<span class="go">[u&quot;fundament&quot;, u&quot;willow&quot;]</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="api/analysis.html#whoosh.analysis.StemmingAnalyzer" title="whoosh.analysis.StemmingAnalyzer"><tt class="xref py py-func docutils literal"><span class="pre">whoosh.analysis.StemmingAnalyzer()</span></tt></a> is a pre-packaged analyzer that
+combines a tokenizer, lower-case filter, optional stop filter, and stem filter:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">fields</span>
+<span class="kn">from</span> <span class="nn">whoosh.analysis</span> <span class="kn">import</span> <span class="n">StemmingAnalyzer</span>
+
+<span class="n">stem_ana</span> <span class="o">=</span> <span class="n">StemmingAnalyzer</span><span class="p">()</span>
+<span class="n">schema</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Schema</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">TEXT</span><span class="p">(</span><span class="n">analyzer</span><span class="o">=</span><span class="n">stem_ana</span><span class="p">,</span> <span class="n">stored</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+                       <span class="n">content</span><span class="o">=</span><span class="n">TEXT</span><span class="p">(</span><span class="n">analyzer</span><span class="o">=</span><span class="n">stem_ana</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Stemming has pros and cons.</p>
+<ul class="simple">
+<li>It allows the user to find documents without worrying about word forms.</li>
+<li>It reduces the size of the index, since it reduces the number of separate
+terms indexed by &#8220;collapsing&#8221; multiple word forms into a single base word.</li>
+<li>It&#8217;s faster than using variations (see below)</li>
+<li>The stemming algorithm can sometimes incorrectly conflate words or change
+the meaning of a word by removing suffixes.</li>
+<li>The stemmed forms are often not proper words, so the terms in the field
+are not useful for things like creating a spelling dictionary.</li>
+</ul>
+</div>
+<div class="section" id="variations">
+<h2>Variations<a class="headerlink" href="#variations" title="Permalink to this headline">¶</a></h2>
+<p>Whereas stemming encodes the words in the index in a base form, when you use
+variations you instead index words &#8220;as is&#8221; and <em>at query time</em> expand words
+in the user query using a heuristic algorithm to generate morphological
+variations of the word.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">whoosh.lang.morph_en</span> <span class="kn">import</span> <span class="n">variations</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">variations</span><span class="p">(</span><span class="s">&quot;rendered&quot;</span><span class="p">)</span>
+<span class="go">set([&#39;rendered&#39;, &#39;rendernesses&#39;, &#39;render&#39;, &#39;renderless&#39;, &#39;rendering&#39;,</span>
+<span class="go">&#39;renderness&#39;, &#39;renderes&#39;, &#39;renderer&#39;, &#39;renderements&#39;, &#39;rendereless&#39;,</span>
+<span class="go">&#39;renderenesses&#39;, &#39;rendere&#39;, &#39;renderment&#39;, &#39;renderest&#39;, &#39;renderement&#39;,</span>
+<span class="go">&#39;rendereful&#39;, &#39;renderers&#39;, &#39;renderful&#39;, &#39;renderings&#39;, &#39;renders&#39;, &#39;renderly&#39;,</span>
+<span class="go">&#39;renderely&#39;, &#39;rendereness&#39;, &#39;renderments&#39;])</span>
+</pre></div>
+</div>
+<p>Many of the generated variations for a given word will not be valid words, but
+it&#8217;s fairly fast for Whoosh to check which variations are actually in the
+index and only search for those.</p>
+<p>The <a class="reference internal" href="api/query.html#whoosh.query.Variations" title="whoosh.query.Variations"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.query.Variations</span></tt></a> query object lets you search for variations
+of a word. Whereas the normal <a class="reference internal" href="api/query.html#whoosh.query.Term" title="whoosh.query.Term"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.query.Term</span></tt></a> object only searches
+for the given term, the <tt class="docutils literal"><span class="pre">Variations</span></tt> query acts like an <tt class="docutils literal"><span class="pre">Or</span></tt> query for the
+variations of the given word in the index. For example, the query:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">query</span><span class="o">.</span><span class="n">Variations</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">&quot;rendered&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>...might act like this (depending on what words are in the index):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">query</span><span class="o">.</span><span class="n">Or</span><span class="p">([</span><span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">&quot;render&quot;</span><span class="p">),</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">&quot;rendered&quot;</span><span class="p">),</span>
+          <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">&quot;renders&quot;</span><span class="p">),</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">&quot;rendering&quot;</span><span class="p">)])</span>
+</pre></div>
+</div>
+<p>To have the query parser use <a class="reference internal" href="api/query.html#whoosh.query.Variations" title="whoosh.query.Variations"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.query.Variations</span></tt></a> instead of
+<a class="reference internal" href="api/query.html#whoosh.query.Term" title="whoosh.query.Term"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.query.Term</span></tt></a> for individual terms, use the <tt class="docutils literal"><span class="pre">termclass</span></tt>
+keyword argument to the parser initialization method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">qparser</span><span class="p">,</span> <span class="n">query</span>
+
+<span class="n">qp</span> <span class="o">=</span> <span class="n">qparser</span><span class="o">.</span><span class="n">QueryParser</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="n">termclass</span><span class="o">=</span><span class="n">query</span><span class="o">.</span><span class="n">Variations</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Variations has pros and cons.</p>
+<ul class="simple">
+<li>It allows the user to find documents without worrying about word forms.</li>
+<li>The terms in the field are actual words, not stems, so you can use the
+field&#8217;s contents for other purposes such as spell checking queries.</li>
+<li>It increases the size of the index relative to stemming, because different
+word forms are indexed separately.</li>
+<li>It acts like an <tt class="docutils literal"><span class="pre">Or</span></tt> search for all the variations, which is slower than
+searching for a single term.</li>
+</ul>
+</div>
+<div class="section" id="lemmatization">
+<h2>Lemmatization<a class="headerlink" href="#lemmatization" title="Permalink to this headline">¶</a></h2>
+<p>Whereas stemming is a somewhat &#8220;brute force&#8221;, mechanical attempt at reducing
+words to their base form using simple rules, lemmatization usually refers to
+more sophisticated methods of finding the base form (&#8220;lemma&#8221;) of a word using
+language models, often involving analysis of the surrounding context and
+part-of-speech tagging.</p>
+<p>Whoosh does not include any lemmatization functions, but if you have separate
+lemmatizing code you could write a custom <tt class="xref py py-class docutils literal"><span class="pre">whoosh.analysis.Filter</span></tt>
+to integrate it into a Whoosh analyzer.</p>
+</div>
+<div class="section" id="character-folding">
+<h2>Character folding<a class="headerlink" href="#character-folding" title="Permalink to this headline">¶</a></h2>
+<p>You can set up an analyzer to treat, for example, <tt class="docutils literal"><span class="pre">á</span></tt>, <tt class="docutils literal"><span class="pre">a</span></tt>, <tt class="docutils literal"><span class="pre">å</span></tt>, and <tt class="docutils literal"><span class="pre">â</span></tt>
+as equivalent to improve recall. This is often very useful, allowing the user
+to, for example, type <tt class="docutils literal"><span class="pre">cafe</span></tt> or <tt class="docutils literal"><span class="pre">resume</span></tt> and find documents containing
+<tt class="docutils literal"><span class="pre">café</span></tt> and <tt class="docutils literal"><span class="pre">resumé</span></tt>.</p>
+<p>Character folding is especially useful for unicode characters that may appear
+in Asian language texts that should be treated as equivalent to their ASCII
+equivalent, such as &#8220;half-width&#8221; characters.</p>
+<p>Character folding is not always a panacea. See this article for caveats on where
+accent folding can break down.</p>
+<p><a class="reference external" href="http://www.alistapart.com/articles/accent-folding-for-auto-complete/">http://www.alistapart.com/articles/accent-folding-for-auto-complete/</a></p>
+<p>Whoosh includes several mechanisms for adding character folding to an analyzer.</p>
+<p>The <a class="reference internal" href="api/analysis.html#whoosh.analysis.CharsetFilter" title="whoosh.analysis.CharsetFilter"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.analysis.CharsetFilter</span></tt></a> applies a character map to token
+text. For example, it will filter the tokens <tt class="docutils literal"><span class="pre">u'café',</span> <span class="pre">u'resumé',</span> <span class="pre">...</span></tt> to
+<tt class="docutils literal"><span class="pre">u'cafe',</span> <span class="pre">u'resume',</span> <span class="pre">...</span></tt>. This is usually the method you&#8217;ll want to use
+unless you need to use a charset to tokenize terms:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">whoosh.analysis</span> <span class="kn">import</span> <span class="n">CharsetFilter</span><span class="p">,</span> <span class="n">StemmingAnalyzer</span>
+<span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">fields</span>
+<span class="kn">from</span> <span class="nn">whoosh.support.charset</span> <span class="kn">import</span> <span class="n">accent_map</span>
+
+<span class="c"># For example, to add an accent-folding filter to a stemming analyzer:</span>
+<span class="n">my_analyzer</span> <span class="o">=</span> <span class="n">StemmingAnalyzer</span><span class="p">()</span> <span class="o">|</span> <span class="n">CharsetFilter</span><span class="p">(</span><span class="n">accent_map</span><span class="p">)</span>
+
+<span class="c"># To use this analyzer in your schema:</span>
+<span class="n">my_schema</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Schema</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">fields</span><span class="o">.</span><span class="n">TEXT</span><span class="p">(</span><span class="n">analyzer</span><span class="o">=</span><span class="n">my_analyzer</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="api/analysis.html#whoosh.analysis.CharsetTokenizer" title="whoosh.analysis.CharsetTokenizer"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.analysis.CharsetTokenizer</span></tt></a> uses a Sphinx charset table to
+both separate terms and perform character folding. This tokenizer is slower
+than the <a class="reference internal" href="api/analysis.html#whoosh.analysis.RegexTokenizer" title="whoosh.analysis.RegexTokenizer"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.analysis.RegexTokenizer</span></tt></a> because it loops over each
+character in Python. If the language(s) you&#8217;re indexing can be tokenized using
+regular expressions, it will be much faster to use <tt class="docutils literal"><span class="pre">RegexTokenizer</span></tt> and
+<tt class="docutils literal"><span class="pre">CharsetFilter</span></tt> in combination instead of using <tt class="docutils literal"><span class="pre">CharsetTokenizer</span></tt>.</p>
+<p>The <a class="reference internal" href="api/support/charset.html#module-whoosh.support.charset" title="whoosh.support.charset"><tt class="xref py py-mod docutils literal"><span class="pre">whoosh.support.charset</span></tt></a> module contains an accent folding map useful
+for most Western languages, as well as a much more extensive Sphinx charset
+table and a function to convert Sphinx charset tables into the character maps
+required by <tt class="docutils literal"><span class="pre">CharsetTokenizer</span></tt> and <tt class="docutils literal"><span class="pre">CharsetFilter</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># To create a filter using an enourmous character map for most languages</span>
+<span class="c"># generated from a Sphinx charset table</span>
+<span class="kn">from</span> <span class="nn">whoosh.analysis</span> <span class="kn">import</span> <span class="n">CharsetFilter</span>
+<span class="kn">from</span> <span class="nn">whoosh.support.charset</span> <span class="kn">import</span> <span class="n">default_charset</span><span class="p">,</span> <span class="n">charset_table_to_dict</span>
+<span class="n">charmap</span> <span class="o">=</span> <span class="n">charset_table_to_dict</span><span class="p">(</span><span class="n">default_charset</span><span class="p">)</span>
+<span class="n">my_analyzer</span> <span class="o">=</span> <span class="n">StemmingAnalyzer</span><span class="p">()</span> <span class="o">|</span> <span class="n">CharsetFilter</span><span class="p">(</span><span class="n">charmap</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>(The Sphinx charset table format is described at
+<a class="reference external" href="http://www.sphinxsearch.com/docs/current.html#conf-charset-table">http://www.sphinxsearch.com/docs/current.html#conf-charset-table</a> )</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Stemming, variations, and accent folding</a><ul>
+<li><a class="reference internal" href="#the-problem">The problem</a></li>
+<li><a class="reference internal" href="#stemming">Stemming</a></li>
+<li><a class="reference internal" href="#variations">Variations</a></li>
+<li><a class="reference internal" href="#lemmatization">Lemmatization</a></li>
+<li><a class="reference internal" href="#character-folding">Character folding</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="analysis.html"
+                        title="previous chapter">About analyzers</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="ngrams.html"
+                        title="next chapter">Indexing and searching N-grams</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/stemming.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="ngrams.html" title="Indexing and searching N-grams"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="analysis.html" title="About analyzers"
+             >previous</a> |</li>
+        <li><a href="index.html">Whoosh 2.5.7 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

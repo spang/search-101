@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>lang.morph_en module &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="../../index.html" />
+    <link rel="up" title="Whoosh API" href="../api.html" />
+    <link rel="next" title="lang.porter module" href="porter.html" />
+    <link rel="prev" title="index module" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="porter.html" title="lang.porter module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="index module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="../api.html" accesskey="U">Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-whoosh.lang.morph_en">
+<span id="lang-morph-en-module"></span><h1><tt class="docutils literal"><span class="pre">lang.morph_en</span></tt> module<a class="headerlink" href="#module-whoosh.lang.morph_en" title="Permalink to this headline">¶</a></h1>
+<p>Contains the variations() function for expanding an English word into multiple
+variations by programatically adding and removing suffixes.</p>
+<p>Translated to Python from the <tt class="docutils literal"><span class="pre">com.sun.labs.minion.lexmorph.LiteMorph_en</span></tt>
+class of Sun&#8217;s <a class="reference external" href="https://minion.dev.java.net/">Minion search engine</a>.</p>
+<dl class="function">
+<dt id="whoosh.lang.morph_en.variations">
+<tt class="descclassname">whoosh.lang.morph_en.</tt><tt class="descname">variations</tt><big>(</big><em>word</em><big>)</big><a class="headerlink" href="#whoosh.lang.morph_en.variations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given an English word, returns a collection of morphological variations
+on the word by algorithmically adding and removing suffixes. The variation
+list may contain non-words (e.g. render -&gt; renderment).</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">variations</span><span class="p">(</span><span class="s">&quot;pull&quot;</span><span class="p">)</span>
+<span class="go">set([&#39;pull&#39;, &#39;pullings&#39;, &#39;pullnesses&#39;, &#39;pullful&#39;, &#39;pullment&#39;, &#39;puller&#39;, ... ])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../index.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">index</span></tt> module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="porter.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">lang.porter</span></tt> module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/api/lang/morph_en.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="porter.html" title="lang.porter module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="index module"
+             >previous</a> |</li>
+        <li><a href="../../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="../api.html" >Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

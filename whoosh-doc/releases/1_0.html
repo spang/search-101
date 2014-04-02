@@ -1,0 +1,531 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Whoosh 1.x release notes &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="../index.html" />
+    <link rel="up" title="Release notes" href="index.html" />
+    <link rel="next" title="Whoosh 0.3 release notes" href="0_3.html" />
+    <link rel="prev" title="Whoosh 2.x release notes" href="2_0.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="0_3.html" title="Whoosh 0.3 release notes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="2_0.html" title="Whoosh 2.x release notes"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Release notes</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="whoosh-1-x-release-notes">
+<h1>Whoosh 1.x release notes<a class="headerlink" href="#whoosh-1-x-release-notes" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="whoosh-1-8-3">
+<h2>Whoosh 1.8.3<a class="headerlink" href="#whoosh-1-8-3" title="Permalink to this headline">¶</a></h2>
+<p>Whoosh 1.8.3 contains important bugfixes and new functionality. Thanks to all
+the mailing list and BitBucket users who helped with the fixes!</p>
+<p>Fixed a bad <tt class="docutils literal"><span class="pre">Collector</span></tt> bug where the docset of a Results object did not match
+the actual results.</p>
+<p>You can now pass a sequence of objects to a keyword argument in <tt class="docutils literal"><span class="pre">add_document</span></tt>
+and <tt class="docutils literal"><span class="pre">update_document</span></tt> (currently this will not work for unique fields in
+<tt class="docutils literal"><span class="pre">update_document</span></tt>). This is useful for non-text fields such as <tt class="docutils literal"><span class="pre">DATETIME</span></tt>
+and <tt class="docutils literal"><span class="pre">NUMERIC</span></tt>, allowing you to index multiple dates/numbers for a document:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">writer</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">shoe</span><span class="o">=</span><span class="s">u&quot;Saucony Kinvara&quot;</span><span class="p">,</span> <span class="n">sizes</span><span class="o">=</span><span class="p">[</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">9.5</span><span class="p">,</span> <span class="mi">12</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>This version reverts to using the CDB hash function for hash files instead of
+Python&#8217;s <tt class="docutils literal"><span class="pre">hash()</span></tt> because the latter is not meant to be stored externally.
+This change maintains backwards compatibility with old files.</p>
+<p>The <tt class="docutils literal"><span class="pre">Searcher.search</span></tt> method now takes a <tt class="docutils literal"><span class="pre">mask</span></tt> keyword argument. This is
+the opposite of the <tt class="docutils literal"><span class="pre">filter</span></tt> argument. Where the <tt class="docutils literal"><span class="pre">filter</span></tt> specifies the
+set of documents that can appear in the results, the <tt class="docutils literal"><span class="pre">mask</span></tt> specifies a
+set of documents that must not appear in the results.</p>
+<p>Fixed performance problems in <tt class="docutils literal"><span class="pre">Searcher.more_like</span></tt>. This method now also
+takes a <tt class="docutils literal"><span class="pre">filter</span></tt> keyword argument like <tt class="docutils literal"><span class="pre">Searcher.search</span></tt>.</p>
+<p>Improved documentation.</p>
+</div>
+<div class="section" id="whoosh-1-8-2">
+<h2>Whoosh 1.8.2<a class="headerlink" href="#whoosh-1-8-2" title="Permalink to this headline">¶</a></h2>
+<p>Whoosh 1.8.2 fixes some bugs, including a mistyped signature in
+Searcher.more_like and a bad bug in Collector that could screw up the
+ordering of results given certain parameters.</p>
+</div>
+<div class="section" id="whoosh-1-8-1">
+<h2>Whoosh 1.8.1<a class="headerlink" href="#whoosh-1-8-1" title="Permalink to this headline">¶</a></h2>
+<p>Whoosh 1.8.1 includes a few recent bugfixes/improvements:</p>
+<ul class="simple">
+<li>ListMatcher.skip_to_quality() wasn&#8217;t returning an integer, resulting
+in a &#8220;None + int&#8221; error.</li>
+<li>Fixed locking and memcache sync bugs in the Google App Engine storage
+object.</li>
+<li>MultifieldPlugin wasn&#8217;t working correctly with groups.<ul>
+<li>The binary matcher trees of Or and And are now generated using a
+Huffman-like algorithm instead perfectly balanced. This gives a
+noticeable speed improvement because less information has to be passed
+up/down the tree.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="whoosh-1-8">
+<h2>Whoosh 1.8<a class="headerlink" href="#whoosh-1-8" title="Permalink to this headline">¶</a></h2>
+<p>This release relicensed the Whoosh source code under the Simplified BSD (A.K.A.
+&#8220;two-clause&#8221; or &#8220;FreeBSD&#8221;) license. See LICENSE.txt for more information.</p>
+</div>
+<div class="section" id="whoosh-1-7-7">
+<h2>Whoosh 1.7.7<a class="headerlink" href="#whoosh-1-7-7" title="Permalink to this headline">¶</a></h2>
+<p>Setting a TEXT field to store term vectors is now much easier. Instead of
+having to pass an instantiated whoosh.formats.Format object to the vector=
+keyword argument, you can pass True to automatically use the same format and
+analyzer as the inverted index. Alternatively, you can pass a Format subclass
+and Whoosh will instantiate it for you.</p>
+<p>For example, to store term vectors using the same settings as the inverted
+index (Positions format and StandardAnalyzer):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">whoosh.fields</span> <span class="kn">import</span> <span class="n">Schema</span><span class="p">,</span> <span class="n">TEXT</span>
+
+<span class="n">schema</span> <span class="o">=</span> <span class="n">Schema</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">TEXT</span><span class="p">(</span><span class="n">vector</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>To store term vectors that use the same analyzer as the inverted index
+(StandardAnalyzer by default) but only store term frequency:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">whoosh.formats</span> <span class="kn">import</span> <span class="n">Frequency</span>
+
+<span class="n">schema</span> <span class="o">=</span> <span class="n">Schema</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">TEXT</span><span class="p">(</span><span class="n">vector</span><span class="o">=</span><span class="n">Frequency</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Note that currently the only place term vectors are used in Whoosh is keyword
+extraction/more like this, but they can be useful for expert users with custom
+code.</p>
+<p>Added <a class="reference internal" href="../api/searching.html#whoosh.searching.Searcher.more_like" title="whoosh.searching.Searcher.more_like"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.searching.Searcher.more_like()</span></tt></a> and
+<a class="reference internal" href="../api/searching.html#whoosh.searching.Hit.more_like_this" title="whoosh.searching.Hit.more_like_this"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.searching.Hit.more_like_this()</span></tt></a> methods, as shortcuts for doing
+keyword extraction yourself. Return a Results object.</p>
+<p>&#8220;python setup.py test&#8221; works again, as long as you have nose installed.</p>
+<p>The <tt class="xref py py-meth docutils literal"><span class="pre">whoosh.searching.Searcher.sort_query_using()</span></tt> method lets you sort documents matching a given query using an arbitrary function. Note that like &#8220;complex&#8221; searching with the Sorter object, this can be slow on large multi-segment indexes.</p>
+</div>
+<div class="section" id="whoosh-1-7">
+<h2>Whoosh 1.7<a class="headerlink" href="#whoosh-1-7" title="Permalink to this headline">¶</a></h2>
+<p>You can once again perform complex sorting of search results (that is, a sort
+with some fields ascending and some fields descending).</p>
+<p>You can still use the <tt class="docutils literal"><span class="pre">sortedby</span></tt> keyword argument to
+<a class="reference internal" href="../api/searching.html#whoosh.searching.Searcher.search" title="whoosh.searching.Searcher.search"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.searching.Searcher.search()</span></tt></a> to do a simple sort (where all fields
+are sorted in the same direction), or you can use the new
+<tt class="xref py py-class docutils literal"><span class="pre">Sorter</span></tt> class to do a simple or complex sort:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">searcher</span> <span class="o">=</span> <span class="n">myindex</span><span class="o">.</span><span class="n">searcher</span><span class="p">()</span>
+<span class="n">sorter</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">sorter</span><span class="p">()</span>
+<span class="c"># Sort first by the group field, ascending</span>
+<span class="n">sorter</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="s">&quot;group&quot;</span><span class="p">)</span>
+<span class="c"># Then by the price field, descending</span>
+<span class="n">sorter</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="s">&quot;price&quot;</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="c"># Get the Results</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">sorter</span><span class="o">.</span><span class="n">sort_query</span><span class="p">(</span><span class="n">myquery</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See the documentation for the <tt class="xref py py-class docutils literal"><span class="pre">Sorter</span></tt> class for more
+information. Bear in mind that complex sorts will be much slower on large
+indexes because they can&#8217;t use the per-segment field caches.</p>
+<p>You can now get highlighted snippets for a hit automatically using
+<a class="reference internal" href="../api/searching.html#whoosh.searching.Hit.highlights" title="whoosh.searching.Hit.highlights"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.searching.Hit.highlights()</span></tt></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">hit</span><span class="p">[</span><span class="s">&quot;title&quot;</span><span class="p">]</span>
+    <span class="k">print</span> <span class="n">hit</span><span class="o">.</span><span class="n">highlights</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="../api/searching.html#whoosh.searching.Hit.highlights" title="whoosh.searching.Hit.highlights"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.searching.Hit.highlights()</span></tt></a> for more information.</p>
+<p>Added the ability to filter search results so that only hits in a Results
+set, a set of docnums, or matching a query are returned. The filter is
+cached on the searcher.</p>
+<blockquote>
+<div><p># Search within previous results
+newresults = searcher.search(newquery, filter=oldresults)</p>
+<p># Search within the &#8220;basics&#8221; chapter
+results = searcher.search(userquery, filter=query.Term(&#8220;chapter&#8221;, &#8220;basics&#8221;))</p>
+</div></blockquote>
+<p>You can now specify a time limit for a search. If the search does not finish
+in the given time, a <a class="reference internal" href="../api/searching.html#whoosh.searching.TimeLimit" title="whoosh.searching.TimeLimit"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.searching.TimeLimit</span></tt></a> exception is raised,
+but you can still retrieve the partial results from the collector. See the
+<tt class="docutils literal"><span class="pre">timelimit</span></tt> and <tt class="docutils literal"><span class="pre">greedy</span></tt> arguments in the
+<tt class="xref py py-class docutils literal"><span class="pre">whoosh.searching.Collector</span></tt> documentation.</p>
+<p>Added back the ability to set <a class="reference internal" href="../api/analysis.html#whoosh.analysis.StemFilter" title="whoosh.analysis.StemFilter"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.analysis.StemFilter</span></tt></a> to use an
+unlimited cache. This is useful for one-shot batch indexing (see
+<a class="reference internal" href="../batch.html"><em>Tips for speeding up batch indexing</em></a>).</p>
+<p>The <tt class="docutils literal"><span class="pre">normalize()</span></tt> method of the <tt class="docutils literal"><span class="pre">And</span></tt> and <tt class="docutils literal"><span class="pre">Or</span></tt> queries now merges
+overlapping range queries for more efficient queries.</p>
+<p>Query objects now have <tt class="docutils literal"><span class="pre">__hash__</span></tt> methods allowing them to be used as
+dictionary keys.</p>
+<p>The API of the highlight module has changed slightly. Most of the functions
+in the module have been converted to classes. However, most old code should
+still work. The <tt class="docutils literal"><span class="pre">NullFragmeter</span></tt> is now called <tt class="docutils literal"><span class="pre">WholeFragmenter</span></tt>, but the
+old name is still available as an alias.</p>
+<p>Fixed MultiPool so it won&#8217;t fill up the temp directory with job files.</p>
+<p>Fixed a bug where Phrase query objects did not use their boost factor.</p>
+<p>Fixed a bug where a fieldname after an open parenthesis wasn&#8217;t parsed
+correctly. The change alters the semantics of certain parsing &#8220;corner cases&#8221;
+(such as <tt class="docutils literal"><span class="pre">a:b:c:d</span></tt>).</p>
+</div>
+<div class="section" id="whoosh-1-6">
+<h2>Whoosh 1.6<a class="headerlink" href="#whoosh-1-6" title="Permalink to this headline">¶</a></h2>
+<p>The <tt class="docutils literal"><span class="pre">whoosh.writing.BatchWriter</span></tt> class is now called
+<a class="reference internal" href="../api/writing.html#whoosh.writing.BufferedWriter" title="whoosh.writing.BufferedWriter"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.writing.BufferedWriter</span></tt></a>. It is similar to the old <tt class="docutils literal"><span class="pre">BatchWriter</span></tt>
+class but allows you to search and update the buffered documents as well as the
+documents that have been flushed to disk:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">writer</span> <span class="o">=</span> <span class="n">writing</span><span class="o">.</span><span class="n">BufferedWriter</span><span class="p">(</span><span class="n">myindex</span><span class="p">)</span>
+
+<span class="c"># You can update (replace) documents in RAM without having to commit them</span>
+<span class="c"># to disk</span>
+<span class="n">writer</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s">&quot;/a&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&quot;Hi there&quot;</span><span class="p">)</span>
+<span class="n">writer</span><span class="o">.</span><span class="n">update_document</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s">&quot;/a&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&quot;Hello there&quot;</span><span class="p">)</span>
+
+<span class="c"># Search committed and uncommited documents by getting a searcher from the</span>
+<span class="c"># writer instead of the index</span>
+<span class="n">searcher</span> <span class="o">=</span> <span class="n">writer</span><span class="o">.</span><span class="n">searcher</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(BatchWriter is still available as an alias for backwards compatibility.)</p>
+<p>The <a class="reference internal" href="../api/qparser.html#whoosh.qparser.QueryParser" title="whoosh.qparser.QueryParser"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.qparser.QueryParser</span></tt></a> initialization method now requires a
+schema as the second argument. Previously the default was to create a
+<tt class="docutils literal"><span class="pre">QueryParser</span></tt> without a schema, which was confusing:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">qp</span> <span class="o">=</span> <span class="n">qparser</span><span class="o">.</span><span class="n">QueryParser</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="n">myindex</span><span class="o">.</span><span class="n">schema</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="../api/searching.html#whoosh.searching.Searcher.search" title="whoosh.searching.Searcher.search"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.searching.Searcher.search()</span></tt></a> method now takes a <tt class="docutils literal"><span class="pre">scored</span></tt>
+keyword. If you search with <tt class="docutils literal"><span class="pre">scored=False</span></tt>, the results will be in &#8220;natural&#8221;
+order (the order the documents were added to the index). This is useful when
+you don&#8217;t need scored results but want the convenience of the Results object.</p>
+<p>Added the <a class="reference internal" href="../api/qparser.html#whoosh.qparser.GtLtPlugin" title="whoosh.qparser.GtLtPlugin"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.qparser.GtLtPlugin</span></tt></a> parser plugin to allow greater
+than/less as an alternative syntax for ranges:</p>
+<div class="highlight-python"><div class="highlight"><pre>count:&gt;100 tag:&lt;=zebra date:&gt;=&#39;29 march 2001&#39;
+</pre></div>
+</div>
+<p>Added the ability to define schemas declaratively, similar to Django models:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">index</span>
+<span class="kn">from</span> <span class="nn">whoosh.fields</span> <span class="kn">import</span> <span class="n">SchemaClass</span><span class="p">,</span> <span class="n">ID</span><span class="p">,</span> <span class="n">KEYWORD</span><span class="p">,</span> <span class="n">STORED</span><span class="p">,</span> <span class="n">TEXT</span>
+
+<span class="k">class</span> <span class="nc">MySchema</span><span class="p">(</span><span class="n">SchemaClass</span><span class="p">):</span>
+    <span class="n">uuid</span> <span class="o">=</span> <span class="n">ID</span><span class="p">(</span><span class="n">stored</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">STORED</span>
+    <span class="n">tags</span> <span class="o">=</span> <span class="n">KEYWORD</span><span class="p">(</span><span class="n">stored</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">TEXT</span>
+
+<span class="n">index</span><span class="o">.</span><span class="n">create_in</span><span class="p">(</span><span class="s">&quot;indexdir&quot;</span><span class="p">,</span> <span class="n">MySchema</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Whoosh 1.6.2: Added <tt class="xref py py-class docutils literal"><span class="pre">whoosh.searching.TermTrackingCollector</span></tt> which tracks
+which part of the query matched which documents in the final results.</p>
+<p>Replaced the unbounded cache in <a class="reference internal" href="../api/analysis.html#whoosh.analysis.StemFilter" title="whoosh.analysis.StemFilter"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.analysis.StemFilter</span></tt></a> with a
+bounded LRU (least recently used) cache. This will make stemming analysis
+slightly slower but prevent it from eating up too much memory over time.</p>
+<p>Added a simple <tt class="xref py py-class docutils literal"><span class="pre">whoosh.analysis.PyStemmerFilter</span></tt> that works when the
+py-stemmer library is installed:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ana</span> <span class="o">=</span> <span class="n">RegexTokenizer</span><span class="p">()</span> <span class="o">|</span> <span class="n">PyStemmerFilter</span><span class="p">(</span><span class="s">&quot;spanish&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The estimation of memory usage for the <tt class="docutils literal"><span class="pre">limitmb</span></tt> keyword argument to
+<tt class="docutils literal"><span class="pre">FileIndex.writer()</span></tt> is more accurate, which should help keep memory usage
+memory usage by the sorting pool closer to the limit.</p>
+<p>The <tt class="docutils literal"><span class="pre">whoosh.ramdb</span></tt> package was removed and replaced with a single
+<tt class="docutils literal"><span class="pre">whoosh.ramindex</span></tt> module.</p>
+<p>Miscellaneous bug fixes.</p>
+</div>
+<div class="section" id="whoosh-1-5">
+<h2>Whoosh 1.5<a class="headerlink" href="#whoosh-1-5" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Whoosh 1.5 is incompatible with previous indexes. You must recreate
+existing indexes with Whoosh 1.5.</p>
+</div>
+<p>Fixed a bug where postings were not portable across different endian platforms.</p>
+<p>New generalized field cache system, using per-reader caches, for much faster
+sorting and faceting of search results, as well as much faster multi-term (e.g.
+prefix and wildcard) and range queries, especially for large indexes and/or
+indexes with multiple segments.</p>
+<p>Changed the faceting API. See <a class="reference internal" href="../facets.html"><em>Sorting and faceting</em></a>.</p>
+<p>Faster storage and retrieval of posting values.</p>
+<p>Added per-field <tt class="docutils literal"><span class="pre">multitoken_query</span></tt> attribute to control how the query parser
+deals with a &#8220;term&#8221; that when analyzed generates multiple tokens. The default
+value is <cite>&#8220;first&#8221;</cite> which throws away all but the first token (the previous
+behavior). Other possible values are <cite>&#8220;and&#8221;</cite>, <cite>&#8220;or&#8221;</cite>, or <cite>&#8220;phrase&#8221;</cite>.</p>
+<p>Added <a class="reference internal" href="../api/analysis.html#whoosh.analysis.DoubleMetaphoneFilter" title="whoosh.analysis.DoubleMetaphoneFilter"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.analysis.DoubleMetaphoneFilter</span></tt></a>,
+<a class="reference internal" href="../api/analysis.html#whoosh.analysis.SubstitutionFilter" title="whoosh.analysis.SubstitutionFilter"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.analysis.SubstitutionFilter</span></tt></a>, and
+<a class="reference internal" href="../api/analysis.html#whoosh.analysis.ShingleFilter" title="whoosh.analysis.ShingleFilter"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.analysis.ShingleFilter</span></tt></a>.</p>
+<p>Added <a class="reference internal" href="../api/qparser.html#whoosh.qparser.CopyFieldPlugin" title="whoosh.qparser.CopyFieldPlugin"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.qparser.CopyFieldPlugin</span></tt></a>.</p>
+<p>Added <a class="reference internal" href="../api/query.html#whoosh.query.Otherwise" title="whoosh.query.Otherwise"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.query.Otherwise</span></tt></a>.</p>
+<p>Generalized parsing of operators (such as OR, AND, NOT, etc.) in the query
+parser to make it easier to add new operators. In intend to add a better API
+for this in a future release.</p>
+<p>Switched NUMERIC and DATETIME fields to use more compact on-disk
+representations of numbers.</p>
+<p>Fixed a bug in the porter2 stemmer when stemming the string <cite>&#8220;y&#8221;</cite>.</p>
+<p>Added methods to <a class="reference internal" href="../api/searching.html#whoosh.searching.Hit" title="whoosh.searching.Hit"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.searching.Hit</span></tt></a> to make it more like a <cite>dict</cite>.</p>
+<p>Short posting lists (by default, single postings) are inline in the term file
+instead of written to the posting file for faster retrieval and a small saving
+in disk space.</p>
+</div>
+<div class="section" id="whoosh-1-3">
+<h2>Whoosh 1.3<a class="headerlink" href="#whoosh-1-3" title="Permalink to this headline">¶</a></h2>
+<p>Whoosh 1.3 adds a more efficient DATETIME field based on the new tiered NUMERIC
+field, and the DateParserPlugin. See <a class="reference internal" href="../dates.html"><em>Indexing and parsing dates/times</em></a>.</p>
+</div>
+<div class="section" id="whoosh-1-2">
+<h2>Whoosh 1.2<a class="headerlink" href="#whoosh-1-2" title="Permalink to this headline">¶</a></h2>
+<p>Whoosh 1.2 adds tiered indexing for NUMERIC fields, resulting in much faster
+range queries on numeric fields.</p>
+</div>
+<div class="section" id="whoosh-1-0">
+<h2>Whoosh 1.0<a class="headerlink" href="#whoosh-1-0" title="Permalink to this headline">¶</a></h2>
+<p>Whoosh 1.0 is a major milestone release with vastly improved performance and
+several useful new features.</p>
+<p><em>The index format of this version is not compatibile with indexes created by
+previous versions of Whoosh</em>. You will need to reindex your data to use this
+version.</p>
+<p>Orders of magnitude faster searches for common terms. Whoosh now uses
+optimizations similar to those in Xapian to skip reading low-scoring postings.</p>
+<p>Faster indexing and ability to use multiple processors (via <tt class="docutils literal"><span class="pre">multiprocessing</span></tt>
+module) to speed up indexing.</p>
+<p>Flexible Schema: you can now add and remove fields in an index with the
+<a class="reference internal" href="../api/writing.html#whoosh.writing.IndexWriter.add_field" title="whoosh.writing.IndexWriter.add_field"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.writing.IndexWriter.add_field()</span></tt></a> and
+<a class="reference internal" href="../api/writing.html#whoosh.writing.IndexWriter.remove_field" title="whoosh.writing.IndexWriter.remove_field"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.writing.IndexWriter.remove_field()</span></tt></a> methods.</p>
+<p>New hand-written query parser based on plug-ins. Less brittle, more robust,
+more flexible, and easier to fix/improve than the old pyparsing-based parser.</p>
+<p>On-disk formats now use 64-bit disk pointers allowing files larger than 4 GB.</p>
+<p>New <tt class="xref py py-class docutils literal"><span class="pre">whoosh.searching.Facets</span></tt> class efficiently sorts results into
+facets based on any criteria that can be expressed as queries, for example
+tags or price ranges.</p>
+<p>New <tt class="xref py py-class docutils literal"><span class="pre">whoosh.writing.BatchWriter</span></tt> class automatically batches up
+individual <tt class="docutils literal"><span class="pre">add_document</span></tt> and/or <tt class="docutils literal"><span class="pre">delete_document</span></tt> calls until a certain
+number of calls or a certain amount of time passes, then commits them all at
+once.</p>
+<p>New <a class="reference internal" href="../api/analysis.html#whoosh.analysis.BiWordFilter" title="whoosh.analysis.BiWordFilter"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.analysis.BiWordFilter</span></tt></a> lets you create bi-word indexed
+fields a possible alternative to phrase searching.</p>
+<p>Fixed bug where files could be deleted before a reader could open them  in
+threaded situations.</p>
+<p>New <a class="reference internal" href="../api/analysis.html#whoosh.analysis.NgramFilter" title="whoosh.analysis.NgramFilter"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.analysis.NgramFilter</span></tt></a> filter,
+<a class="reference internal" href="../api/analysis.html#whoosh.analysis.NgramWordAnalyzer" title="whoosh.analysis.NgramWordAnalyzer"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.analysis.NgramWordAnalyzer</span></tt></a> analyzer, and
+<a class="reference internal" href="../api/fields.html#whoosh.fields.NGRAMWORDS" title="whoosh.fields.NGRAMWORDS"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.fields.NGRAMWORDS</span></tt></a> field type allow producing n-grams from
+tokenized text.</p>
+<p>Errors in query parsing now raise a specific <tt class="docutils literal"><span class="pre">whoosh.qparse.QueryParserError</span></tt>
+exception instead of a generic exception.</p>
+<p>Previously, the query string <tt class="docutils literal"><span class="pre">*</span></tt> was optimized to a
+<a class="reference internal" href="../api/query.html#whoosh.query.Every" title="whoosh.query.Every"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.query.Every</span></tt></a> query which matched every document. Now the
+<tt class="docutils literal"><span class="pre">Every</span></tt> query only matches documents that actually have an indexed term from
+the given field, to better match the intuitive sense of what a query string like
+<tt class="docutils literal"><span class="pre">tag:*</span></tt> should do.</p>
+<p>New <a class="reference internal" href="../api/searching.html#whoosh.searching.Searcher.key_terms_from_text" title="whoosh.searching.Searcher.key_terms_from_text"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.searching.Searcher.key_terms_from_text()</span></tt></a> method lets you
+extract key words from arbitrary text instead of documents in the index.</p>
+<p>Previously the <a class="reference internal" href="../api/searching.html#whoosh.searching.Searcher.key_terms" title="whoosh.searching.Searcher.key_terms"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.searching.Searcher.key_terms()</span></tt></a> and
+<a class="reference internal" href="../api/searching.html#whoosh.searching.Results.key_terms" title="whoosh.searching.Results.key_terms"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.searching.Results.key_terms()</span></tt></a> methods required that the given
+field store term vectors. They now also work if the given field is stored
+instead. They will analyze the stored string into a term vector on-the-fly.
+The field must still be indexed.</p>
+</div>
+<div class="section" id="user-api-changes">
+<h2>User API changes<a class="headerlink" href="#user-api-changes" title="Permalink to this headline">¶</a></h2>
+<p>The default for the <tt class="docutils literal"><span class="pre">limit</span></tt> keyword argument to
+<a class="reference internal" href="../api/searching.html#whoosh.searching.Searcher.search" title="whoosh.searching.Searcher.search"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.searching.Searcher.search()</span></tt></a> is now <tt class="docutils literal"><span class="pre">10</span></tt>. To return all results
+in a single <tt class="docutils literal"><span class="pre">Results</span></tt> object, use <tt class="docutils literal"><span class="pre">limit=None</span></tt>.</p>
+<p>The <tt class="docutils literal"><span class="pre">Index</span></tt> object no longer represents a snapshot of the index at the time
+the object was instantiated. Instead it always represents the index in the
+abstract. <tt class="docutils literal"><span class="pre">Searcher</span></tt> and <tt class="docutils literal"><span class="pre">IndexReader</span></tt> objects obtained from the
+<tt class="docutils literal"><span class="pre">Index</span></tt> object still represent the index as it was at the time they were
+created.</p>
+<p>Because the <tt class="docutils literal"><span class="pre">Index</span></tt> object no longer represents the index at a specific
+version, several methods such as <tt class="docutils literal"><span class="pre">up_to_date</span></tt> and <tt class="docutils literal"><span class="pre">refresh</span></tt> were removed
+from its interface. The Searcher object now has
+<tt class="xref py py-meth docutils literal"><span class="pre">last_modified()</span></tt>,
+<a class="reference internal" href="../api/searching.html#whoosh.searching.Searcher.up_to_date" title="whoosh.searching.Searcher.up_to_date"><tt class="xref py py-meth docutils literal"><span class="pre">up_to_date()</span></tt></a>, and
+<a class="reference internal" href="../api/searching.html#whoosh.searching.Searcher.refresh" title="whoosh.searching.Searcher.refresh"><tt class="xref py py-meth docutils literal"><span class="pre">refresh()</span></tt></a> methods similar to those that used to
+be on <tt class="docutils literal"><span class="pre">Index</span></tt>.</p>
+<p>The document deletion and field add/remove methods on the <tt class="docutils literal"><span class="pre">Index</span></tt> object now
+create a writer behind the scenes to accomplish each call. This means they write
+to the index immediately, so you don&#8217;t need to call <tt class="docutils literal"><span class="pre">commit</span></tt> on the <tt class="docutils literal"><span class="pre">Index</span></tt>.
+Also, it will be much faster if you need to call them multiple times to create
+your own writer instead:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Don&#39;t do this</span>
+<span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">my_list_of_ids_to_delete</span><span class="p">:</span>
+    <span class="n">myindex</span><span class="o">.</span><span class="n">delete_by_term</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span>
+<span class="n">myindex</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+<span class="c"># Instead do this</span>
+<span class="n">writer</span> <span class="o">=</span> <span class="n">myindex</span><span class="o">.</span><span class="n">writer</span><span class="p">()</span>
+<span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">my_list_of_ids_to_delete</span><span class="p">:</span>
+    <span class="n">writer</span><span class="o">.</span><span class="n">delete_by_term</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span>
+<span class="n">writer</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">postlimit</span></tt> argument to <tt class="docutils literal"><span class="pre">Index.writer()</span></tt> has been changed to
+<tt class="docutils literal"><span class="pre">postlimitmb</span></tt> and is now expressed in megabytes instead of bytes:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">writer</span> <span class="o">=</span> <span class="n">myindex</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">postlimitmb</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Instead of having to import <tt class="docutils literal"><span class="pre">whoosh.filedb.filewriting.NO_MERGE</span></tt> or
+<tt class="docutils literal"><span class="pre">whoosh.filedb.filewriting.OPTIMIZE</span></tt> to use as arguments to <tt class="docutils literal"><span class="pre">commit()</span></tt>, you
+can now simply do the following:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Do not merge segments</span>
+<span class="n">writer</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="n">merge</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c"># or</span>
+
+<span class="c"># Merge all segments</span>
+<span class="n">writer</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="n">optimize</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">whoosh.postings</span></tt> module is gone. The <tt class="docutils literal"><span class="pre">whoosh.matching</span></tt> module contains
+classes for posting list readers.</p>
+<p>Whoosh no longer maps field names to numbers for internal use or writing to
+disk. Any low-level method that accepted field numbers now accept field names
+instead.</p>
+<p>Custom Weighting implementations that use the <tt class="docutils literal"><span class="pre">final()</span></tt> method must now
+set the <tt class="docutils literal"><span class="pre">use_final</span></tt> attribute to <tt class="docutils literal"><span class="pre">True</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">whoosh.scoring</span> <span class="kn">import</span> <span class="n">BM25F</span>
+
+<span class="k">class</span> <span class="nc">MyWeighting</span><span class="p">(</span><span class="n">BM25F</span><span class="p">):</span>
+    <span class="n">use_final</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="k">def</span> <span class="nf">final</span><span class="p">(</span><span class="n">searcher</span><span class="p">,</span> <span class="n">docnum</span><span class="p">,</span> <span class="n">score</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">score</span> <span class="o">+</span> <span class="n">docnum</span> <span class="o">*</span> <span class="mi">10</span>
+</pre></div>
+</div>
+<p>This disables the new optimizations, forcing Whoosh to score every matching
+document.</p>
+<p><a class="reference internal" href="../api/writing.html#whoosh.writing.AsyncWriter" title="whoosh.writing.AsyncWriter"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.writing.AsyncWriter</span></tt></a> now takes an <a class="reference internal" href="../api/index.html#whoosh.index.Index" title="whoosh.index.Index"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.index.Index</span></tt></a>
+object as its first argument, not a callable. Also, the keyword arguments to
+pass to the index&#8217;s <tt class="docutils literal"><span class="pre">writer()</span></tt> method should now be passed as a dictionary
+using the <tt class="docutils literal"><span class="pre">writerargs</span></tt> keyword argument.</p>
+<p>Whoosh now stores per-document field length using an approximation rather than
+exactly. For low numbers the approximation is perfectly accurate, while high
+numbers will be approximated less accurately.</p>
+<p>The <tt class="docutils literal"><span class="pre">doc_field_length</span></tt> method on searchers and readers now takes a second
+argument representing the default to return if the given document and field
+do not have a length (i.e. the field is not scored or the field was not
+provided for the given document).</p>
+<p>The <a class="reference internal" href="../api/analysis.html#whoosh.analysis.StopFilter" title="whoosh.analysis.StopFilter"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.analysis.StopFilter</span></tt></a> now has a <tt class="docutils literal"><span class="pre">maxsize</span></tt> argument as well
+as a <tt class="docutils literal"><span class="pre">minsize</span></tt> argument to its initializer. Analyzers that use the
+<tt class="docutils literal"><span class="pre">StopFilter</span></tt> have the <tt class="docutils literal"><span class="pre">maxsize</span></tt> argument in their initializers now also.</p>
+<p>The interface of <a class="reference internal" href="../api/writing.html#whoosh.writing.AsyncWriter" title="whoosh.writing.AsyncWriter"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.writing.AsyncWriter</span></tt></a> has changed.</p>
+</div>
+<div class="section" id="misc">
+<h2>Misc<a class="headerlink" href="#misc" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Because the file backend now writes 64-bit disk pointers and field names
+instead of numbers, the size of an index on disk will grow compared to
+previous versions.</li>
+<li>Unit tests should no longer leave directories and files behind.</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Whoosh 1.x release notes</a><ul>
+<li><a class="reference internal" href="#whoosh-1-8-3">Whoosh 1.8.3</a></li>
+<li><a class="reference internal" href="#whoosh-1-8-2">Whoosh 1.8.2</a></li>
+<li><a class="reference internal" href="#whoosh-1-8-1">Whoosh 1.8.1</a></li>
+<li><a class="reference internal" href="#whoosh-1-8">Whoosh 1.8</a></li>
+<li><a class="reference internal" href="#whoosh-1-7-7">Whoosh 1.7.7</a></li>
+<li><a class="reference internal" href="#whoosh-1-7">Whoosh 1.7</a></li>
+<li><a class="reference internal" href="#whoosh-1-6">Whoosh 1.6</a></li>
+<li><a class="reference internal" href="#whoosh-1-5">Whoosh 1.5</a></li>
+<li><a class="reference internal" href="#whoosh-1-3">Whoosh 1.3</a></li>
+<li><a class="reference internal" href="#whoosh-1-2">Whoosh 1.2</a></li>
+<li><a class="reference internal" href="#whoosh-1-0">Whoosh 1.0</a></li>
+<li><a class="reference internal" href="#user-api-changes">User API changes</a></li>
+<li><a class="reference internal" href="#misc">Misc</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="2_0.html"
+                        title="previous chapter">Whoosh 2.x release notes</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="0_3.html"
+                        title="next chapter">Whoosh 0.3 release notes</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/releases/1_0.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="0_3.html" title="Whoosh 0.3 release notes"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="2_0.html" title="Whoosh 2.x release notes"
+             >previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Release notes</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,538 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>filedb.filestore module &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="../../index.html" />
+    <link rel="up" title="Whoosh API" href="../api.html" />
+    <link rel="next" title="filedb.filetables module" href="filetables.html" />
+    <link rel="prev" title="fields module" href="../fields.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="filetables.html" title="filedb.filetables module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../fields.html" title="fields module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="../api.html" accesskey="U">Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-whoosh.filedb.filestore">
+<span id="filedb-filestore-module"></span><h1><tt class="docutils literal"><span class="pre">filedb.filestore</span></tt> module<a class="headerlink" href="#module-whoosh.filedb.filestore" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="base-class">
+<h2>Base class<a class="headerlink" href="#base-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.filedb.filestore.Storage">
+<em class="property">class </em><tt class="descclassname">whoosh.filedb.filestore.</tt><tt class="descname">Storage</tt><a class="headerlink" href="#whoosh.filedb.filestore.Storage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract base class for storage objects.</p>
+<p>A storage object is a virtual flat filesystem, allowing the creation and
+retrieval of file-like objects
+(<a class="reference internal" href="structfile.html#whoosh.filedb.structfile.StructFile" title="whoosh.filedb.structfile.StructFile"><tt class="xref py py-class docutils literal"><span class="pre">StructFile</span></tt></a> objects). The default
+implementation (<a class="reference internal" href="#whoosh.filedb.filestore.FileStorage" title="whoosh.filedb.filestore.FileStorage"><tt class="xref py py-class docutils literal"><span class="pre">FileStorage</span></tt></a>) uses actual files in a directory.</p>
+<p>All access to files in Whoosh goes through this object. This allows more
+different forms of storage (for example, in RAM, in a database, in a single
+file) to be used transparently.</p>
+<p>For example, to create a <a class="reference internal" href="#whoosh.filedb.filestore.FileStorage" title="whoosh.filedb.filestore.FileStorage"><tt class="xref py py-class docutils literal"><span class="pre">FileStorage</span></tt></a> object:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Create a storage object</span>
+<span class="n">st</span> <span class="o">=</span> <span class="n">FileStorage</span><span class="p">(</span><span class="s">&quot;indexdir&quot;</span><span class="p">)</span>
+<span class="c"># Create the directory if it doesn&#39;t already exist</span>
+<span class="n">st</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="#whoosh.filedb.filestore.Storage.create" title="whoosh.filedb.filestore.Storage.create"><tt class="xref py py-meth docutils literal"><span class="pre">Storage.create()</span></tt></a> method makes it slightly easier to swap storage
+implementations. The <tt class="docutils literal"><span class="pre">create()</span></tt> method handles set-up of the storage
+object. For example, <tt class="docutils literal"><span class="pre">FileStorage.create()</span></tt> creates the directory. A
+database implementation might create tables. This is designed to let you
+avoid putting implementation-specific setup code in your application.</p>
+<dl class="method">
+<dt id="whoosh.filedb.filestore.Storage.close">
+<tt class="descname">close</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.filedb.filestore.Storage.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Closes any resources opened by this storage object. For some storage
+implementations this will be a no-op, but for others it is necessary
+to release locks and/or prevent leaks, so it&#8217;s a good idea to call it
+when you&#8217;re done with a storage object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.filedb.filestore.Storage.create">
+<tt class="descname">create</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.filedb.filestore.Storage.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates any required implementation-specific resources. For example,
+a filesystem-based implementation might create a directory, while a
+database implementation might create tables. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">whoosh.filedb.filestore</span> <span class="kn">import</span> <span class="n">FileStorage</span>
+<span class="c"># Create a storage object</span>
+<span class="n">st</span> <span class="o">=</span> <span class="n">FileStorage</span><span class="p">(</span><span class="s">&quot;indexdir&quot;</span><span class="p">)</span>
+<span class="c"># Create any necessary resources</span>
+<span class="n">st</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This method returns <tt class="docutils literal"><span class="pre">self</span></tt> so you can also say:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">st</span> <span class="o">=</span> <span class="n">FileStorage</span><span class="p">(</span><span class="s">&quot;indexdir&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Storage implementations should be written so that calling create() a
+second time on the same storage</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a <a class="reference internal" href="#whoosh.filedb.filestore.Storage" title="whoosh.filedb.filestore.Storage"><tt class="xref py py-class docutils literal"><span class="pre">Storage</span></tt></a> instance.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.filedb.filestore.Storage.create_file">
+<tt class="descname">create_file</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#whoosh.filedb.filestore.Storage.create_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a file with the given name in this storage.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> &#8211; the name for the new file.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a <a class="reference internal" href="structfile.html#whoosh.filedb.structfile.StructFile" title="whoosh.filedb.structfile.StructFile"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.filedb.structfile.StructFile</span></tt></a> instance.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.filedb.filestore.Storage.create_index">
+<tt class="descname">create_index</tt><big>(</big><em>schema</em>, <em>indexname='MAIN'</em>, <em>indexclass=None</em><big>)</big><a class="headerlink" href="#whoosh.filedb.filestore.Storage.create_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new index in this storage.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">fields</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">whoosh.filedb.filestore</span> <span class="kn">import</span> <span class="n">FileStorage</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Schema</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">fields</span><span class="o">.</span><span class="n">TEXT</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># Create the storage directory</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">st</span> <span class="o">=</span> <span class="n">FileStorage</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s">&quot;indexdir&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># Create an index in the storage</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ix</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">create_index</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>schema</strong> &#8211; the <a class="reference internal" href="../fields.html#whoosh.fields.Schema" title="whoosh.fields.Schema"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.fields.Schema</span></tt></a> object to use for the
+new index.</li>
+<li><strong>indexname</strong> &#8211; the name of the index within the storage object. You
+can use this option to store multiple indexes in the same storage.</li>
+<li><strong>indexclass</strong> &#8211; an optional custom <tt class="docutils literal"><span class="pre">Index</span></tt> sub-class to use to
+create the index files. The default is
+<a class="reference internal" href="../index.html#whoosh.index.FileIndex" title="whoosh.index.FileIndex"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.index.FileIndex</span></tt></a>. This method will call the
+<tt class="docutils literal"><span class="pre">create</span></tt> class method on the given class to create the index.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a <a class="reference internal" href="../index.html#whoosh.index.Index" title="whoosh.index.Index"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.index.Index</span></tt></a> instance.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.filedb.filestore.Storage.delete_file">
+<tt class="descname">delete_file</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#whoosh.filedb.filestore.Storage.delete_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes the given file from this storage.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> &#8211; the name to delete.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.filedb.filestore.Storage.destroy">
+<tt class="descname">destroy</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#whoosh.filedb.filestore.Storage.destroy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes any implementation-specific resources related to this storage
+object. For example, a filesystem-based implementation might delete a
+directory, and a database implementation might drop tables.</p>
+<p>The arguments are implementation-specific.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.filedb.filestore.Storage.file_exists">
+<tt class="descname">file_exists</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#whoosh.filedb.filestore.Storage.file_exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the given file exists in this storage.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> &#8211; the name to check.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.filedb.filestore.Storage.file_length">
+<tt class="descname">file_length</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#whoosh.filedb.filestore.Storage.file_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the size (in bytes) of the given file in this storage.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> &#8211; the name to check.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.filedb.filestore.Storage.file_modified">
+<tt class="descname">file_modified</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#whoosh.filedb.filestore.Storage.file_modified" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the last-modified time of the given file in this storage (as
+a &#8220;ctime&#8221; UNIX timestamp).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> &#8211; the name to check.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a &#8220;ctime&#8221; number.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.filedb.filestore.Storage.index_exists">
+<tt class="descname">index_exists</tt><big>(</big><em>indexname=None</em><big>)</big><a class="headerlink" href="#whoosh.filedb.filestore.Storage.index_exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if a non-empty index exists in this storage.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>indexname</strong> &#8211; the name of the index within the storage object. You
+can use this option to store multiple indexes in the same storage.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.filedb.filestore.Storage.list">
+<tt class="descname">list</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.filedb.filestore.Storage.list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of file names in this storage.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of strings</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.filedb.filestore.Storage.lock">
+<tt class="descname">lock</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#whoosh.filedb.filestore.Storage.lock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a named lock object (implementing <tt class="docutils literal"><span class="pre">.acquire()</span></tt> and
+<tt class="docutils literal"><span class="pre">.release()</span></tt> methods). Different storage implementations may use
+different lock types with different guarantees. For example, the
+RamStorage object uses Python thread locks, while the FileStorage
+object uses filesystem-based locks that are valid across different
+processes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> &#8211; a name for the lock.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a lock-like object.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.filedb.filestore.Storage.open_file">
+<tt class="descname">open_file</tt><big>(</big><em>name</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#whoosh.filedb.filestore.Storage.open_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Opens a file with the given name in this storage.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> &#8211; the name for the new file.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a <a class="reference internal" href="structfile.html#whoosh.filedb.structfile.StructFile" title="whoosh.filedb.structfile.StructFile"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.filedb.structfile.StructFile</span></tt></a> instance.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.filedb.filestore.Storage.open_index">
+<tt class="descname">open_index</tt><big>(</big><em>indexname='MAIN'</em>, <em>schema=None</em>, <em>indexclass=None</em><big>)</big><a class="headerlink" href="#whoosh.filedb.filestore.Storage.open_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Opens an existing index (created using <a class="reference internal" href="#whoosh.filedb.filestore.Storage.create_index" title="whoosh.filedb.filestore.Storage.create_index"><tt class="xref py py-meth docutils literal"><span class="pre">create_index()</span></tt></a>) in this
+storage.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">whoosh.filedb.filestore</span> <span class="kn">import</span> <span class="n">FileStorage</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">st</span> <span class="o">=</span> <span class="n">FileStorage</span><span class="p">(</span><span class="s">&quot;indexdir&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># Open an index in the storage</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ix</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">open_index</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>indexname</strong> &#8211; the name of the index within the storage object. You
+can use this option to store multiple indexes in the same storage.</li>
+<li><strong>schema</strong> &#8211; if you pass in a <a class="reference internal" href="../fields.html#whoosh.fields.Schema" title="whoosh.fields.Schema"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.fields.Schema</span></tt></a> object
+using this argument, it will override the schema that was stored
+with the index.</li>
+<li><strong>indexclass</strong> &#8211; an optional custom <tt class="docutils literal"><span class="pre">Index</span></tt> sub-class to use to
+open the index files. The default is
+<a class="reference internal" href="../index.html#whoosh.index.FileIndex" title="whoosh.index.FileIndex"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.index.FileIndex</span></tt></a>. This method will instantiate the
+class with this storage object.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a <a class="reference internal" href="../index.html#whoosh.index.Index" title="whoosh.index.Index"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.index.Index</span></tt></a> instance.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.filedb.filestore.Storage.optimize">
+<tt class="descname">optimize</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.filedb.filestore.Storage.optimize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optimizes the storage object. The meaning and cost of &#8220;optimizing&#8221;
+will vary by implementation. For example, a database implementation
+might run a garbage collection procedure on the underlying database.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.filedb.filestore.Storage.rename_file">
+<tt class="descname">rename_file</tt><big>(</big><em>frm</em>, <em>to</em>, <em>safe=False</em><big>)</big><a class="headerlink" href="#whoosh.filedb.filestore.Storage.rename_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renames a file in this storage.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>frm</strong> &#8211; The current name of the file.</li>
+<li><strong>to</strong> &#8211; The new name for the file.</li>
+<li><strong>safe</strong> &#8211; if True, raise an exception if a file with the new name
+already exists.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.filedb.filestore.Storage.temp_storage">
+<tt class="descname">temp_storage</tt><big>(</big><em>name=None</em><big>)</big><a class="headerlink" href="#whoosh.filedb.filestore.Storage.temp_storage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new storage object for temporary files. You can call
+<a class="reference internal" href="#whoosh.filedb.filestore.Storage.destroy" title="whoosh.filedb.filestore.Storage.destroy"><tt class="xref py py-meth docutils literal"><span class="pre">Storage.destroy()</span></tt></a> on the new storage when you&#8217;re finished with
+it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> &#8211; a name for the new storage. This may be optional or
+required depending on the storage implementation.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#whoosh.filedb.filestore.Storage" title="whoosh.filedb.filestore.Storage"><tt class="xref py py-class docutils literal"><span class="pre">Storage</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="implementation-classes">
+<h2>Implementation classes<a class="headerlink" href="#implementation-classes" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.filedb.filestore.FileStorage">
+<em class="property">class </em><tt class="descclassname">whoosh.filedb.filestore.</tt><tt class="descname">FileStorage</tt><big>(</big><em>path</em>, <em>supports_mmap=True</em>, <em>readonly=False</em>, <em>debug=False</em><big>)</big><a class="headerlink" href="#whoosh.filedb.filestore.FileStorage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Storage object that stores the index as files in a directory on disk.</p>
+<p>Prior to version 3, the initializer would raise an IOError if the directory
+did not exist. As of version 3, the object does not check if the
+directory exists at initialization. This change is to support using the
+<tt class="xref py py-meth docutils literal"><span class="pre">FileStorage.create()</span></tt> method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path</strong> &#8211; a path to a directory.</li>
+<li><strong>supports_mmap</strong> &#8211; if True (the default), use the <tt class="docutils literal"><span class="pre">mmap</span></tt> module to
+open memory mapped files. You can open the storage object with
+<tt class="docutils literal"><span class="pre">supports_mmap=False</span></tt> to force Whoosh to open files normally
+instead of with <tt class="docutils literal"><span class="pre">mmap</span></tt>.</li>
+<li><strong>readonly</strong> &#8211; If <tt class="docutils literal"><span class="pre">True</span></tt>, the object will raise an exception if you
+attempt to create or rename a file.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.filedb.filestore.RamStorage">
+<em class="property">class </em><tt class="descclassname">whoosh.filedb.filestore.</tt><tt class="descname">RamStorage</tt><a class="headerlink" href="#whoosh.filedb.filestore.RamStorage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Storage object that keeps the index in memory.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="helper-functions">
+<h2>Helper functions<a class="headerlink" href="#helper-functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="whoosh.filedb.filestore.copy_storage">
+<tt class="descclassname">whoosh.filedb.filestore.</tt><tt class="descname">copy_storage</tt><big>(</big><em>sourcestore</em>, <em>deststore</em><big>)</big><a class="headerlink" href="#whoosh.filedb.filestore.copy_storage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copies the files from the source storage object to the destination
+storage object using <tt class="docutils literal"><span class="pre">shutil.copyfileobj</span></tt>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="whoosh.filedb.filestore.copy_to_ram">
+<tt class="descclassname">whoosh.filedb.filestore.</tt><tt class="descname">copy_to_ram</tt><big>(</big><em>storage</em><big>)</big><a class="headerlink" href="#whoosh.filedb.filestore.copy_to_ram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copies the given FileStorage object into a new RamStorage object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#whoosh.filedb.filestore.RamStorage" title="whoosh.filedb.filestore.RamStorage"><tt class="xref py py-class docutils literal"><span class="pre">RamStorage</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="exceptions">
+<h2>Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="whoosh.filedb.filestore.ReadOnlyError">
+<em class="property">exception </em><tt class="descclassname">whoosh.filedb.filestore.</tt><tt class="descname">ReadOnlyError</tt><a class="headerlink" href="#whoosh.filedb.filestore.ReadOnlyError" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">filedb.filestore</span></tt> module</a><ul>
+<li><a class="reference internal" href="#base-class">Base class</a></li>
+<li><a class="reference internal" href="#implementation-classes">Implementation classes</a></li>
+<li><a class="reference internal" href="#helper-functions">Helper functions</a></li>
+<li><a class="reference internal" href="#exceptions">Exceptions</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../fields.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">fields</span></tt> module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="filetables.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">filedb.filetables</span></tt> module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/api/filedb/filestore.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="filetables.html" title="filedb.filetables module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../fields.html" title="fields module"
+             >previous</a> |</li>
+        <li><a href="../../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="../api.html" >Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

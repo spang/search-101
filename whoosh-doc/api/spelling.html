@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>spelling module &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="../index.html" />
+    <link rel="up" title="Whoosh API" href="api.html" />
+    <link rel="next" title="support.charset module" href="support/charset.html" />
+    <link rel="prev" title="sorting module" href="sorting.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="support/charset.html" title="support.charset module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="sorting.html" title="sorting module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="api.html" accesskey="U">Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="spelling-module">
+<h1><tt class="docutils literal"><span class="pre">spelling</span></tt> module<a class="headerlink" href="#spelling-module" title="Permalink to this headline">¶</a></h1>
+<p>See <a class="reference internal" href="../spelling.html"><em>correcting errors in user queries</em></a>.</p>
+<span class="target" id="module-whoosh.spelling"></span><p>This module contains helper functions for correcting typos in user queries.</p>
+<div class="section" id="corrector-objects">
+<h2>Corrector objects<a class="headerlink" href="#corrector-objects" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.spelling.Corrector">
+<em class="property">class </em><tt class="descclassname">whoosh.spelling.</tt><tt class="descname">Corrector</tt><a class="headerlink" href="#whoosh.spelling.Corrector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for spelling correction objects. Concrete sub-classes should
+implement the <tt class="docutils literal"><span class="pre">_suggestions</span></tt> method.</p>
+<dl class="method">
+<dt id="whoosh.spelling.Corrector.suggest">
+<tt class="descname">suggest</tt><big>(</big><em>text</em>, <em>limit=5</em>, <em>maxdist=2</em>, <em>prefix=0</em><big>)</big><a class="headerlink" href="#whoosh.spelling.Corrector.suggest" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>text</strong> &#8211; the text to check. This word will <strong>not</strong> be added to the
+suggestions, even if it appears in the word graph.</li>
+<li><strong>limit</strong> &#8211; only return up to this many suggestions. If there are not
+enough terms in the field within <tt class="docutils literal"><span class="pre">maxdist</span></tt> of the given word, the
+returned list will be shorter than this number.</li>
+<li><strong>maxdist</strong> &#8211; the largest edit distance from the given word to look
+at. Values higher than 2 are not very effective or efficient.</li>
+<li><strong>prefix</strong> &#8211; require suggestions to share a prefix of this length
+with the given word. This is often justifiable since most
+misspellings do not involve the first letter of the word. Using a
+prefix dramatically decreases the time it takes to generate the
+list of words.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.spelling.ReaderCorrector">
+<em class="property">class </em><tt class="descclassname">whoosh.spelling.</tt><tt class="descname">ReaderCorrector</tt><big>(</big><em>reader</em>, <em>fieldname</em><big>)</big><a class="headerlink" href="#whoosh.spelling.ReaderCorrector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Suggests corrections based on the content of a field in a reader.</p>
+<p>Ranks suggestions by the edit distance, then by highest to lowest
+frequency.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.spelling.GraphCorrector">
+<em class="property">class </em><tt class="descclassname">whoosh.spelling.</tt><tt class="descname">GraphCorrector</tt><big>(</big><em>graph</em><big>)</big><a class="headerlink" href="#whoosh.spelling.GraphCorrector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Suggests corrections based on the content of a raw
+<tt class="xref py py-class docutils literal"><span class="pre">whoosh.automata.fst.GraphReader</span></tt> object.</p>
+<p>By default ranks suggestions based on the edit distance.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.spelling.MultiCorrector">
+<em class="property">class </em><tt class="descclassname">whoosh.spelling.</tt><tt class="descname">MultiCorrector</tt><big>(</big><em>correctors</em><big>)</big><a class="headerlink" href="#whoosh.spelling.MultiCorrector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merges suggestions from a list of sub-correctors.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="querycorrector-objects">
+<h2>QueryCorrector objects<a class="headerlink" href="#querycorrector-objects" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.spelling.QueryCorrector">
+<em class="property">class </em><tt class="descclassname">whoosh.spelling.</tt><tt class="descname">QueryCorrector</tt><a class="headerlink" href="#whoosh.spelling.QueryCorrector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for objects that correct words in a user query.</p>
+<dl class="method">
+<dt id="whoosh.spelling.QueryCorrector.correct_query">
+<tt class="descname">correct_query</tt><big>(</big><em>q</em>, <em>qstring</em><big>)</big><a class="headerlink" href="#whoosh.spelling.QueryCorrector.correct_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a <a class="reference internal" href="#whoosh.spelling.Correction" title="whoosh.spelling.Correction"><tt class="xref py py-class docutils literal"><span class="pre">Correction</span></tt></a> object representing the corrected
+form of the given query.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>q</strong> &#8211; the original <a class="reference internal" href="query.html#whoosh.query.Query" title="whoosh.query.Query"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.query.Query</span></tt></a> tree to be
+corrected.</li>
+<li><strong>qstring</strong> &#8211; the original user query. This may be None if the
+original query string is not available, in which case the
+<tt class="docutils literal"><span class="pre">Correction.string</span></tt> attribute will also be None.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#whoosh.spelling.Correction" title="whoosh.spelling.Correction"><tt class="xref py py-class docutils literal"><span class="pre">Correction</span></tt></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.spelling.SimpleQueryCorrector">
+<em class="property">class </em><tt class="descclassname">whoosh.spelling.</tt><tt class="descname">SimpleQueryCorrector</tt><big>(</big><em>correctors</em>, <em>terms</em>, <em>prefix=0</em>, <em>maxdist=2</em><big>)</big><a class="headerlink" href="#whoosh.spelling.SimpleQueryCorrector" title="Permalink to this definition">¶</a></dt>
+<dd><p>A simple query corrector based on a mapping of field names to
+<a class="reference internal" href="#whoosh.spelling.Corrector" title="whoosh.spelling.Corrector"><tt class="xref py py-class docutils literal"><span class="pre">Corrector</span></tt></a> objects, and a list of <tt class="docutils literal"><span class="pre">(&quot;fieldname&quot;,</span> <span class="pre">&quot;text&quot;)</span></tt> tuples
+to correct. And terms in the query that appear in list of term tuples are
+corrected using the appropriate corrector.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>correctors</strong> &#8211; a dictionary mapping field names to
+<a class="reference internal" href="#whoosh.spelling.Corrector" title="whoosh.spelling.Corrector"><tt class="xref py py-class docutils literal"><span class="pre">Corrector</span></tt></a> objects.</li>
+<li><strong>terms</strong> &#8211; a sequence of <tt class="docutils literal"><span class="pre">(&quot;fieldname&quot;,</span> <span class="pre">&quot;text&quot;)</span></tt> tuples
+representing terms to be corrected.</li>
+<li><strong>prefix</strong> &#8211; suggested replacement words must share this number of
+initial characters with the original word. Increasing this even to
+just <tt class="docutils literal"><span class="pre">1</span></tt> can dramatically speed up suggestions, and may be
+justifiable since spellling mistakes rarely involve the first
+letter of a word.</li>
+<li><strong>maxdist</strong> &#8211; the maximum number of &#8220;edits&#8221; (insertions, deletions,
+subsitutions, or transpositions of letters) allowed between the
+original word and any suggestion. Values higher than <tt class="docutils literal"><span class="pre">2</span></tt> may be
+slow.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.spelling.Correction">
+<em class="property">class </em><tt class="descclassname">whoosh.spelling.</tt><tt class="descname">Correction</tt><big>(</big><em>q</em>, <em>qstring</em>, <em>corr_q</em>, <em>tokens</em><big>)</big><a class="headerlink" href="#whoosh.spelling.Correction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents the corrected version of a user query string. Has the
+following attributes:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">query</span></tt></dt>
+<dd>The corrected <a class="reference internal" href="query.html#whoosh.query.Query" title="whoosh.query.Query"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.query.Query</span></tt></a> object.</dd>
+<dt><tt class="docutils literal"><span class="pre">string</span></tt></dt>
+<dd>The corrected user query string.</dd>
+<dt><tt class="docutils literal"><span class="pre">original_query</span></tt></dt>
+<dd>The original <a class="reference internal" href="query.html#whoosh.query.Query" title="whoosh.query.Query"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.query.Query</span></tt></a> object that was corrected.</dd>
+<dt><tt class="docutils literal"><span class="pre">original_string</span></tt></dt>
+<dd>The original user query string.</dd>
+<dt><tt class="docutils literal"><span class="pre">tokens</span></tt></dt>
+<dd>A list of token objects representing the corrected words.</dd>
+</dl>
+<p>You can also use the <tt class="xref py py-meth docutils literal"><span class="pre">Correction.format_string()</span></tt> method to reformat the
+corrected query string using a <tt class="xref py py-class docutils literal"><span class="pre">whoosh.highlight.Formatter</span></tt> class.
+For example, to display the corrected query string as HTML with the
+changed words emphasized:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">highlight</span>
+
+<span class="n">correction</span> <span class="o">=</span> <span class="n">mysearcher</span><span class="o">.</span><span class="n">correct_query</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">qstring</span><span class="p">)</span>
+
+<span class="n">hf</span> <span class="o">=</span> <span class="n">highlight</span><span class="o">.</span><span class="n">HtmlFormatter</span><span class="p">(</span><span class="n">classname</span><span class="o">=</span><span class="s">&quot;change&quot;</span><span class="p">)</span>
+<span class="n">html</span> <span class="o">=</span> <span class="n">correction</span><span class="o">.</span><span class="n">format_string</span><span class="p">(</span><span class="n">hf</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">spelling</span></tt> module</a><ul>
+<li><a class="reference internal" href="#corrector-objects">Corrector objects</a></li>
+<li><a class="reference internal" href="#querycorrector-objects">QueryCorrector objects</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="sorting.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">sorting</span></tt> module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="support/charset.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">support.charset</span></tt> module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/spelling.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="support/charset.html" title="support.charset module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="sorting.html" title="sorting module"
+             >previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="api.html" >Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

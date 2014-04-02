@@ -1,0 +1,450 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>highlight module &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="../index.html" />
+    <link rel="up" title="Whoosh API" href="api.html" />
+    <link rel="next" title="support.bitvector module" href="idsets.html" />
+    <link rel="prev" title="formats module" href="formats.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="idsets.html" title="support.bitvector module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="formats.html" title="formats module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="api.html" accesskey="U">Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-whoosh.highlight">
+<span id="highlight-module"></span><h1><tt class="docutils literal"><span class="pre">highlight</span></tt> module<a class="headerlink" href="#module-whoosh.highlight" title="Permalink to this headline">¶</a></h1>
+<p>The highlight module contains classes and functions for displaying short
+excerpts from hit documents in the search results you present to the user, with
+query terms highlighted.</p>
+<p>The highlighting system has four main elements.</p>
+<ul class="simple">
+<li><strong>Fragmenters</strong> chop up the original text into __fragments__, based on the
+locations of matched terms in the text.</li>
+<li><strong>Scorers</strong> assign a score to each fragment, allowing the system to rank the
+best fragments by whatever criterion.</li>
+<li><strong>Order functions</strong> control in what order the top-scoring fragments are
+presented to the user. For example, you can show the fragments in the order
+they appear in the document (FIRST) or show higher-scoring fragments first
+(SCORE)</li>
+<li><strong>Formatters</strong> turn the fragment objects into human-readable output, such as
+an HTML string.</li>
+</ul>
+<p>See <a class="reference internal" href="../highlight.html"><em>How to create highlighted search result excerpts</em></a> for more information.</p>
+<p>See <a class="reference internal" href="../highlight.html"><em>how to highlight terms in search results</em></a>.</p>
+<div class="section" id="manual-highlighting">
+<h2>Manual highlighting<a class="headerlink" href="#manual-highlighting" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.highlight.Highlighter">
+<em class="property">class </em><tt class="descclassname">whoosh.highlight.</tt><tt class="descname">Highlighter</tt><big>(</big><em>fragmenter=None</em>, <em>scorer=None</em>, <em>formatter=None</em>, <em>always_retokenize=False</em>, <em>order=&lt;function FIRST at 0x5281410&gt;</em><big>)</big><a class="headerlink" href="#whoosh.highlight.Highlighter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="whoosh.highlight.highlight">
+<tt class="descclassname">whoosh.highlight.</tt><tt class="descname">highlight</tt><big>(</big><em>text</em>, <em>terms</em>, <em>analyzer</em>, <em>fragmenter</em>, <em>formatter</em>, <em>top=3</em>, <em>scorer=None</em>, <em>minscore=1</em>, <em>order=&lt;function FIRST at 0x5281410&gt;</em>, <em>mode='query'</em><big>)</big><a class="headerlink" href="#whoosh.highlight.highlight" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="fragmenters">
+<h2>Fragmenters<a class="headerlink" href="#fragmenters" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.highlight.Fragmenter">
+<em class="property">class </em><tt class="descclassname">whoosh.highlight.</tt><tt class="descname">Fragmenter</tt><a class="headerlink" href="#whoosh.highlight.Fragmenter" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="whoosh.highlight.Fragmenter.fragment_matches">
+<tt class="descname">fragment_matches</tt><big>(</big><em>text</em>, <em>matched_tokens</em><big>)</big><a class="headerlink" href="#whoosh.highlight.Fragmenter.fragment_matches" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields <a class="reference internal" href="#whoosh.highlight.Fragment" title="whoosh.highlight.Fragment"><tt class="xref py py-class docutils literal"><span class="pre">Fragment</span></tt></a> objects based on the text and the matched
+terms.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>text</strong> &#8211; the string being highlighted.</li>
+<li><strong>matched_tokens</strong> &#8211; a list of <tt class="xref py py-class docutils literal"><span class="pre">analysis.Token</span></tt> objects
+representing the term matches in the string.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.highlight.Fragmenter.fragment_tokens">
+<tt class="descname">fragment_tokens</tt><big>(</big><em>text</em>, <em>all_tokens</em><big>)</big><a class="headerlink" href="#whoosh.highlight.Fragmenter.fragment_tokens" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields <a class="reference internal" href="#whoosh.highlight.Fragment" title="whoosh.highlight.Fragment"><tt class="xref py py-class docutils literal"><span class="pre">Fragment</span></tt></a> objects based on the tokenized text.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>text</strong> &#8211; the string being highlighted.</li>
+<li><strong>all_tokens</strong> &#8211; an iterator of <tt class="xref py py-class docutils literal"><span class="pre">analysis.Token</span></tt>
+objects from the string.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.highlight.Fragmenter.must_retokenize">
+<tt class="descname">must_retokenize</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.highlight.Fragmenter.must_retokenize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if this fragmenter requires retokenized text.</p>
+<p>If this method returns True, the fragmenter&#8217;s <tt class="docutils literal"><span class="pre">fragment_tokens</span></tt>
+method  will be called with an iterator of ALL tokens from the text,
+with the tokens for matched terms having the <tt class="docutils literal"><span class="pre">matched</span></tt> attribute set
+to True.</p>
+<p>If this method returns False, the fragmenter&#8217;s <tt class="docutils literal"><span class="pre">fragment_matches</span></tt>
+method will be called with a LIST of matching tokens.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.highlight.WholeFragmenter">
+<em class="property">class </em><tt class="descclassname">whoosh.highlight.</tt><tt class="descname">WholeFragmenter</tt><big>(</big><em>charlimit=32768</em><big>)</big><a class="headerlink" href="#whoosh.highlight.WholeFragmenter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Doesn&#8217;t fragment the token stream. This object just returns the entire
+entire stream as one &#8220;fragment&#8221;. This is useful if you want to highlight
+the entire text.</p>
+<p>Note that even if you use the <cite>WholeFragmenter</cite>, the highlight code will
+return no fragment if no terms matched in the given field. To return the
+whole fragment even in that case, call <cite>highlights()</cite> with <cite>minscore=0</cite>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Query where no terms match in the &quot;text&quot; field</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;tag&quot;</span><span class="p">,</span> <span class="s">&quot;new&quot;</span><span class="p">)</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">mysearcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">fragmenter</span> <span class="o">=</span> <span class="n">highlight</span><span class="o">.</span><span class="n">WholeFragmenter</span><span class="p">()</span>
+<span class="n">r</span><span class="o">.</span><span class="n">formatter</span> <span class="o">=</span> <span class="n">highlight</span><span class="o">.</span><span class="n">UppercaseFormatter</span><span class="p">()</span>
+<span class="c"># Since no terms in the &quot;text&quot; field matched, we get no fragments back</span>
+<span class="k">assert</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">highlights</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s">&quot;&quot;</span>
+
+<span class="c"># If we lower the minimum score to 0, we get a fragment even though it</span>
+<span class="c"># has no matching terms</span>
+<span class="k">assert</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">highlights</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">,</span> <span class="n">minscore</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="s">&quot;This is the text field.&quot;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.highlight.SentenceFragmenter">
+<em class="property">class </em><tt class="descclassname">whoosh.highlight.</tt><tt class="descname">SentenceFragmenter</tt><big>(</big><em>maxchars=200</em>, <em>sentencechars='.!?'</em>, <em>charlimit=32768</em><big>)</big><a class="headerlink" href="#whoosh.highlight.SentenceFragmenter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Breaks the text up on sentence end punctuation characters
+(&#8221;.&#8221;, &#8221;!&#8221;, or &#8221;?&#8221;). This object works by looking in the original text for a
+sentence end as the next character after each token&#8217;s &#8216;endchar&#8217;.</p>
+<p>When highlighting with this fragmenter, you should use an analyzer that
+does NOT remove stop words, for example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">sa</span> <span class="o">=</span> <span class="n">StandardAnalyzer</span><span class="p">(</span><span class="n">stoplist</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>maxchars</strong> &#8211; The maximum number of characters allowed in a</td>
+</tr>
+</tbody>
+</table>
+<p>fragment.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.highlight.ContextFragmenter">
+<em class="property">class </em><tt class="descclassname">whoosh.highlight.</tt><tt class="descname">ContextFragmenter</tt><big>(</big><em>maxchars=200</em>, <em>surround=20</em>, <em>charlimit=32768</em><big>)</big><a class="headerlink" href="#whoosh.highlight.ContextFragmenter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Looks for matched terms and aggregates them with their surrounding
+context.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>maxchars</strong> &#8211; The maximum number of characters allowed in a
+fragment.</li>
+<li><strong>surround</strong> &#8211; The number of extra characters of context to add both
+before the first matched term and after the last matched term.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.highlight.PinpointFragmenter">
+<em class="property">class </em><tt class="descclassname">whoosh.highlight.</tt><tt class="descname">PinpointFragmenter</tt><big>(</big><em>maxchars=200</em>, <em>surround=20</em>, <em>autotrim=False</em>, <em>charlimit=32768</em><big>)</big><a class="headerlink" href="#whoosh.highlight.PinpointFragmenter" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a NON-RETOKENIZING fragmenter. It builds fragments from the
+positions of the matched terms.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>maxchars</strong> &#8211; The maximum number of characters allowed in a
+fragment.</li>
+<li><strong>surround</strong> &#8211; The number of extra characters of context to add both
+before the first matched term and after the last matched term.</li>
+<li><strong>autotrim</strong> &#8211; automatically trims text before the first space and
+after the last space in the fragments, to try to avoid truncated
+words at the start and end. For short fragments or fragments with
+long runs between spaces this may give strange results.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="scorers">
+<h2>Scorers<a class="headerlink" href="#scorers" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.highlight.FragmentScorer">
+<em class="property">class </em><tt class="descclassname">whoosh.highlight.</tt><tt class="descname">FragmentScorer</tt><a class="headerlink" href="#whoosh.highlight.FragmentScorer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="whoosh.highlight.BasicFragmentScorer">
+<em class="property">class </em><tt class="descclassname">whoosh.highlight.</tt><tt class="descname">BasicFragmentScorer</tt><a class="headerlink" href="#whoosh.highlight.BasicFragmentScorer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="formatters">
+<h2>Formatters<a class="headerlink" href="#formatters" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.highlight.UppercaseFormatter">
+<em class="property">class </em><tt class="descclassname">whoosh.highlight.</tt><tt class="descname">UppercaseFormatter</tt><big>(</big><em>between='...'</em><big>)</big><a class="headerlink" href="#whoosh.highlight.UppercaseFormatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a string in which the matched terms are in UPPERCASE.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>between</strong> &#8211; the text to add between fragments.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.highlight.HtmlFormatter">
+<em class="property">class </em><tt class="descclassname">whoosh.highlight.</tt><tt class="descname">HtmlFormatter</tt><big>(</big><em>tagname='strong'</em>, <em>between='...'</em>, <em>classname='match'</em>, <em>termclass='term'</em>, <em>maxclasses=5</em>, <em>attrquote='&quot;'</em><big>)</big><a class="headerlink" href="#whoosh.highlight.HtmlFormatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a string containing HTML formatting around the matched terms.</p>
+<p>This formatter wraps matched terms in an HTML element with two class names.
+The first class name (set with the constructor argument <tt class="docutils literal"><span class="pre">classname</span></tt>) is
+the same for each match. The second class name (set with the constructor
+argument <tt class="docutils literal"><span class="pre">termclass</span></tt> is different depending on which term matched. This
+allows you to give different formatting (for example, different background
+colors) to the different terms in the excerpt.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">hf</span> <span class="o">=</span> <span class="n">HtmlFormatter</span><span class="p">(</span><span class="n">tagname</span><span class="o">=</span><span class="s">&quot;span&quot;</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s">&quot;match&quot;</span><span class="p">,</span> <span class="n">termclass</span><span class="o">=</span><span class="s">&quot;term&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hf</span><span class="p">(</span><span class="n">mytext</span><span class="p">,</span> <span class="n">myfragments</span><span class="p">)</span>
+<span class="go">&quot;The &lt;span class=&quot;match term0&quot;&gt;template&lt;/span&gt; &lt;span class=&quot;match term1&quot;&gt;geometry&lt;/span&gt; is...&quot;</span>
+</pre></div>
+</div>
+<p>This object maintains a dictionary mapping terms to HTML class names (e.g.
+<tt class="docutils literal"><span class="pre">term0</span></tt> and <tt class="docutils literal"><span class="pre">term1</span></tt> above), so that multiple excerpts will use the same
+class for the same term. If you want to re-use the same HtmlFormatter
+object with different searches, you should call HtmlFormatter.clear()
+between searches to clear the mapping.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tagname</strong> &#8211; the tag to wrap around matching terms.</li>
+<li><strong>between</strong> &#8211; the text to add between fragments.</li>
+<li><strong>classname</strong> &#8211; the class name to add to the elements wrapped around
+matching terms.</li>
+<li><strong>termclass</strong> &#8211; the class name prefix for the second class which is
+different for each matched term.</li>
+<li><strong>maxclasses</strong> &#8211; the maximum number of term classes to produce. This
+limits the number of classes you have to define in CSS by recycling
+term class names. For example, if you set maxclasses to 3 and have
+5 terms, the 5 terms will use the CSS classes <tt class="docutils literal"><span class="pre">term0</span></tt>, <tt class="docutils literal"><span class="pre">term1</span></tt>,
+<tt class="docutils literal"><span class="pre">term2</span></tt>, <tt class="docutils literal"><span class="pre">term0</span></tt>, <tt class="docutils literal"><span class="pre">term1</span></tt>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.highlight.GenshiFormatter">
+<em class="property">class </em><tt class="descclassname">whoosh.highlight.</tt><tt class="descname">GenshiFormatter</tt><big>(</big><em>qname='strong'</em>, <em>between='...'</em><big>)</big><a class="headerlink" href="#whoosh.highlight.GenshiFormatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a Genshi event stream containing HTML formatting around the
+matched terms.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>qname</strong> &#8211; the QName for the tag to wrap around matched terms.</li>
+<li><strong>between</strong> &#8211; the text to add between fragments.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="utility-classes">
+<h2>Utility classes<a class="headerlink" href="#utility-classes" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.highlight.Fragment">
+<em class="property">class </em><tt class="descclassname">whoosh.highlight.</tt><tt class="descname">Fragment</tt><big>(</big><em>text</em>, <em>matches</em>, <em>startchar=0</em>, <em>endchar=-1</em><big>)</big><a class="headerlink" href="#whoosh.highlight.Fragment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a fragment (extract) from a hit document. This object is
+mainly used to keep track of the start and end points of the fragment and
+the &#8220;matched&#8221; character ranges inside; it does not contain the text of the
+fragment or do much else.</p>
+<p>The useful attributes are:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">Fragment.text</span></tt></dt>
+<dd>The entire original text from which this fragment is taken.</dd>
+<dt><tt class="docutils literal"><span class="pre">Fragment.matches</span></tt></dt>
+<dd>An ordered list of objects representing the matched terms in the
+fragment. These objects have <tt class="docutils literal"><span class="pre">startchar</span></tt> and <tt class="docutils literal"><span class="pre">endchar</span></tt> attributes.</dd>
+<dt><tt class="docutils literal"><span class="pre">Fragment.startchar</span></tt></dt>
+<dd>The index of the first character in the fragment.</dd>
+<dt><tt class="docutils literal"><span class="pre">Fragment.endchar</span></tt></dt>
+<dd>The index of the last character in the fragment.</dd>
+<dt><tt class="docutils literal"><span class="pre">Fragment.matched_terms</span></tt></dt>
+<dd>A <tt class="docutils literal"><span class="pre">set</span></tt> of the <tt class="docutils literal"><span class="pre">text</span></tt> of the matched terms in the fragment (if
+available).</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>text</strong> &#8211; the source text of the fragment.</li>
+<li><strong>matches</strong> &#8211; a list of objects which have <tt class="docutils literal"><span class="pre">startchar</span></tt> and
+<tt class="docutils literal"><span class="pre">endchar</span></tt> attributes, and optionally a <tt class="docutils literal"><span class="pre">text</span></tt> attribute.</li>
+<li><strong>startchar</strong> &#8211; the index into <tt class="docutils literal"><span class="pre">text</span></tt> at which the fragment starts.
+The default is 0.</li>
+<li><strong>endchar</strong> &#8211; the index into <tt class="docutils literal"><span class="pre">text</span></tt> at which the fragment ends.
+The default is -1, which is interpreted as the length of <tt class="docutils literal"><span class="pre">text</span></tt>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">highlight</span></tt> module</a><ul>
+<li><a class="reference internal" href="#manual-highlighting">Manual highlighting</a></li>
+<li><a class="reference internal" href="#fragmenters">Fragmenters</a></li>
+<li><a class="reference internal" href="#scorers">Scorers</a></li>
+<li><a class="reference internal" href="#formatters">Formatters</a></li>
+<li><a class="reference internal" href="#utility-classes">Utility classes</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="formats.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">formats</span></tt> module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="idsets.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">support.bitvector</span></tt> module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/highlight.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="idsets.html" title="support.bitvector module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="formats.html" title="formats module"
+             >previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="api.html" >Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

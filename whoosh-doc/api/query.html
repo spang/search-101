@@ -1,0 +1,1275 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>query module &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="../index.html" />
+    <link rel="up" title="Whoosh API" href="api.html" />
+    <link rel="next" title="reading module" href="reading.html" />
+    <link rel="prev" title="qparser module" href="qparser.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="reading.html" title="reading module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="qparser.html" title="qparser module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="api.html" accesskey="U">Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-whoosh.query">
+<span id="query-module"></span><h1><tt class="docutils literal"><span class="pre">query</span></tt> module<a class="headerlink" href="#module-whoosh.query" title="Permalink to this headline">¶</a></h1>
+<p>See also <a class="reference internal" href="qparser.html#module-whoosh.qparser" title="whoosh.qparser"><tt class="xref py py-mod docutils literal"><span class="pre">whoosh.qparser</span></tt></a> which contains code for parsing user queries
+into query objects.</p>
+<div class="section" id="base-classes">
+<h2>Base classes<a class="headerlink" href="#base-classes" title="Permalink to this headline">¶</a></h2>
+<p>The following abstract base classes are subclassed to create the &#8220;real&#8221;
+query operations.</p>
+<dl class="class">
+<dt id="whoosh.query.Query">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">Query</tt><a class="headerlink" href="#whoosh.query.Query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract base class for all queries.</p>
+<p>Note that this base class implements __or__, __and__, and __sub__ to allow
+slightly more convenient composition of query objects:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">u&quot;a&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="n">Term</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">u&quot;b&quot;</span><span class="p">)</span>
+<span class="go">Or([Term(&quot;content&quot;, u&quot;a&quot;), Term(&quot;content&quot;, u&quot;b&quot;)])</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">u&quot;a&quot;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">Term</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">u&quot;b&quot;</span><span class="p">)</span>
+<span class="go">And([Term(&quot;content&quot;, u&quot;a&quot;), Term(&quot;content&quot;, u&quot;b&quot;)])</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">u&quot;a&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="n">Term</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">u&quot;b&quot;</span><span class="p">)</span>
+<span class="go">And([Term(&quot;content&quot;, u&quot;a&quot;), Not(Term(&quot;content&quot;, u&quot;b&quot;))])</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="whoosh.query.Query.accept">
+<tt class="descname">accept</tt><big>(</big><em>fn</em><big>)</big><a class="headerlink" href="#whoosh.query.Query.accept" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the given function to this query&#8217;s subqueries (if any) and
+then to this query itself:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">boost_phrases</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">isintance</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">Phrase</span><span class="p">):</span>
+        <span class="n">q</span><span class="o">.</span><span class="n">boost</span> <span class="o">*=</span> <span class="mf">2.0</span>
+    <span class="k">return</span> <span class="n">q</span>
+
+<span class="n">myquery</span> <span class="o">=</span> <span class="n">myquery</span><span class="o">.</span><span class="n">accept</span><span class="p">(</span><span class="n">boost_phrases</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This method automatically creates copies of the nodes in the original
+tree before passing them to your function, so your function can change
+attributes on nodes without altering the original tree.</p>
+<p>This method is less flexible than using <a class="reference internal" href="#whoosh.query.Query.apply" title="whoosh.query.Query.apply"><tt class="xref py py-meth docutils literal"><span class="pre">Query.apply()</span></tt></a> (in fact
+it&#8217;s implemented using that method) but is often more straightforward.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.query.Query.all_terms">
+<tt class="descname">all_terms</tt><big>(</big><em>phrases=True</em><big>)</big><a class="headerlink" href="#whoosh.query.Query.all_terms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a set of all terms in this query tree.</p>
+<p>This method exists for backwards-compatibility. Use iter_all_terms()
+instead.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>phrases</strong> &#8211; Whether to add words found in Phrase queries.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">set</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.query.Query.all_tokens">
+<tt class="descname">all_tokens</tt><big>(</big><em>boost=1.0</em><big>)</big><a class="headerlink" href="#whoosh.query.Query.all_tokens" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an iterator of <tt class="xref py py-class docutils literal"><span class="pre">analysis.Token</span></tt> objects corresponding
+to all terms in this query tree. The Token objects will have the
+<tt class="docutils literal"><span class="pre">fieldname</span></tt>, <tt class="docutils literal"><span class="pre">text</span></tt>, and <tt class="docutils literal"><span class="pre">boost</span></tt> attributes set. If the query
+was built by the query parser, they Token objects will also have
+<tt class="docutils literal"><span class="pre">startchar</span></tt> and <tt class="docutils literal"><span class="pre">endchar</span></tt> attributes indexing into the original
+user query.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.query.Query.apply">
+<tt class="descname">apply</tt><big>(</big><em>fn</em><big>)</big><a class="headerlink" href="#whoosh.query.Query.apply" title="Permalink to this definition">¶</a></dt>
+<dd><p>If this query has children, calls the given function on each child
+and returns a new copy of this node with the new children returned by
+the function. If this is a leaf node, simply returns this object.</p>
+<p>This is useful for writing functions that transform a query tree. For
+example, this function changes all Term objects in a query tree into
+Variations objects:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">term2var</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">Term</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Variations</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">q</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">q</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">term2var</span><span class="p">)</span>
+
+<span class="n">q</span> <span class="o">=</span> <span class="n">And</span><span class="p">([</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;f&quot;</span><span class="p">,</span> <span class="s">&quot;alfa&quot;</span><span class="p">),</span>
+         <span class="n">Or</span><span class="p">([</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;f&quot;</span><span class="p">,</span> <span class="s">&quot;bravo&quot;</span><span class="p">),</span>
+             <span class="n">Not</span><span class="p">(</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;f&quot;</span><span class="p">,</span> <span class="s">&quot;charlie&quot;</span><span class="p">))])])</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">term2var</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that this method does not automatically create copies of nodes.
+To avoid modifying the original tree, your function should call the
+<a class="reference internal" href="#whoosh.query.Query.copy" title="whoosh.query.Query.copy"><tt class="xref py py-meth docutils literal"><span class="pre">Query.copy()</span></tt></a> method on nodes before changing their attributes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.query.Query.children">
+<tt class="descname">children</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.query.Query.children" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an iterator of the subqueries of this object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.query.Query.copy">
+<tt class="descname">copy</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.query.Query.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deprecated, just use <tt class="docutils literal"><span class="pre">copy.deepcopy</span></tt>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.query.Query.deletion_docs">
+<tt class="descname">deletion_docs</tt><big>(</big><em>searcher</em><big>)</big><a class="headerlink" href="#whoosh.query.Query.deletion_docs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an iterator of docnums matching this query for the purpose
+of deletion. The <a class="reference internal" href="writing.html#whoosh.writing.IndexWriter.delete_by_query" title="whoosh.writing.IndexWriter.delete_by_query"><tt class="xref py py-meth docutils literal"><span class="pre">delete_by_query()</span></tt></a>
+method will use this method when deciding what documents to delete,
+allowing special queries (e.g. nested queries) to override what
+documents are deleted. The default implementation just forwards to
+<a class="reference internal" href="#whoosh.query.Query.docs" title="whoosh.query.Query.docs"><tt class="xref py py-meth docutils literal"><span class="pre">Query.docs()</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.query.Query.docs">
+<tt class="descname">docs</tt><big>(</big><em>searcher</em><big>)</big><a class="headerlink" href="#whoosh.query.Query.docs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an iterator of docnums matching this query.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">my_index</span><span class="o">.</span><span class="n">searcher</span><span class="p">()</span> <span class="k">as</span> <span class="n">searcher</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">list</span><span class="p">(</span><span class="n">my_query</span><span class="o">.</span><span class="n">docs</span><span class="p">(</span><span class="n">searcher</span><span class="p">))</span>
+<span class="go">[10, 34, 78, 103]</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>searcher</strong> &#8211; A <a class="reference internal" href="searching.html#whoosh.searching.Searcher" title="whoosh.searching.Searcher"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.searching.Searcher</span></tt></a> object.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.query.Query.estimate_min_size">
+<tt class="descname">estimate_min_size</tt><big>(</big><em>ixreader</em><big>)</big><a class="headerlink" href="#whoosh.query.Query.estimate_min_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an estimate of the minimum number of documents this query
+could potentially match.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.query.Query.estimate_size">
+<tt class="descname">estimate_size</tt><big>(</big><em>ixreader</em><big>)</big><a class="headerlink" href="#whoosh.query.Query.estimate_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an estimate of how many documents this query could
+potentially match (for example, the estimated size of a simple term
+query is the document frequency of the term). It is permissible to
+overestimate, but not to underestimate.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.query.Query.existing_terms">
+<tt class="descname">existing_terms</tt><big>(</big><em>ixreader</em>, <em>phrases=True</em>, <em>expand=False</em>, <em>fieldname=None</em><big>)</big><a class="headerlink" href="#whoosh.query.Query.existing_terms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a set of all byteterms in this query tree that exist in
+the given ixreader.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ixreader</strong> &#8211; A <a class="reference internal" href="reading.html#whoosh.reading.IndexReader" title="whoosh.reading.IndexReader"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.reading.IndexReader</span></tt></a> object.</li>
+<li><strong>phrases</strong> &#8211; Whether to add words found in Phrase queries.</li>
+<li><strong>expand</strong> &#8211; If True, queries that match multiple terms
+will return all matching expansions.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">set</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.query.Query.field">
+<tt class="descname">field</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.query.Query.field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the field this query matches in, or None if this query does
+not match in a single field.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.query.Query.has_terms">
+<tt class="descname">has_terms</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.query.Query.has_terms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if this specific object represents a search for a
+specific term (as opposed to a pattern, as in Wildcard and Prefix) or
+terms (i.e., whether the <tt class="docutils literal"><span class="pre">replace()</span></tt> method does something
+meaningful on this instance).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.query.Query.is_leaf">
+<tt class="descname">is_leaf</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.query.Query.is_leaf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if this is a leaf node in the query tree, or False if
+this query has sub-queries.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.query.Query.is_range">
+<tt class="descname">is_range</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.query.Query.is_range" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if this object searches for values within a range.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.query.Query.iter_all_terms">
+<tt class="descname">iter_all_terms</tt><big>(</big><em>phrases=True</em><big>)</big><a class="headerlink" href="#whoosh.query.Query.iter_all_terms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an iterator of (fieldname, text) pairs for all terms in
+this query tree.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">qp</span> <span class="o">=</span> <span class="n">qparser</span><span class="o">.</span><span class="n">QueryParser</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">,</span> <span class="n">myindex</span><span class="o">.</span><span class="n">schema</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">myparser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s">&quot;alfa bravo title:charlie&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># List the terms in a query</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">iter_all_terms</span><span class="p">())</span>
+<span class="go">[(&quot;text&quot;, &quot;alfa&quot;), (&quot;text&quot;, &quot;bravo&quot;), (&quot;title&quot;, &quot;charlie&quot;)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># Get a set of all terms in the query that don&#39;t exist in the index</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">myindex</span><span class="o">.</span><span class="n">reader</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">missing</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">q</span><span class="o">.</span><span class="n">iter_all_terms</span><span class="p">()</span> <span class="k">if</span> <span class="n">t</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">r</span><span class="p">)</span>
+<span class="go">set([(&quot;text&quot;, &quot;alfa&quot;), (&quot;title&quot;, &quot;charlie&quot;)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># All terms in the query that occur in fewer than 5 documents in</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># the index</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">q</span><span class="o">.</span><span class="n">iter_all_terms</span><span class="p">()</span> <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">doc_frequency</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">]</span>
+<span class="go">[(&quot;title&quot;, &quot;charlie&quot;)]</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>phrases</strong> &#8211; Whether to add words found in Phrase queries.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.query.Query.leaves">
+<tt class="descname">leaves</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.query.Query.leaves" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an iterator of all the leaf queries in this query tree as a
+flat series.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.query.Query.matcher">
+<tt class="descname">matcher</tt><big>(</big><em>searcher</em>, <em>context=None</em><big>)</big><a class="headerlink" href="#whoosh.query.Query.matcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a <a class="reference internal" href="matching.html#whoosh.matching.Matcher" title="whoosh.matching.Matcher"><tt class="xref py py-class docutils literal"><span class="pre">Matcher</span></tt></a> object you can use to
+retrieve documents and scores matching this query.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="matching.html#whoosh.matching.Matcher" title="whoosh.matching.Matcher"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.matching.Matcher</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.query.Query.normalize">
+<tt class="descname">normalize</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.query.Query.normalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a recursively &#8220;normalized&#8221; form of this query. The
+normalized form removes redundancy and empty queries. This is called
+automatically on query trees created by the query parser, but you may
+want to call it yourself if you&#8217;re writing your own parser or building
+your own queries.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">And</span><span class="p">([</span><span class="n">And</span><span class="p">([</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;f&quot;</span><span class="p">,</span> <span class="s">u&quot;a&quot;</span><span class="p">),</span>
+<span class="gp">... </span>              <span class="n">Term</span><span class="p">(</span><span class="s">&quot;f&quot;</span><span class="p">,</span> <span class="s">u&quot;b&quot;</span><span class="p">)]),</span>
+<span class="gp">... </span>              <span class="n">Term</span><span class="p">(</span><span class="s">&quot;f&quot;</span><span class="p">,</span> <span class="s">u&quot;c&quot;</span><span class="p">),</span> <span class="n">Or</span><span class="p">([])])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>
+<span class="go">And([Term(&quot;f&quot;, u&quot;a&quot;), Term(&quot;f&quot;, u&quot;b&quot;), Term(&quot;f&quot;, u&quot;c&quot;)])</span>
+</pre></div>
+</div>
+<p>Note that this returns a <em>new, normalized</em> query. It <em>does not</em> modify
+the original query &#8220;in place&#8221;.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.query.Query.replace">
+<tt class="descname">replace</tt><big>(</big><em>fieldname</em>, <em>oldtext</em>, <em>newtext</em><big>)</big><a class="headerlink" href="#whoosh.query.Query.replace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a copy of this query with oldtext replaced by newtext (if
+oldtext was anywhere in this query).</p>
+<p>Note that this returns a <em>new</em> query with the given text replaced. It
+<em>does not</em> modify the original query &#8220;in place&#8221;.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.query.Query.requires">
+<tt class="descname">requires</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.query.Query.requires" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a set of queries that are <em>known</em> to be required to match
+for the entire query to match. Note that other queries might also turn
+out to be required but not be determinable by examining the static
+query.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="s">&quot;f&quot;</span><span class="p">,</span> <span class="s">u&quot;a&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="s">&quot;f&quot;</span><span class="p">,</span> <span class="s">u&quot;b&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">And</span><span class="p">([</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">])</span><span class="o">.</span><span class="n">requires</span><span class="p">()</span>
+<span class="go">set([Term(&quot;f&quot;, u&quot;a&quot;), Term(&quot;f&quot;, u&quot;b&quot;)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Or</span><span class="p">([</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">])</span><span class="o">.</span><span class="n">requires</span><span class="p">()</span>
+<span class="go">set([])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">AndMaybe</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">requires</span><span class="p">()</span>
+<span class="go">set([Term(&quot;f&quot;, u&quot;a&quot;)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">requires</span><span class="p">()</span>
+<span class="go">set([Term(&quot;f&quot;, u&quot;a&quot;)])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.query.Query.simplify">
+<tt class="descname">simplify</tt><big>(</big><em>ixreader</em><big>)</big><a class="headerlink" href="#whoosh.query.Query.simplify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a recursively simplified form of this query, where
+&#8220;second-order&#8221; queries (such as Prefix and Variations) are re-written
+into lower-level queries (such as Term and Or).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.query.Query.terms">
+<tt class="descname">terms</tt><big>(</big><em>phrases=False</em><big>)</big><a class="headerlink" href="#whoosh.query.Query.terms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields zero or more (fieldname, text) pairs queried by this object.
+You can check whether a query object targets specific terms before you
+call this method using <a class="reference internal" href="#whoosh.query.Query.has_terms" title="whoosh.query.Query.has_terms"><tt class="xref py py-meth docutils literal"><span class="pre">Query.has_terms()</span></tt></a>.</p>
+<p>To get all terms in a query tree, use <a class="reference internal" href="#whoosh.query.Query.iter_all_terms" title="whoosh.query.Query.iter_all_terms"><tt class="xref py py-meth docutils literal"><span class="pre">Query.iter_all_terms()</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.query.Query.tokens">
+<tt class="descname">tokens</tt><big>(</big><em>boost=1.0</em>, <em>exreader=None</em><big>)</big><a class="headerlink" href="#whoosh.query.Query.tokens" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields zero or more <tt class="xref py py-class docutils literal"><span class="pre">analysis.Token</span></tt> objects corresponding to
+the terms searched for by this query object. You can check whether a
+query object targets specific terms before you call this method using
+<a class="reference internal" href="#whoosh.query.Query.has_terms" title="whoosh.query.Query.has_terms"><tt class="xref py py-meth docutils literal"><span class="pre">Query.has_terms()</span></tt></a>.</p>
+<p>The Token objects will have the <tt class="docutils literal"><span class="pre">fieldname</span></tt>, <tt class="docutils literal"><span class="pre">text</span></tt>, and <tt class="docutils literal"><span class="pre">boost</span></tt>
+attributes set. If the query was built by the query parser, they Token
+objects will also have <tt class="docutils literal"><span class="pre">startchar</span></tt> and <tt class="docutils literal"><span class="pre">endchar</span></tt> attributes
+indexing into the original user query.</p>
+<p>To get all tokens for a query tree, use <a class="reference internal" href="#whoosh.query.Query.all_tokens" title="whoosh.query.Query.all_tokens"><tt class="xref py py-meth docutils literal"><span class="pre">Query.all_tokens()</span></tt></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>exreader</strong> &#8211; a reader to use to expand multiterm queries such as
+prefixes and wildcards. The default is None meaning do not expand.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.query.Query.with_boost">
+<tt class="descname">with_boost</tt><big>(</big><em>boost</em><big>)</big><a class="headerlink" href="#whoosh.query.Query.with_boost" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a COPY of this query with the boost set to the given value.</p>
+<p>If a query type does not accept a boost itself, it will try to pass the
+boost on to its children, if any.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.CompoundQuery">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">CompoundQuery</tt><big>(</big><em>subqueries</em>, <em>boost=1.0</em><big>)</big><a class="headerlink" href="#whoosh.query.CompoundQuery" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract base class for queries that combine or manipulate the results
+of multiple sub-queries .</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.MultiTerm">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">MultiTerm</tt><a class="headerlink" href="#whoosh.query.MultiTerm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract base class for queries that operate on multiple terms in the
+same field.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.ExpandingTerm">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">ExpandingTerm</tt><a class="headerlink" href="#whoosh.query.ExpandingTerm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Intermediate base class for queries such as FuzzyTerm and Variations
+that expand into multiple queries, but come from a single term.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.WrappingQuery">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">WrappingQuery</tt><big>(</big><em>child</em><big>)</big><a class="headerlink" href="#whoosh.query.WrappingQuery" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="query-classes">
+<h2>Query classes<a class="headerlink" href="#query-classes" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.query.Term">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">Term</tt><big>(</big><em>fieldname</em>, <em>text</em>, <em>boost=1.0</em>, <em>minquality=None</em><big>)</big><a class="headerlink" href="#whoosh.query.Term" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matches documents containing the given term (fieldname+text pair).</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">u&quot;render&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.Variations">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">Variations</tt><big>(</big><em>fieldname</em>, <em>text</em>, <em>boost=1.0</em><big>)</big><a class="headerlink" href="#whoosh.query.Variations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Query that automatically searches for morphological variations of the
+given word in the same field.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.FuzzyTerm">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">FuzzyTerm</tt><big>(</big><em>fieldname</em>, <em>text</em>, <em>boost=1.0</em>, <em>maxdist=1</em>, <em>prefixlength=1</em>, <em>constantscore=True</em><big>)</big><a class="headerlink" href="#whoosh.query.FuzzyTerm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matches documents containing words similar to the given term.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fieldname</strong> &#8211; The name of the field to search.</li>
+<li><strong>text</strong> &#8211; The text to search for.</li>
+<li><strong>boost</strong> &#8211; A boost factor to apply to scores of documents matching
+this query.</li>
+<li><strong>maxdist</strong> &#8211; The maximum edit distance from the given text.</li>
+<li><strong>prefixlength</strong> &#8211; The matched terms must share this many initial
+characters with &#8216;text&#8217;. For example, if text is &#8220;light&#8221; and
+prefixlength is 2, then only terms starting with &#8220;li&#8221; are checked
+for similarity.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.Phrase">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">Phrase</tt><big>(</big><em>fieldname</em>, <em>words</em>, <em>slop=1</em>, <em>boost=1.0</em>, <em>char_ranges=None</em><big>)</big><a class="headerlink" href="#whoosh.query.Phrase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matches documents containing a given phrase.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fieldname</strong> &#8211; the field to search.</li>
+<li><strong>words</strong> &#8211; a list of words (unicode strings) in the phrase.</li>
+<li><strong>slop</strong> &#8211; the number of words allowed between each &#8220;word&#8221; in the
+phrase; the default of 1 means the phrase must match exactly.</li>
+<li><strong>boost</strong> &#8211; a boost factor that to apply to the raw score of
+documents matched by this query.</li>
+<li><strong>char_ranges</strong> &#8211; if a Phrase object is created by the query parser,
+it will set this attribute to a list of (startchar, endchar) pairs
+corresponding to the words in the phrase</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.And">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">And</tt><big>(</big><em>subqueries</em>, <em>boost=1.0</em><big>)</big><a class="headerlink" href="#whoosh.query.And" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matches documents that match ALL of the subqueries.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">And</span><span class="p">([</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">u&quot;render&quot;</span><span class="p">),</span>
+<span class="gp">... </span>     <span class="n">Term</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">u&quot;shade&quot;</span><span class="p">),</span>
+<span class="gp">... </span>     <span class="n">Not</span><span class="p">(</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">u&quot;texture&quot;</span><span class="p">))])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># You can also do this</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">u&quot;render&quot;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">Term</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">u&quot;shade&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.Or">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">Or</tt><big>(</big><em>subqueries</em>, <em>boost=1.0</em>, <em>minmatch=0</em>, <em>scale=None</em><big>)</big><a class="headerlink" href="#whoosh.query.Or" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matches documents that match ANY of the subqueries.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Or</span><span class="p">([</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">u&quot;render&quot;</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="n">And</span><span class="p">([</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">u&quot;shade&quot;</span><span class="p">),</span> <span class="n">Term</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">u&quot;texture&quot;</span><span class="p">)]),</span>
+<span class="gp">... </span>    <span class="n">Not</span><span class="p">(</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">u&quot;network&quot;</span><span class="p">))])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># You can also do this</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">u&quot;render&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="n">Term</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">u&quot;shade&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>subqueries</strong> &#8211; a list of <a class="reference internal" href="#whoosh.query.Query" title="whoosh.query.Query"><tt class="xref py py-class docutils literal"><span class="pre">Query</span></tt></a> objects to search for.</li>
+<li><strong>boost</strong> &#8211; a boost factor to apply to the scores of all matching
+documents.</li>
+<li><strong>minmatch</strong> &#8211; not yet implemented.</li>
+<li><strong>scale</strong> &#8211; a scaling factor for a &#8220;coordination bonus&#8221;. If this
+value is not None, it should be a floating point number greater
+than 0 and less than 1. The scores of the matching documents are
+boosted/penalized based on the number of query terms that matched
+in the document. This number scales the effect of the bonuses.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.DisjunctionMax">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">DisjunctionMax</tt><big>(</big><em>subqueries</em>, <em>boost=1.0</em>, <em>tiebreak=0.0</em><big>)</big><a class="headerlink" href="#whoosh.query.DisjunctionMax" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matches all documents that match any of the subqueries, but scores each
+document using the maximum score from the subqueries.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.Not">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">Not</tt><big>(</big><em>query</em>, <em>boost=1.0</em><big>)</big><a class="headerlink" href="#whoosh.query.Not" title="Permalink to this definition">¶</a></dt>
+<dd><p>Excludes any documents that match the subquery.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c"># Match documents that contain &#39;render&#39; but not &#39;texture&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">And</span><span class="p">([</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">u&quot;render&quot;</span><span class="p">),</span>
+<span class="gp">... </span>     <span class="n">Not</span><span class="p">(</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">u&quot;texture&quot;</span><span class="p">))])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># You can also do this</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">u&quot;render&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="n">Term</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">u&quot;texture&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>query</strong> &#8211; A <a class="reference internal" href="#whoosh.query.Query" title="whoosh.query.Query"><tt class="xref py py-class docutils literal"><span class="pre">Query</span></tt></a> object. The results of this query
+are <em>excluded</em> from the parent query.</li>
+<li><strong>boost</strong> &#8211; Boost is meaningless for excluded documents but this
+keyword argument is accepted for the sake of a consistent
+interface.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.Prefix">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">Prefix</tt><big>(</big><em>fieldname</em>, <em>text</em>, <em>boost=1.0</em>, <em>constantscore=True</em><big>)</big><a class="headerlink" href="#whoosh.query.Prefix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matches documents that contain any terms that start with the given text.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c"># Match documents containing words starting with &#39;comp&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Prefix</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">u&quot;comp&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.Wildcard">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">Wildcard</tt><big>(</big><em>fieldname</em>, <em>text</em>, <em>boost=1.0</em>, <em>constantscore=True</em><big>)</big><a class="headerlink" href="#whoosh.query.Wildcard" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matches documents that contain any terms that match a &#8220;glob&#8221; pattern.
+See the Python <tt class="docutils literal"><span class="pre">fnmatch</span></tt> module for information about globs.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Wildcard</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">u&quot;in*f?x&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.Regex">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">Regex</tt><big>(</big><em>fieldname</em>, <em>text</em>, <em>boost=1.0</em>, <em>constantscore=True</em><big>)</big><a class="headerlink" href="#whoosh.query.Regex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matches documents that contain any terms that match a regular
+expression. See the Python <tt class="docutils literal"><span class="pre">re</span></tt> module for information about regular
+expressions.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.TermRange">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">TermRange</tt><big>(</big><em>fieldname</em>, <em>start</em>, <em>end</em>, <em>startexcl=False</em>, <em>endexcl=False</em>, <em>boost=1.0</em>, <em>constantscore=True</em><big>)</big><a class="headerlink" href="#whoosh.query.TermRange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matches documents containing any terms in a given range.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c"># Match documents where the indexed &quot;id&quot; field is greater than or equal</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># to &#39;apple&#39; and less than or equal to &#39;pear&#39;.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">TermRange</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">,</span> <span class="s">u&quot;apple&quot;</span><span class="p">,</span> <span class="s">u&quot;pear&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fieldname</strong> &#8211; The name of the field to search.</li>
+<li><strong>start</strong> &#8211; Match terms equal to or greater than this.</li>
+<li><strong>end</strong> &#8211; Match terms equal to or less than this.</li>
+<li><strong>startexcl</strong> &#8211; If True, the range start is exclusive. If False, the
+range start is inclusive.</li>
+<li><strong>endexcl</strong> &#8211; If True, the range end is exclusive. If False, the
+range end is inclusive.</li>
+<li><strong>boost</strong> &#8211; Boost factor that should be applied to the raw score of
+results matched by this query.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.NumericRange">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">NumericRange</tt><big>(</big><em>fieldname</em>, <em>start</em>, <em>end</em>, <em>startexcl=False</em>, <em>endexcl=False</em>, <em>boost=1.0</em>, <em>constantscore=True</em><big>)</big><a class="headerlink" href="#whoosh.query.NumericRange" title="Permalink to this definition">¶</a></dt>
+<dd><p>A range query for NUMERIC fields. Takes advantage of tiered indexing
+to speed up large ranges by matching at a high resolution at the edges of
+the range and a low resolution in the middle.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c"># Match numbers from 10 to 5925 in the &quot;number&quot; field.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nr</span> <span class="o">=</span> <span class="n">NumericRange</span><span class="p">(</span><span class="s">&quot;number&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5925</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fieldname</strong> &#8211; The name of the field to search.</li>
+<li><strong>start</strong> &#8211; Match terms equal to or greater than this number. This
+should be a number type, not a string.</li>
+<li><strong>end</strong> &#8211; Match terms equal to or less than this number. This should
+be a number type, not a string.</li>
+<li><strong>startexcl</strong> &#8211; If True, the range start is exclusive. If False, the
+range start is inclusive.</li>
+<li><strong>endexcl</strong> &#8211; If True, the range end is exclusive. If False, the
+range end is inclusive.</li>
+<li><strong>boost</strong> &#8211; Boost factor that should be applied to the raw score of
+results matched by this query.</li>
+<li><strong>constantscore</strong> &#8211; If True, the compiled query returns a constant
+score (the value of the <tt class="docutils literal"><span class="pre">boost</span></tt> keyword argument) instead of
+actually scoring the matched terms. This gives a nice speed boost
+and won&#8217;t affect the results in most cases since numeric ranges
+will almost always be used as a filter.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.DateRange">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">DateRange</tt><big>(</big><em>fieldname</em>, <em>start</em>, <em>end</em>, <em>startexcl=False</em>, <em>endexcl=False</em>, <em>boost=1.0</em>, <em>constantscore=True</em><big>)</big><a class="headerlink" href="#whoosh.query.DateRange" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a very thin subclass of <a class="reference internal" href="#whoosh.query.NumericRange" title="whoosh.query.NumericRange"><tt class="xref py py-class docutils literal"><span class="pre">NumericRange</span></tt></a> that only
+overrides the initializer and <tt class="docutils literal"><span class="pre">__repr__()</span></tt> methods to work with datetime
+objects instead of numbers. Internally this object converts the datetime
+objects it&#8217;s created with to numbers and otherwise acts like a
+<tt class="docutils literal"><span class="pre">NumericRange</span></tt> query.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">DateRange</span><span class="p">(</span><span class="s">&quot;date&quot;</span><span class="p">,</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2010</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+<span class="gp">... </span>          <span class="n">datetime</span><span class="p">(</span><span class="mi">2010</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">59</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.Every">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">Every</tt><big>(</big><em>fieldname=None</em>, <em>boost=1.0</em><big>)</big><a class="headerlink" href="#whoosh.query.Every" title="Permalink to this definition">¶</a></dt>
+<dd><p>A query that matches every document containing any term in a given
+field. If you don&#8217;t specify a field, the query matches every document.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c"># Match any documents with something in the &quot;path&quot; field</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">Every</span><span class="p">(</span><span class="s">&quot;path&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># Matcher every document</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">Every</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The unfielded form (matching every document) is efficient.</p>
+<p>The fielded is more efficient than a prefix query with an empty prefix or a
+&#8216;*&#8217; wildcard, but it can still be very slow on large indexes. It requires
+the searcher to read the full posting list of every term in the given
+field.</p>
+<p>Instead of using this query it is much more efficient when you create the
+index to include a single term that appears in all documents that have the
+field you want to match.</p>
+<p>For example, instead of this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Match all documents that have something in the &quot;path&quot; field</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">Every</span><span class="p">(</span><span class="s">&quot;path&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Do this when indexing:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Add an extra field that indicates whether a document has a path</span>
+<span class="n">schema</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Schema</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">fields</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span> <span class="n">has_path</span><span class="o">=</span><span class="n">fields</span><span class="o">.</span><span class="n">ID</span><span class="p">)</span>
+
+<span class="c"># When indexing, set the &quot;has_path&quot; field based on whether the document</span>
+<span class="c"># has anything in the &quot;path&quot; field</span>
+<span class="n">writer</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">text_value1</span><span class="p">)</span>
+<span class="n">writer</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">text_value2</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">path_value2</span><span class="p">,</span> <span class="n">has_path</span><span class="o">=</span><span class="s">&quot;t&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then to find all documents with a path:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">q</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="s">&quot;has_path&quot;</span><span class="p">,</span> <span class="s">&quot;t&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fieldname</strong> &#8211; the name of the field to match, or <tt class="docutils literal"><span class="pre">None</span></tt> or <tt class="docutils literal"><span class="pre">*</span></tt></td>
+</tr>
+</tbody>
+</table>
+<p>to match all documents.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="whoosh.query.NullQuery">
+<tt class="descclassname">whoosh.query.</tt><tt class="descname">NullQuery</tt><a class="headerlink" href="#whoosh.query.NullQuery" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="binary-queries">
+<h2>Binary queries<a class="headerlink" href="#binary-queries" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.query.Require">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">Require</tt><big>(</big><em>a</em>, <em>b</em><big>)</big><a class="headerlink" href="#whoosh.query.Require" title="Permalink to this definition">¶</a></dt>
+<dd><p>Binary query returns results from the first query that also appear in
+the second query, but only uses the scores from the first query. This lets
+you filter results without affecting scores.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.AndMaybe">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">AndMaybe</tt><big>(</big><em>a</em>, <em>b</em><big>)</big><a class="headerlink" href="#whoosh.query.AndMaybe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Binary query takes results from the first query. If and only if the
+same document also appears in the results from the second query, the score
+from the second query will be added to the score from the first query.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.AndNot">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">AndNot</tt><big>(</big><em>a</em>, <em>b</em><big>)</big><a class="headerlink" href="#whoosh.query.AndNot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Binary boolean query of the form &#8216;a ANDNOT b&#8217;, where documents that
+match b are removed from the matches for a.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.Otherwise">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">Otherwise</tt><big>(</big><em>a</em>, <em>b</em><big>)</big><a class="headerlink" href="#whoosh.query.Otherwise" title="Permalink to this definition">¶</a></dt>
+<dd><p>A binary query that only matches the second clause if the first clause
+doesn&#8217;t match any documents.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="span-queries">
+<h2>Span queries<a class="headerlink" href="#span-queries" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.query.Span">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">Span</tt><big>(</big><em>start</em>, <em>end=None</em>, <em>startchar=None</em>, <em>endchar=None</em>, <em>boost=1.0</em><big>)</big><a class="headerlink" href="#whoosh.query.Span" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="classmethod">
+<dt id="whoosh.query.Span.merge">
+<em class="property">classmethod </em><tt class="descname">merge</tt><big>(</big><em>spans</em><big>)</big><a class="headerlink" href="#whoosh.query.Span.merge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merges overlapping and touches spans in the given list of spans.</p>
+<p>Note that this modifies the original list.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">spans</span> <span class="o">=</span> <span class="p">[</span><span class="n">Span</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="n">Span</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Span</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">spans</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">spans</span>
+<span class="go">[&lt;1-3&gt;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.SpanQuery">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">SpanQuery</tt><a class="headerlink" href="#whoosh.query.SpanQuery" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract base class for span-based queries. Each span query type wraps
+a &#8220;regular&#8221; query that implements the basic document-matching functionality
+(for example, SpanNear wraps an And query, because SpanNear requires that
+the two sub-queries occur in the same documents. The wrapped query is
+stored in the <tt class="docutils literal"><span class="pre">q</span></tt> attribute.</p>
+<p>Subclasses usually only need to implement the initializer to set the
+wrapped query, and <tt class="docutils literal"><span class="pre">matcher()</span></tt> to return a span-aware matcher object.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.SpanFirst">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">SpanFirst</tt><big>(</big><em>q</em>, <em>limit=0</em><big>)</big><a class="headerlink" href="#whoosh.query.SpanFirst" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matches spans that end within the first N positions. This lets you
+for example only match terms near the beginning of the document.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>q</strong> &#8211; the query to match.</li>
+<li><strong>limit</strong> &#8211; the query must match within this position at the start
+of a document. The default is <tt class="docutils literal"><span class="pre">0</span></tt>, which means the query must
+match at the first position.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.SpanNear">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">SpanNear</tt><big>(</big><em>a</em>, <em>b</em>, <em>slop=1</em>, <em>ordered=True</em>, <em>mindist=1</em><big>)</big><a class="headerlink" href="#whoosh.query.SpanNear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Note: for new code, use <a class="reference internal" href="#whoosh.query.SpanNear2" title="whoosh.query.SpanNear2"><tt class="xref py py-class docutils literal"><span class="pre">SpanNear2</span></tt></a> instead of this class. SpanNear2
+takes a list of sub-queries instead of requiring you to create a binary
+tree of query objects.</p>
+<p>Matches queries that occur near each other. By default, only matches
+queries that occur right next to each other (slop=1) and in order
+(ordered=True).</p>
+<p>For example, to find documents where &#8220;whoosh&#8221; occurs next to &#8220;library&#8221;
+in the &#8220;text&#8221; field:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">query</span><span class="p">,</span> <span class="n">spans</span>
+<span class="n">t1</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">,</span> <span class="s">&quot;whoosh&quot;</span><span class="p">)</span>
+<span class="n">t2</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">,</span> <span class="s">&quot;library&quot;</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">spans</span><span class="o">.</span><span class="n">SpanNear</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To find documents where &#8220;whoosh&#8221; occurs at most 5 positions before
+&#8220;library&#8221;:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">q</span> <span class="o">=</span> <span class="n">spans</span><span class="o">.</span><span class="n">SpanNear</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">,</span> <span class="n">slop</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To find documents where &#8220;whoosh&#8221; occurs at most 5 positions before or after
+&#8220;library&#8221;:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">q</span> <span class="o">=</span> <span class="n">spans</span><span class="o">.</span><span class="n">SpanNear</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">,</span> <span class="n">slop</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can use the <tt class="docutils literal"><span class="pre">phrase()</span></tt> class method to create a tree of SpanNear
+queries to match a list of terms:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">q</span> <span class="o">=</span> <span class="n">spans</span><span class="o">.</span><span class="n">SpanNear</span><span class="o">.</span><span class="n">phrase</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;whoosh&quot;</span><span class="p">,</span> <span class="s">&quot;search&quot;</span><span class="p">,</span> <span class="s">&quot;library&quot;</span><span class="p">],</span>
+                          <span class="n">slop</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>a</strong> &#8211; the first query to match.</li>
+<li><strong>b</strong> &#8211; the second query that must occur within &#8220;slop&#8221; positions of
+the first query.</li>
+<li><strong>slop</strong> &#8211; the number of positions within which the queries must
+occur. Default is 1, meaning the queries must occur right next
+to each other.</li>
+<li><strong>ordered</strong> &#8211; whether a must occur before b. Default is True.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Pram mindist:</th><td class="field-body"><p class="first last">the minimum distance allowed between the queries.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.SpanNear2">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">SpanNear2</tt><big>(</big><em>qs</em>, <em>slop=1</em>, <em>ordered=True</em>, <em>mindist=1</em><big>)</big><a class="headerlink" href="#whoosh.query.SpanNear2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matches queries that occur near each other. By default, only matches
+queries that occur right next to each other (slop=1) and in order
+(ordered=True).</p>
+<p>New code should use this query type instead of <a class="reference internal" href="#whoosh.query.SpanNear" title="whoosh.query.SpanNear"><tt class="xref py py-class docutils literal"><span class="pre">SpanNear</span></tt></a>.</p>
+<p>(Unlike <a class="reference internal" href="#whoosh.query.SpanNear" title="whoosh.query.SpanNear"><tt class="xref py py-class docutils literal"><span class="pre">SpanNear</span></tt></a>, this query takes a list of subqueries instead of
+requiring you to build a binary tree of query objects. This query should
+also be slightly faster due to less overhead.)</p>
+<p>For example, to find documents where &#8220;whoosh&#8221; occurs next to &#8220;library&#8221;
+in the &#8220;text&#8221; field:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">query</span><span class="p">,</span> <span class="n">spans</span>
+<span class="n">t1</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">,</span> <span class="s">&quot;whoosh&quot;</span><span class="p">)</span>
+<span class="n">t2</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">,</span> <span class="s">&quot;library&quot;</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">spans</span><span class="o">.</span><span class="n">SpanNear2</span><span class="p">([</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>To find documents where &#8220;whoosh&#8221; occurs at most 5 positions before
+&#8220;library&#8221;:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">q</span> <span class="o">=</span> <span class="n">spans</span><span class="o">.</span><span class="n">SpanNear2</span><span class="p">([</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">],</span> <span class="n">slop</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To find documents where &#8220;whoosh&#8221; occurs at most 5 positions before or after
+&#8220;library&#8221;:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">q</span> <span class="o">=</span> <span class="n">spans</span><span class="o">.</span><span class="n">SpanNear2</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">,</span> <span class="n">slop</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>qs</strong> &#8211; a sequence of sub-queries to match.</li>
+<li><strong>slop</strong> &#8211; the number of positions within which the queries must
+occur. Default is 1, meaning the queries must occur right next
+to each other.</li>
+<li><strong>ordered</strong> &#8211; whether a must occur before b. Default is True.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Pram mindist:</th><td class="field-body"><p class="first last">the minimum distance allowed between the queries.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.SpanNot">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">SpanNot</tt><big>(</big><em>a</em>, <em>b</em><big>)</big><a class="headerlink" href="#whoosh.query.SpanNot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matches spans from the first query only if they don&#8217;t overlap with
+spans from the second query. If there are no non-overlapping spans, the
+document does not match.</p>
+<p>For example, to match documents that contain &#8220;bear&#8221; at most 2 places after
+&#8220;apple&#8221; in the &#8220;text&#8221; field but don&#8217;t have &#8220;cute&#8221; between them:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">query</span><span class="p">,</span> <span class="n">spans</span>
+<span class="n">t1</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">,</span> <span class="s">&quot;apple&quot;</span><span class="p">)</span>
+<span class="n">t2</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">,</span> <span class="s">&quot;bear&quot;</span><span class="p">)</span>
+<span class="n">near</span> <span class="o">=</span> <span class="n">spans</span><span class="o">.</span><span class="n">SpanNear</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">,</span> <span class="n">slop</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">spans</span><span class="o">.</span><span class="n">SpanNot</span><span class="p">(</span><span class="n">near</span><span class="p">,</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">,</span> <span class="s">&quot;cute&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>a</strong> &#8211; the query to match.</li>
+<li><strong>b</strong> &#8211; do not match any spans that overlap with spans from this
+query.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.SpanOr">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">SpanOr</tt><big>(</big><em>subqs</em><big>)</big><a class="headerlink" href="#whoosh.query.SpanOr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matches documents that match any of a list of sub-queries. Unlike
+query.Or, this class merges together matching spans from the different
+sub-queries when they overlap.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>subqs</strong> &#8211; a list of queries to match.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.SpanContains">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">SpanContains</tt><big>(</big><em>a</em>, <em>b</em><big>)</big><a class="headerlink" href="#whoosh.query.SpanContains" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matches documents where the spans of the first query contain any spans
+of the second query.</p>
+<p>For example, to match documents where &#8220;apple&#8221; occurs at most 10 places
+before &#8220;bear&#8221; in the &#8220;text&#8221; field and &#8220;cute&#8221; is between them:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">query</span><span class="p">,</span> <span class="n">spans</span>
+<span class="n">t1</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">,</span> <span class="s">&quot;apple&quot;</span><span class="p">)</span>
+<span class="n">t2</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">,</span> <span class="s">&quot;bear&quot;</span><span class="p">)</span>
+<span class="n">near</span> <span class="o">=</span> <span class="n">spans</span><span class="o">.</span><span class="n">SpanNear</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">,</span> <span class="n">slop</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">spans</span><span class="o">.</span><span class="n">SpanContains</span><span class="p">(</span><span class="n">near</span><span class="p">,</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">,</span> <span class="s">&quot;cute&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>a</strong> &#8211; the query to match.</li>
+<li><strong>b</strong> &#8211; the query whose spans must occur within the matching spans
+of the first query.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.SpanBefore">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">SpanBefore</tt><big>(</big><em>a</em>, <em>b</em><big>)</big><a class="headerlink" href="#whoosh.query.SpanBefore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matches documents where the spans of the first query occur before any
+spans of the second query.</p>
+<p>For example, to match documents where &#8220;apple&#8221; occurs anywhere before
+&#8220;bear&#8221;:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">query</span><span class="p">,</span> <span class="n">spans</span>
+<span class="n">t1</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">,</span> <span class="s">&quot;apple&quot;</span><span class="p">)</span>
+<span class="n">t2</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">,</span> <span class="s">&quot;bear&quot;</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">spans</span><span class="o">.</span><span class="n">SpanBefore</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>a</strong> &#8211; the query that must occur before the second.</li>
+<li><strong>b</strong> &#8211; the query that must occur after the first.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.SpanCondition">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">SpanCondition</tt><big>(</big><em>a</em>, <em>b</em><big>)</big><a class="headerlink" href="#whoosh.query.SpanCondition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matches documents that satisfy both subqueries, but only uses the spans
+from the first subquery.</p>
+<p>This is useful when you want to place conditions on matches but not have
+those conditions affect the spans returned.</p>
+<p>For example, to get spans for the term <tt class="docutils literal"><span class="pre">alfa</span></tt> in documents that also
+must contain the term <tt class="docutils literal"><span class="pre">bravo</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">SpanCondition</span><span class="p">(</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">,</span> <span class="s">u&quot;alfa&quot;</span><span class="p">),</span> <span class="n">Term</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">,</span> <span class="s">u&quot;bravo&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="special-queries">
+<h2>Special queries<a class="headerlink" href="#special-queries" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.query.NestedParent">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">NestedParent</tt><big>(</big><em>parents</em>, <em>subq</em>, <em>per_parent_limit=None</em>, <em>score_fn=&lt;built-in function sum&gt;</em><big>)</big><a class="headerlink" href="#whoosh.query.NestedParent" title="Permalink to this definition">¶</a></dt>
+<dd><p>A query that allows you to search for &#8220;nested&#8221; documents, where you can
+index (possibly multiple levels of) &#8220;parent&#8221; and &#8220;child&#8221; documents using
+the <a class="reference internal" href="writing.html#whoosh.writing.IndexWriter.group" title="whoosh.writing.IndexWriter.group"><tt class="xref py py-meth docutils literal"><span class="pre">group()</span></tt></a> and/or
+<a class="reference internal" href="writing.html#whoosh.writing.IndexWriter.start_group" title="whoosh.writing.IndexWriter.start_group"><tt class="xref py py-meth docutils literal"><span class="pre">start_group()</span></tt></a> methods of a
+<a class="reference internal" href="writing.html#whoosh.writing.IndexWriter" title="whoosh.writing.IndexWriter"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.writing.IndexWriter</span></tt></a> to indicate that hierarchically related
+documents should be kept together:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">schema</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Schema</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">fields</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">fields</span><span class="o">.</span><span class="n">TEXT</span><span class="p">(</span><span class="n">stored</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+
+<span class="k">with</span> <span class="n">ix</span><span class="o">.</span><span class="n">writer</span><span class="p">()</span> <span class="k">as</span> <span class="n">w</span><span class="p">:</span>
+    <span class="c"># Say we&#39;re indexing chapters (type=chap) and each chapter has a</span>
+    <span class="c"># number of paragraphs (type=p)</span>
+    <span class="k">with</span> <span class="n">w</span><span class="o">.</span><span class="n">group</span><span class="p">():</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s">&quot;chap&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&quot;Chapter 1&quot;</span><span class="p">)</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s">&quot;p&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&quot;Able baker&quot;</span><span class="p">)</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s">&quot;p&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&quot;Bright morning&quot;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">w</span><span class="o">.</span><span class="n">group</span><span class="p">():</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s">&quot;chap&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&quot;Chapter 2&quot;</span><span class="p">)</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s">&quot;p&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&quot;Car trip&quot;</span><span class="p">)</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s">&quot;p&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&quot;Dog eared&quot;</span><span class="p">)</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s">&quot;p&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&quot;Every day&quot;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">w</span><span class="o">.</span><span class="n">group</span><span class="p">():</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s">&quot;chap&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&quot;Chapter 3&quot;</span><span class="p">)</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s">&quot;p&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&quot;Fine day&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">NestedParent</span></tt> query wraps two sub-queries: the &#8220;parent query&#8221;
+matches a class of &#8220;parent documents&#8221;. The &#8220;sub query&#8221; matches nested
+documents you want to find. For each &#8220;sub document&#8221; the &#8220;sub query&#8221; finds,
+this query acts as if it found the corresponding &#8220;parent document&#8221;.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">ix</span><span class="o">.</span><span class="n">searcher</span><span class="p">()</span> <span class="k">as</span> <span class="n">s</span><span class="p">:</span>
+<span class="gp">... </span>  <span class="n">r</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">,</span> <span class="s">&quot;day&quot;</span><span class="p">))</span>
+<span class="gp">... </span>  <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">r</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="n">hit</span><span class="p">[</span><span class="s">&quot;text&quot;</span><span class="p">])</span>
+<span class="gp">...</span>
+<span class="go">Chapter 2</span>
+<span class="go">Chapter 3</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>parents</strong> &#8211; a query, DocIdSet object, or Results object
+representing the documents you want to use as the &#8220;parent&#8221;
+documents. Where the sub-query matches, the corresponding document
+in these results will be returned as the match.</li>
+<li><strong>subq</strong> &#8211; a query matching the information you want to find.</li>
+<li><strong>per_parent_limit</strong> &#8211; a maximum number of &#8220;sub documents&#8221; to search
+per parent. The default is None, meaning no limit.</li>
+<li><strong>score_fn</strong> &#8211; a function to use to combine the scores of matching
+sub-documents to calculate the score returned for the parent
+document. The default is <tt class="docutils literal"><span class="pre">sum</span></tt>, that is, add up the scores of the
+sub-documents.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.NestedChildren">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">NestedChildren</tt><big>(</big><em>parents</em>, <em>subq</em>, <em>boost=1.0</em><big>)</big><a class="headerlink" href="#whoosh.query.NestedChildren" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the reverse of a <a class="reference internal" href="#whoosh.query.NestedParent" title="whoosh.query.NestedParent"><tt class="xref py py-class docutils literal"><span class="pre">NestedParent</span></tt></a> query: instead of taking
+a query that matches children but returns the parent, this query matches
+parents but returns the children.</p>
+<p>This is useful, for example, to search for an album title and return the
+songs in the album:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">schema</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Schema</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">fields</span><span class="o">.</span><span class="n">ID</span><span class="p">(</span><span class="n">stored</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+                       <span class="n">album_name</span><span class="o">=</span><span class="n">fields</span><span class="o">.</span><span class="n">TEXT</span><span class="p">(</span><span class="n">stored</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+                       <span class="n">track_num</span><span class="o">=</span><span class="n">fields</span><span class="o">.</span><span class="n">NUMERIC</span><span class="p">(</span><span class="n">stored</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+                       <span class="n">track_name</span><span class="o">=</span><span class="n">fields</span><span class="o">.</span><span class="n">TEXT</span><span class="p">(</span><span class="n">stored</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+                       <span class="n">lyrics</span><span class="o">=</span><span class="n">fields</span><span class="o">.</span><span class="n">TEXT</span><span class="p">)</span>
+<span class="n">ix</span> <span class="o">=</span> <span class="n">RamStorage</span><span class="p">()</span><span class="o">.</span><span class="n">create_index</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
+
+<span class="c"># Indexing</span>
+<span class="k">with</span> <span class="n">ix</span><span class="o">.</span><span class="n">writer</span><span class="p">()</span> <span class="k">as</span> <span class="n">w</span><span class="p">:</span>
+    <span class="c"># For each album, index a &quot;group&quot; of a parent &quot;album&quot; document and</span>
+    <span class="c"># multiple child &quot;track&quot; documents.</span>
+    <span class="k">with</span> <span class="n">w</span><span class="o">.</span><span class="n">group</span><span class="p">():</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s">&quot;album&quot;</span><span class="p">,</span>
+                       <span class="n">artist</span><span class="o">=</span><span class="s">&quot;The Cure&quot;</span><span class="p">,</span> <span class="n">album_name</span><span class="o">=</span><span class="s">&quot;Disintegration&quot;</span><span class="p">)</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s">&quot;track&quot;</span><span class="p">,</span> <span class="n">track_num</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                       <span class="n">track_name</span><span class="o">=</span><span class="s">&quot;Plainsong&quot;</span><span class="p">)</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s">&quot;track&quot;</span><span class="p">,</span> <span class="n">track_num</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                       <span class="n">track_name</span><span class="o">=</span><span class="s">&quot;Pictures of You&quot;</span><span class="p">)</span>
+        <span class="c"># ...</span>
+    <span class="c"># ...</span>
+
+
+<span class="c"># Find songs where the song name has &quot;heaven&quot; in the title and the</span>
+<span class="c"># album the song is on has &quot;hell&quot; in the title</span>
+<span class="n">qp</span> <span class="o">=</span> <span class="n">QueryParser</span><span class="p">(</span><span class="s">&quot;lyrics&quot;</span><span class="p">,</span> <span class="n">ix</span><span class="o">.</span><span class="n">schema</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">ix</span><span class="o">.</span><span class="n">searcher</span><span class="p">()</span> <span class="k">as</span> <span class="n">s</span><span class="p">:</span>
+    <span class="c"># A query that matches all parents</span>
+    <span class="n">all_albums</span> <span class="o">=</span> <span class="n">qp</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s">&quot;type:album&quot;</span><span class="p">)</span>
+
+    <span class="c"># A query that matches the parents we want</span>
+    <span class="n">albums_with_hell</span> <span class="o">=</span> <span class="n">qp</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s">&quot;album_name:hell&quot;</span><span class="p">)</span>
+
+    <span class="c"># A query that matches the desired albums but returns the tracks</span>
+    <span class="n">songs_on_hell_albums</span> <span class="o">=</span> <span class="n">NestedChildren</span><span class="p">(</span><span class="n">all_albums</span><span class="p">,</span> <span class="n">albums_with_hell</span><span class="p">)</span>
+
+    <span class="c"># A query that matches tracks with heaven in the title</span>
+    <span class="n">songs_with_heaven</span> <span class="o">=</span> <span class="n">qp</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s">&quot;track_name:heaven&quot;</span><span class="p">)</span>
+
+    <span class="c"># A query that finds tracks with heaven in the title on albums</span>
+    <span class="c"># with hell in the title</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">And</span><span class="p">([</span><span class="n">songs_on_hell_albums</span><span class="p">,</span> <span class="n">songs_with_heaven</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.query.ConstantScoreQuery">
+<em class="property">class </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">ConstantScoreQuery</tt><big>(</big><em>child</em>, <em>score=1.0</em><big>)</big><a class="headerlink" href="#whoosh.query.ConstantScoreQuery" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wraps a query and uses a matcher that always gives a constant score
+to all matching documents. This is a useful optimization when you don&#8217;t
+care about scores from a certain branch of the query tree because it is
+simply acting as a filter. See also the <a class="reference internal" href="#whoosh.query.AndMaybe" title="whoosh.query.AndMaybe"><tt class="xref py py-class docutils literal"><span class="pre">AndMaybe</span></tt></a> query.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="exceptions">
+<h2>Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="whoosh.query.QueryError">
+<em class="property">exception </em><tt class="descclassname">whoosh.query.</tt><tt class="descname">QueryError</tt><a class="headerlink" href="#whoosh.query.QueryError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Error encountered while running a query.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">query</span></tt> module</a><ul>
+<li><a class="reference internal" href="#base-classes">Base classes</a></li>
+<li><a class="reference internal" href="#query-classes">Query classes</a></li>
+<li><a class="reference internal" href="#binary-queries">Binary queries</a></li>
+<li><a class="reference internal" href="#span-queries">Span queries</a></li>
+<li><a class="reference internal" href="#special-queries">Special queries</a></li>
+<li><a class="reference internal" href="#exceptions">Exceptions</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="qparser.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">qparser</span></tt> module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="reading.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">reading</span></tt> module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/query.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="reading.html" title="reading module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="qparser.html" title="qparser module"
+             >previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="api.html" >Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

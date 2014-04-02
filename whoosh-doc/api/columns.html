@@ -1,0 +1,374 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>columns module &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="../index.html" />
+    <link rel="up" title="Whoosh API" href="api.html" />
+    <link rel="next" title="fields module" href="fields.html" />
+    <link rel="prev" title="collectors module" href="collectors.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="fields.html" title="fields module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="collectors.html" title="collectors module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="api.html" accesskey="U">Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-whoosh.columns">
+<span id="columns-module"></span><h1><tt class="docutils literal"><span class="pre">columns</span></tt> module<a class="headerlink" href="#module-whoosh.columns" title="Permalink to this headline">¶</a></h1>
+<p>The API and implementation of columns may change in the next version of Whoosh!</p>
+<p>This module contains &#8220;Column&#8221; objects which you can use as the argument to a
+Field object&#8217;s <tt class="docutils literal"><span class="pre">sortable=</span></tt> keyword argument. Each field defines a default
+column type for when the user specifies <tt class="docutils literal"><span class="pre">sortable=True</span></tt> (the object returned
+by the field&#8217;s <tt class="docutils literal"><span class="pre">default_column()</span></tt> method).</p>
+<p>The default column type for most fields is <tt class="docutils literal"><span class="pre">VarBytesColumn</span></tt>,
+although numeric and date fields use <tt class="docutils literal"><span class="pre">NumericColumn</span></tt>. Expert users may use
+other field types that may be faster or more storage efficient based on the
+field contents. For example, if a field always contains one of a limited number
+of possible values, a <tt class="docutils literal"><span class="pre">RefBytesColumn</span></tt> will save space by only storing the
+values once. If a field&#8217;s values are always a fixed length, the
+<tt class="docutils literal"><span class="pre">FixedBytesColumn</span></tt> saves space by not storing the length of each value.</p>
+<p>A <tt class="docutils literal"><span class="pre">Column</span></tt> object basically exists to store configuration information and
+provides two important methods: <tt class="docutils literal"><span class="pre">writer()</span></tt> to return a <tt class="docutils literal"><span class="pre">ColumnWriter</span></tt> object
+and <tt class="docutils literal"><span class="pre">reader()</span></tt> to return a <tt class="docutils literal"><span class="pre">ColumnReader</span></tt> object.</p>
+<div class="section" id="base-classes">
+<h2>Base classes<a class="headerlink" href="#base-classes" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.columns.Column">
+<em class="property">class </em><tt class="descclassname">whoosh.columns.</tt><tt class="descname">Column</tt><a class="headerlink" href="#whoosh.columns.Column" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a &#8220;column&#8221; of rows mapping docnums to document values.</p>
+<p>The interface requires that you store the start offset of the column, the
+length of the column data, and the number of documents (rows) separately,
+and pass them to the reader object.</p>
+<dl class="method">
+<dt id="whoosh.columns.Column.default_value">
+<tt class="descname">default_value</tt><big>(</big><em>reverse=False</em><big>)</big><a class="headerlink" href="#whoosh.columns.Column.default_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the default value for this column type.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.columns.Column.reader">
+<tt class="descname">reader</tt><big>(</big><em>dbfile</em>, <em>basepos</em>, <em>length</em>, <em>doccount</em><big>)</big><a class="headerlink" href="#whoosh.columns.Column.reader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a <a class="reference internal" href="#whoosh.columns.ColumnReader" title="whoosh.columns.ColumnReader"><tt class="xref py py-class docutils literal"><span class="pre">ColumnReader</span></tt></a> object you can use to read a column
+of this type from disk.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dbfile</strong> &#8211; the <a class="reference internal" href="filedb/structfile.html#whoosh.filedb.structfile.StructFile" title="whoosh.filedb.structfile.StructFile"><tt class="xref py py-class docutils literal"><span class="pre">StructFile</span></tt></a> to
+read from.</li>
+<li><strong>basepos</strong> &#8211; the offset within the file at which the column starts.</li>
+<li><strong>length</strong> &#8211; the length in bytes of the column occupies in the file.</li>
+<li><strong>doccount</strong> &#8211; the number of rows (documents) in the column.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.columns.Column.stores_lists">
+<tt class="descname">stores_lists</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.columns.Column.stores_lists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the column stores a list of values for each document
+instead of a single value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.columns.Column.writer">
+<tt class="descname">writer</tt><big>(</big><em>dbfile</em><big>)</big><a class="headerlink" href="#whoosh.columns.Column.writer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a <a class="reference internal" href="#whoosh.columns.ColumnWriter" title="whoosh.columns.ColumnWriter"><tt class="xref py py-class docutils literal"><span class="pre">ColumnWriter</span></tt></a> object you can use to use to create
+a column of this type on disk.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dbfile</strong> &#8211; the <a class="reference internal" href="filedb/structfile.html#whoosh.filedb.structfile.StructFile" title="whoosh.filedb.structfile.StructFile"><tt class="xref py py-class docutils literal"><span class="pre">StructFile</span></tt></a> to
+write to.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.columns.ColumnWriter">
+<em class="property">class </em><tt class="descclassname">whoosh.columns.</tt><tt class="descname">ColumnWriter</tt><big>(</big><em>dbfile</em><big>)</big><a class="headerlink" href="#whoosh.columns.ColumnWriter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="whoosh.columns.ColumnReader">
+<em class="property">class </em><tt class="descclassname">whoosh.columns.</tt><tt class="descname">ColumnReader</tt><big>(</big><em>dbfile</em>, <em>basepos</em>, <em>length</em>, <em>doccount</em><big>)</big><a class="headerlink" href="#whoosh.columns.ColumnReader" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="basic-columns">
+<h2>Basic columns<a class="headerlink" href="#basic-columns" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.columns.VarBytesColumn">
+<em class="property">class </em><tt class="descclassname">whoosh.columns.</tt><tt class="descname">VarBytesColumn</tt><a class="headerlink" href="#whoosh.columns.VarBytesColumn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores variable length byte strings. See also <a class="reference internal" href="#whoosh.columns.RefBytesColumn" title="whoosh.columns.RefBytesColumn"><tt class="xref py py-class docutils literal"><span class="pre">RefBytesColumn</span></tt></a>.</p>
+<p>The current implementation limits the total length of all document values
+a segment to 2 GB.</p>
+<p>The default value (the value returned for a document that didn&#8217;t have a
+value assigned to it at indexing time) is an empty bytestring (<tt class="docutils literal"><span class="pre">b''</span></tt>).</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.columns.FixedBytesColumn">
+<em class="property">class </em><tt class="descclassname">whoosh.columns.</tt><tt class="descname">FixedBytesColumn</tt><big>(</big><em>fixedlen</em>, <em>default=None</em><big>)</big><a class="headerlink" href="#whoosh.columns.FixedBytesColumn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores fixed-length byte strings.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fixedlen</strong> &#8211; the fixed length of byte strings in this column.</li>
+<li><strong>default</strong> &#8211; the default value to use for documents that don&#8217;t
+specify a value. If you don&#8217;t specify a default, the column will
+use <tt class="docutils literal"><span class="pre">b'\x00'</span> <span class="pre">*</span> <span class="pre">fixedlen</span></tt>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.columns.RefBytesColumn">
+<em class="property">class </em><tt class="descclassname">whoosh.columns.</tt><tt class="descname">RefBytesColumn</tt><big>(</big><em>fixedlen=0</em>, <em>default=None</em><big>)</big><a class="headerlink" href="#whoosh.columns.RefBytesColumn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores variable-length or fixed-length byte strings, similar to
+<a class="reference internal" href="#whoosh.columns.VarBytesColumn" title="whoosh.columns.VarBytesColumn"><tt class="xref py py-class docutils literal"><span class="pre">VarBytesColumn</span></tt></a> and <a class="reference internal" href="#whoosh.columns.FixedBytesColumn" title="whoosh.columns.FixedBytesColumn"><tt class="xref py py-class docutils literal"><span class="pre">FixedBytesColumn</span></tt></a>. However, where those
+columns stores a value for each document, this column keeps a list of all
+the unique values in the field, and for each document stores a short
+pointer into the unique list. For fields where the number of possible
+values is smaller than the number of documents (for example,
+&#8220;category&#8221; or &#8220;chapter&#8221;), this saves significant space.</p>
+<p>This column type supports a maximum of 65535 unique values across all
+documents in a segment. You should generally use this column type where the
+number of unique values is in no danger of approaching that number (for
+example, a &#8220;tags&#8221; field). If you try to index too many unique values, the
+column will convert additional unique values to the default value and issue
+a warning using the <tt class="docutils literal"><span class="pre">warnings</span></tt> module (this will usually be preferable to
+crashing the indexer and potentially losing indexed documents).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fixedlen</strong> &#8211; an optional fixed length for the values. If you
+specify a number other than 0, the column will require all values
+to be the specified length.</li>
+<li><strong>default</strong> &#8211; a default value to use for documents that don&#8217;t specify
+one. If you don&#8217;t specify a default, the column will use an empty
+bytestring (<tt class="docutils literal"><span class="pre">b''</span></tt>), or if you specify a fixed length,
+<tt class="docutils literal"><span class="pre">b'\x00'</span> <span class="pre">*</span> <span class="pre">fixedlen</span></tt>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.columns.NumericColumn">
+<em class="property">class </em><tt class="descclassname">whoosh.columns.</tt><tt class="descname">NumericColumn</tt><big>(</big><em>typecode</em>, <em>default=0</em><big>)</big><a class="headerlink" href="#whoosh.columns.NumericColumn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores numbers (integers and floats) as compact binary.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>typecode</strong> &#8211; a typecode character (as used by the <tt class="docutils literal"><span class="pre">struct</span></tt>
+module) specifying the number type. For example, <tt class="docutils literal"><span class="pre">&quot;i&quot;</span></tt> for
+signed integers.</li>
+<li><strong>default</strong> &#8211; the default value to use for documents that don&#8217;t
+specify one.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="technical-columns">
+<h2>Technical columns<a class="headerlink" href="#technical-columns" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.columns.BitColumn">
+<em class="property">class </em><tt class="descclassname">whoosh.columns.</tt><tt class="descname">BitColumn</tt><big>(</big><em>compress_at=2048</em><big>)</big><a class="headerlink" href="#whoosh.columns.BitColumn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores a column of True/False values compactly.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>compress_at</strong> &#8211; columns with this number of values or fewer will</td>
+</tr>
+</tbody>
+</table>
+<p>be saved compressed on disk, and loaded into RAM for reading. Set
+this to 0 to disable compression.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.columns.CompressedBytesColumn">
+<em class="property">class </em><tt class="descclassname">whoosh.columns.</tt><tt class="descname">CompressedBytesColumn</tt><big>(</big><em>level=3</em>, <em>module='zlib'</em><big>)</big><a class="headerlink" href="#whoosh.columns.CompressedBytesColumn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores variable-length byte strings compressed using deflate (by
+default).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>level</strong> &#8211; the compression level to use.</li>
+<li><strong>module</strong> &#8211; a string containing the name of the compression module
+to use. The default is &#8220;zlib&#8221;. The module should export &#8220;compress&#8221;
+and &#8220;decompress&#8221; functions.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.columns.StructColumn">
+<em class="property">class </em><tt class="descclassname">whoosh.columns.</tt><tt class="descname">StructColumn</tt><big>(</big><em>spec</em>, <em>default</em><big>)</big><a class="headerlink" href="#whoosh.columns.StructColumn" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="whoosh.columns.PickleColumn">
+<em class="property">class </em><tt class="descclassname">whoosh.columns.</tt><tt class="descname">PickleColumn</tt><big>(</big><em>child</em><big>)</big><a class="headerlink" href="#whoosh.columns.PickleColumn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts arbitrary objects to pickled bytestrings and stores them using
+the wrapped column (usually a <a class="reference internal" href="#whoosh.columns.VarBytesColumn" title="whoosh.columns.VarBytesColumn"><tt class="xref py py-class docutils literal"><span class="pre">VarBytesColumn</span></tt></a> or
+<a class="reference internal" href="#whoosh.columns.CompressedBytesColumn" title="whoosh.columns.CompressedBytesColumn"><tt class="xref py py-class docutils literal"><span class="pre">CompressedBytesColumn</span></tt></a>).</p>
+<p>If you can express the value you want to store as a number or bytestring,
+you should use the appropriate column type to avoid the time and size
+overhead of pickling and unpickling.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="experimental-columns">
+<h2>Experimental columns<a class="headerlink" href="#experimental-columns" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.columns.ClampedNumericColumn">
+<em class="property">class </em><tt class="descclassname">whoosh.columns.</tt><tt class="descname">ClampedNumericColumn</tt><big>(</big><em>child</em><big>)</big><a class="headerlink" href="#whoosh.columns.ClampedNumericColumn" title="Permalink to this definition">¶</a></dt>
+<dd><p>An experimental wrapper type for NumericColumn that clamps out-of-range
+values instead of raising an exception.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">columns</span></tt> module</a><ul>
+<li><a class="reference internal" href="#base-classes">Base classes</a></li>
+<li><a class="reference internal" href="#basic-columns">Basic columns</a></li>
+<li><a class="reference internal" href="#technical-columns">Technical columns</a></li>
+<li><a class="reference internal" href="#experimental-columns">Experimental columns</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="collectors.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">collectors</span></tt> module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="fields.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">fields</span></tt> module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/columns.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="fields.html" title="fields module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="collectors.html" title="collectors module"
+             >previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="api.html" >Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

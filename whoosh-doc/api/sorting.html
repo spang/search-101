@@ -1,0 +1,624 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>sorting module &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="../index.html" />
+    <link rel="up" title="Whoosh API" href="api.html" />
+    <link rel="next" title="spelling module" href="spelling.html" />
+    <link rel="prev" title="searching module" href="searching.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="spelling.html" title="spelling module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="searching.html" title="searching module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="api.html" accesskey="U">Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-whoosh.sorting">
+<span id="sorting-module"></span><h1><tt class="docutils literal"><span class="pre">sorting</span></tt> module<a class="headerlink" href="#module-whoosh.sorting" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="base-types">
+<h2>Base types<a class="headerlink" href="#base-types" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.sorting.FacetType">
+<em class="property">class </em><tt class="descclassname">whoosh.sorting.</tt><tt class="descname">FacetType</tt><a class="headerlink" href="#whoosh.sorting.FacetType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for &#8220;facets&#8221;, aspects that can be sorted/faceted.</p>
+<dl class="method">
+<dt id="whoosh.sorting.FacetType.categorizer">
+<tt class="descname">categorizer</tt><big>(</big><em>global_searcher</em><big>)</big><a class="headerlink" href="#whoosh.sorting.FacetType.categorizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a <a class="reference internal" href="#whoosh.sorting.Categorizer" title="whoosh.sorting.Categorizer"><tt class="xref py py-class docutils literal"><span class="pre">Categorizer</span></tt></a> corresponding to this facet.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>global_searcher</strong> &#8211; A parent searcher. You can use this searcher if
+you need global document ID references.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.sorting.Categorizer">
+<em class="property">class </em><tt class="descclassname">whoosh.sorting.</tt><tt class="descname">Categorizer</tt><a class="headerlink" href="#whoosh.sorting.Categorizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for categorizer objects which compute a key value for a
+document based on certain criteria, for use in sorting/faceting.</p>
+<p>Categorizers are created by FacetType objects through the
+<a class="reference internal" href="#whoosh.sorting.FacetType.categorizer" title="whoosh.sorting.FacetType.categorizer"><tt class="xref py py-meth docutils literal"><span class="pre">FacetType.categorizer()</span></tt></a> method. The
+<a class="reference internal" href="searching.html#whoosh.searching.Searcher" title="whoosh.searching.Searcher"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.searching.Searcher</span></tt></a> object passed to the <tt class="docutils literal"><span class="pre">categorizer</span></tt>
+method may be a composite searcher (that is, wrapping a multi-reader), but
+categorizers are always run <strong>per-segment</strong>, with segment-relative document
+numbers.</p>
+<p>The collector will call a categorizer&#8217;s <tt class="docutils literal"><span class="pre">set_searcher</span></tt> method as it
+searches each segment to let the cateogorizer set up whatever segment-
+specific data it needs.</p>
+<p><tt class="docutils literal"><span class="pre">Collector.allow_overlap</span></tt> should be <tt class="docutils literal"><span class="pre">True</span></tt> if the caller can use the
+<tt class="docutils literal"><span class="pre">keys_for</span></tt> method instead of <tt class="docutils literal"><span class="pre">key_for</span></tt> to group documents into
+potentially overlapping groups. The default is <tt class="docutils literal"><span class="pre">False</span></tt>.</p>
+<p>If a categorizer subclass can categorize the document using only the
+document number, it should set <tt class="docutils literal"><span class="pre">Collector.needs_current</span></tt> to <tt class="docutils literal"><span class="pre">False</span></tt>
+(this is the default) and NOT USE the given matcher in the <tt class="docutils literal"><span class="pre">key_for</span></tt> or
+<tt class="docutils literal"><span class="pre">keys_for</span></tt> methods, since in that case <tt class="docutils literal"><span class="pre">segment_docnum</span></tt> is not
+guaranteed to be consistent with the given matcher. If a categorizer
+subclass needs to access information on the matcher, it should set
+<tt class="docutils literal"><span class="pre">needs_current</span></tt> to <tt class="docutils literal"><span class="pre">True</span></tt>. This will prevent the caller from using
+optimizations that might leave the matcher in an inconsistent state.</p>
+<dl class="method">
+<dt id="whoosh.sorting.Categorizer.key_for">
+<tt class="descname">key_for</tt><big>(</big><em>matcher</em>, <em>segment_docnum</em><big>)</big><a class="headerlink" href="#whoosh.sorting.Categorizer.key_for" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a key for the current match.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matcher</strong> &#8211; a <a class="reference internal" href="matching.html#whoosh.matching.Matcher" title="whoosh.matching.Matcher"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.matching.Matcher</span></tt></a> object. If
+<tt class="docutils literal"><span class="pre">self.needs_current</span></tt> is <tt class="docutils literal"><span class="pre">False</span></tt>, DO NOT use this object,
+since it may be inconsistent. Use the given <tt class="docutils literal"><span class="pre">segment_docnum</span></tt>
+instead.</li>
+<li><strong>segment_docnum</strong> &#8211; the segment-relative document number of the
+current match.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.sorting.Categorizer.key_to_name">
+<tt class="descname">key_to_name</tt><big>(</big><em>key</em><big>)</big><a class="headerlink" href="#whoosh.sorting.Categorizer.key_to_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a representation of the key to be used as a dictionary key
+in faceting. For example, the sorting key for date fields is a large
+integer; this method translates it into a <tt class="docutils literal"><span class="pre">datetime</span></tt> object to make
+the groupings clearer.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.sorting.Categorizer.keys_for">
+<tt class="descname">keys_for</tt><big>(</big><em>matcher</em>, <em>segment_docnum</em><big>)</big><a class="headerlink" href="#whoosh.sorting.Categorizer.keys_for" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields a series of keys for the current match.</p>
+<p>This method will be called instead of <tt class="docutils literal"><span class="pre">key_for</span></tt> if
+<tt class="docutils literal"><span class="pre">self.allow_overlap</span></tt> is <tt class="docutils literal"><span class="pre">True</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matcher</strong> &#8211; a <a class="reference internal" href="matching.html#whoosh.matching.Matcher" title="whoosh.matching.Matcher"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.matching.Matcher</span></tt></a> object. If
+<tt class="docutils literal"><span class="pre">self.needs_current</span></tt> is <tt class="docutils literal"><span class="pre">False</span></tt>, DO NOT use this object,
+since it may be inconsistent. Use the given <tt class="docutils literal"><span class="pre">segment_docnum</span></tt>
+instead.</li>
+<li><strong>segment_docnum</strong> &#8211; the segment-relative document number of the
+current match.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.sorting.Categorizer.set_searcher">
+<tt class="descname">set_searcher</tt><big>(</big><em>segment_searcher</em>, <em>docoffset</em><big>)</big><a class="headerlink" href="#whoosh.sorting.Categorizer.set_searcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called by the collector when the collector moves to a new segment.
+The <tt class="docutils literal"><span class="pre">segment_searcher</span></tt> will be atomic. The <tt class="docutils literal"><span class="pre">docoffset</span></tt> is the
+offset of the segment&#8217;s document numbers relative to the entire index.
+You can use the offset to get absolute index docnums by adding the
+offset to segment-relative docnums.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="facet-types">
+<h2>Facet types<a class="headerlink" href="#facet-types" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.sorting.FieldFacet">
+<em class="property">class </em><tt class="descclassname">whoosh.sorting.</tt><tt class="descname">FieldFacet</tt><big>(</big><em>fieldname</em>, <em>reverse=False</em>, <em>allow_overlap=False</em>, <em>maptype=None</em><big>)</big><a class="headerlink" href="#whoosh.sorting.FieldFacet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sorts/facest by the contents of a field.</p>
+<p>For example, to sort by the contents of the &#8220;path&#8221; field in reverse order,
+and facet by the contents of the &#8220;tag&#8221; field:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">paths</span> <span class="o">=</span> <span class="n">FieldFacet</span><span class="p">(</span><span class="s">&quot;path&quot;</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">tags</span> <span class="o">=</span> <span class="n">FieldFacet</span><span class="p">(</span><span class="s">&quot;tag&quot;</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">sortedby</span><span class="o">=</span><span class="n">paths</span><span class="p">,</span> <span class="n">groupedby</span><span class="o">=</span><span class="n">tags</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This facet returns different categorizers based on the field type.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fieldname</strong> &#8211; the name of the field to sort/facet on.</li>
+<li><strong>reverse</strong> &#8211; if True, when sorting, reverse the sort order of this
+facet.</li>
+<li><strong>allow_overlap</strong> &#8211; if True, when grouping, allow documents to appear
+in multiple groups when they have multiple terms in the field.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.sorting.QueryFacet">
+<em class="property">class </em><tt class="descclassname">whoosh.sorting.</tt><tt class="descname">QueryFacet</tt><big>(</big><em>querydict</em>, <em>other=None</em>, <em>allow_overlap=False</em>, <em>maptype=None</em><big>)</big><a class="headerlink" href="#whoosh.sorting.QueryFacet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sorts/facets based on the results of a series of queries.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>querydict</strong> &#8211; a dictionary mapping keys to
+<a class="reference internal" href="query.html#whoosh.query.Query" title="whoosh.query.Query"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.query.Query</span></tt></a> objects.</li>
+<li><strong>other</strong> &#8211; the key to use for documents that don&#8217;t match any of the
+queries.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.sorting.RangeFacet">
+<em class="property">class </em><tt class="descclassname">whoosh.sorting.</tt><tt class="descname">RangeFacet</tt><big>(</big><em>fieldname</em>, <em>start</em>, <em>end</em>, <em>gap</em>, <em>hardend=False</em>, <em>maptype=None</em><big>)</big><a class="headerlink" href="#whoosh.sorting.RangeFacet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sorts/facets based on numeric ranges. For textual ranges, use
+<a class="reference internal" href="#whoosh.sorting.QueryFacet" title="whoosh.sorting.QueryFacet"><tt class="xref py py-class docutils literal"><span class="pre">QueryFacet</span></tt></a>.</p>
+<p>For example, to facet the &#8220;price&#8221; field into $100 buckets, up to $1000:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">prices</span> <span class="o">=</span> <span class="n">RangeFacet</span><span class="p">(</span><span class="s">&quot;price&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">groupedby</span><span class="o">=</span><span class="n">prices</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The ranges/buckets are always <strong>inclusive</strong> at the start and <strong>exclusive</strong>
+at the end.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fieldname</strong> &#8211; the numeric field to sort/facet on.</li>
+<li><strong>start</strong> &#8211; the start of the entire range.</li>
+<li><strong>end</strong> &#8211; the end of the entire range.</li>
+<li><strong>gap</strong> &#8211; the size of each &#8220;bucket&#8221; in the range. This can be a
+sequence of sizes. For example, <tt class="docutils literal"><span class="pre">gap=[1,5,10]</span></tt> will use 1 as the
+size of the first bucket, 5 as the size of the second bucket, and
+10 as the size of all subsequent buckets.</li>
+<li><strong>hardend</strong> &#8211; if True, the end of the last bucket is clamped to the
+value of <tt class="docutils literal"><span class="pre">end</span></tt>. If False (the default), the last bucket is always
+<tt class="docutils literal"><span class="pre">gap</span></tt> sized, even if that means the end of the last bucket is
+after <tt class="docutils literal"><span class="pre">end</span></tt>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.sorting.DateRangeFacet">
+<em class="property">class </em><tt class="descclassname">whoosh.sorting.</tt><tt class="descname">DateRangeFacet</tt><big>(</big><em>fieldname</em>, <em>start</em>, <em>end</em>, <em>gap</em>, <em>hardend=False</em>, <em>maptype=None</em><big>)</big><a class="headerlink" href="#whoosh.sorting.DateRangeFacet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sorts/facets based on date ranges. This is the same as RangeFacet
+except you are expected to use <tt class="docutils literal"><span class="pre">daterange</span></tt> objects as the start and end
+of the range, and <tt class="docutils literal"><span class="pre">timedelta</span></tt> or <tt class="docutils literal"><span class="pre">relativedelta</span></tt> objects as the gap(s),
+and it generates <a class="reference internal" href="query.html#whoosh.query.DateRange" title="whoosh.query.DateRange"><tt class="xref py py-class docutils literal"><span class="pre">DateRange</span></tt></a> queries instead of
+<a class="reference internal" href="query.html#whoosh.query.TermRange" title="whoosh.query.TermRange"><tt class="xref py py-class docutils literal"><span class="pre">TermRange</span></tt></a> queries.</p>
+<p>For example, to facet a &#8220;birthday&#8221; range into 5 year buckets:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">whoosh.support.relativedelta</span> <span class="kn">import</span> <span class="n">relativedelta</span>
+
+<span class="n">startdate</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">enddate</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="n">gap</span> <span class="o">=</span> <span class="n">relativedelta</span><span class="p">(</span><span class="n">years</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">bdays</span> <span class="o">=</span> <span class="n">DateRangeFacet</span><span class="p">(</span><span class="s">&quot;birthday&quot;</span><span class="p">,</span> <span class="n">startdate</span><span class="p">,</span> <span class="n">enddate</span><span class="p">,</span> <span class="n">gap</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">groupedby</span><span class="o">=</span><span class="n">bdays</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The ranges/buckets are always <strong>inclusive</strong> at the start and <strong>exclusive</strong>
+at the end.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fieldname</strong> &#8211; the numeric field to sort/facet on.</li>
+<li><strong>start</strong> &#8211; the start of the entire range.</li>
+<li><strong>end</strong> &#8211; the end of the entire range.</li>
+<li><strong>gap</strong> &#8211; the size of each &#8220;bucket&#8221; in the range. This can be a
+sequence of sizes. For example, <tt class="docutils literal"><span class="pre">gap=[1,5,10]</span></tt> will use 1 as the
+size of the first bucket, 5 as the size of the second bucket, and
+10 as the size of all subsequent buckets.</li>
+<li><strong>hardend</strong> &#8211; if True, the end of the last bucket is clamped to the
+value of <tt class="docutils literal"><span class="pre">end</span></tt>. If False (the default), the last bucket is always
+<tt class="docutils literal"><span class="pre">gap</span></tt> sized, even if that means the end of the last bucket is
+after <tt class="docutils literal"><span class="pre">end</span></tt>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.sorting.ScoreFacet">
+<em class="property">class </em><tt class="descclassname">whoosh.sorting.</tt><tt class="descname">ScoreFacet</tt><a class="headerlink" href="#whoosh.sorting.ScoreFacet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uses a document&#8217;s score as a sorting criterion.</p>
+<p>For example, to sort by the <tt class="docutils literal"><span class="pre">tag</span></tt> field, and then within that by relative
+score:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">tag_score</span> <span class="o">=</span> <span class="n">MultiFacet</span><span class="p">([</span><span class="s">&quot;tag&quot;</span><span class="p">,</span> <span class="n">ScoreFacet</span><span class="p">()])</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">sortedby</span><span class="o">=</span><span class="n">tag_score</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.sorting.FunctionFacet">
+<em class="property">class </em><tt class="descclassname">whoosh.sorting.</tt><tt class="descname">FunctionFacet</tt><big>(</big><em>fn</em>, <em>maptype=None</em><big>)</big><a class="headerlink" href="#whoosh.sorting.FunctionFacet" title="Permalink to this definition">¶</a></dt>
+<dd><p>This facet type is low-level. In most cases you should use
+<tt class="xref py py-class docutils literal"><span class="pre">TranslateFacet</span></tt> instead.</p>
+<p>This facet type ets you pass an arbitrary function that will compute the
+key. This may be easier than subclassing FacetType and Categorizer to set up
+the desired behavior.</p>
+<p>The function is called with the arguments <tt class="docutils literal"><span class="pre">(searcher,</span> <span class="pre">docid)</span></tt>, where the
+<tt class="docutils literal"><span class="pre">searcher</span></tt> may be a composite searcher, and the <tt class="docutils literal"><span class="pre">docid</span></tt> is an absolute
+index document number (not segment-relative).</p>
+<p>For example, to use the number of words in the document&#8217;s &#8220;content&#8221; field
+as the sorting/faceting key:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">,</span> <span class="n">docid</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">doc_field_length</span><span class="p">(</span><span class="n">docid</span><span class="p">,</span> <span class="s">&quot;content&quot;</span><span class="p">)</span>
+<span class="n">lengths</span> <span class="o">=</span> <span class="n">FunctionFacet</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.sorting.MultiFacet">
+<em class="property">class </em><tt class="descclassname">whoosh.sorting.</tt><tt class="descname">MultiFacet</tt><big>(</big><em>items=None</em>, <em>maptype=None</em><big>)</big><a class="headerlink" href="#whoosh.sorting.MultiFacet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sorts/facets by the combination of multiple &#8220;sub-facets&#8221;.</p>
+<p>For example, to sort by the value of the &#8220;tag&#8221; field, and then (for
+documents where the tag is the same) by the value of the &#8220;path&#8221; field:</p>
+<div class="highlight-python"><div class="highlight"><pre>facet = MultiFacet(FieldFacet(&quot;tag&quot;), FieldFacet(&quot;path&quot;)
+results = searcher.search(myquery, sortedby=facet)
+</pre></div>
+</div>
+<p>As a shortcut, you can use strings to refer to field names, and they will
+be assumed to be field names and turned into FieldFacet objects:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">facet</span> <span class="o">=</span> <span class="n">MultiFacet</span><span class="p">(</span><span class="s">&quot;tag&quot;</span><span class="p">,</span> <span class="s">&quot;path&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can also use the <tt class="docutils literal"><span class="pre">add_*</span></tt> methods to add criteria to the multifacet:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">facet</span> <span class="o">=</span> <span class="n">MultiFacet</span><span class="p">()</span>
+<span class="n">facet</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="s">&quot;tag&quot;</span><span class="p">)</span>
+<span class="n">facet</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="s">&quot;path&quot;</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">facet</span><span class="o">.</span><span class="n">add_query</span><span class="p">({</span><span class="s">&quot;a-m&quot;</span><span class="p">:</span> <span class="n">TermRange</span><span class="p">(</span><span class="s">&quot;name&quot;</span><span class="p">,</span> <span class="s">&quot;a&quot;</span><span class="p">,</span> <span class="s">&quot;m&quot;</span><span class="p">),</span>
+                 <span class="s">&quot;n-z&quot;</span><span class="p">:</span> <span class="n">TermRange</span><span class="p">(</span><span class="s">&quot;name&quot;</span><span class="p">,</span> <span class="s">&quot;n&quot;</span><span class="p">,</span> <span class="s">&quot;z&quot;</span><span class="p">)})</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.sorting.StoredFieldFacet">
+<em class="property">class </em><tt class="descclassname">whoosh.sorting.</tt><tt class="descname">StoredFieldFacet</tt><big>(</big><em>fieldname</em>, <em>allow_overlap=False</em>, <em>split_fn=None</em>, <em>maptype=None</em><big>)</big><a class="headerlink" href="#whoosh.sorting.StoredFieldFacet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lets you sort/group using the value in an unindexed, stored field (e.g.
+<a class="reference internal" href="fields.html#whoosh.fields.STORED" title="whoosh.fields.STORED"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.fields.STORED</span></tt></a>). This is usually slower than using an indexed
+field.</p>
+<p>For fields where the stored value is a space-separated list of keywords,
+(e.g. <tt class="docutils literal"><span class="pre">&quot;tag1</span> <span class="pre">tag2</span> <span class="pre">tag3&quot;</span></tt>), you can use the <tt class="docutils literal"><span class="pre">allow_overlap</span></tt> keyword
+argument to allow overlapped faceting on the result of calling the
+<tt class="docutils literal"><span class="pre">split()</span></tt> method on the field value (or calling a custom split function
+if one is supplied).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fieldname</strong> &#8211; the name of the stored field.</li>
+<li><strong>allow_overlap</strong> &#8211; if True, when grouping, allow documents to appear
+in multiple groups when they have multiple terms in the field. The
+categorizer uses <tt class="docutils literal"><span class="pre">string.split()</span></tt> or the custom <tt class="docutils literal"><span class="pre">split_fn</span></tt> to
+convert the stored value into a list of facet values.</li>
+<li><strong>split_fn</strong> &#8211; a custom function to split a stored field value into
+multiple facet values when <tt class="docutils literal"><span class="pre">allow_overlap</span></tt> is True. If not
+supplied, the categorizer simply calls the value&#8217;s <tt class="docutils literal"><span class="pre">split()</span></tt>
+method.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="facets-object">
+<h2>Facets object<a class="headerlink" href="#facets-object" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.sorting.Facets">
+<em class="property">class </em><tt class="descclassname">whoosh.sorting.</tt><tt class="descname">Facets</tt><big>(</big><em>x=None</em><big>)</big><a class="headerlink" href="#whoosh.sorting.Facets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maps facet names to <a class="reference internal" href="#whoosh.sorting.FacetType" title="whoosh.sorting.FacetType"><tt class="xref py py-class docutils literal"><span class="pre">FacetType</span></tt></a> objects, for creating multiple
+groupings of documents.</p>
+<p>For example, to group by tag, and <strong>also</strong> group by price range:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">facets</span> <span class="o">=</span> <span class="n">Facets</span><span class="p">()</span>
+<span class="n">facets</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="s">&quot;tag&quot;</span><span class="p">)</span>
+<span class="n">facets</span><span class="o">.</span><span class="n">add_facet</span><span class="p">(</span><span class="s">&quot;price&quot;</span><span class="p">,</span> <span class="n">RangeFacet</span><span class="p">(</span><span class="s">&quot;price&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">groupedby</span><span class="o">=</span><span class="n">facets</span><span class="p">)</span>
+
+<span class="n">tag_groups</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">groups</span><span class="p">(</span><span class="s">&quot;tag&quot;</span><span class="p">)</span>
+<span class="n">price_groups</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">groups</span><span class="p">(</span><span class="s">&quot;price&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>(To group by the combination of multiple facets, use <a class="reference internal" href="#whoosh.sorting.MultiFacet" title="whoosh.sorting.MultiFacet"><tt class="xref py py-class docutils literal"><span class="pre">MultiFacet</span></tt></a>.)</p>
+<dl class="method">
+<dt id="whoosh.sorting.Facets.add_facet">
+<tt class="descname">add_facet</tt><big>(</big><em>name</em>, <em>facet</em><big>)</big><a class="headerlink" href="#whoosh.sorting.Facets.add_facet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a <a class="reference internal" href="#whoosh.sorting.FacetType" title="whoosh.sorting.FacetType"><tt class="xref py py-class docutils literal"><span class="pre">FacetType</span></tt></a> object under the given <tt class="docutils literal"><span class="pre">name</span></tt>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.sorting.Facets.add_facets">
+<tt class="descname">add_facets</tt><big>(</big><em>facets</em>, <em>replace=True</em><big>)</big><a class="headerlink" href="#whoosh.sorting.Facets.add_facets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds the contents of the given <tt class="docutils literal"><span class="pre">Facets</span></tt> or <tt class="docutils literal"><span class="pre">dict</span></tt> object to this
+object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.sorting.Facets.add_field">
+<tt class="descname">add_field</tt><big>(</big><em>fieldname</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#whoosh.sorting.Facets.add_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a <a class="reference internal" href="#whoosh.sorting.FieldFacet" title="whoosh.sorting.FieldFacet"><tt class="xref py py-class docutils literal"><span class="pre">FieldFacet</span></tt></a> for the given field name (the field name
+is automatically used as the facet name).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.sorting.Facets.add_query">
+<tt class="descname">add_query</tt><big>(</big><em>name</em>, <em>querydict</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#whoosh.sorting.Facets.add_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a <a class="reference internal" href="#whoosh.sorting.QueryFacet" title="whoosh.sorting.QueryFacet"><tt class="xref py py-class docutils literal"><span class="pre">QueryFacet</span></tt></a> under the given <tt class="docutils literal"><span class="pre">name</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; a name for the facet.</li>
+<li><strong>querydict</strong> &#8211; a dictionary mapping keys to
+<a class="reference internal" href="query.html#whoosh.query.Query" title="whoosh.query.Query"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.query.Query</span></tt></a> objects.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.sorting.Facets.items">
+<tt class="descname">items</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.sorting.Facets.items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of (facetname, facetobject) tuples for the facets in
+this object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.sorting.Facets.names">
+<tt class="descname">names</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.sorting.Facets.names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an iterator of the facet names in this object.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="facettype-objects">
+<h2>FacetType objects<a class="headerlink" href="#facettype-objects" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.sorting.FacetMap">
+<em class="property">class </em><tt class="descclassname">whoosh.sorting.</tt><tt class="descname">FacetMap</tt><a class="headerlink" href="#whoosh.sorting.FacetMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for objects holding the results of grouping search results by
+a Facet. Use an object&#8217;s <tt class="docutils literal"><span class="pre">as_dict()</span></tt> method to access the results.</p>
+<p>You can pass a subclass of this to the <tt class="docutils literal"><span class="pre">maptype</span></tt> keyword argument when
+creating a <tt class="docutils literal"><span class="pre">FacetType</span></tt> object to specify what information the facet
+should record about the group. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Record each document in each group in its sorted order</span>
+<span class="n">myfacet</span> <span class="o">=</span> <span class="n">FieldFacet</span><span class="p">(</span><span class="s">&quot;size&quot;</span><span class="p">,</span> <span class="n">maptype</span><span class="o">=</span><span class="n">OrderedList</span><span class="p">)</span>
+
+<span class="c"># Record only the count of documents in each group</span>
+<span class="n">myfacet</span> <span class="o">=</span> <span class="n">FieldFacet</span><span class="p">(</span><span class="s">&quot;size&quot;</span><span class="p">,</span> <span class="n">maptype</span><span class="o">=</span><span class="n">Count</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="whoosh.sorting.FacetMap.add">
+<tt class="descname">add</tt><big>(</big><em>groupname</em>, <em>docid</em>, <em>sortkey</em><big>)</big><a class="headerlink" href="#whoosh.sorting.FacetMap.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a document to the facet results.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>groupname</strong> &#8211; the name of the group to add this document to.</li>
+<li><strong>docid</strong> &#8211; the document number of the document to add.</li>
+<li><strong>sortkey</strong> &#8211; a value representing the sort position of the document
+in the full results.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.sorting.FacetMap.as_dict">
+<tt class="descname">as_dict</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.sorting.FacetMap.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a dictionary object mapping group names to
+implementation-specific values. For example, the value might be a list
+of document numbers, or a integer representing the number of documents
+in the group.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.sorting.OrderedList">
+<em class="property">class </em><tt class="descclassname">whoosh.sorting.</tt><tt class="descname">OrderedList</tt><a class="headerlink" href="#whoosh.sorting.OrderedList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores a list of document numbers for each group, in the same order as
+they appear in the search results.</p>
+<p>The <tt class="docutils literal"><span class="pre">as_dict</span></tt> method returns a dictionary mapping group names to lists
+of document numbers.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.sorting.UnorderedList">
+<em class="property">class </em><tt class="descclassname">whoosh.sorting.</tt><tt class="descname">UnorderedList</tt><a class="headerlink" href="#whoosh.sorting.UnorderedList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores a list of document numbers for each group, in arbitrary order.
+This is slightly faster and uses less memory than
+<tt class="xref py py-class docutils literal"><span class="pre">OrderedListResult</span></tt> if you don&#8217;t care about the ordering of the
+documents within groups.</p>
+<p>The <tt class="docutils literal"><span class="pre">as_dict</span></tt> method returns a dictionary mapping group names to lists
+of document numbers.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.sorting.Count">
+<em class="property">class </em><tt class="descclassname">whoosh.sorting.</tt><tt class="descname">Count</tt><a class="headerlink" href="#whoosh.sorting.Count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the number of documents in each group.</p>
+<p>The <tt class="docutils literal"><span class="pre">as_dict</span></tt> method returns a dictionary mapping group names to
+integers.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.sorting.Best">
+<em class="property">class </em><tt class="descclassname">whoosh.sorting.</tt><tt class="descname">Best</tt><a class="headerlink" href="#whoosh.sorting.Best" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the &#8220;best&#8221; document in each group (that is, the one with the
+highest sort key).</p>
+<p>The <tt class="docutils literal"><span class="pre">as_dict</span></tt> method returns a dictionary mapping group names to
+docnument numbers.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">sorting</span></tt> module</a><ul>
+<li><a class="reference internal" href="#base-types">Base types</a></li>
+<li><a class="reference internal" href="#facet-types">Facet types</a></li>
+<li><a class="reference internal" href="#facets-object">Facets object</a></li>
+<li><a class="reference internal" href="#facettype-objects">FacetType objects</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="searching.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">searching</span></tt> module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="spelling.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">spelling</span></tt> module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/sorting.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="spelling.html" title="spelling module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="searching.html" title="searching module"
+             >previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="api.html" >Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

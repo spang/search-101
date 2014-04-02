@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>support.bitvector module &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="../index.html" />
+    <link rel="up" title="Whoosh API" href="api.html" />
+    <link rel="next" title="index module" href="index.html" />
+    <link rel="prev" title="highlight module" href="highlight.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="index module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="highlight.html" title="highlight module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="api.html" accesskey="U">Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-whoosh.idsets">
+<span id="support-bitvector-module"></span><h1><tt class="docutils literal"><span class="pre">support.bitvector</span></tt> module<a class="headerlink" href="#module-whoosh.idsets" title="Permalink to this headline">¶</a></h1>
+<p>An implementation of an object that acts like a collection of on/off bits.</p>
+<div class="section" id="base-classes">
+<h2>Base classes<a class="headerlink" href="#base-classes" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.idsets.DocIdSet">
+<em class="property">class </em><tt class="descclassname">whoosh.idsets.</tt><tt class="descname">DocIdSet</tt><a class="headerlink" href="#whoosh.idsets.DocIdSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for a set of positive integers, implementing a subset of the
+built-in <tt class="docutils literal"><span class="pre">set</span></tt> type&#8217;s interface with extra docid-related methods.</p>
+<p>This is a superclass for alternative set implementations to the built-in
+<tt class="docutils literal"><span class="pre">set</span></tt> which are more memory-efficient and specialized toward storing
+sorted lists of positive integers, though they will inevitably be slower
+than <tt class="docutils literal"><span class="pre">set</span></tt> for most operations since they&#8217;re pure Python.</p>
+<dl class="method">
+<dt id="whoosh.idsets.DocIdSet.after">
+<tt class="descname">after</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.idsets.DocIdSet.after" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the next integer in the set after <tt class="docutils literal"><span class="pre">i</span></tt>, or None.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.idsets.DocIdSet.before">
+<tt class="descname">before</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.idsets.DocIdSet.before" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the previous integer in the set before <tt class="docutils literal"><span class="pre">i</span></tt>, or None.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.idsets.DocIdSet.first">
+<tt class="descname">first</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.idsets.DocIdSet.first" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the first (lowest) integer in the set.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.idsets.DocIdSet.invert_update">
+<tt class="descname">invert_update</tt><big>(</big><em>size</em><big>)</big><a class="headerlink" href="#whoosh.idsets.DocIdSet.invert_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the set in-place to contain numbers in the range
+<tt class="docutils literal"><span class="pre">[0</span> <span class="pre">-</span> <span class="pre">size)</span></tt> except numbers that are in this set.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.idsets.DocIdSet.last">
+<tt class="descname">last</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.idsets.DocIdSet.last" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the last (highest) integer in the set.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.idsets.BaseBitSet">
+<em class="property">class </em><tt class="descclassname">whoosh.idsets.</tt><tt class="descname">BaseBitSet</tt><a class="headerlink" href="#whoosh.idsets.BaseBitSet" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="implementation-classes">
+<h2>Implementation classes<a class="headerlink" href="#implementation-classes" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.idsets.BitSet">
+<em class="property">class </em><tt class="descclassname">whoosh.idsets.</tt><tt class="descname">BitSet</tt><big>(</big><em>source=None</em>, <em>size=0</em><big>)</big><a class="headerlink" href="#whoosh.idsets.BitSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>A DocIdSet backed by an array of bits. This can also be useful as a bit
+array (e.g. for a Bloom filter). It is much more memory efficient than a
+large built-in set of integers, but wastes memory for sparse sets.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>maxsize</strong> &#8211; the maximum size of the bit array.</li>
+<li><strong>source</strong> &#8211; an iterable of positive integers to add to this set.</li>
+<li><strong>bits</strong> &#8211; an array of unsigned bytes (&#8220;B&#8221;) to use as the underlying
+bit array. This is used by some of the object&#8217;s methods.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.idsets.OnDiskBitSet">
+<em class="property">class </em><tt class="descclassname">whoosh.idsets.</tt><tt class="descname">OnDiskBitSet</tt><big>(</big><em>dbfile</em>, <em>basepos</em>, <em>bytecount</em><big>)</big><a class="headerlink" href="#whoosh.idsets.OnDiskBitSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>A DocIdSet backed by an array of bits on disk.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">st</span> <span class="o">=</span> <span class="n">RamStorage</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">create_file</span><span class="p">(</span><span class="s">&quot;test.bin&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bs</span> <span class="o">=</span> <span class="n">BitSet</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bytecount</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">to_disk</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># ...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">open_file</span><span class="p">(</span><span class="s">&quot;test.bin&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">odbs</span> <span class="o">=</span> <span class="n">OnDiskBitSet</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">bytecount</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">odbs</span><span class="p">)</span>
+<span class="go">[1, 2, 7, 10, 15]</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dbfile</strong> &#8211; a <a class="reference internal" href="filedb/structfile.html#whoosh.filedb.structfile.StructFile" title="whoosh.filedb.structfile.StructFile"><tt class="xref py py-class docutils literal"><span class="pre">StructFile</span></tt></a> object
+to read from.</li>
+<li><strong>basepos</strong> &#8211; the base position of the bytes in the given file.</li>
+<li><strong>bytecount</strong> &#8211; the number of bytes to use for the bit array.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.idsets.SortedIntSet">
+<em class="property">class </em><tt class="descclassname">whoosh.idsets.</tt><tt class="descname">SortedIntSet</tt><big>(</big><em>source=None</em><big>)</big><a class="headerlink" href="#whoosh.idsets.SortedIntSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>A DocIdSet backed by a sorted array of integers.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.idsets.MultiIdSet">
+<em class="property">class </em><tt class="descclassname">whoosh.idsets.</tt><tt class="descname">MultiIdSet</tt><big>(</big><em>idsets</em>, <em>offsets</em><big>)</big><a class="headerlink" href="#whoosh.idsets.MultiIdSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wraps multiple SERIAL sub-DocIdSet objects and presents them as an
+aggregated, read-only set.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>idsets</strong> &#8211; a list of DocIdSet objects.</li>
+<li><strong>offsets</strong> &#8211; a list of offsets corresponding to the DocIdSet objects
+in <tt class="docutils literal"><span class="pre">idsets</span></tt>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">support.bitvector</span></tt> module</a><ul>
+<li><a class="reference internal" href="#base-classes">Base classes</a></li>
+<li><a class="reference internal" href="#implementation-classes">Implementation classes</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="highlight.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">highlight</span></tt> module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">index</span></tt> module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/idsets.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="index module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="highlight.html" title="highlight module"
+             >previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="api.html" >Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

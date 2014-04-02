@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Glossary &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="index.html" />
+    <link rel="next" title="Designing a schema" href="schema.html" />
+    <link rel="prev" title="Introduction to Whoosh" href="intro.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="schema.html" title="Designing a schema"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="Introduction to Whoosh"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Whoosh 2.5.7 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="glossary">
+<span id="id1"></span><h1>Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h1>
+<dl class="glossary docutils">
+<dt id="term-analysis">Analysis</dt>
+<dd>The process of breaking the text of a field into individual <em>terms</em>
+to be indexed. This consists of tokenizing the text into terms, and then optionally
+filtering the tokenized terms (for example, lowercasing and removing <em>stop words</em>).
+Whoosh includes several different analyzers.</dd>
+<dt id="term-corpus">Corpus</dt>
+<dd>The set of documents you are indexing.</dd>
+<dt id="term-documents">Documents</dt>
+<dd>The individual pieces of content you want to make searchable.
+The word &#8220;documents&#8221; might imply files, but the data source could really be
+anything &#8211; articles in a content management system, blog posts in a blogging
+system, chunks of a very large file, rows returned from an SQL query, individual
+email messages from a mailbox file, or whatever. When you get search results
+from Whoosh, the results are a list of documents, whatever &#8220;documents&#8221; means in
+your search engine.</dd>
+<dt id="term-fields">Fields</dt>
+<dd>Each document contains a set of fields. Typical fields might be &#8220;title&#8221;, &#8220;content&#8221;,
+&#8220;url&#8221;, &#8220;keywords&#8221;, &#8220;status&#8221;, &#8220;date&#8221;, etc. Fields can be indexed (so they&#8217;re
+searchable) and/or stored with the document. Storing the field makes it available
+in search results. For example, you typically want to store the &#8220;title&#8221; field so
+your search results can display it.</dd>
+<dt id="term-forward-index">Forward index</dt>
+<dd>A table listing every document and the words that appear in the document.
+Whoosh lets you store <em>term vectors</em> that are a kind of forward index.</dd>
+<dt id="term-indexing">Indexing</dt>
+<dd>The process of examining documents in the corpus and adding them to the
+<em>reverse index</em>.</dd>
+<dt id="term-postings">Postings</dt>
+<dd>The <em>reverse index</em> lists every word in the corpus, and for each word, a list
+of documents in which that word appears, along with some optional information
+(such as the number of times the word appears in that document). These items
+in the list, containing a document number and any extra information, are
+called <em>postings</em>. In Whoosh the information stored in postings is customizable
+for each <em>field</em>.</dd>
+<dt id="term-reverse-index">Reverse index</dt>
+<dd>Basically a table listing every word in the corpus, and for each word, the
+list of documents in which it appears. It can be more complicated (the index can
+also list how many times the word appears in each document, the positions at which
+it appears, etc.) but that&#8217;s how it basically works.</dd>
+<dt id="term-schema">Schema</dt>
+<dd>Whoosh requires that you specify the <em>fields</em> of the index before you begin
+indexing. The Schema associates field names with metadata about the field, such
+as the format of the <em>postings</em> and whether the contents of the field are stored
+in the index.</dd>
+<dt id="term-term-vector">Term vector</dt>
+<dd>A <em>forward index</em> for a certain field in a certain document. You can specify
+in the Schema that a given field should store term vectors.</dd>
+</dl>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="intro.html"
+                        title="previous chapter">Introduction to Whoosh</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="schema.html"
+                        title="next chapter">Designing a schema</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/glossary.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="schema.html" title="Designing a schema"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="Introduction to Whoosh"
+             >previous</a> |</li>
+        <li><a href="index.html">Whoosh 2.5.7 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

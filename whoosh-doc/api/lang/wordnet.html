@@ -1,0 +1,319 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>lang.wordnet module &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="../../index.html" />
+    <link rel="up" title="Whoosh API" href="../api.html" />
+    <link rel="next" title="matching module" href="../matching.html" />
+    <link rel="prev" title="lang.porter module" href="porter.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../matching.html" title="matching module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="porter.html" title="lang.porter module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="../api.html" accesskey="U">Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-whoosh.lang.wordnet">
+<span id="lang-wordnet-module"></span><h1><tt class="docutils literal"><span class="pre">lang.wordnet</span></tt> module<a class="headerlink" href="#module-whoosh.lang.wordnet" title="Permalink to this headline">¶</a></h1>
+<p>This module contains low-level functions and a high-level class for parsing
+the prolog file &#8220;wn_s.pl&#8221; from the WordNet prolog download
+into an object suitable for looking up synonyms and performing query expansion.</p>
+<p><a class="reference external" href="http://wordnetcode.princeton.edu/3.0/WNprolog-3.0.tar.gz">http://wordnetcode.princeton.edu/3.0/WNprolog-3.0.tar.gz</a></p>
+<div class="section" id="thesaurus">
+<h2>Thesaurus<a class="headerlink" href="#thesaurus" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.lang.wordnet.Thesaurus">
+<em class="property">class </em><tt class="descclassname">whoosh.lang.wordnet.</tt><tt class="descname">Thesaurus</tt><a class="headerlink" href="#whoosh.lang.wordnet.Thesaurus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents the WordNet synonym database, either loaded into memory
+from the wn_s.pl Prolog file, or stored on disk in a Whoosh index.</p>
+<p>This class allows you to parse the prolog file &#8220;wn_s.pl&#8221; from the WordNet prolog
+download into an object suitable for looking up synonyms and performing query
+expansion.</p>
+<p><a class="reference external" href="http://wordnetcode.princeton.edu/3.0/WNprolog-3.0.tar.gz">http://wordnetcode.princeton.edu/3.0/WNprolog-3.0.tar.gz</a></p>
+<p>To load a Thesaurus object from the wn_s.pl file...</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">Thesaurus</span><span class="o">.</span><span class="n">from_filename</span><span class="p">(</span><span class="s">&quot;wn_s.pl&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To save the in-memory Thesaurus to a Whoosh index...</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">whoosh.filedb.filestore</span> <span class="kn">import</span> <span class="n">FileStorage</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fs</span> <span class="o">=</span> <span class="n">FileStorage</span><span class="p">(</span><span class="s">&quot;index&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To load a Thesaurus object from a Whoosh index...</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">Thesaurus</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The Thesaurus object is thus usable in two ways:</p>
+<ul class="simple">
+<li>Parse the wn_s.pl file into memory (Thesaurus.from_*) and then look up
+synonyms in memory. This has a startup cost for parsing the file, and uses
+quite a bit of memory to store two large dictionaries, however synonym
+look-ups are very fast.</li>
+<li>Parse the wn_s.pl file into memory (Thesaurus.from_filename) then save it to
+an index (to_storage). From then on, open the thesaurus from the saved
+index (Thesaurus.from_storage). This has a large cost for storing the index,
+but after that it is faster to open the Thesaurus (than re-parsing the file)
+but slightly slower to look up synonyms.</li>
+</ul>
+<p>Here are timings for various tasks on my (fast) Windows machine, which might
+give an idea of relative costs for in-memory vs. on-disk.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="75%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Task</th>
+<th class="head">Approx. time (s)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Parsing the wn_s.pl file</td>
+<td>1.045</td>
+</tr>
+<tr class="row-odd"><td>Saving to an on-disk index</td>
+<td>13.084</td>
+</tr>
+<tr class="row-even"><td>Loading from an on-disk index</td>
+<td>0.082</td>
+</tr>
+<tr class="row-odd"><td>Look up synonyms for &#8220;light&#8221; (in memory)</td>
+<td>0.0011</td>
+</tr>
+<tr class="row-even"><td>Look up synonyms for &#8220;light&#8221; (loaded from disk)</td>
+<td>0.0028</td>
+</tr>
+</tbody>
+</table>
+<p>Basically, if you can afford spending the memory necessary to parse the
+Thesaurus and then cache it, it&#8217;s faster. Otherwise, use an on-disk index.</p>
+<dl class="classmethod">
+<dt id="whoosh.lang.wordnet.Thesaurus.from_file">
+<em class="property">classmethod </em><tt class="descname">from_file</tt><big>(</big><em>fileobj</em><big>)</big><a class="headerlink" href="#whoosh.lang.wordnet.Thesaurus.from_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a Thesaurus object from the given file-like object, which should
+contain the WordNet wn_s.pl file.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;wn_s.pl&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">Thesaurus</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">synonyms</span><span class="p">(</span><span class="s">&quot;hail&quot;</span><span class="p">)</span>
+<span class="go">[&#39;acclaim&#39;, &#39;come&#39;, &#39;herald&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="whoosh.lang.wordnet.Thesaurus.from_filename">
+<em class="property">classmethod </em><tt class="descname">from_filename</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#whoosh.lang.wordnet.Thesaurus.from_filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a Thesaurus object from the given filename, which should
+contain the WordNet wn_s.pl file.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">Thesaurus</span><span class="o">.</span><span class="n">from_filename</span><span class="p">(</span><span class="s">&quot;wn_s.pl&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">synonyms</span><span class="p">(</span><span class="s">&quot;hail&quot;</span><span class="p">)</span>
+<span class="go">[&#39;acclaim&#39;, &#39;come&#39;, &#39;herald&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="whoosh.lang.wordnet.Thesaurus.from_storage">
+<em class="property">classmethod </em><tt class="descname">from_storage</tt><big>(</big><em>storage</em>, <em>indexname='THES'</em><big>)</big><a class="headerlink" href="#whoosh.lang.wordnet.Thesaurus.from_storage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a Thesaurus object from the given storage object,
+which should contain an index created by Thesaurus.to_storage().</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">whoosh.filedb.filestore</span> <span class="kn">import</span> <span class="n">FileStorage</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fs</span> <span class="o">=</span> <span class="n">FileStorage</span><span class="p">(</span><span class="s">&quot;index&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">Thesaurus</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">synonyms</span><span class="p">(</span><span class="s">&quot;hail&quot;</span><span class="p">)</span>
+<span class="go">[&#39;acclaim&#39;, &#39;come&#39;, &#39;herald&#39;]</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>storage</strong> &#8211; A <tt class="xref py py-class docutils literal"><span class="pre">whoosh.store.Storage</span></tt> object from
+which to load the index.</li>
+<li><strong>indexname</strong> &#8211; A name for the index. This allows you to
+store multiple indexes in the same storage object.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.lang.wordnet.Thesaurus.synonyms">
+<tt class="descname">synonyms</tt><big>(</big><em>word</em><big>)</big><a class="headerlink" href="#whoosh.lang.wordnet.Thesaurus.synonyms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of synonyms for the given word.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">thesaurus</span><span class="o">.</span><span class="n">synonyms</span><span class="p">(</span><span class="s">&quot;hail&quot;</span><span class="p">)</span>
+<span class="go">[&#39;acclaim&#39;, &#39;come&#39;, &#39;herald&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.lang.wordnet.Thesaurus.to_storage">
+<tt class="descname">to_storage</tt><big>(</big><em>storage</em>, <em>indexname='THES'</em><big>)</big><a class="headerlink" href="#whoosh.lang.wordnet.Thesaurus.to_storage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates am index in the given storage object from the
+synonyms loaded from a WordNet file.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">whoosh.filedb.filestore</span> <span class="kn">import</span> <span class="n">FileStorage</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fs</span> <span class="o">=</span> <span class="n">FileStorage</span><span class="p">(</span><span class="s">&quot;index&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">Thesaurus</span><span class="o">.</span><span class="n">from_filename</span><span class="p">(</span><span class="s">&quot;wn_s.pl&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>storage</strong> &#8211; A <tt class="xref py py-class docutils literal"><span class="pre">whoosh.store.Storage</span></tt> object in
+which to save the index.</li>
+<li><strong>indexname</strong> &#8211; A name for the index. This allows you to
+store multiple indexes in the same storage object.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="low-level-functions">
+<h2>Low-level functions<a class="headerlink" href="#low-level-functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="whoosh.lang.wordnet.parse_file">
+<tt class="descclassname">whoosh.lang.wordnet.</tt><tt class="descname">parse_file</tt><big>(</big><em>f</em><big>)</big><a class="headerlink" href="#whoosh.lang.wordnet.parse_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parses the WordNet wn_s.pl prolog file and returns two dictionaries:
+word2nums and num2words.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="whoosh.lang.wordnet.synonyms">
+<tt class="descclassname">whoosh.lang.wordnet.</tt><tt class="descname">synonyms</tt><big>(</big><em>word2nums</em>, <em>num2words</em>, <em>word</em><big>)</big><a class="headerlink" href="#whoosh.lang.wordnet.synonyms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uses the word2nums and num2words dicts to look up synonyms
+for the given word. Returns a list of synonym strings.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="whoosh.lang.wordnet.make_index">
+<tt class="descclassname">whoosh.lang.wordnet.</tt><tt class="descname">make_index</tt><big>(</big><em>storage</em>, <em>indexname</em>, <em>word2nums</em>, <em>num2words</em><big>)</big><a class="headerlink" href="#whoosh.lang.wordnet.make_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a Whoosh index in the given storage object containing
+synonyms taken from word2nums and num2words. Returns the Index
+object.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">lang.wordnet</span></tt> module</a><ul>
+<li><a class="reference internal" href="#thesaurus">Thesaurus</a></li>
+<li><a class="reference internal" href="#low-level-functions">Low-level functions</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="porter.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">lang.porter</span></tt> module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../matching.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">matching</span></tt> module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/api/lang/wordnet.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../matching.html" title="matching module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="porter.html" title="lang.porter module"
+             >previous</a> |</li>
+        <li><a href="../../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="../api.html" >Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

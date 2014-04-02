@@ -1,0 +1,871 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Sorting and faceting &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="index.html" />
+    <link rel="next" title="How to create highlighted search result excerpts" href="highlight.html" />
+    <link rel="prev" title="Indexing and searching N-grams" href="ngrams.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="highlight.html" title="How to create highlighted search result excerpts"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="ngrams.html" title="Indexing and searching N-grams"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Whoosh 2.5.7 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="sorting-and-faceting">
+<h1>Sorting and faceting<a class="headerlink" href="#sorting-and-faceting" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The API for sorting and faceting changed in Whoosh 3.0.</p>
+</div>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>Sorting and faceting search results in Whoosh is based on <strong>facets</strong>. Each
+facet associates a value with each document in the search results, allowing you
+to sort by the keys or use them to group the documents. Whoosh includes a variety
+of <strong>facet types</strong> you can use for sorting and grouping (see below).</p>
+</div>
+<div class="section" id="sorting">
+<h2>Sorting<a class="headerlink" href="#sorting" title="Permalink to this headline">¶</a></h2>
+<p>By default, the results of a search are sorted with the highest-scoring
+documents first. You can use the <tt class="docutils literal"><span class="pre">sortedby</span></tt> keyword argument to order the
+results by some other criteria instead, such as the value of a field.</p>
+<div class="section" id="making-fields-sortable">
+<h3>Making fields sortable<a class="headerlink" href="#making-fields-sortable" title="Permalink to this headline">¶</a></h3>
+<p>In order to sort on a field, you should create the field using the
+<tt class="docutils literal"><span class="pre">sortable=True</span></tt> keyword argument:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">schema</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Schema</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">fields</span><span class="o">.</span><span class="n">TEXT</span><span class="p">(</span><span class="n">sortable</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+                       <span class="n">content</span><span class="o">=</span><span class="n">fields</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span>
+                       <span class="n">modified</span><span class="o">=</span><span class="n">fields</span><span class="o">.</span><span class="n">DATETIME</span><span class="p">(</span><span class="n">sortable</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                       <span class="p">)</span>
+</pre></div>
+</div>
+<p>It&#8217;s possible to sort on a field that doesn&#8217;t have <tt class="docutils literal"><span class="pre">sortable=True</span></tt>, but this
+requires Whoosh to load the unique terms in the field into memory. Using
+<tt class="docutils literal"><span class="pre">sortable</span></tt> is much more efficient.</p>
+</div>
+<div class="section" id="about-column-types">
+<h3>About column types<a class="headerlink" href="#about-column-types" title="Permalink to this headline">¶</a></h3>
+<p>When you create a field using <tt class="docutils literal"><span class="pre">sortable=True</span></tt>, you are telling Whoosh to store
+per-document values for that field in a <em>column</em>. A column object specifies the
+format to use to store the per-document values on disk.</p>
+<p>The <a class="reference internal" href="api/columns.html#module-whoosh.columns" title="whoosh.columns"><tt class="xref py py-mod docutils literal"><span class="pre">whoosh.columns</span></tt></a> module contains several different column object
+implementations. Each field type specifies a reasonable default column type (for
+example, the default for text fields is <a class="reference internal" href="api/columns.html#whoosh.columns.VarBytesColumn" title="whoosh.columns.VarBytesColumn"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.columns.VarBytesColumn</span></tt></a>,
+the default for numeric fields is <a class="reference internal" href="api/columns.html#whoosh.columns.NumericColumn" title="whoosh.columns.NumericColumn"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.columns.NumericColumn</span></tt></a>).
+However, if you want maximum efficiency you may want to use a different column
+type for a field.</p>
+<p>For example, if all document values in a field are a fixed length, you can use a
+<a class="reference internal" href="api/columns.html#whoosh.columns.FixedBytesColumn" title="whoosh.columns.FixedBytesColumn"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.columns.FixedBytesColumn</span></tt></a>. If you have a field where many
+documents share a relatively small number of possible values (an example might
+be a &#8220;category&#8221; field, or &#8220;month&#8221; or other enumeration type fields), you might
+want to use <a class="reference internal" href="api/columns.html#whoosh.columns.RefBytesColumn" title="whoosh.columns.RefBytesColumn"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.columns.RefBytesColumn</span></tt></a> (which can handle both
+variable and fixed-length values). There are column types for storing
+per-document bit values, structs, pickled objects, and compressed byte values.</p>
+<p>To specify a custom column object for a field, pass it as the <tt class="docutils literal"><span class="pre">sortable</span></tt>
+keyword argument instead of <tt class="docutils literal"><span class="pre">True</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre>from whoosh import columns, fields
+
+category_col = columns.RefBytesColumn()
+schema = fields.Schema(title=fields.TEXT(sortable=True),
+                       category=fields.KEYWORD(sortable=category_col)
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-a-column-field-for-custom-sort-keys">
+<h3>Using a COLUMN field for custom sort keys<a class="headerlink" href="#using-a-column-field-for-custom-sort-keys" title="Permalink to this headline">¶</a></h3>
+<p>When you add a document with a sortable field, Whoosh uses the value you pass
+for the field as the sortable value. For example, if &#8220;title&#8221; is a sortable
+field, and you add this document:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">writer</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s">&quot;Mr. Palomar&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>...then <tt class="docutils literal"><span class="pre">Mr.</span> <span class="pre">Palomar</span></tt> is stored in the field column as the sorting key for the
+document.</p>
+<p>This is usually good, but sometimes you need to &#8220;massage&#8221; the sortable key so
+it&#8217;s different from the value the user searches and/or sees in the interface.
+For example, if you allow the user to sort by title, you might want to use
+different values for the visible title and the value used for sorting:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Visible title</span>
+<span class="n">title</span> <span class="o">=</span> <span class="s">&quot;The Unbearable Lightness of Being&quot;</span>
+
+<span class="c"># Sortable title: converted to lowercase (to prevent different ordering</span>
+<span class="c"># depending on uppercase/lowercase), with initial article moved to the end</span>
+<span class="n">sort_title</span> <span class="o">=</span> <span class="s">&quot;unbearable lightness of being, the&quot;</span>
+</pre></div>
+</div>
+<p>The best way to do this is to use an additional field just for sorting. You can
+use the <tt class="xref py py-class docutils literal"><span class="pre">whoosh.fields.COLUMN</span></tt> field type to create a field that is not
+indexed or stored, it only holds per-document column values:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">schema</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Schema</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">fields</span><span class="o">.</span><span class="n">TEXT</span><span class="p">(</span><span class="n">stored</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+                       <span class="n">sort_title</span><span class="o">=</span><span class="n">fields</span><span class="o">.</span><span class="n">COLUMN</span><span class="p">(</span><span class="n">columns</span><span class="o">.</span><span class="n">VarBytesColumn</span><span class="p">())</span>
+                       <span class="p">)</span>
+</pre></div>
+</div>
+<p>The single argument to the <tt class="xref py py-class docutils literal"><span class="pre">whoosh.fields.COLUMN</span></tt> initializer is a
+<tt class="xref py py-class docutils literal"><span class="pre">whoosh.columns.ColumnType</span></tt> object. You can use any of the various
+column types in the <a class="reference internal" href="api/columns.html#module-whoosh.columns" title="whoosh.columns"><tt class="xref py py-mod docutils literal"><span class="pre">whoosh.columns</span></tt></a> module.</p>
+<p>As another example, say you are indexing documents that have a custom sorting
+order associated with each document, such as a &#8220;priority&#8221; number:</p>
+<div class="highlight-python"><div class="highlight"><pre>name=Big Wheel
+price=100
+priority=1
+
+name=Toss Across
+price=40
+priority=3
+
+name=Slinky
+price=25
+priority=2
+...
+</pre></div>
+</div>
+<p>You can use a column field with a numeric column object to hold the &#8220;priority&#8221;
+and use it for sorting:</p>
+<div class="highlight-python"><div class="highlight"><pre>schema = fields.Schema(name=fields.TEXT(stored=True),
+                       price=fields.NUMERIC(stored=True),
+                       priority=fields.COLUMN(columns.NumericColumn(&quot;i&quot;),
+                       )
+</pre></div>
+</div>
+<p>(Note that <tt class="xref py py-class docutils literal"><span class="pre">columns.NumericColumn</span></tt> takes a type code character like the
+codes used by Python&#8217;s <tt class="docutils literal"><span class="pre">struct</span></tt> and <tt class="docutils literal"><span class="pre">array</span></tt> modules.)</p>
+</div>
+<div class="section" id="making-existing-fields-sortable">
+<h3>Making existing fields sortable<a class="headerlink" href="#making-existing-fields-sortable" title="Permalink to this headline">¶</a></h3>
+<p>If you have an existing index from before the <tt class="docutils literal"><span class="pre">sortable</span></tt> argument was added
+in Whoosh 3.0, or you didn&#8217;t think you needed a field to be sortable but now
+you find that you need to sort it, you can add &#8220;sortability&#8221; to an existing
+index using the <tt class="xref py py-func docutils literal"><span class="pre">whoosh.sorting.add_sortable()</span></tt> utility function:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">columns</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">sorting</span>
+
+<span class="c"># Say we have an existing index with this schema</span>
+<span class="n">schema</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Schema</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">fields</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span>
+                       <span class="n">price</span><span class="o">=</span><span class="n">fields</span><span class="o">.</span><span class="n">NUMERIC</span><span class="p">)</span>
+
+<span class="c"># To use add_sortable, first open a writer for the index</span>
+<span class="n">ix</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">open_dir</span><span class="p">(</span><span class="s">&quot;indexdir&quot;</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">ix</span><span class="o">.</span><span class="n">writer</span><span class="p">()</span> <span class="k">as</span> <span class="n">w</span><span class="p">:</span>
+    <span class="c"># Add sortable=True to the &quot;price&quot; field using field terms as the</span>
+    <span class="c"># sortable values</span>
+    <span class="n">sorting</span><span class="o">.</span><span class="n">add_sortable</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="s">&quot;price&quot;</span><span class="p">,</span> <span class="n">sorting</span><span class="o">.</span><span class="n">FieldFacet</span><span class="p">(</span><span class="s">&quot;price&quot;</span><span class="p">))</span>
+
+    <span class="c"># Add sortable=True to the &quot;title&quot; field using the</span>
+    <span class="c"># stored field values as the sortable value</span>
+    <span class="n">sorting</span><span class="o">.</span><span class="n">add_sortable</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="s">&quot;title&quot;</span><span class="p">,</span> <span class="n">sorting</span><span class="o">.</span><span class="n">StoredFieldFacet</span><span class="p">(</span><span class="s">&quot;title&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>You can specify a custom column type when you call <tt class="docutils literal"><span class="pre">add_sortable</span></tt> using the
+<tt class="docutils literal"><span class="pre">column</span></tt> keyword argument:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">add_sortable</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="s">&quot;chapter&quot;</span><span class="p">,</span> <span class="n">sorting</span><span class="o">.</span><span class="n">FieldFacet</span><span class="p">(</span><span class="s">&quot;chapter&quot;</span><span class="p">),</span>
+             <span class="n">column</span><span class="o">=</span><span class="n">columns</span><span class="o">.</span><span class="n">RefBytesColumn</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>See the documentation for <tt class="xref py py-func docutils literal"><span class="pre">add_sortable()</span></tt> for more
+information.</p>
+</div>
+<div class="section" id="sorting-search-results">
+<h3>Sorting search results<a class="headerlink" href="#sorting-search-results" title="Permalink to this headline">¶</a></h3>
+<p>When you tell Whoosh to sort by a field (or fields), it uses the per-document
+values in the field&#8217;s column as sorting keys for the documents.</p>
+<p>Normally search results are sorted by descending relevance score. You can tell
+Whoosh to use a different ordering by passing the <tt class="docutils literal"><span class="pre">sortedby</span></tt> keyword argument
+to the <a class="reference internal" href="api/searching.html#whoosh.searching.Searcher.search" title="whoosh.searching.Searcher.search"><tt class="xref py py-meth docutils literal"><span class="pre">search()</span></tt></a> method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">fields</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">qparser</span>
+
+<span class="n">schema</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Schema</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">fields</span><span class="o">.</span><span class="n">TEXT</span><span class="p">(</span><span class="n">stored</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+                       <span class="n">price</span><span class="o">=</span><span class="n">fields</span><span class="o">.</span><span class="n">NUMERIC</span><span class="p">(</span><span class="n">sortable</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+<span class="n">ix</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">create_in</span><span class="p">(</span><span class="s">&quot;indexdir&quot;</span><span class="p">,</span> <span class="n">schema</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">ix</span><span class="o">.</span><span class="n">writer</span><span class="p">()</span> <span class="k">as</span> <span class="n">w</span><span class="p">:</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s">&quot;Big Deal&quot;</span><span class="p">,</span> <span class="n">price</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s">&quot;Mr. Big&quot;</span><span class="p">,</span> <span class="n">price</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s">&quot;Big Top&quot;</span><span class="p">,</span> <span class="n">price</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">ix</span><span class="o">.</span><span class="n">searcher</span><span class="p">()</span> <span class="k">as</span> <span class="n">s</span><span class="p">:</span>
+    <span class="n">qp</span> <span class="o">=</span> <span class="n">qparser</span><span class="o">.</span><span class="n">QueryParser</span><span class="p">(</span><span class="s">&quot;big&quot;</span><span class="p">,</span> <span class="n">ix</span><span class="o">.</span><span class="n">schema</span><span class="p">)</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">qp</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">user_query_string</span><span class="p">)</span>
+
+    <span class="c"># Sort search results from lowest to highest price</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">sortedby</span><span class="o">=</span><span class="s">&quot;price&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">hit</span><span class="p">[</span><span class="s">&quot;title&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>You can use any of the following objects as <tt class="docutils literal"><span class="pre">sortedby</span></tt> values:</p>
+<dl class="docutils">
+<dt>A <tt class="docutils literal"><span class="pre">FacetType</span></tt> object</dt>
+<dd>Uses this object to sort the documents. See below for the available facet
+types.</dd>
+<dt>A field name string</dt>
+<dd>Converts the field name into a <tt class="docutils literal"><span class="pre">FieldFacet</span></tt> (see below) and uses it to
+sort the documents.</dd>
+<dt>A list of <tt class="docutils literal"><span class="pre">FacetType</span></tt> objects and/or field name strings</dt>
+<dd>Bundles the facets together into a <tt class="docutils literal"><span class="pre">MultiFacet</span></tt> so you can sort by
+multiple keys. Note that this shortcut does not allow you to reverse
+the sort direction of individual facets. To do that, you need to construct
+the <tt class="docutils literal"><span class="pre">MultiFacet</span></tt> object yourself.</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You can use the <tt class="docutils literal"><span class="pre">reverse=True</span></tt> keyword argument to the
+<tt class="docutils literal"><span class="pre">Searcher.search()</span></tt> method to reverse the overall sort direction. This
+is more efficient than reversing each individual facet.</p>
+</div>
+</div>
+<div class="section" id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
+<p>Sort by the value of the size field:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">sortedby</span><span class="o">=</span><span class="s">&quot;size&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Sort by the reverse (highest-to-lowest) order of the &#8220;price&#8221; field:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">facet</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">FieldFacet</span><span class="p">(</span><span class="s">&quot;price&quot;</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">sortedby</span><span class="o">=</span><span class="n">facet</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Sort by ascending size and then descending price:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">mf</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">MultiFacet</span><span class="p">()</span>
+<span class="n">mf</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="s">&quot;size&quot;</span><span class="p">)</span>
+<span class="n">mf</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="s">&quot;price&quot;</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">sortedby</span><span class="o">=</span><span class="n">mf</span><span class="p">)</span>
+
+<span class="c"># or...</span>
+<span class="n">sizes</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">FieldFacet</span><span class="p">(</span><span class="s">&quot;size&quot;</span><span class="p">)</span>
+<span class="n">prices</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">FieldFacet</span><span class="p">(</span><span class="s">&quot;price&quot;</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">sortedby</span><span class="o">=</span><span class="p">[</span><span class="n">sizes</span><span class="p">,</span> <span class="n">prices</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Sort by the &#8220;category&#8221; field, then by the document&#8217;s score:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">cats</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">FieldFacet</span><span class="p">(</span><span class="s">&quot;category&quot;</span><span class="p">)</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">ScoreFacet</span><span class="p">()</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">sortedby</span><span class="o">=</span><span class="p">[</span><span class="n">cats</span><span class="p">,</span> <span class="n">scores</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="accessing-column-values">
+<h3>Accessing column values<a class="headerlink" href="#accessing-column-values" title="Permalink to this headline">¶</a></h3>
+<p>Per-document column values are available in <a class="reference internal" href="api/searching.html#whoosh.searching.Hit" title="whoosh.searching.Hit"><tt class="xref py py-class docutils literal"><span class="pre">Hit</span></tt></a>
+objects just like stored field values:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">schema</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Schema</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">fields</span><span class="o">.</span><span class="n">TEXT</span><span class="p">(</span><span class="n">stored</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+                       <span class="n">price</span><span class="o">=</span><span class="n">fields</span><span class="o">.</span><span class="n">NUMERIC</span><span class="p">(</span><span class="n">sortable</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+
+<span class="o">...</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">hit</span><span class="p">[</span><span class="s">&quot;title&quot;</span><span class="p">],</span> <span class="n">hit</span><span class="p">[</span><span class="s">&quot;price&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>ADVANCED: if you want to access abitrary per-document values quickly you can get
+a column reader object:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">with</span> <span class="n">ix</span><span class="o">.</span><span class="n">searcher</span><span class="p">()</span> <span class="k">as</span> <span class="n">s</span><span class="p">:</span>
+    <span class="n">reader</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">reader</span><span class="p">()</span>
+
+    <span class="n">colreader</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">reader</span><span class="p">()</span><span class="o">.</span><span class="n">column_reader</span><span class="p">(</span><span class="s">&quot;price&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">docnum</span> <span class="ow">in</span> <span class="n">reader</span><span class="o">.</span><span class="n">all_doc_ids</span><span class="p">():</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">colreader</span><span class="p">[</span><span class="n">docnum</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="grouping">
+<h2>Grouping<a class="headerlink" href="#grouping" title="Permalink to this headline">¶</a></h2>
+<p>It is often very useful to present &#8220;faceted&#8221; search results to the user.
+Faceting is dynamic grouping of search results into categories. The
+categories let users view a slice of the total results based on the categories
+they&#8217;re interested in.</p>
+<p>For example, if you are programming a shopping website, you might want to
+display categories with the search results such as the manufacturers and price
+ranges.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="54%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Manufacturer</td>
+<td>Price</td>
+</tr>
+<tr class="row-even"><td>Apple (5)</td>
+<td>$0 - $100 (2)</td>
+</tr>
+<tr class="row-odd"><td>Sanyo (1)</td>
+<td>$101 - $500 (10)</td>
+</tr>
+<tr class="row-even"><td>Sony (2)</td>
+<td>$501 - $1000 (1)</td>
+</tr>
+<tr class="row-odd"><td>Toshiba (5)</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p>You can let your users click the different facet values to only show results
+in the given categories.</p>
+<p>Another useful UI pattern is to show, say, the top 5 results for different
+types of found documents, and let the user click to see more results from a
+category they&#8217;re interested in, similarly to how the Spotlight quick results
+work on Mac OS X.</p>
+<div class="section" id="the-groupedby-keyword-argument">
+<h3>The <tt class="docutils literal"><span class="pre">groupedby</span></tt> keyword argument<a class="headerlink" href="#the-groupedby-keyword-argument" title="Permalink to this headline">¶</a></h3>
+<p>You can use the following objects as <tt class="docutils literal"><span class="pre">groupedby</span></tt> values:</p>
+<dl class="docutils">
+<dt>A <tt class="docutils literal"><span class="pre">FacetType</span></tt> object</dt>
+<dd>Uses this object to group the documents. See below for the available facet
+types.</dd>
+<dt>A field name string</dt>
+<dd>Converts the field name into a <tt class="docutils literal"><span class="pre">FieldFacet</span></tt> (see below) and uses it to
+sort the documents. The name of the field is used as the facet name.</dd>
+<dt>A list or tuple of field name strings</dt>
+<dd>Sets up multiple field grouping criteria.</dd>
+<dt>A dictionary mapping facet names to <tt class="docutils literal"><span class="pre">FacetType</span></tt> objects</dt>
+<dd>Sets up multiple grouping criteria.</dd>
+<dt>A <tt class="docutils literal"><span class="pre">Facets</span></tt> object</dt>
+<dd>This object is a lot like using a dictionary, but has some convenience
+methods to make setting up multiple groupings a little easier.</dd>
+</dl>
+</div>
+<div class="section" id="id1">
+<h3>Examples<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>Group by the value of the &#8220;category&#8221; field:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">groupedby</span><span class="o">=</span><span class="s">&quot;category&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Group by the value of the &#8220;category&#8221; field and also by the value of the &#8220;tags&#8221;
+field and a date range:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">cats</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">FieldFacet</span><span class="p">(</span><span class="s">&quot;category&quot;</span><span class="p">)</span>
+<span class="n">tags</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">FieldFacet</span><span class="p">(</span><span class="s">&quot;tags&quot;</span><span class="p">,</span> <span class="n">allow_overlap</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">groupedby</span><span class="o">=</span><span class="p">{</span><span class="s">&quot;category&quot;</span><span class="p">:</span> <span class="n">cats</span><span class="p">,</span> <span class="s">&quot;tags&quot;</span><span class="p">:</span> <span class="n">tags</span><span class="p">})</span>
+
+<span class="c"># ...or, using a Facets object has a little less duplication</span>
+<span class="n">facets</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">Facets</span><span class="p">()</span>
+<span class="n">facets</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="s">&quot;category&quot;</span><span class="p">)</span>
+<span class="n">facets</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="s">&quot;tags&quot;</span><span class="p">,</span> <span class="n">allow_overlap</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">groupedby</span><span class="o">=</span><span class="n">facets</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To group results by the <em>intersected values of multiple fields</em>, use a
+<tt class="docutils literal"><span class="pre">MultiFacet</span></tt> object (see below). For example, if you have two fields named
+<tt class="docutils literal"><span class="pre">tag</span></tt> and <tt class="docutils literal"><span class="pre">size</span></tt>, you could group the results by all combinations of the
+<tt class="docutils literal"><span class="pre">tag</span></tt> and <tt class="docutils literal"><span class="pre">size</span></tt> field, such as <tt class="docutils literal"><span class="pre">('tag1',</span> <span class="pre">'small')</span></tt>,
+<tt class="docutils literal"><span class="pre">('tag2',</span> <span class="pre">'small')</span></tt>, <tt class="docutils literal"><span class="pre">('tag1',</span> <span class="pre">'medium')</span></tt>, and so on:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Generate a grouping from the combination of the &quot;tag&quot; and &quot;size&quot; fields</span>
+<span class="n">mf</span> <span class="o">=</span> <span class="n">MultiFacet</span><span class="p">(</span><span class="s">&quot;tag&quot;</span><span class="p">,</span> <span class="s">&quot;size&quot;</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">groupedby</span><span class="o">=</span><span class="p">{</span><span class="s">&quot;tag/size&quot;</span><span class="p">:</span> <span class="n">mf</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="getting-the-faceted-groups">
+<h3>Getting the faceted groups<a class="headerlink" href="#getting-the-faceted-groups" title="Permalink to this headline">¶</a></h3>
+<p>The <tt class="docutils literal"><span class="pre">Results.groups(&quot;facetname&quot;)</span></tt> method  returns a dictionary mapping
+category names to lists of <strong>document IDs</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">myfacets</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">Facets</span><span class="p">()</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="s">&quot;size&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="s">&quot;tag&quot;</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">mysearcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">groupedby</span><span class="o">=</span><span class="n">myfacets</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">groups</span><span class="p">(</span><span class="s">&quot;size&quot;</span><span class="p">)</span>
+<span class="c"># {&quot;small&quot;: [8, 5, 1, 2, 4], &quot;medium&quot;: [3, 0, 6], &quot;large&quot;: [7, 9]}</span>
+</pre></div>
+</div>
+<p>If there is only one facet, you can just use <tt class="docutils literal"><span class="pre">Results.groups()</span></tt> with no
+argument to access its groups:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">results</span> <span class="o">=</span> <span class="n">mysearcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">groupedby</span><span class="o">=</span><span class="n">myfunctionfacet</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>By default, the values in the dictionary returned by <tt class="docutils literal"><span class="pre">groups()</span></tt> are lists of
+document numbers in the same relative order as in the results. You can use the
+<tt class="docutils literal"><span class="pre">Searcher</span></tt> object&#8217;s <tt class="docutils literal"><span class="pre">stored_fields()</span></tt> method to take a document number and
+return the document&#8217;s stored fields as a dictionary:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">category_name</span> <span class="ow">in</span> <span class="n">categories</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;Top 5 documents in the </span><span class="si">%s</span><span class="s"> category&quot;</span> <span class="o">%</span> <span class="n">category_name</span>
+    <span class="n">doclist</span> <span class="o">=</span> <span class="n">categories</span><span class="p">[</span><span class="n">category_name</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">docnum</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">doclist</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span>
+        <span class="k">print</span> <span class="s">&quot;  &quot;</span><span class="p">,</span> <span class="n">searcher</span><span class="o">.</span><span class="n">stored_fields</span><span class="p">(</span><span class="n">docnum</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">doclist</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;  (</span><span class="si">%s</span><span class="s"> more)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">doclist</span><span class="p">)</span> <span class="o">-</span> <span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you want different information about the groups, for example just the count
+of documents in each group, or you don&#8217;t need the groups to be ordered, you can
+specify a <a class="reference internal" href="api/sorting.html#whoosh.sorting.FacetMap" title="whoosh.sorting.FacetMap"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.sorting.FacetMap</span></tt></a> type or instance with the
+<tt class="docutils literal"><span class="pre">maptype</span></tt> keyword argument when creating the <tt class="docutils literal"><span class="pre">FacetType</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># This is the same as the default</span>
+<span class="n">myfacet</span> <span class="o">=</span> <span class="n">FieldFacet</span><span class="p">(</span><span class="s">&quot;size&quot;</span><span class="p">,</span> <span class="n">maptype</span><span class="o">=</span><span class="n">sorting</span><span class="o">.</span><span class="n">OrderedList</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">mysearcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">groupedby</span><span class="o">=</span><span class="n">myfacet</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+<span class="c"># {&quot;small&quot;: [8, 5, 1, 2, 4], &quot;medium&quot;: [3, 0, 6], &quot;large&quot;: [7, 9]}</span>
+
+<span class="c"># Don&#39;t sort the groups to match the order of documents in the results</span>
+<span class="c"># (faster)</span>
+<span class="n">myfacet</span> <span class="o">=</span> <span class="n">FieldFacet</span><span class="p">(</span><span class="s">&quot;size&quot;</span><span class="p">,</span> <span class="n">maptype</span><span class="o">=</span><span class="n">sorting</span><span class="o">.</span><span class="n">UnorderedList</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">mysearcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">groupedby</span><span class="o">=</span><span class="n">myfacet</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+<span class="c"># {&quot;small&quot;: [1, 2, 4, 5, 8], &quot;medium&quot;: [0, 3, 6], &quot;large&quot;: [7, 9]}</span>
+
+<span class="c"># Only count the documents in each group</span>
+<span class="n">myfacet</span> <span class="o">=</span> <span class="n">FieldFacet</span><span class="p">(</span><span class="s">&quot;size&quot;</span><span class="p">,</span> <span class="n">maptype</span><span class="o">=</span><span class="n">sorting</span><span class="o">.</span><span class="n">Count</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">mysearcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">groupedby</span><span class="o">=</span><span class="n">myfacet</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+<span class="c"># {&quot;small&quot;: 5, &quot;medium&quot;: 3, &quot;large&quot;: 2}</span>
+
+<span class="c"># Only remember the &quot;best&quot; document in each group</span>
+<span class="n">myfacet</span> <span class="o">=</span> <span class="n">FieldFacet</span><span class="p">(</span><span class="s">&quot;size&quot;</span><span class="p">,</span> <span class="n">maptype</span><span class="o">=</span><span class="n">sorting</span><span class="o">.</span><span class="n">Best</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">mysearcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">groupedby</span><span class="o">=</span><span class="n">myfacet</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+<span class="c"># {&quot;small&quot;: 8, &quot;medium&quot;: 3, &quot;large&quot;: 7}</span>
+</pre></div>
+</div>
+<p>Alternatively you can specify a <tt class="docutils literal"><span class="pre">maptype</span></tt> argument in the
+<tt class="docutils literal"><span class="pre">Searcher.search()</span></tt> method call which applies to all facets:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">results</span> <span class="o">=</span> <span class="n">mysearcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">groupedby</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;size&quot;</span><span class="p">,</span> <span class="s">&quot;tag&quot;</span><span class="p">],</span>
+                            <span class="n">maptype</span><span class="o">=</span><span class="n">sorting</span><span class="o">.</span><span class="n">Count</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>(You can override this overall <tt class="docutils literal"><span class="pre">maptype</span></tt> argument on individual facets by
+specifying the <tt class="docutils literal"><span class="pre">maptype</span></tt> argument for them as well.)</p>
+</div>
+</div>
+<div class="section" id="facet-types">
+<h2>Facet types<a class="headerlink" href="#facet-types" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="fieldfacet">
+<h3>FieldFacet<a class="headerlink" href="#fieldfacet" title="Permalink to this headline">¶</a></h3>
+<p>This is the most common facet type. It sorts or groups based on the
+value in a certain field in each document. This generally works best
+(or at all) if each document has only one term in the field (e.g. an ID
+field):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Sort search results by the value of the &quot;path&quot; field</span>
+<span class="n">facet</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">FieldFacet</span><span class="p">(</span><span class="s">&quot;path&quot;</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">sortedby</span><span class="o">=</span><span class="n">facet</span><span class="p">)</span>
+
+<span class="c"># Group search results by the value of the &quot;parent&quot; field</span>
+<span class="n">facet</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">FieldFacet</span><span class="p">(</span><span class="s">&quot;parent&quot;</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">groupedby</span><span class="o">=</span><span class="n">facet</span><span class="p">)</span>
+<span class="n">parent_groups</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">groups</span><span class="p">(</span><span class="s">&quot;parent&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>By default, <tt class="docutils literal"><span class="pre">FieldFacet</span></tt> only supports <strong>non-overlapping</strong> grouping, where a
+document cannot belong to multiple facets at the same time (each document will
+be sorted into one category arbitrarily.) To get overlapping groups with
+multi-valued fields, use the <tt class="docutils literal"><span class="pre">allow_overlap=True</span></tt> keyword argument:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">facet</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">FieldFacet</span><span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">allow_overlap</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This supports overlapping group membership where documents have more than one
+term in a field (e.g. KEYWORD fields). If you don&#8217;t need overlapping, don&#8217;t
+use <tt class="docutils literal"><span class="pre">allow_overlap</span></tt> because it&#8217;s <em>much</em> slower and uses more memory (see
+the secion on <tt class="docutils literal"><span class="pre">allow_overlap</span></tt> below).</p>
+</div>
+<div class="section" id="queryfacet">
+<h3>QueryFacet<a class="headerlink" href="#queryfacet" title="Permalink to this headline">¶</a></h3>
+<p>You can set up categories defined by arbitrary queries. For example, you can
+group names using prefix queries:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Use queries to define each category</span>
+<span class="c"># (Here I&#39;ll assume &quot;price&quot; is a NUMERIC field, so I&#39;ll use</span>
+<span class="c"># NumericRange)</span>
+<span class="n">qdict</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">qdict</span><span class="p">[</span><span class="s">&quot;A-D&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">TermRange</span><span class="p">(</span><span class="s">&quot;name&quot;</span><span class="p">,</span> <span class="s">&quot;a&quot;</span><span class="p">,</span> <span class="s">&quot;d&quot;</span><span class="p">)</span>
+<span class="n">qdict</span><span class="p">[</span><span class="s">&quot;E-H&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">TermRange</span><span class="p">(</span><span class="s">&quot;name&quot;</span><span class="p">,</span> <span class="s">&quot;e&quot;</span><span class="p">,</span> <span class="s">&quot;h&quot;</span><span class="p">)</span>
+<span class="n">qdict</span><span class="p">[</span><span class="s">&quot;I-L&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">TermRange</span><span class="p">(</span><span class="s">&quot;name&quot;</span><span class="p">,</span> <span class="s">&quot;i&quot;</span><span class="p">,</span> <span class="s">&quot;l&quot;</span><span class="p">)</span>
+<span class="c"># ...</span>
+
+<span class="n">qfacet</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">QueryFacet</span><span class="p">(</span><span class="n">qdict</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">groupedby</span><span class="o">=</span><span class="p">{</span><span class="s">&quot;firstltr&quot;</span><span class="p">:</span> <span class="n">qfacet</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>By default, <tt class="docutils literal"><span class="pre">QueryFacet</span></tt> only supports <strong>non-overlapping</strong> grouping, where a
+document cannot belong to multiple facets at the same time (each document will
+be sorted into one category arbitrarily). To get overlapping groups with
+multi-valued fields, use the <tt class="docutils literal"><span class="pre">allow_overlap=True</span></tt> keyword argument:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">facet</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">QueryFacet</span><span class="p">(</span><span class="n">querydict</span><span class="p">,</span> <span class="n">allow_overlap</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="rangefacet">
+<h3>RangeFacet<a class="headerlink" href="#rangefacet" title="Permalink to this headline">¶</a></h3>
+<p>The <tt class="docutils literal"><span class="pre">RangeFacet</span></tt> is for NUMERIC field types. It divides a range of possible
+values into groups. For example, to group documents based on price into
+buckets $100 &#8220;wide&#8221;:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">pricefacet</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">RangeFacet</span><span class="p">(</span><span class="s">&quot;price&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The first argument is the name of the field. The next two arguments are the
+full range to be divided. Value outside this range (in this example, values
+below 0 and above 1000) will be sorted into the &#8220;missing&#8221; (None) group. The
+fourth argument is the &#8220;gap size&#8221;, the size of the divisions in the range.</p>
+<p>The &#8220;gap&#8221; can be a list instead of a single value. In that case, the values in
+the list will be used to set the size of the initial divisions, with the last
+value in the list being the size for all subsequent divisions. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">pricefacet</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">RangeFacet</span><span class="p">(</span><span class="s">&quot;price&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">50</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>...will set up divisions of 0-5, 5-15, 15-50, 50-100, and then use 50 as the
+size for all subsequent divisions (i.e. 100-150, 150-200, and so on).</p>
+<p>The <tt class="docutils literal"><span class="pre">hardend</span></tt> keyword argument controls whether the last division is clamped
+to the end of the range or allowed to go past the end of the range. For
+example, this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">facet</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">RangeFacet</span><span class="p">(</span><span class="s">&quot;num&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">hardend</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>...gives divisions 0-4, 4-8, and 8-12, while this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">facet</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">RangeFacet</span><span class="p">(</span><span class="s">&quot;num&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">hardend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>...gives divisions 0-4, 4-8, and 8-10. (The default is <tt class="docutils literal"><span class="pre">hardend=False</span></tt>.)</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The ranges/buckets are always <strong>inclusive</strong> at the start and <strong>exclusive</strong>
+at the end.</p>
+</div>
+</div>
+<div class="section" id="daterangefacet">
+<h3>DateRangeFacet<a class="headerlink" href="#daterangefacet" title="Permalink to this headline">¶</a></h3>
+<p>This is like <tt class="docutils literal"><span class="pre">RangeFacet</span></tt> but for DATETIME fields. The start and end values
+must be <tt class="docutils literal"><span class="pre">datetime.datetime</span></tt> objects, and the gap(s) is/are
+<tt class="docutils literal"><span class="pre">datetime.timedelta</span></tt> objects.</p>
+<p>For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+
+<span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">end</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="n">gap</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">365</span><span class="p">)</span>
+<span class="n">bdayfacet</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">DateRangeFacet</span><span class="p">(</span><span class="s">&quot;birthday&quot;</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">gap</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>As with <tt class="docutils literal"><span class="pre">RangeFacet</span></tt>, you can use a list of gaps and the <tt class="docutils literal"><span class="pre">hardend</span></tt> keyword
+argument.</p>
+</div>
+<div class="section" id="scorefacet">
+<h3>ScoreFacet<a class="headerlink" href="#scorefacet" title="Permalink to this headline">¶</a></h3>
+<p>This facet is sometimes useful for sorting.</p>
+<p>For example, to sort by the &#8220;category&#8221; field, then for documents with the same
+category, sort by the document&#8217;s score:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">cats</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">FieldFacet</span><span class="p">(</span><span class="s">&quot;category&quot;</span><span class="p">)</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">ScoreFacet</span><span class="p">()</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">sortedby</span><span class="o">=</span><span class="p">[</span><span class="n">cats</span><span class="p">,</span> <span class="n">scores</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">ScoreFacet</span></tt> always sorts higher scores before lower scores.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">While using <tt class="docutils literal"><span class="pre">sortedby=ScoreFacet()</span></tt> should give the same results as using
+the default scored ordering (<tt class="docutils literal"><span class="pre">sortedby=None</span></tt>), using the facet will be
+slower because Whoosh automatically turns off many optimizations when
+sorting.</p>
+</div>
+</div>
+<div class="section" id="functionfacet">
+<h3>FunctionFacet<a class="headerlink" href="#functionfacet" title="Permalink to this headline">¶</a></h3>
+<p>This facet lets you pass a custom function to compute the sorting/grouping key
+for documents. (Using this facet type may be easier than subclassing FacetType
+and Categorizer to set up some custom behavior.)</p>
+<p>The function will be called with the index searcher and index document ID as
+arguments. For example, if you have an index with term vectors:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">schema</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Schema</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">fields</span><span class="o">.</span><span class="n">STORED</span><span class="p">,</span>
+                       <span class="n">text</span><span class="o">=</span><span class="n">fields</span><span class="o">.</span><span class="n">TEXT</span><span class="p">(</span><span class="n">stored</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">vector</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+<span class="n">ix</span> <span class="o">=</span> <span class="n">RamStorage</span><span class="p">()</span><span class="o">.</span><span class="n">create_index</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>...you could use a function to sort documents higher the closer they are to
+having equal occurances of two terms:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">fn</span><span class="p">(</span><span class="n">searcher</span><span class="p">,</span> <span class="n">docnum</span><span class="p">):</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">searcher</span><span class="o">.</span><span class="n">vector_as</span><span class="p">(</span><span class="s">&quot;frequency&quot;</span><span class="p">,</span> <span class="n">docnum</span><span class="p">,</span> <span class="s">&quot;text&quot;</span><span class="p">))</span>
+    <span class="c"># Sort documents that have equal number of &quot;alfa&quot; and &quot;bravo&quot; first</span>
+    <span class="k">return</span> <span class="mi">0</span> <span class="o">-</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;alfa&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;bravo&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">))</span>
+
+<span class="n">facet</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">FunctionFacet</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">sortedby</span><span class="o">=</span><span class="n">facet</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="storedfieldfacet">
+<h3>StoredFieldFacet<a class="headerlink" href="#storedfieldfacet" title="Permalink to this headline">¶</a></h3>
+<p>This facet lets you use stored field values as the sorting/grouping key for
+documents. This is usually slower than using an indexed field, but when using
+<tt class="docutils literal"><span class="pre">allow_overlap</span></tt> it can actually be faster for large indexes just because it
+avoids the overhead of reading posting lists.</p>
+<p><a class="reference internal" href="api/sorting.html#whoosh.sorting.StoredFieldFacet" title="whoosh.sorting.StoredFieldFacet"><tt class="xref py py-class docutils literal"><span class="pre">StoredFieldFacet</span></tt></a> supports <tt class="docutils literal"><span class="pre">allow_overlap</span></tt> by
+splitting the stored value into separate keys. By default it calls the value&#8217;s
+<tt class="docutils literal"><span class="pre">split()</span></tt> method (since most stored values are strings), but you can supply
+a custom split function. See the section on <tt class="docutils literal"><span class="pre">allow_overlap</span></tt> below.</p>
+</div>
+</div>
+<div class="section" id="multifacet">
+<h2>MultiFacet<a class="headerlink" href="#multifacet" title="Permalink to this headline">¶</a></h2>
+<p>This facet type returns a composite of the keys returned by two or more
+sub-facets, allowing you to sort/group by the intersected values of multiple
+facets.</p>
+<p><tt class="docutils literal"><span class="pre">MultiFacet</span></tt> has methods for adding facets:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">myfacet</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">RangeFacet</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="n">mf</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">MultiFacet</span><span class="p">()</span>
+<span class="n">mf</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="s">&quot;category&quot;</span><span class="p">)</span>
+<span class="n">mf</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="s">&quot;price&quot;</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">mf</span><span class="o">.</span><span class="n">add_facet</span><span class="p">(</span><span class="n">myfacet</span><span class="p">)</span>
+<span class="n">mf</span><span class="o">.</span><span class="n">add_score</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You can also pass a list of field names and/or <tt class="docutils literal"><span class="pre">FacetType</span></tt> objects to the
+initializer:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">prices</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">FieldFacet</span><span class="p">(</span><span class="s">&quot;price&quot;</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">ScoreFacet</span><span class="p">()</span>
+<span class="n">mf</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">MultiFacet</span><span class="p">(</span><span class="s">&quot;category&quot;</span><span class="p">,</span> <span class="n">prices</span><span class="p">,</span> <span class="n">myfacet</span><span class="p">,</span> <span class="n">scores</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="missing-values">
+<h2>Missing values<a class="headerlink" href="#missing-values" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>When sorting, documents without any terms in a given field, or whatever else
+constitutes &#8220;missing&#8221; for different facet types, will always sort to the end.</li>
+<li>When grouping, &#8220;missing&#8221; documents will appear in a group with the
+key <tt class="docutils literal"><span class="pre">None</span></tt>.</li>
+</ul>
+</div>
+<div class="section" id="using-overlapping-groups">
+<h2>Using overlapping groups<a class="headerlink" href="#using-overlapping-groups" title="Permalink to this headline">¶</a></h2>
+<p>The common supported workflow for grouping and sorting is where the given field
+has <em>one value for document</em>, for example a <tt class="docutils literal"><span class="pre">path</span></tt> field containing the file
+path of the original document. By default, facets are set up to support this
+single-value approach.</p>
+<p>Of course, there are situations where you want documents to be sorted into
+multiple groups based on a field with multiple terms per document. The most
+common example would be a <tt class="docutils literal"><span class="pre">tags</span></tt> field. The <tt class="docutils literal"><span class="pre">allow_overlap</span></tt> keyword
+argument to the <a class="reference internal" href="api/sorting.html#whoosh.sorting.FieldFacet" title="whoosh.sorting.FieldFacet"><tt class="xref py py-class docutils literal"><span class="pre">FieldFacet</span></tt></a>,
+<a class="reference internal" href="api/sorting.html#whoosh.sorting.QueryFacet" title="whoosh.sorting.QueryFacet"><tt class="xref py py-class docutils literal"><span class="pre">QueryFacet</span></tt></a>, and
+<a class="reference internal" href="api/sorting.html#whoosh.sorting.StoredFieldFacet" title="whoosh.sorting.StoredFieldFacet"><tt class="xref py py-class docutils literal"><span class="pre">StoredFieldFacet</span></tt></a> allows this multi-value approach.</p>
+<p>However, there is an important caveat: using <tt class="docutils literal"><span class="pre">allow_overlap=True</span></tt> is slower
+than the default, potentially <em>much</em> slower for very large result sets. This is
+because Whoosh must read every posting of every term in the field to
+create a temporary &#8220;forward index&#8221; mapping documents to terms.</p>
+<p>If a field is indexed with <em>term vectors</em>, <tt class="docutils literal"><span class="pre">FieldFacet</span></tt> will use them to
+speed up <tt class="docutils literal"><span class="pre">allow_overlap</span></tt> faceting for small result sets, but for large result
+sets, where Whoosh has to open the vector list for every matched document, this
+can still be very slow.</p>
+<p>For very large indexes and result sets, if a field is stored, you can get
+faster overlapped faceting using <a class="reference internal" href="api/sorting.html#whoosh.sorting.StoredFieldFacet" title="whoosh.sorting.StoredFieldFacet"><tt class="xref py py-class docutils literal"><span class="pre">StoredFieldFacet</span></tt></a>
+instead of <tt class="docutils literal"><span class="pre">FieldFacet</span></tt>. While reading stored values is usually slower than
+using the index, in this case avoiding the overhead of opening large numbers of
+posting readers can make it worthwhile.</p>
+<p><tt class="docutils literal"><span class="pre">StoredFieldFacet</span></tt> supports <tt class="docutils literal"><span class="pre">allow_overlap</span></tt> by loading the stored value for
+the given field and splitting it into multiple values. The default is to call
+the value&#8217;s <tt class="docutils literal"><span class="pre">split()</span></tt> method.</p>
+<p>For example, if you&#8217;ve stored the <tt class="docutils literal"><span class="pre">tags</span></tt> field as a string like
+<tt class="docutils literal"><span class="pre">&quot;tag1</span> <span class="pre">tag2</span> <span class="pre">tag3&quot;</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">schema</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Schema</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">fields</span><span class="o">.</span><span class="n">TEXT</span><span class="p">(</span><span class="n">stored</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+                       <span class="n">tags</span><span class="o">=</span><span class="n">fields</span><span class="o">.</span><span class="n">KEYWORD</span><span class="p">(</span><span class="n">stored</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+<span class="n">ix</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">create_in</span><span class="p">(</span><span class="s">&quot;indexdir&quot;</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">ix</span><span class="o">.</span><span class="n">writer</span><span class="p">()</span> <span class="k">as</span> <span class="n">w</span><span class="p">:</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;A Midsummer Night&#39;s Dream&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="s">&quot;comedy fairies&quot;</span><span class="p">)</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;Hamlet&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="s">&quot;tragedy denmark&quot;</span><span class="p">)</span>
+    <span class="c"># etc.</span>
+</pre></div>
+</div>
+<p>...Then you can use a <tt class="docutils literal"><span class="pre">StoredFieldFacet</span></tt> like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ix</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">open_dir</span><span class="p">(</span><span class="s">&quot;indexdir&quot;</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">ix</span><span class="o">.</span><span class="n">searcher</span><span class="p">()</span> <span class="k">as</span> <span class="n">s</span><span class="p">:</span>
+    <span class="n">sff</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">StoredFieldFacet</span><span class="p">(</span><span class="s">&quot;tags&quot;</span><span class="p">,</span> <span class="n">allow_overlap</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">groupedby</span><span class="o">=</span><span class="p">{</span><span class="s">&quot;tags&quot;</span><span class="p">:</span> <span class="n">sff</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>For stored Python objects other than strings, you can supply a split function
+(using the <tt class="docutils literal"><span class="pre">split_fn</span></tt> keyword argument to <tt class="docutils literal"><span class="pre">StoredFieldFacet</span></tt>). The function
+should accept a single argument (the stored value) and return a list or tuple
+of grouping keys.</p>
+</div>
+<div class="section" id="using-a-custom-sort-order">
+<h2>Using a custom sort order<a class="headerlink" href="#using-a-custom-sort-order" title="Permalink to this headline">¶</a></h2>
+<p>It is sometimes useful to have a custom sort order per-search. For example,
+different languages use different sort orders. If you have a function to return
+the sorting order you want for a given field value, such as an implementation of
+the Unicode Collation Algorithm (UCA), you can customize the sort order
+for the user&#8217;s language.</p>
+<p>The <tt class="xref py py-class docutils literal"><span class="pre">whoosh.sorting.TranslateFacet</span></tt> lets you apply a function to the
+value of another facet. This lets you &#8220;translate&#8221; a field value into an
+arbitrary sort key, such as with UCA:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pyuca</span> <span class="kn">import</span> <span class="n">Collator</span>
+
+<span class="c"># The Collator object has a sort_key() method which takes a unicode</span>
+<span class="c"># string and returns a sort key</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">Collator</span><span class="p">(</span><span class="s">&quot;allkeys.txt&quot;</span><span class="p">)</span>
+
+<span class="c"># Make a facet object for the field you want to sort on</span>
+<span class="n">nf</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">FieldFacet</span><span class="p">(</span><span class="s">&quot;name&quot;</span><span class="p">)</span>
+
+<span class="c"># Wrap the facet in a TranslateFacet with the translation function</span>
+<span class="c"># (the Collator object&#39;s sort_key method)</span>
+<span class="n">tf</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">TranslateFacet</span><span class="p">(</span><span class="n">facet</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">sort_key</span><span class="p">)</span>
+
+<span class="c"># Use the facet to sort the search results</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">sortedby</span><span class="o">=</span><span class="n">tf</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>(You can pass multiple &#8220;wrapped&#8221; facets to the <tt class="docutils literal"><span class="pre">TranslateFacet</span></tt>, and it will
+call the function with the values of the facets as multiple arguments.)</p>
+<p>The TranslateFacet can also be very useful with numeric fields to sort on the
+output of some formula:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Sort based on the average of two numeric fields</span>
+<span class="k">def</span> <span class="nf">average</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+
+<span class="c"># Create two facets for the fields and pass them with the function to</span>
+<span class="c"># TranslateFacet</span>
+<span class="n">af</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">FieldFacet</span><span class="p">(</span><span class="s">&quot;age&quot;</span><span class="p">)</span>
+<span class="n">wf</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">FieldFacet</span><span class="p">(</span><span class="s">&quot;weight&quot;</span><span class="p">)</span>
+<span class="n">facet</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">TranslateFacet</span><span class="p">(</span><span class="n">average</span><span class="p">,</span> <span class="n">af</span><span class="p">,</span> <span class="n">wf</span><span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="o">.</span> <span class="n">sortedby</span><span class="o">=</span><span class="n">facet</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Remember that you can still sort by multiple facets. For example, you could sort
+by a numeric value transformed by a quantizing function first, and then if that
+is equal sort by the value of another field:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Sort by a quantized size first, then by name</span>
+<span class="n">tf</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">TranslateFacet</span><span class="p">(</span><span class="n">quantize</span><span class="p">,</span> <span class="n">sorting</span><span class="o">.</span><span class="n">FieldFacet</span><span class="p">(</span><span class="s">&quot;size&quot;</span><span class="p">))</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">myquery</span><span class="p">,</span> <span class="n">sortedby</span><span class="o">=</span><span class="p">[</span><span class="n">tf</span><span class="p">,</span> <span class="s">&quot;name&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="expert-writing-your-own-facet">
+<h2>Expert: writing your own facet<a class="headerlink" href="#expert-writing-your-own-facet" title="Permalink to this headline">¶</a></h2>
+<p>TBD.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Sorting and faceting</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#sorting">Sorting</a><ul>
+<li><a class="reference internal" href="#making-fields-sortable">Making fields sortable</a></li>
+<li><a class="reference internal" href="#about-column-types">About column types</a></li>
+<li><a class="reference internal" href="#using-a-column-field-for-custom-sort-keys">Using a COLUMN field for custom sort keys</a></li>
+<li><a class="reference internal" href="#making-existing-fields-sortable">Making existing fields sortable</a></li>
+<li><a class="reference internal" href="#sorting-search-results">Sorting search results</a></li>
+<li><a class="reference internal" href="#examples">Examples</a></li>
+<li><a class="reference internal" href="#accessing-column-values">Accessing column values</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#grouping">Grouping</a><ul>
+<li><a class="reference internal" href="#the-groupedby-keyword-argument">The <tt class="docutils literal"><span class="pre">groupedby</span></tt> keyword argument</a></li>
+<li><a class="reference internal" href="#id1">Examples</a></li>
+<li><a class="reference internal" href="#getting-the-faceted-groups">Getting the faceted groups</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#facet-types">Facet types</a><ul>
+<li><a class="reference internal" href="#fieldfacet">FieldFacet</a></li>
+<li><a class="reference internal" href="#queryfacet">QueryFacet</a></li>
+<li><a class="reference internal" href="#rangefacet">RangeFacet</a></li>
+<li><a class="reference internal" href="#daterangefacet">DateRangeFacet</a></li>
+<li><a class="reference internal" href="#scorefacet">ScoreFacet</a></li>
+<li><a class="reference internal" href="#functionfacet">FunctionFacet</a></li>
+<li><a class="reference internal" href="#storedfieldfacet">StoredFieldFacet</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#multifacet">MultiFacet</a></li>
+<li><a class="reference internal" href="#missing-values">Missing values</a></li>
+<li><a class="reference internal" href="#using-overlapping-groups">Using overlapping groups</a></li>
+<li><a class="reference internal" href="#using-a-custom-sort-order">Using a custom sort order</a></li>
+<li><a class="reference internal" href="#expert-writing-your-own-facet">Expert: writing your own facet</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="ngrams.html"
+                        title="previous chapter">Indexing and searching N-grams</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="highlight.html"
+                        title="next chapter">How to create highlighted search result excerpts</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/facets.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="highlight.html" title="How to create highlighted search result excerpts"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="ngrams.html" title="Indexing and searching N-grams"
+             >previous</a> |</li>
+        <li><a href="index.html">Whoosh 2.5.7 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

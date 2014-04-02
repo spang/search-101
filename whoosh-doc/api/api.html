@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Whoosh API &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="../index.html" />
+    <link rel="next" title="analysis module" href="analysis.html" />
+    <link rel="prev" title="Whoosh recipes" href="../recipes.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="analysis.html" title="analysis module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../recipes.html" title="Whoosh recipes"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="whoosh-api">
+<h1>Whoosh API<a class="headerlink" href="#whoosh-api" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html"><tt class="docutils literal"><span class="pre">analysis</span></tt> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="codec/base.html"><tt class="docutils literal"><span class="pre">codec.base</span></tt> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="collectors.html"><tt class="docutils literal"><span class="pre">collectors</span></tt> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="columns.html"><tt class="docutils literal"><span class="pre">columns</span></tt> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fields.html"><tt class="docutils literal"><span class="pre">fields</span></tt> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filedb/filestore.html"><tt class="docutils literal"><span class="pre">filedb.filestore</span></tt> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filedb/filetables.html"><tt class="docutils literal"><span class="pre">filedb.filetables</span></tt> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filedb/structfile.html"><tt class="docutils literal"><span class="pre">filedb.structfile</span></tt> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="formats.html"><tt class="docutils literal"><span class="pre">formats</span></tt> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="highlight.html"><tt class="docutils literal"><span class="pre">highlight</span></tt> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="idsets.html"><tt class="docutils literal"><span class="pre">support.bitvector</span></tt> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html"><tt class="docutils literal"><span class="pre">index</span></tt> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lang/morph_en.html"><tt class="docutils literal"><span class="pre">lang.morph_en</span></tt> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lang/porter.html"><tt class="docutils literal"><span class="pre">lang.porter</span></tt> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lang/wordnet.html"><tt class="docutils literal"><span class="pre">lang.wordnet</span></tt> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matching.html"><tt class="docutils literal"><span class="pre">matching</span></tt> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qparser.html"><tt class="docutils literal"><span class="pre">qparser</span></tt> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="query.html"><tt class="docutils literal"><span class="pre">query</span></tt> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reading.html"><tt class="docutils literal"><span class="pre">reading</span></tt> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scoring.html"><tt class="docutils literal"><span class="pre">scoring</span></tt> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="searching.html"><tt class="docutils literal"><span class="pre">searching</span></tt> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sorting.html"><tt class="docutils literal"><span class="pre">sorting</span></tt> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spelling.html"><tt class="docutils literal"><span class="pre">spelling</span></tt> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support/charset.html"><tt class="docutils literal"><span class="pre">support.charset</span></tt> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support/levenshtein.html"><tt class="docutils literal"><span class="pre">support.levenshtein</span></tt> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="util.html"><tt class="docutils literal"><span class="pre">util</span></tt> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing.html"><tt class="docutils literal"><span class="pre">writing</span></tt> module</a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../recipes.html"
+                        title="previous chapter">Whoosh recipes</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="analysis.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">analysis</span></tt> module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/api.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="analysis.html" title="analysis module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../recipes.html" title="Whoosh recipes"
+             >previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

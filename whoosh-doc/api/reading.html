@@ -1,0 +1,623 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>reading module &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="../index.html" />
+    <link rel="up" title="Whoosh API" href="api.html" />
+    <link rel="next" title="scoring module" href="scoring.html" />
+    <link rel="prev" title="query module" href="query.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scoring.html" title="scoring module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="query.html" title="query module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="api.html" accesskey="U">Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-whoosh.reading">
+<span id="reading-module"></span><h1><tt class="docutils literal"><span class="pre">reading</span></tt> module<a class="headerlink" href="#module-whoosh.reading" title="Permalink to this headline">¶</a></h1>
+<p>This module contains classes that allow reading from an index.</p>
+<div class="section" id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.reading.IndexReader">
+<em class="property">class </em><tt class="descclassname">whoosh.reading.</tt><tt class="descname">IndexReader</tt><a class="headerlink" href="#whoosh.reading.IndexReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do not instantiate this object directly. Instead use Index.reader().</p>
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.all_doc_ids">
+<tt class="descname">all_doc_ids</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.all_doc_ids" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an iterator of all (undeleted) document IDs in the reader.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.all_stored_fields">
+<tt class="descname">all_stored_fields</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.all_stored_fields" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields the stored fields for all documents (including deleted
+documents).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.all_terms">
+<tt class="descname">all_terms</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.all_terms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields (fieldname, text) tuples for every term in the index.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.close">
+<tt class="descname">close</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Closes the open files associated with this reader.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.codec">
+<tt class="descname">codec</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.codec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the <a class="reference internal" href="codec/base.html#whoosh.codec.base.Codec" title="whoosh.codec.base.Codec"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.codec.base.Codec</span></tt></a> object used to read
+this reader&#8217;s segment. If this reader is not atomic
+(<tt class="docutils literal"><span class="pre">reader.is_atomic()</span> <span class="pre">==</span> <span class="pre">True</span></tt>), returns None.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.column_reader">
+<tt class="descname">column_reader</tt><big>(</big><em>fieldname</em>, <em>column=None</em>, <em>reverse=False</em>, <em>translate=False</em><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.column_reader" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fieldname</strong> &#8211; the name of the field for which to get a reader.</li>
+<li><strong>column</strong> &#8211; if passed, use this Column object instead of the one
+associated with the field in the Schema.</li>
+<li><strong>reverse</strong> &#8211; if passed, reverses the order of keys returned by the
+reader&#8217;s <tt class="docutils literal"><span class="pre">sort_key()</span></tt> method. If the column type is not
+reversible, this will raise a <tt class="docutils literal"><span class="pre">NotImplementedError</span></tt>.</li>
+<li><strong>translate</strong> &#8211; if True, wrap the reader to call the field&#8217;s
+<tt class="docutils literal"><span class="pre">from_bytes()</span></tt> method on the returned values.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a <a class="reference internal" href="columns.html#whoosh.columns.ColumnReader" title="whoosh.columns.ColumnReader"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.columns.ColumnReader</span></tt></a> object.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.corrector">
+<tt class="descname">corrector</tt><big>(</big><em>fieldname</em><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.corrector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a <a class="reference internal" href="spelling.html#whoosh.spelling.Corrector" title="whoosh.spelling.Corrector"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.spelling.Corrector</span></tt></a> object that suggests
+corrections based on the terms in the given field.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.doc_count">
+<tt class="descname">doc_count</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.doc_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the total number of UNDELETED documents in this reader.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.doc_count_all">
+<tt class="descname">doc_count_all</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.doc_count_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the total number of documents, DELETED OR UNDELETED,
+in this reader.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.doc_field_length">
+<tt class="descname">doc_field_length</tt><big>(</big><em>docnum</em>, <em>fieldname</em>, <em>default=0</em><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.doc_field_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of terms in the given field in the given
+document. This is used by some scoring algorithms.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.doc_frequency">
+<tt class="descname">doc_frequency</tt><big>(</big><em>fieldname</em>, <em>text</em><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.doc_frequency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns how many documents the given term appears in.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.expand_prefix">
+<tt class="descname">expand_prefix</tt><big>(</big><em>fieldname</em>, <em>prefix</em><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.expand_prefix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields terms in the given field that start with the given prefix.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.field_length">
+<tt class="descname">field_length</tt><big>(</big><em>fieldname</em><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.field_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the total number of terms in the given field. This is used
+by some scoring algorithms.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.field_terms">
+<tt class="descname">field_terms</tt><big>(</big><em>fieldname</em><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.field_terms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields all term values (converted from on-disk bytes) in the given
+field.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.first_id">
+<tt class="descname">first_id</tt><big>(</big><em>fieldname</em>, <em>text</em><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.first_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the first ID in the posting list for the given term. This
+may be optimized in certain backends.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.frequency">
+<tt class="descname">frequency</tt><big>(</big><em>fieldname</em>, <em>text</em><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.frequency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the total number of instances of the given term in the
+collection.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.generation">
+<tt class="descname">generation</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.generation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the generation of the index being read, or -1 if the backend
+is not versioned.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.has_deletions">
+<tt class="descname">has_deletions</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.has_deletions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the underlying index/segment has deleted
+documents.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.has_vector">
+<tt class="descname">has_vector</tt><big>(</big><em>docnum</em>, <em>fieldname</em><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.has_vector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the given document has a term vector for the given
+field.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.has_word_graph">
+<tt class="descname">has_word_graph</tt><big>(</big><em>fieldname</em><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.has_word_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the given field has a &#8220;word graph&#8221; associated with
+it, allowing suggestions for correcting mis-typed words and fast fuzzy
+term searching.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.indexed_field_names">
+<tt class="descname">indexed_field_names</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.indexed_field_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an iterable of strings representing the names of the indexed
+fields. This may include additional names not explicitly listed in the
+Schema if you use &#8220;glob&#8221; fields.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.is_deleted">
+<tt class="descname">is_deleted</tt><big>(</big><em>docnum</em><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.is_deleted" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the given document number is marked deleted.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.iter_docs">
+<tt class="descname">iter_docs</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.iter_docs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields a series of <tt class="docutils literal"><span class="pre">(docnum,</span> <span class="pre">stored_fields_dict)</span></tt>
+tuples for the undeleted documents in the reader.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.iter_field">
+<tt class="descname">iter_field</tt><big>(</big><em>fieldname</em>, <em>prefix=''</em><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.iter_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields (text, terminfo) tuples for all terms in the given field.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.iter_from">
+<tt class="descname">iter_from</tt><big>(</big><em>fieldname</em>, <em>text</em><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.iter_from" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields ((fieldname, text), terminfo) tuples for all terms in the
+reader, starting at the given term.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.iter_postings">
+<tt class="descname">iter_postings</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.iter_postings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Low-level method, yields all postings in the reader as
+<tt class="docutils literal"><span class="pre">(fieldname,</span> <span class="pre">text,</span> <span class="pre">docnum,</span> <span class="pre">weight,</span> <span class="pre">valuestring)</span></tt> tuples.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.iter_prefix">
+<tt class="descname">iter_prefix</tt><big>(</big><em>fieldname</em>, <em>prefix</em><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.iter_prefix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields (text, terminfo) tuples for all terms in the given field with
+a certain prefix.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.leaf_readers">
+<tt class="descname">leaf_readers</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.leaf_readers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of (IndexReader, docbase) pairs for the child readers
+of this reader if it is a composite reader. If this is not a composite
+reader, it returns <cite>[(self, 0)]</cite>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.lexicon">
+<tt class="descname">lexicon</tt><big>(</big><em>fieldname</em><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.lexicon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields all bytestrings in the given field.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.max_field_length">
+<tt class="descname">max_field_length</tt><big>(</big><em>fieldname</em><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.max_field_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the minimum length of the field across all documents. This
+is used by some scoring algorithms.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.min_field_length">
+<tt class="descname">min_field_length</tt><big>(</big><em>fieldname</em><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.min_field_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the minimum length of the field across all documents. This
+is used by some scoring algorithms.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.most_distinctive_terms">
+<tt class="descname">most_distinctive_terms</tt><big>(</big><em>fieldname</em>, <em>number=5</em>, <em>prefix=''</em><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.most_distinctive_terms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the top &#8216;number&#8217; terms with the highest <cite>tf*idf</cite> scores as
+a list of (score, text) tuples.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.most_frequent_terms">
+<tt class="descname">most_frequent_terms</tt><big>(</big><em>fieldname</em>, <em>number=5</em>, <em>prefix=''</em><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.most_frequent_terms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the top &#8216;number&#8217; most frequent terms in the given field as a
+list of (frequency, text) tuples.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.postings">
+<tt class="descname">postings</tt><big>(</big><em>fieldname</em>, <em>text</em><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.postings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a <a class="reference internal" href="matching.html#whoosh.matching.Matcher" title="whoosh.matching.Matcher"><tt class="xref py py-class docutils literal"><span class="pre">Matcher</span></tt></a> for the postings of the
+given term.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">pr</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">postings</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span> <span class="s">&quot;render&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pr</span><span class="o">.</span><span class="n">skip_to</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pr</span><span class="o">.</span><span class="n">id</span>
+<span class="go">12</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fieldname</strong> &#8211; the field name or field number of the term.</li>
+<li><strong>text</strong> &#8211; the text of the term.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="matching.html#whoosh.matching.Matcher" title="whoosh.matching.Matcher"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.matching.Matcher</span></tt></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.segment">
+<tt class="descname">segment</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.segment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the <tt class="xref py py-class docutils literal"><span class="pre">whoosh.index.Segment</span></tt> object used by this reader.
+If this reader is not atomic (<tt class="docutils literal"><span class="pre">reader.is_atomic()</span> <span class="pre">==</span> <span class="pre">True</span></tt>), returns
+None.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.storage">
+<tt class="descname">storage</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.storage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the <a class="reference internal" href="filedb/filestore.html#whoosh.filedb.filestore.Storage" title="whoosh.filedb.filestore.Storage"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.filedb.filestore.Storage</span></tt></a> object used by
+this reader to read its files. If the reader is not atomic,
+(<tt class="docutils literal"><span class="pre">reader.is_atomic()</span> <span class="pre">==</span> <span class="pre">True</span></tt>), returns None.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.stored_fields">
+<tt class="descname">stored_fields</tt><big>(</big><em>docnum</em><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.stored_fields" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the stored fields for the given document number.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>numerickeys</strong> &#8211; use field numbers as the dictionary keys instead of
+field names.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.term_info">
+<tt class="descname">term_info</tt><big>(</big><em>fieldname</em>, <em>text</em><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.term_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a <a class="reference internal" href="#whoosh.reading.TermInfo" title="whoosh.reading.TermInfo"><tt class="xref py py-class docutils literal"><span class="pre">TermInfo</span></tt></a> object allowing access to various
+statistics about the given term.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.terms_from">
+<tt class="descname">terms_from</tt><big>(</big><em>fieldname</em>, <em>prefix</em><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.terms_from" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields (fieldname, text) tuples for every term in the index starting
+at the given prefix.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.terms_within">
+<tt class="descname">terms_within</tt><big>(</big><em>fieldname</em>, <em>text</em>, <em>maxdist</em>, <em>prefix=0</em><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.terms_within" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a generator of words in the given field within <tt class="docutils literal"><span class="pre">maxdist</span></tt>
+Damerau-Levenshtein edit distance of the given text.</p>
+<p>Important: the terms are returned in <strong>no particular order</strong>. The only
+criterion is that they are within <tt class="docutils literal"><span class="pre">maxdist</span></tt> edits of <tt class="docutils literal"><span class="pre">text</span></tt>. You
+may want to run this method multiple times with increasing <tt class="docutils literal"><span class="pre">maxdist</span></tt>
+values to ensure you get the closest matches first. You may also have
+additional information (such as term frequency or an acoustic matching
+algorithm) you can use to rank terms with the same edit distance.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>maxdist</strong> &#8211; the maximum edit distance.</li>
+<li><strong>prefix</strong> &#8211; require suggestions to share a prefix of this length
+with the given word. This is often justifiable since most
+misspellings do not involve the first letter of the word.
+Using a prefix dramatically decreases the time it takes to generate
+the list of words.</li>
+<li><strong>seen</strong> &#8211; an optional set object. Words that appear in the set will
+not be yielded.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.vector">
+<tt class="descname">vector</tt><big>(</big><em>docnum</em>, <em>fieldname</em>, <em>format_=None</em><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.vector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a <a class="reference internal" href="matching.html#whoosh.matching.Matcher" title="whoosh.matching.Matcher"><tt class="xref py py-class docutils literal"><span class="pre">Matcher</span></tt></a> object for the
+given term vector.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">docnum</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">document_number</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s">u&#39;/a/b/c&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">vector</span><span class="p">(</span><span class="n">docnum</span><span class="p">,</span> <span class="s">&quot;content&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">v</span><span class="o">.</span><span class="n">all_as</span><span class="p">(</span><span class="s">&quot;frequency&quot;</span><span class="p">)</span>
+<span class="go">[(u&quot;apple&quot;, 3), (u&quot;bear&quot;, 2), (u&quot;cab&quot;, 2)]</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>docnum</strong> &#8211; the document number of the document for which you want
+the term vector.</li>
+<li><strong>fieldname</strong> &#8211; the field name or field number of the field for which
+you want the term vector.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="matching.html#whoosh.matching.Matcher" title="whoosh.matching.Matcher"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.matching.Matcher</span></tt></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.vector_as">
+<tt class="descname">vector_as</tt><big>(</big><em>astype</em>, <em>docnum</em>, <em>fieldname</em><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.vector_as" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an iterator of (termtext, value) pairs for the terms in the
+given term vector. This is a convenient shortcut to calling vector()
+and using the Matcher object when all you want are the terms and/or
+values.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">docnum</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">document_number</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s">u&#39;/a/b/c&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">searcher</span><span class="o">.</span><span class="n">vector_as</span><span class="p">(</span><span class="s">&quot;frequency&quot;</span><span class="p">,</span> <span class="n">docnum</span><span class="p">,</span> <span class="s">&quot;content&quot;</span><span class="p">)</span>
+<span class="go">[(u&quot;apple&quot;, 3), (u&quot;bear&quot;, 2), (u&quot;cab&quot;, 2)]</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>docnum</strong> &#8211; the document number of the document for which you want
+the term vector.</li>
+<li><strong>fieldname</strong> &#8211; the field name or field number of the field for which
+you want the term vector.</li>
+<li><strong>astype</strong> &#8211; a string containing the name of the format you want the
+term vector&#8217;s data in, for example &#8220;weights&#8221;.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.IndexReader.word_graph">
+<tt class="descname">word_graph</tt><big>(</big><em>fieldname</em><big>)</big><a class="headerlink" href="#whoosh.reading.IndexReader.word_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the root <tt class="xref py py-class docutils literal"><span class="pre">whoosh.fst.Node</span></tt> for the given
+field, if the field has a stored word graph (otherwise raises an
+exception). You can check whether a field has a word graph using
+<a class="reference internal" href="#whoosh.reading.IndexReader.has_word_graph" title="whoosh.reading.IndexReader.has_word_graph"><tt class="xref py py-meth docutils literal"><span class="pre">IndexReader.has_word_graph()</span></tt></a>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.reading.MultiReader">
+<em class="property">class </em><tt class="descclassname">whoosh.reading.</tt><tt class="descname">MultiReader</tt><big>(</big><em>readers</em>, <em>generation=None</em><big>)</big><a class="headerlink" href="#whoosh.reading.MultiReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do not instantiate this object directly. Instead use Index.reader().</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.reading.TermInfo">
+<em class="property">class </em><tt class="descclassname">whoosh.reading.</tt><tt class="descname">TermInfo</tt><big>(</big><em>weight=0</em>, <em>df=0</em>, <em>minlength=None</em>, <em>maxlength=0</em>, <em>maxweight=0</em>, <em>minid=None</em>, <em>maxid=0</em><big>)</big><a class="headerlink" href="#whoosh.reading.TermInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a set of statistics about a term. This object is returned by
+<a class="reference internal" href="#whoosh.reading.IndexReader.term_info" title="whoosh.reading.IndexReader.term_info"><tt class="xref py py-meth docutils literal"><span class="pre">IndexReader.term_info()</span></tt></a>. These statistics may be useful for
+optimizations and scoring algorithms.</p>
+<dl class="method">
+<dt id="whoosh.reading.TermInfo.doc_frequency">
+<tt class="descname">doc_frequency</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.reading.TermInfo.doc_frequency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of documents the term appears in.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.TermInfo.max_id">
+<tt class="descname">max_id</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.reading.TermInfo.max_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the highest document ID this term appears in.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.TermInfo.max_length">
+<tt class="descname">max_length</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.reading.TermInfo.max_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the length of the longest field value the term appears
+in.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.TermInfo.max_weight">
+<tt class="descname">max_weight</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.reading.TermInfo.max_weight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of times the term appears in the document in
+which it appears the most.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.TermInfo.min_id">
+<tt class="descname">min_id</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.reading.TermInfo.min_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the lowest document ID this term appears in.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.TermInfo.min_length">
+<tt class="descname">min_length</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.reading.TermInfo.min_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the length of the shortest field value the term appears
+in.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.reading.TermInfo.weight">
+<tt class="descname">weight</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.reading.TermInfo.weight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the total frequency of the term across all documents.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="exceptions">
+<h2>Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="whoosh.reading.TermNotFound">
+<em class="property">exception </em><tt class="descclassname">whoosh.reading.</tt><tt class="descname">TermNotFound</tt><a class="headerlink" href="#whoosh.reading.TermNotFound" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">reading</span></tt> module</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a></li>
+<li><a class="reference internal" href="#exceptions">Exceptions</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="query.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">query</span></tt> module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="scoring.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">scoring</span></tt> module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/reading.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scoring.html" title="scoring module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="query.html" title="query module"
+             >previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="api.html" >Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

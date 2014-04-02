@@ -1,0 +1,266 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>How to implement a new backend &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="../index.html" />
+    <link rel="up" title="Technical notes" href="index.html" />
+    <link rel="next" title="filedb notes" href="filedb.html" />
+    <link rel="prev" title="Technical notes" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="filedb.html" title="filedb notes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Technical notes"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Technical notes</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="how-to-implement-a-new-backend">
+<h1>How to implement a new backend<a class="headerlink" href="#how-to-implement-a-new-backend" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="index">
+<h2>Index<a class="headerlink" href="#index" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Subclass <a class="reference internal" href="../api/index.html#whoosh.index.Index" title="whoosh.index.Index"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.index.Index</span></tt></a>.</li>
+<li>Indexes must implement the following methods.<ul>
+<li><a class="reference internal" href="../api/index.html#whoosh.index.Index.is_empty" title="whoosh.index.Index.is_empty"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.index.Index.is_empty()</span></tt></a></li>
+<li><a class="reference internal" href="../api/index.html#whoosh.index.Index.doc_count" title="whoosh.index.Index.doc_count"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.index.Index.doc_count()</span></tt></a></li>
+<li><a class="reference internal" href="../api/index.html#whoosh.index.Index.reader" title="whoosh.index.Index.reader"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.index.Index.reader()</span></tt></a></li>
+<li><a class="reference internal" href="../api/index.html#whoosh.index.Index.writer" title="whoosh.index.Index.writer"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.index.Index.writer()</span></tt></a></li>
+</ul>
+</li>
+<li>Indexes that require/support locking must implement the following methods.<ul>
+<li><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.index.Index.lock()</span></tt></li>
+<li><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.index.Index.unlock()</span></tt></li>
+</ul>
+</li>
+<li>Indexes that support deletion must implement the following methods.<ul>
+<li><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.index.Index.delete_document()</span></tt></li>
+<li><a class="reference internal" href="../api/index.html#whoosh.index.Index.doc_count_all" title="whoosh.index.Index.doc_count_all"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.index.Index.doc_count_all()</span></tt></a> &#8211; if the backend has delayed
+deletion.</li>
+</ul>
+</li>
+<li>Indexes that require/support versioning/transactions <em>may</em> implement the following methods.<ul>
+<li><a class="reference internal" href="../api/index.html#whoosh.index.Index.latest_generation" title="whoosh.index.Index.latest_generation"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.index.Index.latest_generation()</span></tt></a></li>
+<li><a class="reference internal" href="../api/index.html#whoosh.index.Index.up_to_date" title="whoosh.index.Index.up_to_date"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.index.Index.up_to_date()</span></tt></a></li>
+<li><a class="reference internal" href="../api/index.html#whoosh.index.Index.last_modified" title="whoosh.index.Index.last_modified"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.index.Index.last_modified()</span></tt></a></li>
+</ul>
+</li>
+<li>Index <em>may</em> implement the following methods (the base class&#8217;s versions are no-ops).<ul>
+<li><a class="reference internal" href="../api/index.html#whoosh.index.Index.optimize" title="whoosh.index.Index.optimize"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.index.Index.optimize()</span></tt></a></li>
+<li><a class="reference internal" href="../api/index.html#whoosh.index.Index.close" title="whoosh.index.Index.close"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.index.Index.close()</span></tt></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="indexwriter">
+<h2>IndexWriter<a class="headerlink" href="#indexwriter" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Subclass <a class="reference internal" href="../api/writing.html#whoosh.writing.IndexWriter" title="whoosh.writing.IndexWriter"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.writing.IndexWriter</span></tt></a>.</li>
+<li>IndexWriters must implement the following methods.<ul>
+<li><a class="reference internal" href="../api/writing.html#whoosh.writing.IndexWriter.add_document" title="whoosh.writing.IndexWriter.add_document"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.writing.IndexWriter.add_document()</span></tt></a></li>
+<li><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.writing.IndexWriter.add_reader()</span></tt></li>
+</ul>
+</li>
+<li>Backends that support deletion must implement the following methods.<ul>
+<li><a class="reference internal" href="../api/writing.html#whoosh.writing.IndexWriter.delete_document" title="whoosh.writing.IndexWriter.delete_document"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.writing.IndexWriter.delete_document()</span></tt></a></li>
+</ul>
+</li>
+<li>IndexWriters that work as transactions must implement the following methods.<ul>
+<li><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.reading.IndexWriter.commit()</span></tt> &#8211; Save the additions/deletions done with
+this IndexWriter to the main index, and release any resources used by the IndexWriter.</li>
+<li><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.reading.IndexWriter.cancel()</span></tt> &#8211; Throw away any additions/deletions done
+with this IndexWriter, and release any resources used by the IndexWriter.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="indexreader">
+<h2>IndexReader<a class="headerlink" href="#indexreader" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Subclass <a class="reference internal" href="../api/reading.html#whoosh.reading.IndexReader" title="whoosh.reading.IndexReader"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.reading.IndexReader</span></tt></a>.</li>
+<li>IndexReaders must implement the following methods.<ul>
+<li><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.reading.IndexReader.__contains__()</span></tt></li>
+<li><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.reading.IndexReader.__iter__()</span></tt></li>
+<li><a class="reference internal" href="../api/reading.html#whoosh.reading.IndexReader.iter_from" title="whoosh.reading.IndexReader.iter_from"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.reading.IndexReader.iter_from()</span></tt></a></li>
+<li><a class="reference internal" href="../api/reading.html#whoosh.reading.IndexReader.stored_fields" title="whoosh.reading.IndexReader.stored_fields"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.reading.IndexReader.stored_fields()</span></tt></a></li>
+<li><a class="reference internal" href="../api/reading.html#whoosh.reading.IndexReader.doc_count_all" title="whoosh.reading.IndexReader.doc_count_all"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.reading.IndexReader.doc_count_all()</span></tt></a></li>
+<li><a class="reference internal" href="../api/reading.html#whoosh.reading.IndexReader.doc_count" title="whoosh.reading.IndexReader.doc_count"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.reading.IndexReader.doc_count()</span></tt></a></li>
+<li><a class="reference internal" href="../api/reading.html#whoosh.reading.IndexReader.doc_field_length" title="whoosh.reading.IndexReader.doc_field_length"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.reading.IndexReader.doc_field_length()</span></tt></a></li>
+<li><a class="reference internal" href="../api/reading.html#whoosh.reading.IndexReader.field_length" title="whoosh.reading.IndexReader.field_length"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.reading.IndexReader.field_length()</span></tt></a></li>
+<li><a class="reference internal" href="../api/reading.html#whoosh.reading.IndexReader.max_field_length" title="whoosh.reading.IndexReader.max_field_length"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.reading.IndexReader.max_field_length()</span></tt></a></li>
+<li><a class="reference internal" href="../api/reading.html#whoosh.reading.IndexReader.postings" title="whoosh.reading.IndexReader.postings"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.reading.IndexReader.postings()</span></tt></a></li>
+<li><a class="reference internal" href="../api/reading.html#whoosh.reading.IndexReader.has_vector" title="whoosh.reading.IndexReader.has_vector"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.reading.IndexReader.has_vector()</span></tt></a></li>
+<li><a class="reference internal" href="../api/reading.html#whoosh.reading.IndexReader.vector" title="whoosh.reading.IndexReader.vector"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.reading.IndexReader.vector()</span></tt></a></li>
+<li><a class="reference internal" href="../api/reading.html#whoosh.reading.IndexReader.doc_frequency" title="whoosh.reading.IndexReader.doc_frequency"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.reading.IndexReader.doc_frequency()</span></tt></a></li>
+<li><a class="reference internal" href="../api/reading.html#whoosh.reading.IndexReader.frequency" title="whoosh.reading.IndexReader.frequency"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.reading.IndexReader.frequency()</span></tt></a></li>
+</ul>
+</li>
+<li>Backends that support deleting documents should implement the following
+methods.<ul>
+<li><a class="reference internal" href="../api/reading.html#whoosh.reading.IndexReader.has_deletions" title="whoosh.reading.IndexReader.has_deletions"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.reading.IndexReader.has_deletions()</span></tt></a></li>
+<li><a class="reference internal" href="../api/reading.html#whoosh.reading.IndexReader.is_deleted" title="whoosh.reading.IndexReader.is_deleted"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.reading.IndexReader.is_deleted()</span></tt></a></li>
+</ul>
+</li>
+<li>Backends that support versioning should implement the following methods.<ul>
+<li><a class="reference internal" href="../api/reading.html#whoosh.reading.IndexReader.generation" title="whoosh.reading.IndexReader.generation"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.reading.IndexReader.generation()</span></tt></a></li>
+</ul>
+</li>
+<li>If the IndexReader object does not keep the schema in the <tt class="docutils literal"><span class="pre">self.schema</span></tt>
+attribute, it needs to override the following methods.<ul>
+<li><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.reading.IndexReader.field()</span></tt></li>
+<li><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.reading.IndexReader.field_names()</span></tt></li>
+<li><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.reading.IndexReader.scorable_names()</span></tt></li>
+<li><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.reading.IndexReader.vector_names()</span></tt></li>
+</ul>
+</li>
+<li>IndexReaders <em>may</em> implement the following methods.<ul>
+<li><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.reading.DocReader.close()</span></tt> &#8211; closes any open resources associated with the
+reader.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="matcher">
+<h2>Matcher<a class="headerlink" href="#matcher" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../api/reading.html#whoosh.reading.IndexReader.postings" title="whoosh.reading.IndexReader.postings"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.reading.IndexReader.postings()</span></tt></a> method returns a
+<a class="reference internal" href="../api/matching.html#whoosh.matching.Matcher" title="whoosh.matching.Matcher"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.matching.Matcher</span></tt></a> object. You will probably need to implement
+a custom Matcher class for reading from your posting lists.</p>
+<ul class="simple">
+<li>Subclass <a class="reference internal" href="../api/matching.html#whoosh.matching.Matcher" title="whoosh.matching.Matcher"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.matching.Matcher</span></tt></a>.</li>
+<li>Implement the following methods at minimum.<ul>
+<li><a class="reference internal" href="../api/matching.html#whoosh.matching.Matcher.is_active" title="whoosh.matching.Matcher.is_active"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.matching.Matcher.is_active()</span></tt></a></li>
+<li><a class="reference internal" href="../api/matching.html#whoosh.matching.Matcher.copy" title="whoosh.matching.Matcher.copy"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.matching.Matcher.copy()</span></tt></a></li>
+<li><a class="reference internal" href="../api/matching.html#whoosh.matching.Matcher.id" title="whoosh.matching.Matcher.id"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.matching.Matcher.id()</span></tt></a></li>
+<li><a class="reference internal" href="../api/matching.html#whoosh.matching.Matcher.next" title="whoosh.matching.Matcher.next"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.matching.Matcher.next()</span></tt></a></li>
+<li><a class="reference internal" href="../api/matching.html#whoosh.matching.Matcher.value" title="whoosh.matching.Matcher.value"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.matching.Matcher.value()</span></tt></a></li>
+<li><a class="reference internal" href="../api/matching.html#whoosh.matching.Matcher.value_as" title="whoosh.matching.Matcher.value_as"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.matching.Matcher.value_as()</span></tt></a></li>
+<li><a class="reference internal" href="../api/matching.html#whoosh.matching.Matcher.score" title="whoosh.matching.Matcher.score"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.matching.Matcher.score()</span></tt></a></li>
+</ul>
+</li>
+<li>Depending on the implementation, you <em>may</em> implement the following methods
+more efficiently.<ul>
+<li><a class="reference internal" href="../api/matching.html#whoosh.matching.Matcher.skip_to" title="whoosh.matching.Matcher.skip_to"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.matching.Matcher.skip_to()</span></tt></a></li>
+<li><a class="reference internal" href="../api/matching.html#whoosh.matching.Matcher.weight" title="whoosh.matching.Matcher.weight"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.matching.Matcher.weight()</span></tt></a></li>
+</ul>
+</li>
+<li>If the implementation supports quality, you should implement the following
+methods.<ul>
+<li><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.matching.Matcher.supports_quality()</span></tt></li>
+<li><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.matching.Matcher.quality()</span></tt></li>
+<li><a class="reference internal" href="../api/matching.html#whoosh.matching.Matcher.block_quality" title="whoosh.matching.Matcher.block_quality"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.matching.Matcher.block_quality()</span></tt></a></li>
+<li><a class="reference internal" href="../api/matching.html#whoosh.matching.Matcher.skip_to_quality" title="whoosh.matching.Matcher.skip_to_quality"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.matching.Matcher.skip_to_quality()</span></tt></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">How to implement a new backend</a><ul>
+<li><a class="reference internal" href="#index">Index</a></li>
+<li><a class="reference internal" href="#indexwriter">IndexWriter</a></li>
+<li><a class="reference internal" href="#indexreader">IndexReader</a></li>
+<li><a class="reference internal" href="#matcher">Matcher</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Technical notes</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="filedb.html"
+                        title="next chapter">filedb notes</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/tech/backend.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="filedb.html" title="filedb notes"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Technical notes"
+             >previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Technical notes</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>formats module &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="../index.html" />
+    <link rel="up" title="Whoosh API" href="api.html" />
+    <link rel="next" title="highlight module" href="highlight.html" />
+    <link rel="prev" title="filedb.structfile module" href="filedb/structfile.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="highlight.html" title="highlight module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="filedb/structfile.html" title="filedb.structfile module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="api.html" accesskey="U">Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-whoosh.formats">
+<span id="formats-module"></span><h1><tt class="docutils literal"><span class="pre">formats</span></tt> module<a class="headerlink" href="#module-whoosh.formats" title="Permalink to this headline">¶</a></h1>
+<p>The classes in this module encode and decode posting information for a field.
+The field format essentially determines what information is stored about each
+occurance of a term.</p>
+<div class="section" id="base-class">
+<h2>Base class<a class="headerlink" href="#base-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.formats.Format">
+<em class="property">class </em><tt class="descclassname">whoosh.formats.</tt><tt class="descname">Format</tt><big>(</big><em>field_boost=1.0</em>, <em>**options</em><big>)</big><a class="headerlink" href="#whoosh.formats.Format" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract base class representing a storage format for a field or vector.
+Format objects are responsible for writing and reading the low-level
+representation of a field. It controls what kind/level of information to
+store about the indexed fields.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>field_boost</strong> &#8211; A constant boost factor to scale to the score</td>
+</tr>
+</tbody>
+</table>
+<p>of all queries matching terms in this field.</p>
+<dl class="method">
+<dt id="whoosh.formats.Format.decode_as">
+<tt class="descname">decode_as</tt><big>(</big><em>astype</em>, <em>valuestring</em><big>)</big><a class="headerlink" href="#whoosh.formats.Format.decode_as" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interprets the encoded value string as &#8216;astype&#8217;, where &#8216;astype&#8217; is
+for example &#8220;frequency&#8221; or &#8220;positions&#8221;. This object must have a
+corresponding decode_&lt;astype&gt;() method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.formats.Format.decoder">
+<tt class="descname">decoder</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#whoosh.formats.Format.decoder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the bound method for interpreting value as &#8216;name&#8217;,
+where &#8216;name&#8217; is for example &#8220;frequency&#8221; or &#8220;positions&#8221;. This
+object must have a corresponding Format.decode_&lt;name&gt;() method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.formats.Format.supports">
+<tt class="descname">supports</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#whoosh.formats.Format.supports" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if this format supports interpreting its posting
+value as &#8216;name&#8217; (e.g. &#8220;frequency&#8221; or &#8220;positions&#8221;).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.formats.Format.word_values">
+<tt class="descname">word_values</tt><big>(</big><em>value</em>, <em>analyzer</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#whoosh.formats.Format.word_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes the text value to be indexed and yields a series of
+(&#8220;tokentext&#8221;, frequency, weight, valuestring) tuples, where frequency
+is the number of times &#8220;tokentext&#8221; appeared in the value, weight is the
+weight (a float usually equal to frequency in the absence of per-term
+boosts) and valuestring is encoded field-specific posting value for the
+token. For example, in a Frequency format, the value string would be
+the same as frequency; in a Positions format, the value string would
+encode a list of token positions at which &#8220;tokentext&#8221; occured.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>value</strong> &#8211; The unicode text to index.</li>
+<li><strong>analyzer</strong> &#8211; The analyzer to use to process the text.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="formats">
+<h2>Formats<a class="headerlink" href="#formats" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.formats.Existence">
+<em class="property">class </em><tt class="descclassname">whoosh.formats.</tt><tt class="descname">Existence</tt><big>(</big><em>field_boost=1.0</em>, <em>**options</em><big>)</big><a class="headerlink" href="#whoosh.formats.Existence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Only indexes whether a given term occurred in a given document; it does
+not store frequencies or positions. This is useful for fields that should
+be searchable but not scorable, such as file path.</p>
+<p>Supports: frequency, weight (always reports frequency = 1).</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.formats.Frequency">
+<em class="property">class </em><tt class="descclassname">whoosh.formats.</tt><tt class="descname">Frequency</tt><big>(</big><em>field_boost=1.0</em>, <em>boost_as_freq=False</em>, <em>**options</em><big>)</big><a class="headerlink" href="#whoosh.formats.Frequency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores frequency information for each posting.</p>
+<p>Supports: frequency, weight.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>field_boost</strong> &#8211; A constant boost factor to scale to the score of</td>
+</tr>
+</tbody>
+</table>
+<p>all queries matching terms in this field.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.formats.Positions">
+<em class="property">class </em><tt class="descclassname">whoosh.formats.</tt><tt class="descname">Positions</tt><big>(</big><em>field_boost=1.0</em>, <em>**options</em><big>)</big><a class="headerlink" href="#whoosh.formats.Positions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores position information in each posting, to allow phrase searching
+and &#8220;near&#8221; queries.</p>
+<p>Supports: frequency, weight, positions, position_boosts (always reports
+position boost = 1.0).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>field_boost</strong> &#8211; A constant boost factor to scale to the score</td>
+</tr>
+</tbody>
+</table>
+<p>of all queries matching terms in this field.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.formats.Characters">
+<em class="property">class </em><tt class="descclassname">whoosh.formats.</tt><tt class="descname">Characters</tt><big>(</big><em>field_boost=1.0</em>, <em>**options</em><big>)</big><a class="headerlink" href="#whoosh.formats.Characters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores token position and character start and end information for each
+posting.</p>
+<p>Supports: frequency, weight, positions, position_boosts (always reports
+position boost = 1.0), characters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>field_boost</strong> &#8211; A constant boost factor to scale to the score</td>
+</tr>
+</tbody>
+</table>
+<p>of all queries matching terms in this field.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.formats.PositionBoosts">
+<em class="property">class </em><tt class="descclassname">whoosh.formats.</tt><tt class="descname">PositionBoosts</tt><big>(</big><em>field_boost=1.0</em>, <em>**options</em><big>)</big><a class="headerlink" href="#whoosh.formats.PositionBoosts" title="Permalink to this definition">¶</a></dt>
+<dd><p>A format that stores positions and per-position boost information
+in each posting.</p>
+<p>Supports: frequency, weight, positions, position_boosts.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>field_boost</strong> &#8211; A constant boost factor to scale to the score</td>
+</tr>
+</tbody>
+</table>
+<p>of all queries matching terms in this field.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.formats.CharacterBoosts">
+<em class="property">class </em><tt class="descclassname">whoosh.formats.</tt><tt class="descname">CharacterBoosts</tt><big>(</big><em>field_boost=1.0</em>, <em>**options</em><big>)</big><a class="headerlink" href="#whoosh.formats.CharacterBoosts" title="Permalink to this definition">¶</a></dt>
+<dd><p>A format that stores positions, character start and end, and
+per-position boost information in each posting.</p>
+<p>Supports: frequency, weight, positions, position_boosts, characters,
+character_boosts.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>field_boost</strong> &#8211; A constant boost factor to scale to the score</td>
+</tr>
+</tbody>
+</table>
+<p>of all queries matching terms in this field.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">formats</span></tt> module</a><ul>
+<li><a class="reference internal" href="#base-class">Base class</a></li>
+<li><a class="reference internal" href="#formats">Formats</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="filedb/structfile.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">filedb.structfile</span></tt> module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="highlight.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">highlight</span></tt> module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/formats.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="highlight.html" title="highlight module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="filedb/structfile.html" title="filedb.structfile module"
+             >previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="api.html" >Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

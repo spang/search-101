@@ -1,0 +1,485 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>matching module &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="../index.html" />
+    <link rel="up" title="Whoosh API" href="api.html" />
+    <link rel="next" title="qparser module" href="qparser.html" />
+    <link rel="prev" title="lang.wordnet module" href="lang/wordnet.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="qparser.html" title="qparser module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="lang/wordnet.html" title="lang.wordnet module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="api.html" accesskey="U">Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-whoosh.matching">
+<span id="matching-module"></span><h1><tt class="docutils literal"><span class="pre">matching</span></tt> module<a class="headerlink" href="#module-whoosh.matching" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="matchers">
+<h2>Matchers<a class="headerlink" href="#matchers" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.matching.Matcher">
+<em class="property">class </em><tt class="descclassname">whoosh.matching.</tt><tt class="descname">Matcher</tt><a class="headerlink" href="#whoosh.matching.Matcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for all matchers.</p>
+<dl class="method">
+<dt id="whoosh.matching.Matcher.all_ids">
+<tt class="descname">all_ids</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.matching.Matcher.all_ids" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a generator of all IDs in the matcher.</p>
+<p>What this method returns for a matcher that has already read some
+postings (whether it only yields the remaining postings or all postings
+from the beginning) is undefined, so it&#8217;s best to only use this method
+on fresh matchers.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.matching.Matcher.all_items">
+<tt class="descname">all_items</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.matching.Matcher.all_items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a generator of all (ID, encoded value) pairs in the matcher.</p>
+<p>What this method returns for a matcher that has already read some
+postings (whether it only yields the remaining postings or all postings
+from the beginning) is undefined, so it&#8217;s best to only use this method
+on fresh matchers.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.matching.Matcher.block_quality">
+<tt class="descname">block_quality</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.matching.Matcher.block_quality" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a quality measurement of the current block of postings,
+according to the current weighting algorithm. Raises
+<tt class="docutils literal"><span class="pre">NoQualityAvailable</span></tt> if the matcher or weighting do not support
+quality measurements.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.matching.Matcher.children">
+<tt class="descname">children</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.matching.Matcher.children" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an (possibly empty) list of the submatchers of this
+matcher.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.matching.Matcher.copy">
+<tt class="descname">copy</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.matching.Matcher.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a copy of this matcher.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.matching.Matcher.depth">
+<tt class="descname">depth</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.matching.Matcher.depth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the depth of the tree under this matcher, or 0 if this
+matcher does not have any children.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.matching.Matcher.id">
+<tt class="descname">id</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.matching.Matcher.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the ID of the current posting.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.matching.Matcher.is_active">
+<tt class="descname">is_active</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.matching.Matcher.is_active" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if this matcher is still &#8220;active&#8221;, that is, it has not
+yet reached the end of the posting list.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.matching.Matcher.items_as">
+<tt class="descname">items_as</tt><big>(</big><em>astype</em><big>)</big><a class="headerlink" href="#whoosh.matching.Matcher.items_as" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a generator of all (ID, decoded value) pairs in the matcher.</p>
+<p>What this method returns for a matcher that has already read some
+postings (whether it only yields the remaining postings or all postings
+from the beginning) is undefined, so it&#8217;s best to only use this method
+on fresh matchers.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.matching.Matcher.matching_terms">
+<tt class="descname">matching_terms</tt><big>(</big><em>id=None</em><big>)</big><a class="headerlink" href="#whoosh.matching.Matcher.matching_terms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an iterator of <tt class="docutils literal"><span class="pre">(&quot;fieldname&quot;,</span> <span class="pre">&quot;termtext&quot;)</span></tt> tuples for the
+<strong>currently matching</strong> term matchers in this tree.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.matching.Matcher.max_quality">
+<tt class="descname">max_quality</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.matching.Matcher.max_quality" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the maximum possible quality measurement for this matcher,
+according to the current weighting algorithm. Raises
+<tt class="docutils literal"><span class="pre">NoQualityAvailable</span></tt> if the matcher or weighting do not support
+quality measurements.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.matching.Matcher.next">
+<tt class="descname">next</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.matching.Matcher.next" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves this matcher to the next posting.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.matching.Matcher.replace">
+<tt class="descname">replace</tt><big>(</big><em>minquality=0</em><big>)</big><a class="headerlink" href="#whoosh.matching.Matcher.replace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a possibly-simplified version of this matcher. For example,
+if one of the children of a UnionMatcher is no longer active, calling
+this method on the UnionMatcher will return the other child.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.matching.Matcher.reset">
+<tt class="descname">reset</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.matching.Matcher.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns to the start of the posting list.</p>
+<p>Note that reset() may not do what you expect after you call
+<a class="reference internal" href="#whoosh.matching.Matcher.replace" title="whoosh.matching.Matcher.replace"><tt class="xref py py-meth docutils literal"><span class="pre">Matcher.replace()</span></tt></a>, since this can mean calling reset() not on
+the original matcher, but on an optimized replacement.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.matching.Matcher.score">
+<tt class="descname">score</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.matching.Matcher.score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the score of the current posting.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.matching.Matcher.skip_to">
+<tt class="descname">skip_to</tt><big>(</big><em>id</em><big>)</big><a class="headerlink" href="#whoosh.matching.Matcher.skip_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves this matcher to the first posting with an ID equal to or
+greater than the given ID.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.matching.Matcher.skip_to_quality">
+<tt class="descname">skip_to_quality</tt><big>(</big><em>minquality</em><big>)</big><a class="headerlink" href="#whoosh.matching.Matcher.skip_to_quality" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves this matcher to the next block with greater than the given
+minimum quality value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.matching.Matcher.spans">
+<tt class="descname">spans</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.matching.Matcher.spans" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of <tt class="xref py py-class docutils literal"><span class="pre">Span</span></tt> objects for the
+matches in this document. Raises an exception if the field being
+searched does not store positions.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.matching.Matcher.supports">
+<tt class="descname">supports</tt><big>(</big><em>astype</em><big>)</big><a class="headerlink" href="#whoosh.matching.Matcher.supports" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the field&#8217;s format supports the named data type,
+for example &#8216;frequency&#8217; or &#8216;characters&#8217;.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.matching.Matcher.supports_block_quality">
+<tt class="descname">supports_block_quality</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.matching.Matcher.supports_block_quality" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if this matcher supports the use of <tt class="docutils literal"><span class="pre">quality</span></tt> and
+<tt class="docutils literal"><span class="pre">block_quality</span></tt>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.matching.Matcher.term">
+<tt class="descname">term</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.matching.Matcher.term" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a <tt class="docutils literal"><span class="pre">(&quot;fieldname&quot;,</span> <span class="pre">&quot;termtext&quot;)</span></tt> tuple for the term this
+matcher matches, or None if this matcher is not a term matcher.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.matching.Matcher.term_matchers">
+<tt class="descname">term_matchers</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.matching.Matcher.term_matchers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an iterator of term matchers in this tree.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.matching.Matcher.value">
+<tt class="descname">value</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.matching.Matcher.value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the encoded value of the current posting.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.matching.Matcher.value_as">
+<tt class="descname">value_as</tt><big>(</big><em>astype</em><big>)</big><a class="headerlink" href="#whoosh.matching.Matcher.value_as" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the value(s) of the current posting as the given type.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.matching.Matcher.weight">
+<tt class="descname">weight</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.matching.Matcher.weight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the weight of the current posting.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="whoosh.matching.NullMatcher">
+<tt class="descclassname">whoosh.matching.</tt><tt class="descname">NullMatcher</tt><a class="headerlink" href="#whoosh.matching.NullMatcher" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="whoosh.matching.ListMatcher">
+<em class="property">class </em><tt class="descclassname">whoosh.matching.</tt><tt class="descname">ListMatcher</tt><big>(</big><em>ids</em>, <em>weights=None</em>, <em>values=None</em>, <em>format=None</em>, <em>scorer=None</em>, <em>position=0</em>, <em>all_weights=None</em>, <em>term=None</em>, <em>terminfo=None</em><big>)</big><a class="headerlink" href="#whoosh.matching.ListMatcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Synthetic matcher backed by a list of IDs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ids</strong> &#8211; a list of doc IDs.</li>
+<li><strong>weights</strong> &#8211; a list of weights corresponding to the list of IDs.
+If this argument is not supplied, a list of 1.0 values is used.</li>
+<li><strong>values</strong> &#8211; a list of encoded values corresponding to the list of
+IDs.</li>
+<li><strong>format</strong> &#8211; a <a class="reference internal" href="formats.html#whoosh.formats.Format" title="whoosh.formats.Format"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.formats.Format</span></tt></a> object representing the
+format of the field.</li>
+<li><strong>scorer</strong> &#8211; a <a class="reference internal" href="scoring.html#whoosh.scoring.BaseScorer" title="whoosh.scoring.BaseScorer"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.scoring.BaseScorer</span></tt></a> object for scoring
+the postings.</li>
+<li><strong>term</strong> &#8211; a <tt class="docutils literal"><span class="pre">(&quot;fieldname&quot;,</span> <span class="pre">&quot;text&quot;)</span></tt> tuple, or None if this is not
+a term matcher.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.matching.WrappingMatcher">
+<em class="property">class </em><tt class="descclassname">whoosh.matching.</tt><tt class="descname">WrappingMatcher</tt><big>(</big><em>child</em>, <em>boost=1.0</em><big>)</big><a class="headerlink" href="#whoosh.matching.WrappingMatcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for matchers that wrap sub-matchers.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.matching.MultiMatcher">
+<em class="property">class </em><tt class="descclassname">whoosh.matching.</tt><tt class="descname">MultiMatcher</tt><big>(</big><em>matchers</em>, <em>idoffsets</em>, <em>scorer=None</em>, <em>current=0</em><big>)</big><a class="headerlink" href="#whoosh.matching.MultiMatcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serializes the results of a list of sub-matchers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matchers</strong> &#8211; a list of Matcher objects.</li>
+<li><strong>idoffsets</strong> &#8211; a list of offsets corresponding to items in the
+<tt class="docutils literal"><span class="pre">matchers</span></tt> list.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.matching.FilterMatcher">
+<em class="property">class </em><tt class="descclassname">whoosh.matching.</tt><tt class="descname">FilterMatcher</tt><big>(</big><em>child</em>, <em>ids</em>, <em>exclude=False</em>, <em>boost=1.0</em><big>)</big><a class="headerlink" href="#whoosh.matching.FilterMatcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filters the postings from the wrapped based on whether the IDs are
+present in or absent from a set.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>child</strong> &#8211; the child matcher.</li>
+<li><strong>ids</strong> &#8211; a set of IDs to filter by.</li>
+<li><strong>exclude</strong> &#8211; by default, only IDs from the wrapped matcher that are
+<strong>in</strong> the set are used. If this argument is True, only IDs from
+the wrapped matcher that are <strong>not in</strong> the set are used.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.matching.BiMatcher">
+<em class="property">class </em><tt class="descclassname">whoosh.matching.</tt><tt class="descname">BiMatcher</tt><big>(</big><em>a</em>, <em>b</em><big>)</big><a class="headerlink" href="#whoosh.matching.BiMatcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for matchers that combine the results of two sub-matchers in
+some way.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.matching.AdditiveBiMatcher">
+<em class="property">class </em><tt class="descclassname">whoosh.matching.</tt><tt class="descname">AdditiveBiMatcher</tt><big>(</big><em>a</em>, <em>b</em><big>)</big><a class="headerlink" href="#whoosh.matching.AdditiveBiMatcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for binary matchers where the scores of the sub-matchers are
+added together.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.matching.UnionMatcher">
+<em class="property">class </em><tt class="descclassname">whoosh.matching.</tt><tt class="descname">UnionMatcher</tt><big>(</big><em>a</em>, <em>b</em><big>)</big><a class="headerlink" href="#whoosh.matching.UnionMatcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matches the union (OR) of the postings in the two sub-matchers.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.matching.DisjunctionMaxMatcher">
+<em class="property">class </em><tt class="descclassname">whoosh.matching.</tt><tt class="descname">DisjunctionMaxMatcher</tt><big>(</big><em>a</em>, <em>b</em>, <em>tiebreak=0.0</em><big>)</big><a class="headerlink" href="#whoosh.matching.DisjunctionMaxMatcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matches the union (OR) of two sub-matchers. Where both sub-matchers
+match the same posting, returns the weight/score of the higher-scoring
+posting.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.matching.IntersectionMatcher">
+<em class="property">class </em><tt class="descclassname">whoosh.matching.</tt><tt class="descname">IntersectionMatcher</tt><big>(</big><em>a</em>, <em>b</em><big>)</big><a class="headerlink" href="#whoosh.matching.IntersectionMatcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matches the intersection (AND) of the postings in the two sub-matchers.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.matching.AndNotMatcher">
+<em class="property">class </em><tt class="descclassname">whoosh.matching.</tt><tt class="descname">AndNotMatcher</tt><big>(</big><em>a</em>, <em>b</em><big>)</big><a class="headerlink" href="#whoosh.matching.AndNotMatcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matches the postings in the first sub-matcher that are NOT present in
+the second sub-matcher.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.matching.InverseMatcher">
+<em class="property">class </em><tt class="descclassname">whoosh.matching.</tt><tt class="descname">InverseMatcher</tt><big>(</big><em>child</em>, <em>limit</em>, <em>missing=None</em>, <em>weight=1.0</em>, <em>id=0</em><big>)</big><a class="headerlink" href="#whoosh.matching.InverseMatcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Synthetic matcher, generates postings that are NOT present in the
+wrapped matcher.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.matching.RequireMatcher">
+<em class="property">class </em><tt class="descclassname">whoosh.matching.</tt><tt class="descname">RequireMatcher</tt><big>(</big><em>a</em>, <em>b</em><big>)</big><a class="headerlink" href="#whoosh.matching.RequireMatcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matches postings that are in both sub-matchers, but only uses scores
+from the first.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.matching.AndMaybeMatcher">
+<em class="property">class </em><tt class="descclassname">whoosh.matching.</tt><tt class="descname">AndMaybeMatcher</tt><big>(</big><em>a</em>, <em>b</em><big>)</big><a class="headerlink" href="#whoosh.matching.AndMaybeMatcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matches postings in the first sub-matcher, and if the same posting is
+in the second sub-matcher, adds their scores.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.matching.ConstantScoreMatcher">
+<em class="property">class </em><tt class="descclassname">whoosh.matching.</tt><tt class="descname">ConstantScoreMatcher</tt><big>(</big><em>score=1.0</em><big>)</big><a class="headerlink" href="#whoosh.matching.ConstantScoreMatcher" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="exceptions">
+<h2>Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="whoosh.matching.ReadTooFar">
+<em class="property">exception </em><tt class="descclassname">whoosh.matching.</tt><tt class="descname">ReadTooFar</tt><a class="headerlink" href="#whoosh.matching.ReadTooFar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when <a class="reference internal" href="#whoosh.matching.Matcher.next" title="whoosh.matching.Matcher.next"><tt class="xref py py-meth docutils literal"><span class="pre">next()</span></tt></a> or
+<a class="reference internal" href="#whoosh.matching.Matcher.skip_to" title="whoosh.matching.Matcher.skip_to"><tt class="xref py py-meth docutils literal"><span class="pre">skip_to()</span></tt></a> are called on an inactive
+matcher.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="whoosh.matching.NoQualityAvailable">
+<em class="property">exception </em><tt class="descclassname">whoosh.matching.</tt><tt class="descname">NoQualityAvailable</tt><a class="headerlink" href="#whoosh.matching.NoQualityAvailable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when quality methods are called on a matcher that does not
+support block quality optimizations.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">matching</span></tt> module</a><ul>
+<li><a class="reference internal" href="#matchers">Matchers</a></li>
+<li><a class="reference internal" href="#exceptions">Exceptions</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="lang/wordnet.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">lang.wordnet</span></tt> module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="qparser.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">qparser</span></tt> module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/matching.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="qparser.html" title="qparser module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="lang/wordnet.html" title="lang.wordnet module"
+             >previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="api.html" >Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

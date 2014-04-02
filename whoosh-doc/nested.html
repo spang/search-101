@@ -1,0 +1,348 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Indexing and searching document hierarchies &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="index.html" />
+    <link rel="next" title="Whoosh recipes" href="recipes.html" />
+    <link rel="prev" title="Concurrency, locking, and versioning" href="threads.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="recipes.html" title="Whoosh recipes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="threads.html" title="Concurrency, locking, and versioning"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Whoosh 2.5.7 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="indexing-and-searching-document-hierarchies">
+<h1>Indexing and searching document hierarchies<a class="headerlink" href="#indexing-and-searching-document-hierarchies" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>Whoosh&#8217;s full-text index is essentially a flat database of documents. However,
+Whoosh supports two techniques for simulating the indexing and querying of
+hierarchical documents, that is, sets of documents that form a parent-child
+hierarchy, such as &#8220;Chapter - Section - Paragraph&#8221; or
+&#8220;Module - Class - Method&#8221;.</p>
+<p>You can specify parent-child relationships <em>at indexing time</em>, by grouping
+documents in the same hierarchy, and then use the
+<a class="reference internal" href="api/query.html#whoosh.query.NestedParent" title="whoosh.query.NestedParent"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.query.NestedParent</span></tt></a> and/or <a class="reference internal" href="api/query.html#whoosh.query.NestedChildren" title="whoosh.query.NestedChildren"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.query.NestedChildren</span></tt></a>
+to find parents based on their children or vice-versa.</p>
+<p>Alternatively, you can use <em>query time joins</em>, essentially like external key
+joins in a database, where you perform one search to find a relevant document,
+then use a stored value on that document (for example, a <tt class="docutils literal"><span class="pre">parent</span></tt> field) to
+look up another document.</p>
+<p>Both methods have pros and cons.</p>
+</div>
+<div class="section" id="using-nested-document-indexing">
+<h2>Using nested document indexing<a class="headerlink" href="#using-nested-document-indexing" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="indexing">
+<h3>Indexing<a class="headerlink" href="#indexing" title="Permalink to this headline">¶</a></h3>
+<p>This method works by indexing a &#8220;parent&#8221; document and all its &#8220;child&#8221; documents
+<em>as a &#8220;group&#8221;</em> so they are guaranteed to end up in the same segment. You can
+use the context manager returned by <tt class="docutils literal"><span class="pre">IndexWriter.group()</span></tt> to group
+documents:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">with</span> <span class="n">ix</span><span class="o">.</span><span class="n">writer</span><span class="p">()</span> <span class="k">as</span> <span class="n">w</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">w</span><span class="o">.</span><span class="n">group</span><span class="p">():</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;class&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;Index&quot;</span><span class="p">)</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;method&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;add document&quot;</span><span class="p">)</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;method&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;add reader&quot;</span><span class="p">)</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;method&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;close&quot;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">w</span><span class="o">.</span><span class="n">group</span><span class="p">():</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;class&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;Accumulator&quot;</span><span class="p">)</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;method&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;add&quot;</span><span class="p">)</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;method&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;get result&quot;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">w</span><span class="o">.</span><span class="n">group</span><span class="p">():</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;class&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;Calculator&quot;</span><span class="p">)</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;method&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;add&quot;</span><span class="p">)</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;method&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;add all&quot;</span><span class="p">)</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;method&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;add some&quot;</span><span class="p">)</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;method&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;multiply&quot;</span><span class="p">)</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;method&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;close&quot;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">w</span><span class="o">.</span><span class="n">group</span><span class="p">():</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;class&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;Deleter&quot;</span><span class="p">)</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;method&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;add&quot;</span><span class="p">)</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;method&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;delete&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Alternatively you can use the <tt class="docutils literal"><span class="pre">start_group()</span></tt> and <tt class="docutils literal"><span class="pre">end_group()</span></tt> methods:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">with</span> <span class="n">ix</span><span class="o">.</span><span class="n">writer</span><span class="p">()</span> <span class="k">as</span> <span class="n">w</span><span class="p">:</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">start_group</span><span class="p">()</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;class&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;Index&quot;</span><span class="p">)</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;method&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;add document&quot;</span><span class="p">)</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;method&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;add reader&quot;</span><span class="p">)</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;method&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;close&quot;</span><span class="p">)</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">end_group</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Each level of the hierarchy should have a query that distinguishes it from
+other levels (for example, in the above index, you can use <tt class="docutils literal"><span class="pre">kind:class</span></tt> or
+<tt class="docutils literal"><span class="pre">kind:method</span></tt> to match different levels of the hierarchy).</p>
+<p>Once you&#8217;ve indexed the hierarchy of documents, you can use two query types to
+find parents based on children or vice-versa.</p>
+<p>(There is currently no support in the default query parser for nested queries.)</p>
+</div>
+<div class="section" id="nestedparent-query">
+<h3>NestedParent query<a class="headerlink" href="#nestedparent-query" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="api/query.html#whoosh.query.NestedParent" title="whoosh.query.NestedParent"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.query.NestedParent</span></tt></a> query type lets you specify a query for
+child documents, but have the query return an &#8220;ancestor&#8221; document from higher
+in the hierarchy:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># First, we need a query that matches all the documents in the &quot;parent&quot;</span>
+<span class="c"># level we want of the hierarchy</span>
+<span class="n">all_parents</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;kind&quot;</span><span class="p">,</span> <span class="s">&quot;class&quot;</span><span class="p">)</span>
+
+<span class="c"># Then, we need a query that matches the children we want to find</span>
+<span class="n">wanted_kids</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;name&quot;</span><span class="p">,</span> <span class="s">&quot;close&quot;</span><span class="p">)</span>
+
+<span class="c"># Now we can make a query that will match documents where &quot;name&quot; is</span>
+<span class="c"># &quot;close&quot;, but the query will return the &quot;parent&quot; documents of the matching</span>
+<span class="c"># children</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">NestedParent</span><span class="p">(</span><span class="n">all_parents</span><span class="p">,</span> <span class="n">wanted_kids</span><span class="p">)</span>
+<span class="c"># results = Index, Calculator</span>
+</pre></div>
+</div>
+<p>Note that in a hierarchy with more than two levels, you can specify a &#8220;parents&#8221;
+query that matches any level of the hierarchy, so you can return the top-level
+ancestors of the matching children, or the second level, third level, etc.</p>
+<p>The query works by first building a bit vector representing which documents are
+&#8220;parents&#8221;:</p>
+<div class="highlight-python"><div class="highlight"><pre>Index
+|      Calculator
+|      |
+1000100100000100
+    |        |
+    |        Deleter
+    Accumulator
+</pre></div>
+</div>
+<p>Then for each match of the &#8220;child&#8221; query, it calculates the previous parent
+from the bit vector and returns it as a match (it only returns each parent once
+no matter how many children match). This parent lookup is very efficient:</p>
+<div class="highlight-python"><div class="highlight"><pre>1000100100000100
+   |
+|&lt;-+ close
+</pre></div>
+</div>
+</div>
+<div class="section" id="nestedchildren-query">
+<h3>NestedChildren query<a class="headerlink" href="#nestedchildren-query" title="Permalink to this headline">¶</a></h3>
+<p>The opposite of <tt class="docutils literal"><span class="pre">NestedParent</span></tt> is <a class="reference internal" href="api/query.html#whoosh.query.NestedChildren" title="whoosh.query.NestedChildren"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.query.NestedChildren</span></tt></a>. This
+query lets you match parents but return their children. This is useful, for
+example, to search for an album title and return the songs in the album:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Query that matches all documents in the &quot;parent&quot; level we want to match</span>
+<span class="c"># at</span>
+<span class="n">all_parents</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;kind&quot;</span><span class="p">,</span> <span class="s">&quot;album&quot;</span><span class="p">)</span>
+
+<span class="c"># Parent documents we want to match</span>
+<span class="n">wanted_parents</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;album_title&quot;</span><span class="p">,</span> <span class="s">&quot;heaven&quot;</span><span class="p">)</span>
+
+<span class="c"># Now we can make a query that will match parent documents where &quot;album_title&quot;</span>
+<span class="c"># contains &quot;heaven&quot;, but the query will return the &quot;child&quot; documents of the</span>
+<span class="c"># matching parents</span>
+<span class="n">q1</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">NestedChildren</span><span class="p">(</span><span class="n">all_parents</span><span class="p">,</span> <span class="n">wanted_parents</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can then combine that query with an <tt class="docutils literal"><span class="pre">AND</span></tt> clause, for example to find
+songs with &#8220;hell&#8221; in the song title that occur on albums with &#8220;heaven&#8221; in the
+album title:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">q2</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">And</span><span class="p">([</span><span class="n">q1</span><span class="p">,</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;song_title&quot;</span><span class="p">,</span> <span class="s">&quot;hell&quot;</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="deleting-and-updating-hierarchical-documents">
+<h3>Deleting and updating hierarchical documents<a class="headerlink" href="#deleting-and-updating-hierarchical-documents" title="Permalink to this headline">¶</a></h3>
+<p>The drawback of the index-time method is <em>updating and deleting</em>. Because the
+implementation of the queries depends on the parent and child documents being
+contiguous in the segment, you can&#8217;t update/delete just one child document.
+You can only update/delete an entire top-level document at once (for example,
+if your hierarchy is &#8220;Chapter - Section - Paragraph&#8221;, you can only update or
+delete entire chapters, not a section or paragraph). If the top-level of the
+hierarchy represents very large blocks of text, this can involve a lot of
+deleting and reindexing.</p>
+<p>Currently <tt class="docutils literal"><span class="pre">Writer.update_document()</span></tt> does not automatically work with nested
+documents. You must manually delete and re-add document groups to update them.</p>
+<p>To delete nested document groups, use the <tt class="docutils literal"><span class="pre">Writer.delete_by_query()</span></tt>
+method with a <tt class="docutils literal"><span class="pre">NestedParent</span></tt> query:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Delete the &quot;Accumulator&quot; class</span>
+<span class="n">all_parents</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;kind&quot;</span><span class="p">,</span> <span class="s">&quot;class&quot;</span><span class="p">)</span>
+<span class="n">to_delete</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;name&quot;</span><span class="p">,</span> <span class="s">&quot;Accumulator&quot;</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">NestedParent</span><span class="p">(</span><span class="n">all_parents</span><span class="p">,</span> <span class="n">to_delete</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">myindex</span><span class="o">.</span><span class="n">writer</span><span class="p">()</span> <span class="k">as</span> <span class="n">w</span><span class="p">:</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">delete_by_query</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="using-query-time-joins">
+<h2>Using query-time joins<a class="headerlink" href="#using-query-time-joins" title="Permalink to this headline">¶</a></h2>
+<p>A second technique for simulating hierarchical documents in Whoosh involves
+using a stored field on each document to point to its parent, and then using
+the value of that field at query time to find parents and children.</p>
+<p>For example, if we index a hierarchy of classes and methods using pointers
+to parents instead of nesting:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Store a pointer to the parent on each &quot;method&quot; document</span>
+<span class="k">with</span> <span class="n">ix</span><span class="o">.</span><span class="n">writer</span><span class="p">()</span> <span class="k">as</span> <span class="n">w</span><span class="p">:</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;class&quot;</span><span class="p">,</span> <span class="n">c_name</span><span class="o">=</span><span class="s">&quot;Index&quot;</span><span class="p">,</span> <span class="n">docstring</span><span class="o">=</span><span class="s">&quot;...&quot;</span><span class="p">)</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;method&quot;</span><span class="p">,</span> <span class="n">m_name</span><span class="o">=</span><span class="s">&quot;add document&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="s">&quot;Index&quot;</span><span class="p">)</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;method&quot;</span><span class="p">,</span> <span class="n">m_name</span><span class="o">=</span><span class="s">&quot;add reader&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="s">&quot;Index&quot;</span><span class="p">)</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;method&quot;</span><span class="p">,</span> <span class="n">m_name</span><span class="o">=</span><span class="s">&quot;close&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="s">&quot;Index&quot;</span><span class="p">)</span>
+
+    <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;class&quot;</span><span class="p">,</span> <span class="n">c_name</span><span class="o">=</span><span class="s">&quot;Accumulator&quot;</span><span class="p">,</span> <span class="n">docstring</span><span class="o">=</span><span class="s">&quot;...&quot;</span><span class="p">)</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;method&quot;</span><span class="p">,</span> <span class="n">m_name</span><span class="o">=</span><span class="s">&quot;add&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="s">&quot;Accumulator&quot;</span><span class="p">)</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;method&quot;</span><span class="p">,</span> <span class="n">m_name</span><span class="o">=</span><span class="s">&quot;get result&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="s">&quot;Accumulator&quot;</span><span class="p">)</span>
+
+    <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;class&quot;</span><span class="p">,</span> <span class="n">c_name</span><span class="o">=</span><span class="s">&quot;Calculator&quot;</span><span class="p">,</span> <span class="n">docstring</span><span class="o">=</span><span class="s">&quot;...&quot;</span><span class="p">)</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;method&quot;</span><span class="p">,</span> <span class="n">m_name</span><span class="o">=</span><span class="s">&quot;add&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="s">&quot;Calculator&quot;</span><span class="p">)</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;method&quot;</span><span class="p">,</span> <span class="n">m_name</span><span class="o">=</span><span class="s">&quot;add all&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="s">&quot;Calculator&quot;</span><span class="p">)</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;method&quot;</span><span class="p">,</span> <span class="n">m_name</span><span class="o">=</span><span class="s">&quot;add some&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="s">&quot;Calculator&quot;</span><span class="p">)</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;method&quot;</span><span class="p">,</span> <span class="n">m_name</span><span class="o">=</span><span class="s">&quot;multiply&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="s">&quot;Calculator&quot;</span><span class="p">)</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;method&quot;</span><span class="p">,</span> <span class="n">m_name</span><span class="o">=</span><span class="s">&quot;close&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="s">&quot;Calculator&quot;</span><span class="p">)</span>
+
+    <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;class&quot;</span><span class="p">,</span> <span class="n">c_name</span><span class="o">=</span><span class="s">&quot;Deleter&quot;</span><span class="p">,</span> <span class="n">docstring</span><span class="o">=</span><span class="s">&quot;...&quot;</span><span class="p">)</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;method&quot;</span><span class="p">,</span> <span class="n">m_name</span><span class="o">=</span><span class="s">&quot;add&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="s">&quot;Deleter&quot;</span><span class="p">)</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&quot;method&quot;</span><span class="p">,</span> <span class="n">m_name</span><span class="o">=</span><span class="s">&quot;delete&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="s">&quot;Deleter&quot;</span><span class="p">)</span>
+
+<span class="c"># Now do manual joins at query time</span>
+<span class="k">with</span> <span class="n">ix</span><span class="o">.</span><span class="n">searcher</span><span class="p">()</span> <span class="k">as</span> <span class="n">s</span><span class="p">:</span>
+    <span class="c"># Tip: Searcher.document() and Searcher.documents() let you look up</span>
+    <span class="c"># documents by field values more easily than using Searcher.search()</span>
+
+    <span class="c"># Children to parents:</span>
+    <span class="c"># Print the docstrings of classes on which &quot;close&quot; methods occur</span>
+    <span class="k">for</span> <span class="n">child_doc</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">documents</span><span class="p">(</span><span class="n">m_name</span><span class="o">=</span><span class="s">&quot;close&quot;</span><span class="p">):</span>
+        <span class="c"># Use the stored value of the &quot;parent&quot; field to look up the parent</span>
+        <span class="c"># document</span>
+        <span class="n">parent_doc</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">document</span><span class="p">(</span><span class="n">c_name</span><span class="o">=</span><span class="n">child_doc</span><span class="p">[</span><span class="s">&quot;parent&quot;</span><span class="p">])</span>
+        <span class="c"># Print the parent document&#39;s stored docstring field</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">parent_doc</span><span class="p">[</span><span class="s">&quot;docstring&quot;</span><span class="p">])</span>
+
+    <span class="c"># Parents to children:</span>
+    <span class="c"># Find classes with &quot;big&quot; in the docstring and print their methods</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;kind&quot;</span><span class="p">,</span> <span class="s">&quot;class&quot;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s">&quot;docstring&quot;</span><span class="p">,</span> <span class="s">&quot;big&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Class name=&quot;</span><span class="p">,</span> <span class="n">hit</span><span class="p">[</span><span class="s">&quot;c_name&quot;</span><span class="p">],</span> <span class="s">&quot;methods:&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">child_doc</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">documents</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">hit</span><span class="p">[</span><span class="s">&quot;c_name&quot;</span><span class="p">]):</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&quot;  Method name=&quot;</span><span class="p">,</span> <span class="n">child_doc</span><span class="p">[</span><span class="s">&quot;m_name&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>This technique is more flexible than index-time nesting in that you can
+delete/update individual documents in the hierarchy piece by piece, although it
+doesn&#8217;t support finding different parent levels as easily. It is also slower
+than index-time nesting (potentially much slower), since you must perform
+additional searches for each found document.</p>
+<p>Future versions of Whoosh may include &#8220;join&#8221; queries to make this process more
+efficient (or at least more automatic).</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Indexing and searching document hierarchies</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#using-nested-document-indexing">Using nested document indexing</a><ul>
+<li><a class="reference internal" href="#indexing">Indexing</a></li>
+<li><a class="reference internal" href="#nestedparent-query">NestedParent query</a></li>
+<li><a class="reference internal" href="#nestedchildren-query">NestedChildren query</a></li>
+<li><a class="reference internal" href="#deleting-and-updating-hierarchical-documents">Deleting and updating hierarchical documents</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#using-query-time-joins">Using query-time joins</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="threads.html"
+                        title="previous chapter">Concurrency, locking, and versioning</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="recipes.html"
+                        title="next chapter">Whoosh recipes</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/nested.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="recipes.html" title="Whoosh recipes"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="threads.html" title="Concurrency, locking, and versioning"
+             >previous</a> |</li>
+        <li><a href="index.html">Whoosh 2.5.7 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

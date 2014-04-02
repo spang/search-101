@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Tips for speeding up batch indexing &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="index.html" />
+    <link rel="next" title="Concurrency, locking, and versioning" href="threads.html" />
+    <link rel="prev" title="Field caches" href="fieldcaches.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="threads.html" title="Concurrency, locking, and versioning"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="fieldcaches.html" title="Field caches"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Whoosh 2.5.7 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="tips-for-speeding-up-batch-indexing">
+<h1>Tips for speeding up batch indexing<a class="headerlink" href="#tips-for-speeding-up-batch-indexing" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>Indexing documents tends to fall into two general patterns: adding documents
+one at a time as they are created (as in a web application), and adding a bunch
+of documents at once (batch indexing).</p>
+<p>The following settings and alternate workflows can make batch indexing faster.</p>
+</div>
+<div class="section" id="stemminganalyzer-cache">
+<h2>StemmingAnalyzer cache<a class="headerlink" href="#stemminganalyzer-cache" title="Permalink to this headline">¶</a></h2>
+<p>The stemming analyzer by default uses a least-recently-used (LRU) cache to limit
+the amount of memory it uses, to prevent the cache from growing very large if
+the analyzer is reused for a long period of time. However, the LRU cache can
+slow down indexing by almost 200% compared to a stemming analyzer with an
+&#8220;unbounded&#8221; cache.</p>
+<p>When you&#8217;re indexing in large batches with a one-shot instance of the
+analyzer, consider using an unbounded cache:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">w</span> <span class="o">=</span> <span class="n">myindex</span><span class="o">.</span><span class="n">writer</span><span class="p">()</span>
+<span class="c"># Get the analyzer object from a text field</span>
+<span class="n">stem_ana</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">schema</span><span class="p">[</span><span class="s">&quot;content&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">format</span><span class="o">.</span><span class="n">analyzer</span>
+<span class="c"># Set the cachesize to -1 to indicate unbounded caching</span>
+<span class="n">stem_ana</span><span class="o">.</span><span class="n">cachesize</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="c"># Reset the analyzer to pick up the changed attribute</span>
+<span class="n">stem_ana</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+<span class="c"># Use the writer to index documents...</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-limitmb-parameter">
+<h2>The <tt class="docutils literal"><span class="pre">limitmb</span></tt> parameter<a class="headerlink" href="#the-limitmb-parameter" title="Permalink to this headline">¶</a></h2>
+<p>The <tt class="docutils literal"><span class="pre">limitmb</span></tt> parameter to <a class="reference internal" href="api/index.html#whoosh.index.Index.writer" title="whoosh.index.Index.writer"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.index.Index.writer()</span></tt></a> controls the
+<em>maximum</em> memory (in megabytes) the writer will use for the indexing pool. The
+higher the number, the faster indexing will be.</p>
+<p>The default value of <tt class="docutils literal"><span class="pre">128</span></tt> is actually somewhat low, considering many people
+have multiple gigabytes of RAM these days. Setting it higher can speed up
+indexing considerably:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">index</span>
+
+<span class="n">ix</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">open_dir</span><span class="p">(</span><span class="s">&quot;indexdir&quot;</span><span class="p">)</span>
+<span class="n">writer</span> <span class="o">=</span> <span class="n">ix</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">limitmb</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The actual memory used will be higher than this value because of interpreter
+overhead (up to twice as much!). It is very useful as a tuning parameter,
+but not for trying to exactly control the memory usage of Whoosh.</p>
+</div>
+</div>
+<div class="section" id="the-procs-parameter">
+<h2>The <tt class="docutils literal"><span class="pre">procs</span></tt> parameter<a class="headerlink" href="#the-procs-parameter" title="Permalink to this headline">¶</a></h2>
+<p>The <tt class="docutils literal"><span class="pre">procs</span></tt> parameter to <a class="reference internal" href="api/index.html#whoosh.index.Index.writer" title="whoosh.index.Index.writer"><tt class="xref py py-meth docutils literal"><span class="pre">whoosh.index.Index.writer()</span></tt></a> controls the
+number of processors the writer will use for indexing (via the
+<tt class="docutils literal"><span class="pre">multiprocessing</span></tt> module):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">index</span>
+
+<span class="n">ix</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">open_dir</span><span class="p">(</span><span class="s">&quot;indexdir&quot;</span><span class="p">)</span>
+<span class="n">writer</span> <span class="o">=</span> <span class="n">ix</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">procs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that when you use multiprocessing, the <tt class="docutils literal"><span class="pre">limitmb</span></tt> parameter controls the
+amount of memory used by <em>each process</em>, so the actual memory used will be
+<tt class="docutils literal"><span class="pre">limitmb</span> <span class="pre">*</span> <span class="pre">procs</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Each process will use a limit of 128, for a total of 512</span>
+<span class="n">writer</span> <span class="o">=</span> <span class="n">ix</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">procs</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">limitmb</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-multisegment-parameter">
+<h2>The <tt class="docutils literal"><span class="pre">multisegment</span></tt> parameter<a class="headerlink" href="#the-multisegment-parameter" title="Permalink to this headline">¶</a></h2>
+<p>The <tt class="docutils literal"><span class="pre">procs</span></tt> parameter causes the default writer to use multiple processors to
+do much of the indexing, but then still uses a single process to merge the pool
+of each sub-writer into a single segment.</p>
+<p>You can get much better indexing speed by also using the <tt class="docutils literal"><span class="pre">multisegment=True</span></tt>
+keyword argument, which instead of merging the results of each sub-writer,
+simply has them each just write out a new segment:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">index</span>
+
+<span class="n">ix</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">open_dir</span><span class="p">(</span><span class="s">&quot;indexdir&quot;</span><span class="p">)</span>
+<span class="n">writer</span> <span class="o">=</span> <span class="n">ix</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">procs</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">multisegment</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The drawback is that instead
+of creating a single new segment, this option creates a number of new segments
+<strong>at least</strong> equal to the number of processes you use.</p>
+<p>For example, if you use <tt class="docutils literal"><span class="pre">procs=4</span></tt>, the writer will create four new segments.
+(If you merge old segments or call <tt class="docutils literal"><span class="pre">add_reader</span></tt> on the parent writer, the
+parent writer will also write a segment, meaning you&#8217;ll get five new segments.)</p>
+<p>So, while <tt class="docutils literal"><span class="pre">multisegment=True</span></tt> is much faster than a normal writer, you should
+only use it for large batch indexing jobs (or perhaps only for indexing from
+scratch). It should not be the only method you use for indexing, because
+otherwise the number of segments will tend to increase forever!</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Tips for speeding up batch indexing</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#stemminganalyzer-cache">StemmingAnalyzer cache</a></li>
+<li><a class="reference internal" href="#the-limitmb-parameter">The <tt class="docutils literal"><span class="pre">limitmb</span></tt> parameter</a></li>
+<li><a class="reference internal" href="#the-procs-parameter">The <tt class="docutils literal"><span class="pre">procs</span></tt> parameter</a></li>
+<li><a class="reference internal" href="#the-multisegment-parameter">The <tt class="docutils literal"><span class="pre">multisegment</span></tt> parameter</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="fieldcaches.html"
+                        title="previous chapter">Field caches</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="threads.html"
+                        title="next chapter">Concurrency, locking, and versioning</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/batch.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="threads.html" title="Concurrency, locking, and versioning"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="fieldcaches.html" title="Field caches"
+             >previous</a> |</li>
+        <li><a href="index.html">Whoosh 2.5.7 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Indexing and searching N-grams &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="index.html" />
+    <link rel="next" title="Sorting and faceting" href="facets.html" />
+    <link rel="prev" title="Stemming, variations, and accent folding" href="stemming.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="facets.html" title="Sorting and faceting"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="stemming.html" title="Stemming, variations, and accent folding"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Whoosh 2.5.7 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="indexing-and-searching-n-grams">
+<h1>Indexing and searching N-grams<a class="headerlink" href="#indexing-and-searching-n-grams" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>N-gram indexing is a powerful method for getting fast, &#8220;search as you type&#8221;
+functionality like iTunes. It is also useful for quick and effective indexing
+of languages such as Chinese and Japanese without word breaks.</p>
+<p>N-grams refers to groups of N characters... bigrams are groups of two
+characters, trigrams are groups of three characters, and so on.</p>
+<p>Whoosh includes two methods for analyzing N-gram fields: an N-gram tokenizer,
+and a filter that breaks tokens into N-grams.</p>
+<p><a class="reference internal" href="api/analysis.html#whoosh.analysis.NgramTokenizer" title="whoosh.analysis.NgramTokenizer"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.analysis.NgramTokenizer</span></tt></a> tokenizes the entire field into N-grams.
+This is more useful for Chinese/Japanese/Korean languages, where it&#8217;s useful
+to index bigrams of characters rather than individual characters. Using this
+tokenizer with roman languages leads to spaces in the tokens.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ngt</span> <span class="o">=</span> <span class="n">NgramTokenizer</span><span class="p">(</span><span class="n">minsize</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">maxsize</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">token</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">ngt</span><span class="p">(</span><span class="s">u&quot;hi there&quot;</span><span class="p">)]</span>
+<span class="go">[u&#39;hi&#39;, u&#39;hi &#39;, u&#39;hi t&#39;,u&#39;i &#39;, u&#39;i t&#39;, u&#39;i th&#39;, u&#39; t&#39;, u&#39; th&#39;, u&#39; the&#39;, u&#39;th&#39;,</span>
+<span class="go">u&#39;the&#39;, u&#39;ther&#39;, u&#39;he&#39;, u&#39;her&#39;, u&#39;here&#39;, u&#39;er&#39;, u&#39;ere&#39;, u&#39;re&#39;]</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="api/analysis.html#whoosh.analysis.NgramFilter" title="whoosh.analysis.NgramFilter"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.analysis.NgramFilter</span></tt></a> breaks individual tokens into N-grams as
+part of an analysis pipeline. This is more useful for languages with word
+separation.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">my_analyzer</span> <span class="o">=</span> <span class="n">StandardAnalyzer</span><span class="p">()</span> <span class="o">|</span> <span class="n">NgramFilter</span><span class="p">(</span><span class="n">minsize</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">maxsize</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">token</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">my_analyzer</span><span class="p">(</span><span class="s">u&quot;rendering shaders&quot;</span><span class="p">)]</span>
+<span class="go">[u&#39;ren&#39;, u&#39;rend&#39;, u&#39;end&#39;, u&#39;ende&#39;, u&#39;nde&#39;, u&#39;nder&#39;, u&#39;der&#39;, u&#39;deri&#39;, u&#39;eri&#39;,</span>
+<span class="go">u&#39;erin&#39;, u&#39;rin&#39;, u&#39;ring&#39;, u&#39;ing&#39;, u&#39;sha&#39;, u&#39;shad&#39;, u&#39;had&#39;, u&#39;hade&#39;, u&#39;ade&#39;,</span>
+<span class="go">u&#39;ader&#39;, u&#39;der&#39;, u&#39;ders&#39;, u&#39;ers&#39;]</span>
+</pre></div>
+</div>
+<p>Whoosh includes two pre-configured field types for N-grams:
+<a class="reference internal" href="api/fields.html#whoosh.fields.NGRAM" title="whoosh.fields.NGRAM"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.fields.NGRAM</span></tt></a> and <a class="reference internal" href="api/fields.html#whoosh.fields.NGRAMWORDS" title="whoosh.fields.NGRAMWORDS"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.fields.NGRAMWORDS</span></tt></a>. The only
+difference is that <tt class="docutils literal"><span class="pre">NGRAM</span></tt> runs all text through the N-gram filter, including
+whitespace and punctuation, while <tt class="docutils literal"><span class="pre">NGRAMWORDS</span></tt> extracts words from the text
+using a tokenizer, then runs each word through the N-gram filter.</p>
+<p>TBD.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Indexing and searching N-grams</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="stemming.html"
+                        title="previous chapter">Stemming, variations, and accent folding</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="facets.html"
+                        title="next chapter">Sorting and faceting</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/ngrams.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="facets.html" title="Sorting and faceting"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="stemming.html" title="Stemming, variations, and accent folding"
+             >previous</a> |</li>
+        <li><a href="index.html">Whoosh 2.5.7 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

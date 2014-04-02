@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Whoosh 0.3 release notes &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="../index.html" />
+    <link rel="up" title="Release notes" href="index.html" />
+    <link rel="next" title="Quick start" href="../quickstart.html" />
+    <link rel="prev" title="Whoosh 1.x release notes" href="1_0.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../quickstart.html" title="Quick start"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="1_0.html" title="Whoosh 1.x release notes"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Release notes</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="whoosh-0-3-release-notes">
+<h1>Whoosh 0.3 release notes<a class="headerlink" href="#whoosh-0-3-release-notes" title="Permalink to this headline">¶</a></h1>
+<ul>
+<li><p class="first">Major improvements to reading/writing of postings and query performance.</p>
+</li>
+<li><p class="first">Changed default post limit (run size) from 4 MB to 32 MB.</p>
+</li>
+<li><p class="first">Finished migrating backend-specific code into <tt class="docutils literal"><span class="pre">whoosh.filedb</span></tt> package.</p>
+</li>
+<li><p class="first">Moved formats from whoosh.fields module into new whoosh.formats module.</p>
+</li>
+<li><p class="first">DocReader and TermReader classes combined into new IndexReader interface.
+You can get an IndexReader implementation by calling Index.reader().
+Searcher is now a wrapper around an IndexReader.</p>
+</li>
+<li><p class="first">Range query object changed, with new signature and new syntax in the default
+query parser. Now you can use <tt class="docutils literal"><span class="pre">[start</span> <span class="pre">TO</span> <span class="pre">end]</span></tt> in the query parser for an
+inclusive range, and <tt class="docutils literal"><span class="pre">{start</span> <span class="pre">TO</span> <span class="pre">end}</span></tt> for an exclusive range. You can also
+mix the delimiters, for example <tt class="docutils literal"><span class="pre">[start</span> <span class="pre">TO</span> <span class="pre">end}</span></tt> for a range with an
+inclusive start but exclusive end term.</p>
+</li>
+<li><p class="first">Added experimental DATETIME field type lets you pass a
+<tt class="docutils literal"><span class="pre">datetime.datetime</span></tt> object as a field value to <tt class="docutils literal"><span class="pre">add_document</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">whoosh.fields</span> <span class="kn">import</span> <span class="n">Schema</span><span class="p">,</span> <span class="n">ID</span><span class="p">,</span> <span class="n">DATETIME</span>
+<span class="kn">from</span> <span class="nn">whoosh.filedb.filestore</span> <span class="kn">import</span> <span class="n">RamStorage</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="n">schema</span> <span class="o">=</span> <span class="n">Schema</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">ID</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="n">DATETIME</span><span class="p">)</span>
+<span class="n">storage</span> <span class="o">=</span> <span class="n">RamStorage</span><span class="p">()</span>
+<span class="n">ix</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">create_index</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">ix</span><span class="o">.</span><span class="n">writer</span><span class="p">()</span>
+<span class="n">w</span><span class="o">.</span><span class="n">add_document</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s">u&quot;A&quot;</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
+<span class="n">w</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Internally, the DATETIME field indexes the datetime object as text using
+the format (4 digit year + 2 digit month + 2 digit day + &#8216;T&#8217; + 2 digit hour +
+2 digit minute + 2 digit second + 6 digit microsecond), for example
+<tt class="docutils literal"><span class="pre">20090817T160203109000</span></tt>.</p>
+</li>
+<li><p class="first">The default query parser now lets you use quoted strings in prefix and range
+queries, e.g. <tt class="docutils literal"><span class="pre">[&quot;2009-05&quot;</span> <span class="pre">TO</span> <span class="pre">&quot;2009-12&quot;]</span></tt>, <tt class="docutils literal"><span class="pre">&quot;alfa/bravo&quot;*</span></tt>, making it
+easier to work with terms containing special characters.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">DocReader.vector_as(docnum,</span> <span class="pre">fieldid,</span> <span class="pre">astype)</span></tt> is now
+<tt class="docutils literal"><span class="pre">IndexReader.vector_as(astype,</span> <span class="pre">docnum,</span> <span class="pre">fieldid)</span></tt> (i.e. the astype argument
+has moved from the last to the first argument), e.g.
+<tt class="docutils literal"><span class="pre">v</span> <span class="pre">=</span> <span class="pre">ixreader.vector_as(&quot;frequency&quot;,</span> <span class="pre">102,</span> <span class="pre">&quot;content&quot;)</span></tt>.</p>
+</li>
+<li><p class="first">Added whoosh.support.charset for translating Sphinx charset table files.</p>
+</li>
+<li><p class="first">Added whoosh.analysis.CharsetTokenizer and CharsetFilter to enable case and
+accent folding.</p>
+</li>
+<li><p class="first">Added experimental <tt class="docutils literal"><span class="pre">whoosh.ramdb</span></tt> in-memory backend.</p>
+</li>
+<li><p class="first">Added experimental <tt class="docutils literal"><span class="pre">whoosh.query.FuzzyTerm</span></tt> query type.</p>
+</li>
+<li><p class="first">Added <tt class="docutils literal"><span class="pre">whoosh.lang.wordnet</span></tt> module containing <tt class="docutils literal"><span class="pre">Thesaurus</span></tt> object for using
+WordNet synonym database.</p>
+</li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="1_0.html"
+                        title="previous chapter">Whoosh 1.x release notes</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../quickstart.html"
+                        title="next chapter">Quick start</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/releases/0_3.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../quickstart.html" title="Quick start"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="1_0.html" title="Whoosh 1.x release notes"
+             >previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Release notes</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

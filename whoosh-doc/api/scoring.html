@@ -1,0 +1,348 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>scoring module &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="../index.html" />
+    <link rel="up" title="Whoosh API" href="api.html" />
+    <link rel="next" title="searching module" href="searching.html" />
+    <link rel="prev" title="reading module" href="reading.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="searching.html" title="searching module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="reading.html" title="reading module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="api.html" accesskey="U">Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-whoosh.scoring">
+<span id="scoring-module"></span><h1><tt class="docutils literal"><span class="pre">scoring</span></tt> module<a class="headerlink" href="#module-whoosh.scoring" title="Permalink to this headline">¶</a></h1>
+<p>This module contains classes for scoring (and sorting) search results.</p>
+<div class="section" id="base-classes">
+<h2>Base classes<a class="headerlink" href="#base-classes" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.scoring.WeightingModel">
+<em class="property">class </em><tt class="descclassname">whoosh.scoring.</tt><tt class="descname">WeightingModel</tt><a class="headerlink" href="#whoosh.scoring.WeightingModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract base class for scoring models. A WeightingModel object provides
+a method, <tt class="docutils literal"><span class="pre">scorer</span></tt>, which returns an instance of
+<tt class="xref py py-class docutils literal"><span class="pre">whoosh.scoring.Scorer</span></tt>.</p>
+<p>Basically, WeightingModel objects store the configuration information for
+the model (for example, the values of B and K1 in the BM25F model), and
+then creates a scorer instance based on additional run-time information
+(the searcher, the fieldname, and term text) to do the actual scoring.</p>
+<dl class="method">
+<dt id="whoosh.scoring.WeightingModel.final">
+<tt class="descname">final</tt><big>(</big><em>searcher</em>, <em>docnum</em>, <em>score</em><big>)</big><a class="headerlink" href="#whoosh.scoring.WeightingModel.final" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a final score for each document. You can use this method
+in subclasses to apply document-level adjustments to the score, for
+example using the value of stored field to influence the score
+(although that would be slow).</p>
+<p>WeightingModel sub-classes that use <tt class="docutils literal"><span class="pre">final()</span></tt> should have the
+attribute <tt class="docutils literal"><span class="pre">use_final</span></tt> set to <tt class="docutils literal"><span class="pre">True</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>searcher</strong> &#8211; <a class="reference internal" href="searching.html#whoosh.searching.Searcher" title="whoosh.searching.Searcher"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.searching.Searcher</span></tt></a> for the index.</li>
+<li><strong>docnum</strong> &#8211; the doc number of the document being scored.</li>
+<li><strong>score</strong> &#8211; the document&#8217;s accumulated term score.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.scoring.WeightingModel.idf">
+<tt class="descname">idf</tt><big>(</big><em>searcher</em>, <em>fieldname</em>, <em>text</em><big>)</big><a class="headerlink" href="#whoosh.scoring.WeightingModel.idf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the inverse document frequency of the given term.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.scoring.WeightingModel.scorer">
+<tt class="descname">scorer</tt><big>(</big><em>searcher</em>, <em>fieldname</em>, <em>text</em>, <em>qf=1</em><big>)</big><a class="headerlink" href="#whoosh.scoring.WeightingModel.scorer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an instance of <tt class="xref py py-class docutils literal"><span class="pre">whoosh.scoring.Scorer</span></tt> configured
+for the given searcher, fieldname, and term text.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.scoring.BaseScorer">
+<em class="property">class </em><tt class="descclassname">whoosh.scoring.</tt><tt class="descname">BaseScorer</tt><a class="headerlink" href="#whoosh.scoring.BaseScorer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for &#8220;scorer&#8221; implementations. A scorer provides a method for
+scoring a document, and sometimes methods for rating the &#8220;quality&#8221; of a
+document and a matcher&#8217;s current &#8220;block&#8221;, to implement quality-based
+optimizations.</p>
+<p>Scorer objects are created by WeightingModel objects. Basically,
+WeightingModel objects store the configuration information for the model
+(for example, the values of B and K1 in the BM25F model), and then creates
+a scorer instance.</p>
+<dl class="method">
+<dt id="whoosh.scoring.BaseScorer.block_quality">
+<tt class="descname">block_quality</tt><big>(</big><em>matcher</em><big>)</big><a class="headerlink" href="#whoosh.scoring.BaseScorer.block_quality" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the <em>maximum limit</em> on the possible score the matcher can
+give <strong>in its current &#8220;block&#8221;</strong> (whatever concept of &#8220;block&#8221; the
+backend might use). This can be an estimate and not necessarily the
+actual maximum score possible, but it must never be less than the
+actual maximum score.</p>
+<p>If this score is less than the minimum score
+required to make the &#8220;top N&#8221; results, then we can tell the matcher to
+skip ahead to another block with better &#8220;quality&#8221;.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.scoring.BaseScorer.max_quality">
+<tt class="descname">max_quality</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.scoring.BaseScorer.max_quality" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the <em>maximum limit</em> on the possible score the matcher can
+give. This can be an estimate and not necessarily the actual maximum
+score possible, but it must never be less than the actual maximum
+score.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.scoring.BaseScorer.score">
+<tt class="descname">score</tt><big>(</big><em>matcher</em><big>)</big><a class="headerlink" href="#whoosh.scoring.BaseScorer.score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a score for the current document of the matcher.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.scoring.BaseScorer.supports_block_quality">
+<tt class="descname">supports_block_quality</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.scoring.BaseScorer.supports_block_quality" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if this class supports quality optimizations.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.scoring.WeightScorer">
+<em class="property">class </em><tt class="descclassname">whoosh.scoring.</tt><tt class="descname">WeightScorer</tt><big>(</big><em>maxweight</em><big>)</big><a class="headerlink" href="#whoosh.scoring.WeightScorer" title="Permalink to this definition">¶</a></dt>
+<dd><p>A scorer that simply returns the weight as the score. This is useful
+for more complex weighting models to return when they are asked for a
+scorer for fields that aren&#8217;t scorable (don&#8217;t store field lengths).</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.scoring.WeightLengthScorer">
+<em class="property">class </em><tt class="descclassname">whoosh.scoring.</tt><tt class="descname">WeightLengthScorer</tt><a class="headerlink" href="#whoosh.scoring.WeightLengthScorer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for scorers where the only per-document variables are term
+weight and field length.</p>
+<p>Subclasses should override the <tt class="docutils literal"><span class="pre">_score(weight,</span> <span class="pre">length)</span></tt> method to return
+the score for a document with the given weight and length, and call the
+<tt class="docutils literal"><span class="pre">setup()</span></tt> method at the end of the initializer to set up common
+attributes.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="scoring-algorithm-classes">
+<h2>Scoring algorithm classes<a class="headerlink" href="#scoring-algorithm-classes" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.scoring.BM25F">
+<em class="property">class </em><tt class="descclassname">whoosh.scoring.</tt><tt class="descname">BM25F</tt><big>(</big><em>B=0.75</em>, <em>K1=1.2</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#whoosh.scoring.BM25F" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements the BM25F scoring algorithm.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">scoring</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># Set a custom B value for the &quot;content&quot; field</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">w</span> <span class="o">=</span> <span class="n">scoring</span><span class="o">.</span><span class="n">BM25F</span><span class="p">(</span><span class="n">B</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">content_B</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">K1</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>B</strong> &#8211; free parameter, see the BM25 literature. Keyword arguments of
+the form <tt class="docutils literal"><span class="pre">fieldname_B</span></tt> (for example, <tt class="docutils literal"><span class="pre">body_B</span></tt>) set field-
+specific values for B.</li>
+<li><strong>K1</strong> &#8211; free parameter, see the BM25 literature.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.scoring.TF_IDF">
+<em class="property">class </em><tt class="descclassname">whoosh.scoring.</tt><tt class="descname">TF_IDF</tt><a class="headerlink" href="#whoosh.scoring.TF_IDF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="whoosh.scoring.Frequency">
+<em class="property">class </em><tt class="descclassname">whoosh.scoring.</tt><tt class="descname">Frequency</tt><a class="headerlink" href="#whoosh.scoring.Frequency" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="scoring-utility-classes">
+<h2>Scoring utility classes<a class="headerlink" href="#scoring-utility-classes" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.scoring.FunctionWeighting">
+<em class="property">class </em><tt class="descclassname">whoosh.scoring.</tt><tt class="descname">FunctionWeighting</tt><big>(</big><em>fn</em><big>)</big><a class="headerlink" href="#whoosh.scoring.FunctionWeighting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uses a supplied function to do the scoring. For simple scoring functions
+and experiments this may be simpler to use than writing a full weighting
+model class and scorer class.</p>
+<p>The function should accept the arguments
+<tt class="docutils literal"><span class="pre">searcher,</span> <span class="pre">fieldname,</span> <span class="pre">text,</span> <span class="pre">matcher</span></tt>.</p>
+<p>For example, the following function will score documents based on the
+earliest position of the query term in the document:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">pos_score_fn</span><span class="p">(</span><span class="n">searcher</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">matcher</span><span class="p">):</span>
+    <span class="n">poses</span> <span class="o">=</span> <span class="n">matcher</span><span class="o">.</span><span class="n">value_as</span><span class="p">(</span><span class="s">&quot;positions&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">poses</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">pos_weighting</span> <span class="o">=</span> <span class="n">scoring</span><span class="o">.</span><span class="n">FunctionWeighting</span><span class="p">(</span><span class="n">pos_score_fn</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">myindex</span><span class="o">.</span><span class="n">searcher</span><span class="p">(</span><span class="n">weighting</span><span class="o">=</span><span class="n">pos_weighting</span><span class="p">)</span> <span class="k">as</span> <span class="n">s</span><span class="p">:</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that the searcher passed to the function may be a per-segment searcher
+for performance reasons. If you want to get global statistics inside the
+function, you should use <tt class="docutils literal"><span class="pre">searcher.get_parent()</span></tt> to get the top-level
+searcher. (However, if you are using global statistics, you should probably
+write a real model/scorer combo so you can cache them on the object.)</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.scoring.MultiWeighting">
+<em class="property">class </em><tt class="descclassname">whoosh.scoring.</tt><tt class="descname">MultiWeighting</tt><big>(</big><em>default</em>, <em>**weightings</em><big>)</big><a class="headerlink" href="#whoosh.scoring.MultiWeighting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Chooses from multiple scoring algorithms based on the field.</p>
+<p>The only non-keyword argument specifies the default
+<tt class="xref py py-class docutils literal"><span class="pre">Weighting</span></tt> instance to use. Keyword arguments specify
+Weighting instances for specific fields.</p>
+<p>For example, to use <tt class="docutils literal"><span class="pre">BM25</span></tt> for most fields, but <tt class="docutils literal"><span class="pre">Frequency</span></tt> for
+the <tt class="docutils literal"><span class="pre">id</span></tt> field and <tt class="docutils literal"><span class="pre">TF_IDF</span></tt> for the <tt class="docutils literal"><span class="pre">keys</span></tt> field:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">mw</span> <span class="o">=</span> <span class="n">MultiWeighting</span><span class="p">(</span><span class="n">BM25</span><span class="p">(),</span> <span class="nb">id</span><span class="o">=</span><span class="n">Frequency</span><span class="p">(),</span> <span class="n">keys</span><span class="o">=</span><span class="n">TF_IDF</span><span class="p">())</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>default</strong> &#8211; the Weighting instance to use for fields not
+specified in the keyword arguments.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.scoring.ReverseWeighting">
+<em class="property">class </em><tt class="descclassname">whoosh.scoring.</tt><tt class="descname">ReverseWeighting</tt><big>(</big><em>weighting</em><big>)</big><a class="headerlink" href="#whoosh.scoring.ReverseWeighting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wraps a weighting object and subtracts the wrapped model&#8217;s scores from
+0, essentially reversing the weighting model.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">scoring</span></tt> module</a><ul>
+<li><a class="reference internal" href="#base-classes">Base classes</a></li>
+<li><a class="reference internal" href="#scoring-algorithm-classes">Scoring algorithm classes</a></li>
+<li><a class="reference internal" href="#scoring-utility-classes">Scoring utility classes</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="reading.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">reading</span></tt> module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="searching.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">searching</span></tt> module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/scoring.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="searching.html" title="searching module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="reading.html" title="reading module"
+             >previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="api.html" >Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

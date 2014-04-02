@@ -1,0 +1,254 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>codec.base module &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="../../index.html" />
+    <link rel="up" title="Whoosh API" href="../api.html" />
+    <link rel="next" title="collectors module" href="../collectors.html" />
+    <link rel="prev" title="analysis module" href="../analysis.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../collectors.html" title="collectors module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../analysis.html" title="analysis module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="../api.html" accesskey="U">Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-whoosh.codec.base">
+<span id="codec-base-module"></span><h1><tt class="docutils literal"><span class="pre">codec.base</span></tt> module<a class="headerlink" href="#module-whoosh.codec.base" title="Permalink to this headline">¶</a></h1>
+<p>This module contains base classes/interfaces for &#8220;codec&#8221; objects.</p>
+<div class="section" id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.codec.base.Codec">
+<em class="property">class </em><tt class="descclassname">whoosh.codec.base.</tt><tt class="descname">Codec</tt><a class="headerlink" href="#whoosh.codec.base.Codec" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="whoosh.codec.base.PerDocumentWriter">
+<em class="property">class </em><tt class="descclassname">whoosh.codec.base.</tt><tt class="descname">PerDocumentWriter</tt><a class="headerlink" href="#whoosh.codec.base.PerDocumentWriter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="whoosh.codec.base.FieldWriter">
+<em class="property">class </em><tt class="descclassname">whoosh.codec.base.</tt><tt class="descname">FieldWriter</tt><a class="headerlink" href="#whoosh.codec.base.FieldWriter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="whoosh.codec.base.PostingsWriter">
+<em class="property">class </em><tt class="descclassname">whoosh.codec.base.</tt><tt class="descname">PostingsWriter</tt><a class="headerlink" href="#whoosh.codec.base.PostingsWriter" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="whoosh.codec.base.PostingsWriter.written">
+<tt class="descname">written</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.codec.base.PostingsWriter.written" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if this object has already written to disk.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.codec.base.TermsReader">
+<em class="property">class </em><tt class="descclassname">whoosh.codec.base.</tt><tt class="descname">TermsReader</tt><a class="headerlink" href="#whoosh.codec.base.TermsReader" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="whoosh.codec.base.PerDocumentReader">
+<em class="property">class </em><tt class="descclassname">whoosh.codec.base.</tt><tt class="descname">PerDocumentReader</tt><a class="headerlink" href="#whoosh.codec.base.PerDocumentReader" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="whoosh.codec.base.PerDocumentReader.all_doc_ids">
+<tt class="descname">all_doc_ids</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.codec.base.PerDocumentReader.all_doc_ids" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an iterator of all (undeleted) document IDs in the reader.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="whoosh.codec.base.Segment">
+<em class="property">class </em><tt class="descclassname">whoosh.codec.base.</tt><tt class="descname">Segment</tt><big>(</big><em>indexname</em><big>)</big><a class="headerlink" href="#whoosh.codec.base.Segment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do not instantiate this object directly. It is used by the Index object
+to hold information about a segment. A list of objects of this class are
+pickled as part of the TOC file.</p>
+<p>The TOC file stores a minimal amount of information &#8211; mostly a list of
+Segment objects. Segments are the real reverse indexes. Having multiple
+segments allows quick incremental indexing: just create a new segment for
+the new documents, and have the index overlay the new segment over previous
+ones for purposes of reading/search. &#8220;Optimizing&#8221; the index combines the
+contents of existing segments into one (removing any deleted documents
+along the way).</p>
+<dl class="method">
+<dt id="whoosh.codec.base.Segment.create_file">
+<tt class="descname">create_file</tt><big>(</big><em>storage</em>, <em>ext</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#whoosh.codec.base.Segment.create_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience method to create a new file in the given storage named
+with this segment&#8217;s ID and the given extension. Any keyword arguments
+are passed to the storage&#8217;s create_file method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.codec.base.Segment.delete_document">
+<tt class="descname">delete_document</tt><big>(</big><em>docnum</em>, <em>delete=True</em><big>)</big><a class="headerlink" href="#whoosh.codec.base.Segment.delete_document" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes the given document number. The document is not actually
+removed from the index until it is optimized.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>docnum</strong> &#8211; The document number to delete.</li>
+<li><strong>delete</strong> &#8211; If False, this undeletes a deleted document.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.codec.base.Segment.deleted_count">
+<tt class="descname">deleted_count</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.codec.base.Segment.deleted_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the total number of deleted documents in this segment.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.codec.base.Segment.doc_count">
+<tt class="descname">doc_count</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.codec.base.Segment.doc_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of (undeleted) documents in this segment.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.codec.base.Segment.doc_count_all">
+<tt class="descname">doc_count_all</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.codec.base.Segment.doc_count_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the total number of documents, DELETED OR UNDELETED, in this
+segment.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.codec.base.Segment.has_deletions">
+<tt class="descname">has_deletions</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.codec.base.Segment.has_deletions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if any documents in this segment are deleted.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.codec.base.Segment.is_deleted">
+<tt class="descname">is_deleted</tt><big>(</big><em>docnum</em><big>)</big><a class="headerlink" href="#whoosh.codec.base.Segment.is_deleted" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the given document number is deleted.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.codec.base.Segment.open_file">
+<tt class="descname">open_file</tt><big>(</big><em>storage</em>, <em>ext</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#whoosh.codec.base.Segment.open_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience method to open a file in the given storage named with
+this segment&#8217;s ID and the given extension. Any keyword arguments are
+passed to the storage&#8217;s open_file method.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">codec.base</span></tt> module</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../analysis.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">analysis</span></tt> module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../collectors.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">collectors</span></tt> module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/api/codec/base.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../collectors.html" title="collectors module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../analysis.html" title="analysis module"
+             >previous</a> |</li>
+        <li><a href="../../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="../api.html" >Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

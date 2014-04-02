@@ -1,0 +1,502 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>index module &mdash; Whoosh 2.5.7 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.5.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Whoosh 2.5.7 documentation" href="../index.html" />
+    <link rel="up" title="Whoosh API" href="api.html" />
+    <link rel="next" title="lang.morph_en module" href="lang/morph_en.html" />
+    <link rel="prev" title="support.bitvector module" href="idsets.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="lang/morph_en.html" title="lang.morph_en module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="idsets.html" title="support.bitvector module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="api.html" accesskey="U">Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-whoosh.index">
+<span id="index-module"></span><h1><tt class="docutils literal"><span class="pre">index</span></tt> module<a class="headerlink" href="#module-whoosh.index" title="Permalink to this headline">¶</a></h1>
+<p>Contains the main functions/classes for creating, maintaining, and using
+an index.</p>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="whoosh.index.create_in">
+<tt class="descclassname">whoosh.index.</tt><tt class="descname">create_in</tt><big>(</big><em>dirname</em>, <em>schema</em>, <em>indexname=None</em><big>)</big><a class="headerlink" href="#whoosh.index.create_in" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience function to create an index in a directory. Takes care of
+creating a FileStorage object for you.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>dirname</strong> &#8211; the path string of the directory in which to create the
+index.</li>
+<li><strong>schema</strong> &#8211; a <a class="reference internal" href="fields.html#whoosh.fields.Schema" title="whoosh.fields.Schema"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.fields.Schema</span></tt></a> object describing the
+index&#8217;s fields.</li>
+<li><strong>indexname</strong> &#8211; the name of the index to create; you only need to specify
+this if you are creating multiple indexes within the same storage
+object.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#whoosh.index.Index" title="whoosh.index.Index"><tt class="xref py py-class docutils literal"><span class="pre">Index</span></tt></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="whoosh.index.open_dir">
+<tt class="descclassname">whoosh.index.</tt><tt class="descname">open_dir</tt><big>(</big><em>dirname</em>, <em>indexname=None</em>, <em>readonly=False</em>, <em>schema=None</em><big>)</big><a class="headerlink" href="#whoosh.index.open_dir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience function for opening an index in a directory. Takes care of
+creating a FileStorage object for you. dirname is the filename of the
+directory in containing the index. indexname is the name of the index to
+create; you only need to specify this if you have multiple indexes within
+the same storage object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dirname</strong> &#8211; the path string of the directory in which to create the
+index.</li>
+<li><strong>indexname</strong> &#8211; the name of the index to create; you only need to specify
+this if you have multiple indexes within the same storage object.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="whoosh.index.exists_in">
+<tt class="descclassname">whoosh.index.</tt><tt class="descname">exists_in</tt><big>(</big><em>dirname</em>, <em>indexname=None</em><big>)</big><a class="headerlink" href="#whoosh.index.exists_in" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if dirname contains a Whoosh index.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dirname</strong> &#8211; the file path of a directory.</li>
+<li><strong>indexname</strong> &#8211; the name of the index. If None, the default index name is
+used.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="whoosh.index.exists">
+<tt class="descclassname">whoosh.index.</tt><tt class="descname">exists</tt><big>(</big><em>storage</em>, <em>indexname=None</em><big>)</big><a class="headerlink" href="#whoosh.index.exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deprecated; use <tt class="docutils literal"><span class="pre">storage.index_exists()</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>storage</strong> &#8211; a store.Storage object.</li>
+<li><strong>indexname</strong> &#8211; the name of the index. If None, the default index name is
+used.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="whoosh.index.version_in">
+<tt class="descclassname">whoosh.index.</tt><tt class="descname">version_in</tt><big>(</big><em>dirname</em>, <em>indexname=None</em><big>)</big><a class="headerlink" href="#whoosh.index.version_in" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a tuple of (release_version, format_version), where
+release_version is the release version number of the Whoosh code that
+created the index &#8211; e.g. (0, 1, 24) &#8211; and format_version is the version
+number of the on-disk format used for the index &#8211; e.g. -102.</p>
+<p>You should avoid attaching significance to the second number (the index
+version). This is simply a version number for the TOC file and probably
+should not have been exposed in a public interface. The best way to check
+if the current version of Whoosh can open an index is to actually try to
+open it and see if it raises a <tt class="docutils literal"><span class="pre">whoosh.index.IndexVersionError</span></tt> exception.</p>
+<p>Note that the release and format version are available as attributes on the
+Index object in Index.release and Index.version.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>dirname</strong> &#8211; the file path of a directory containing an index.</li>
+<li><strong>indexname</strong> &#8211; the name of the index. If None, the default index name is
+used.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">((major_ver, minor_ver, build_ver), format_ver)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="whoosh.index.version">
+<tt class="descclassname">whoosh.index.</tt><tt class="descname">version</tt><big>(</big><em>storage</em>, <em>indexname=None</em><big>)</big><a class="headerlink" href="#whoosh.index.version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a tuple of (release_version, format_version), where
+release_version is the release version number of the Whoosh code that
+created the index &#8211; e.g. (0, 1, 24) &#8211; and format_version is the version
+number of the on-disk format used for the index &#8211; e.g. -102.</p>
+<p>You should avoid attaching significance to the second number (the index
+version). This is simply a version number for the TOC file and probably
+should not have been exposed in a public interface. The best way to check
+if the current version of Whoosh can open an index is to actually try to
+open it and see if it raises a <tt class="docutils literal"><span class="pre">whoosh.index.IndexVersionError</span></tt> exception.</p>
+<p>Note that the release and format version are available as attributes on the
+Index object in Index.release and Index.version.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>storage</strong> &#8211; a store.Storage object.</li>
+<li><strong>indexname</strong> &#8211; the name of the index. If None, the default index name is
+used.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">((major_ver, minor_ver, build_ver), format_ver)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="base-class">
+<h2>Base class<a class="headerlink" href="#base-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.index.Index">
+<em class="property">class </em><tt class="descclassname">whoosh.index.</tt><tt class="descname">Index</tt><a class="headerlink" href="#whoosh.index.Index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents an indexed collection of documents.</p>
+<dl class="method">
+<dt id="whoosh.index.Index.add_field">
+<tt class="descname">add_field</tt><big>(</big><em>fieldname</em>, <em>fieldspec</em><big>)</big><a class="headerlink" href="#whoosh.index.Index.add_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a field to the index&#8217;s schema.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fieldname</strong> &#8211; the name of the field to add.</li>
+<li><strong>fieldspec</strong> &#8211; an instantiated <a class="reference internal" href="fields.html#whoosh.fields.FieldType" title="whoosh.fields.FieldType"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.fields.FieldType</span></tt></a>
+object.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.index.Index.close">
+<tt class="descname">close</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.index.Index.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Closes any open resources held by the Index object itself. This may
+not close all resources being used everywhere, for example by a
+Searcher object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.index.Index.doc_count">
+<tt class="descname">doc_count</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.index.Index.doc_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the total number of UNDELETED documents in this index.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.index.Index.doc_count_all">
+<tt class="descname">doc_count_all</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.index.Index.doc_count_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the total number of documents, DELETED OR UNDELETED,
+in this index.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.index.Index.field_length">
+<tt class="descname">field_length</tt><big>(</big><em>fieldname</em><big>)</big><a class="headerlink" href="#whoosh.index.Index.field_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the total length of the field across all documents.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.index.Index.is_empty">
+<tt class="descname">is_empty</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.index.Index.is_empty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if this index is empty (that is, it has never had any
+documents successfully written to it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.index.Index.last_modified">
+<tt class="descname">last_modified</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.index.Index.last_modified" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the last modified time of the index, or -1 if the backend
+doesn&#8217;t support last-modified times.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.index.Index.latest_generation">
+<tt class="descname">latest_generation</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.index.Index.latest_generation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the generation number of the latest generation of this
+index, or -1 if the backend doesn&#8217;t support versioning.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.index.Index.max_field_length">
+<tt class="descname">max_field_length</tt><big>(</big><em>fieldname</em><big>)</big><a class="headerlink" href="#whoosh.index.Index.max_field_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the maximum length of the field across all documents.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.index.Index.optimize">
+<tt class="descname">optimize</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.index.Index.optimize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optimizes this index, if necessary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.index.Index.reader">
+<tt class="descname">reader</tt><big>(</big><em>reuse=None</em><big>)</big><a class="headerlink" href="#whoosh.index.Index.reader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an IndexReader object for this index.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>reuse</strong> &#8211; an existing reader. Some implementations may recycle
+resources from this existing reader to create the new reader. Note
+that any resources in the &#8220;recycled&#8221; reader that are not used by
+the new reader will be CLOSED, so you CANNOT use it afterward.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="reading.html#whoosh.reading.IndexReader" title="whoosh.reading.IndexReader"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.reading.IndexReader</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.index.Index.refresh">
+<tt class="descname">refresh</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.index.Index.refresh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new Index object representing the latest generation
+of this index (if this object is the latest generation, or the backend
+doesn&#8217;t support versioning, returns self).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#whoosh.index.Index" title="whoosh.index.Index"><tt class="xref py py-class docutils literal"><span class="pre">Index</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.index.Index.remove_field">
+<tt class="descname">remove_field</tt><big>(</big><em>fieldname</em><big>)</big><a class="headerlink" href="#whoosh.index.Index.remove_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes the named field from the index&#8217;s schema. Depending on the
+backend implementation, this may or may not actually remove existing
+data for the field from the index. Optimizing the index should always
+clear out existing data for a removed field.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.index.Index.searcher">
+<tt class="descname">searcher</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#whoosh.index.Index.searcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a Searcher object for this index. Keyword arguments are
+passed to the Searcher object&#8217;s constructor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="searching.html#whoosh.searching.Searcher" title="whoosh.searching.Searcher"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.searching.Searcher</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.index.Index.up_to_date">
+<tt class="descname">up_to_date</tt><big>(</big><big>)</big><a class="headerlink" href="#whoosh.index.Index.up_to_date" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if this object represents the latest generation of
+this index. Returns False if this object is not the latest generation
+(that is, someone else has updated the index since you opened this
+object).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="whoosh.index.Index.writer">
+<tt class="descname">writer</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#whoosh.index.Index.writer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an IndexWriter object for this index.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="writing.html#whoosh.writing.IndexWriter" title="whoosh.writing.IndexWriter"><tt class="xref py py-class docutils literal"><span class="pre">whoosh.writing.IndexWriter</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="whoosh.index.FileIndex">
+<em class="property">class </em><tt class="descclassname">whoosh.index.</tt><tt class="descname">FileIndex</tt><big>(</big><em>storage</em>, <em>schema=None</em>, <em>indexname='MAIN'</em><big>)</big><a class="headerlink" href="#whoosh.index.FileIndex" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="exceptions">
+<h2>Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="whoosh.index.LockError">
+<em class="property">exception </em><tt class="descclassname">whoosh.index.</tt><tt class="descname">LockError</tt><a class="headerlink" href="#whoosh.index.LockError" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="whoosh.index.IndexError">
+<em class="property">exception </em><tt class="descclassname">whoosh.index.</tt><tt class="descname">IndexError</tt><a class="headerlink" href="#whoosh.index.IndexError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generic index error.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="whoosh.index.IndexVersionError">
+<em class="property">exception </em><tt class="descclassname">whoosh.index.</tt><tt class="descname">IndexVersionError</tt><big>(</big><em>msg</em>, <em>version</em>, <em>release=None</em><big>)</big><a class="headerlink" href="#whoosh.index.IndexVersionError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when you try to open an index using a format that the current
+version of Whoosh cannot read. That is, when the index you&#8217;re trying to
+open is either not backward or forward compatible with this version of
+Whoosh.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="whoosh.index.OutOfDateError">
+<em class="property">exception </em><tt class="descclassname">whoosh.index.</tt><tt class="descname">OutOfDateError</tt><a class="headerlink" href="#whoosh.index.OutOfDateError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when you try to commit changes to an index which is not the
+latest generation.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="whoosh.index.EmptyIndexError">
+<em class="property">exception </em><tt class="descclassname">whoosh.index.</tt><tt class="descname">EmptyIndexError</tt><a class="headerlink" href="#whoosh.index.EmptyIndexError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when you try to work with an index that has no indexed terms.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">index</span></tt> module</a><ul>
+<li><a class="reference internal" href="#functions">Functions</a></li>
+<li><a class="reference internal" href="#base-class">Base class</a></li>
+<li><a class="reference internal" href="#implementation">Implementation</a></li>
+<li><a class="reference internal" href="#exceptions">Exceptions</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="idsets.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">support.bitvector</span></tt> module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="lang/morph_en.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">lang.morph_en</span></tt> module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="lang/morph_en.html" title="lang.morph_en module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="idsets.html" title="support.bitvector module"
+             >previous</a> |</li>
+        <li><a href="../index.html">Whoosh 2.5.7 documentation</a> &raquo;</li>
+          <li><a href="api.html" >Whoosh API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2007-2012 Matt Chaput.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>
