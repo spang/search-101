@@ -6,6 +6,7 @@
 /gutenindex
 /ex_index
 *.txt.json
+/.ipynb_checkpoints/
 
 *.py[cod]
 
