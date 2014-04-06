@@ -1,0 +1,435 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Testing Flask Applications &mdash; Flask 0.10.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.10.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Flask 0.10.1 documentation" href="index.html" />
+    <link rel="next" title="Logging Application Errors" href="errorhandling.html" />
+    <link rel="prev" title="Templates" href="templating.html" />
+   
+  
+  <link rel="apple-touch-icon" href="_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="errorhandling.html" title="Logging Application Errors"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="templating.html" title="Templates"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Flask 0.10.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="testing-flask-applications">
+<span id="testing"></span><h1>Testing Flask Applications<a class="headerlink" href="#testing-flask-applications" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><strong>Something that is untested is broken.</strong></div></blockquote>
+<p>The origin of this quote is unknown and while it is not entirely correct, it is also
+not far from the truth.  Untested applications make it hard to
+improve existing code and developers of untested applications tend to
+become pretty paranoid.  If an application has automated tests, you can
+safely make changes and instantly know if anything breaks.</p>
+<p>Flask provides a way to test your application by exposing the Werkzeug
+test <a class="reference external" href="http://werkzeug.pocoo.org/docs/test/#werkzeug.test.Client" title="(in Werkzeug v0.10)"><tt class="xref py py-class docutils literal"><span class="pre">Client</span></tt></a> and handling the context locals for you.
+You can then use that with your favourite testing solution.  In this documentation
+we will use the <a class="reference external" href="http://docs.python.org/dev/library/unittest.html#unittest" title="(in Python v3.4)"><tt class="xref py py-mod docutils literal"><span class="pre">unittest</span></tt></a> package that comes pre-installed with Python.</p>
+<div class="section" id="the-application">
+<h2>The Application<a class="headerlink" href="#the-application" title="Permalink to this headline">¶</a></h2>
+<p>First, we need an application to test; we will use the application from
+the <a class="reference internal" href="tutorial/index.html#tutorial"><em>Tutorial</em></a>.  If you don&#8217;t have that application yet, get the
+sources from <a class="reference external" href="http://github.com/mitsuhiko/flask/tree/master/examples/flaskr/">the examples</a>.</p>
+</div>
+<div class="section" id="the-testing-skeleton">
+<h2>The Testing Skeleton<a class="headerlink" href="#the-testing-skeleton" title="Permalink to this headline">¶</a></h2>
+<p>In order to test the application, we add a second module
+(<cite>flaskr_tests.py</cite>) and create a unittest skeleton there:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">flaskr</span>
+<span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+
+<span class="k">class</span> <span class="nc">FlaskrTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db_fd</span><span class="p">,</span> <span class="n">flaskr</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;DATABASE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkstemp</span><span class="p">()</span>
+        <span class="n">flaskr</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;TESTING&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">app</span> <span class="o">=</span> <span class="n">flaskr</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">test_client</span><span class="p">()</span>
+        <span class="n">flaskr</span><span class="o">.</span><span class="n">init_db</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db_fd</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">flaskr</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;DATABASE&#39;</span><span class="p">])</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The code in the <a class="reference external" href="http://docs.python.org/dev/library/unittest.html#unittest.TestCase.setUp" title="(in Python v3.4)"><tt class="xref py py-meth docutils literal"><span class="pre">setUp()</span></tt></a> method creates a new test
+client and initializes a new database.  This function is called before
+each individual test function is run.  To delete the database after the
+test, we close the file and remove it from the filesystem in the
+<a class="reference external" href="http://docs.python.org/dev/library/unittest.html#unittest.TestCase.tearDown" title="(in Python v3.4)"><tt class="xref py py-meth docutils literal"><span class="pre">tearDown()</span></tt></a> method.  Additionally during setup the
+<tt class="docutils literal"><span class="pre">TESTING</span></tt> config flag is activated.  What it does is disabling the error
+catching during request handling so that you get better error reports when
+performing test requests against the application.</p>
+<p>This test client will give us a simple interface to the application.  We can
+trigger test requests to the application, and the client will also keep track
+of cookies for us.</p>
+<p>Because SQLite3 is filesystem-based we can easily use the tempfile module
+to create a temporary database and initialize it.  The
+<a class="reference external" href="http://docs.python.org/dev/library/tempfile.html#tempfile.mkstemp" title="(in Python v3.4)"><tt class="xref py py-func docutils literal"><span class="pre">mkstemp()</span></tt></a> function does two things for us: it returns a
+low-level file handle and a random file name, the latter we use as
+database name.  We just have to keep the <cite>db_fd</cite> around so that we can use
+the <a class="reference external" href="http://docs.python.org/dev/library/os.html#os.close" title="(in Python v3.4)"><tt class="xref py py-func docutils literal"><span class="pre">os.close()</span></tt></a> function to close the file.</p>
+<p>If we now run the test suite, we should see the following output:</p>
+<div class="highlight-python"><pre>$ python flaskr_tests.py
+
+----------------------------------------------------------------------
+Ran 0 tests in 0.000s
+
+OK</pre>
+</div>
+<p>Even though it did not run any actual tests, we already know that our flaskr
+application is syntactically valid, otherwise the import would have died
+with an exception.</p>
+</div>
+<div class="section" id="the-first-test">
+<h2>The First Test<a class="headerlink" href="#the-first-test" title="Permalink to this headline">¶</a></h2>
+<p>Now it&#8217;s time to start testing the functionality of the application.
+Let&#8217;s check that the application shows &#8220;No entries here so far&#8221; if we
+access the root of the application (<tt class="docutils literal"><span class="pre">/</span></tt>). To do this, we add a new
+test method to our class, like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">FlaskrTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db_fd</span><span class="p">,</span> <span class="n">flaskr</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;DATABASE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkstemp</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">app</span> <span class="o">=</span> <span class="n">flaskr</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">test_client</span><span class="p">()</span>
+        <span class="n">flaskr</span><span class="o">.</span><span class="n">init_db</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db_fd</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">flaskr</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;DATABASE&#39;</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">test_empty_db</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="s">&#39;No entries here so far&#39;</span> <span class="ow">in</span> <span class="n">rv</span><span class="o">.</span><span class="n">data</span>
+</pre></div>
+</div>
+<p>Notice that our test functions begin with the word <cite>test</cite>; this allows
+<a class="reference external" href="http://docs.python.org/dev/library/unittest.html#unittest" title="(in Python v3.4)"><tt class="xref py py-mod docutils literal"><span class="pre">unittest</span></tt></a> to automatically identify the method as a test to run.</p>
+<p>By using <cite>self.app.get</cite> we can send an HTTP <cite>GET</cite> request to the application with
+the given path.  The return value will be a <a class="reference internal" href="api.html#flask.Flask.response_class" title="flask.Flask.response_class"><tt class="xref py py-class docutils literal"><span class="pre">response_class</span></tt></a> object.
+We can now use the <a class="reference external" href="http://werkzeug.pocoo.org/docs/wrappers/#werkzeug.wrappers.BaseResponse.data" title="(in Werkzeug v0.10)"><tt class="xref py py-attr docutils literal"><span class="pre">data</span></tt></a> attribute to inspect
+the return value (as string) from the application.  In this case, we ensure that
+<tt class="docutils literal"><span class="pre">'No</span> <span class="pre">entries</span> <span class="pre">here</span> <span class="pre">so</span> <span class="pre">far'</span></tt> is part of the output.</p>
+<p>Run it again and you should see one passing test:</p>
+<div class="highlight-python"><pre>$ python flaskr_tests.py
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.034s
+
+OK</pre>
+</div>
+</div>
+<div class="section" id="logging-in-and-out">
+<h2>Logging In and Out<a class="headerlink" href="#logging-in-and-out" title="Permalink to this headline">¶</a></h2>
+<p>The majority of the functionality of our application is only available for
+the administrative user, so we need a way to log our test client in and out
+of the application.  To do this, we fire some requests to the login and logout
+pages with the required form data (username and password).  And because the
+login and logout pages redirect, we tell the client to <cite>follow_redirects</cite>.</p>
+<p>Add the following two methods to your <cite>FlaskrTestCase</cite> class:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s">&#39;/login&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+        <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span>
+        <span class="n">password</span><span class="o">=</span><span class="n">password</span>
+    <span class="p">),</span> <span class="n">follow_redirects</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">logout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;/logout&#39;</span><span class="p">,</span> <span class="n">follow_redirects</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now we can easily test that logging in and out works and that it fails with
+invalid credentials.  Add this new test to the class:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">test_login_logout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s">&#39;admin&#39;</span><span class="p">,</span> <span class="s">&#39;default&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="s">&#39;You were logged in&#39;</span> <span class="ow">in</span> <span class="n">rv</span><span class="o">.</span><span class="n">data</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">logout</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="s">&#39;You were logged out&#39;</span> <span class="ow">in</span> <span class="n">rv</span><span class="o">.</span><span class="n">data</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s">&#39;adminx&#39;</span><span class="p">,</span> <span class="s">&#39;default&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="s">&#39;Invalid username&#39;</span> <span class="ow">in</span> <span class="n">rv</span><span class="o">.</span><span class="n">data</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s">&#39;admin&#39;</span><span class="p">,</span> <span class="s">&#39;defaultx&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="s">&#39;Invalid password&#39;</span> <span class="ow">in</span> <span class="n">rv</span><span class="o">.</span><span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="test-adding-messages">
+<h2>Test Adding Messages<a class="headerlink" href="#test-adding-messages" title="Permalink to this headline">¶</a></h2>
+<p>We should also test that adding messages works.  Add a new test method
+like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">test_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s">&#39;admin&#39;</span><span class="p">,</span> <span class="s">&#39;default&#39;</span><span class="p">)</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s">&#39;/add&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+        <span class="n">title</span><span class="o">=</span><span class="s">&#39;&lt;Hello&gt;&#39;</span><span class="p">,</span>
+        <span class="n">text</span><span class="o">=</span><span class="s">&#39;&lt;strong&gt;HTML&lt;/strong&gt; allowed here&#39;</span>
+    <span class="p">),</span> <span class="n">follow_redirects</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="s">&#39;No entries here so far&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">rv</span><span class="o">.</span><span class="n">data</span>
+    <span class="k">assert</span> <span class="s">&#39;&amp;lt;Hello&amp;gt;&#39;</span> <span class="ow">in</span> <span class="n">rv</span><span class="o">.</span><span class="n">data</span>
+    <span class="k">assert</span> <span class="s">&#39;&lt;strong&gt;HTML&lt;/strong&gt; allowed here&#39;</span> <span class="ow">in</span> <span class="n">rv</span><span class="o">.</span><span class="n">data</span>
+</pre></div>
+</div>
+<p>Here we check that HTML is allowed in the text but not in the title,
+which is the intended behavior.</p>
+<p>Running that should now give us three passing tests:</p>
+<div class="highlight-python"><pre>$ python flaskr_tests.py
+...
+----------------------------------------------------------------------
+Ran 3 tests in 0.332s
+
+OK</pre>
+</div>
+<p>For more complex tests with headers and status codes, check out the
+<a class="reference external" href="http://github.com/mitsuhiko/flask/tree/master/examples/minitwit/">MiniTwit Example</a> from the sources which contains a larger test
+suite.</p>
+</div>
+<div class="section" id="other-testing-tricks">
+<h2>Other Testing Tricks<a class="headerlink" href="#other-testing-tricks" title="Permalink to this headline">¶</a></h2>
+<p>Besides using the test client as shown above, there is also the
+<a class="reference internal" href="api.html#flask.Flask.test_request_context" title="flask.Flask.test_request_context"><tt class="xref py py-meth docutils literal"><span class="pre">test_request_context()</span></tt></a> method that can be used
+in combination with the <cite>with</cite> statement to activate a request context
+temporarily.  With this you can access the <a class="reference internal" href="api.html#flask.request" title="flask.request"><tt class="xref py py-class docutils literal"><span class="pre">request</span></tt></a>,
+<a class="reference internal" href="api.html#flask.g" title="flask.g"><tt class="xref py py-class docutils literal"><span class="pre">g</span></tt></a> and <a class="reference internal" href="api.html#flask.session" title="flask.session"><tt class="xref py py-class docutils literal"><span class="pre">session</span></tt></a> objects like in view
+functions.  Here is a full example that demonstrates this approach:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">app</span> <span class="o">=</span> <span class="n">flask</span><span class="o">.</span><span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">test_request_context</span><span class="p">(</span><span class="s">&#39;/?name=Peter&#39;</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="n">flask</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">path</span> <span class="o">==</span> <span class="s">&#39;/&#39;</span>
+    <span class="k">assert</span> <span class="n">flask</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;Peter&#39;</span>
+</pre></div>
+</div>
+<p>All the other objects that are context bound can be used in the same
+way.</p>
+<p>If you want to test your application with different configurations and
+there does not seem to be a good way to do that, consider switching to
+application factories (see <a class="reference internal" href="patterns/appfactories.html#app-factories"><em>Application Factories</em></a>).</p>
+<p>Note however that if you are using a test request context, the
+<a class="reference internal" href="api.html#flask.Flask.before_request" title="flask.Flask.before_request"><tt class="xref py py-meth docutils literal"><span class="pre">before_request()</span></tt></a> functions are not automatically called
+same for <a class="reference internal" href="api.html#flask.Flask.after_request" title="flask.Flask.after_request"><tt class="xref py py-meth docutils literal"><span class="pre">after_request()</span></tt></a> functions.  However
+<a class="reference internal" href="api.html#flask.Flask.teardown_request" title="flask.Flask.teardown_request"><tt class="xref py py-meth docutils literal"><span class="pre">teardown_request()</span></tt></a> functions are indeed executed when
+the test request context leaves the <cite>with</cite> block.  If you do want the
+<a class="reference internal" href="api.html#flask.Flask.before_request" title="flask.Flask.before_request"><tt class="xref py py-meth docutils literal"><span class="pre">before_request()</span></tt></a> functions to be called as well, you
+need to call <a class="reference internal" href="api.html#flask.Flask.preprocess_request" title="flask.Flask.preprocess_request"><tt class="xref py py-meth docutils literal"><span class="pre">preprocess_request()</span></tt></a> yourself:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">app</span> <span class="o">=</span> <span class="n">flask</span><span class="o">.</span><span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">test_request_context</span><span class="p">(</span><span class="s">&#39;/?name=Peter&#39;</span><span class="p">):</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">preprocess_request</span><span class="p">()</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>This can be necessary to open database connections or something similar
+depending on how your application was designed.</p>
+<p>If you want to call the <a class="reference internal" href="api.html#flask.Flask.after_request" title="flask.Flask.after_request"><tt class="xref py py-meth docutils literal"><span class="pre">after_request()</span></tt></a> functions you
+need to call into <a class="reference internal" href="api.html#flask.Flask.process_response" title="flask.Flask.process_response"><tt class="xref py py-meth docutils literal"><span class="pre">process_response()</span></tt></a> which however
+requires that you pass it a response object:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">app</span> <span class="o">=</span> <span class="n">flask</span><span class="o">.</span><span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">test_request_context</span><span class="p">(</span><span class="s">&#39;/?name=Peter&#39;</span><span class="p">):</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">Response</span><span class="p">(</span><span class="s">&#39;...&#39;</span><span class="p">)</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">process_response</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>This in general is less useful because at that point you can directly
+start using the test client.</p>
+</div>
+<div class="section" id="faking-resources-and-context">
+<span id="faking-resources"></span><h2>Faking Resources and Context<a class="headerlink" href="#faking-resources-and-context" title="Permalink to this headline">¶</a></h2>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.10.</span></p>
+<p>A very common pattern is to store user authorization information and
+database connections on the application context or the <a class="reference internal" href="api.html#flask.g" title="flask.g"><tt class="xref py py-attr docutils literal"><span class="pre">flask.g</span></tt></a>
+object.  The general pattern for this is to put the object on there on
+first usage and then to remove it on a teardown.  Imagine for instance
+this code to get the current user:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">get_user</span><span class="p">():</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s">&#39;user&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">user</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">fetch_current_user_from_database</span><span class="p">()</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">user</span>
+    <span class="k">return</span> <span class="n">user</span>
+</pre></div>
+</div>
+<p>For a test it would be nice to override this user from the outside without
+having to change some code.  This can trivially be accomplished with
+hooking the <a class="reference internal" href="api.html#flask.appcontext_pushed" title="flask.appcontext_pushed"><tt class="xref py py-data docutils literal"><span class="pre">flask.appcontext_pushed</span></tt></a> signal:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">appcontext_pushed</span>
+
+<span class="nd">@contextmanager</span>
+<span class="k">def</span> <span class="nf">user_set</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">handler</span><span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">user</span>
+    <span class="k">with</span> <span class="n">appcontext_pushed</span><span class="o">.</span><span class="n">connected_to</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">app</span><span class="p">):</span>
+        <span class="k">yield</span>
+</pre></div>
+</div>
+<p>And then to use it:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">json</span><span class="p">,</span> <span class="n">jsonify</span>
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/users/me&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">users_me</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">g</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">user_set</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">my_user</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">test_client</span><span class="p">()</span> <span class="k">as</span> <span class="n">c</span><span class="p">:</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;/users/me&#39;</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;username&#39;</span><span class="p">],</span> <span class="n">my_user</span><span class="o">.</span><span class="n">username</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="keeping-the-context-around">
+<h2>Keeping the Context Around<a class="headerlink" href="#keeping-the-context-around" title="Permalink to this headline">¶</a></h2>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.4.</span></p>
+<p>Sometimes it is helpful to trigger a regular request but still keep the
+context around for a little longer so that additional introspection can
+happen.  With Flask 0.4 this is possible by using the
+<a class="reference internal" href="api.html#flask.Flask.test_client" title="flask.Flask.test_client"><tt class="xref py py-meth docutils literal"><span class="pre">test_client()</span></tt></a> with a <cite>with</cite> block:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">app</span> <span class="o">=</span> <span class="n">flask</span><span class="o">.</span><span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">test_client</span><span class="p">()</span> <span class="k">as</span> <span class="n">c</span><span class="p">:</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;/?tequila=42&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;tequila&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;42&#39;</span>
+</pre></div>
+</div>
+<p>If you were to use just the <a class="reference internal" href="api.html#flask.Flask.test_client" title="flask.Flask.test_client"><tt class="xref py py-meth docutils literal"><span class="pre">test_client()</span></tt></a> without
+the <cite>with</cite> block, the <cite>assert</cite> would fail with an error because <cite>request</cite>
+is no longer available (because you are trying to use it outside of the actual request).</p>
+</div>
+<div class="section" id="accessing-and-modifying-sessions">
+<h2>Accessing and Modifying Sessions<a class="headerlink" href="#accessing-and-modifying-sessions" title="Permalink to this headline">¶</a></h2>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.8.</span></p>
+<p>Sometimes it can be very helpful to access or modify the sessions from the
+test client.  Generally there are two ways for this.  If you just want to
+ensure that a session has certain keys set to certain values you can just
+keep the context around and access <a class="reference internal" href="api.html#flask.session" title="flask.session"><tt class="xref py py-data docutils literal"><span class="pre">flask.session</span></tt></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">test_client</span><span class="p">()</span> <span class="k">as</span> <span class="n">c</span><span class="p">:</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">flask</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s">&#39;foo&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">42</span>
+</pre></div>
+</div>
+<p>This however does not make it possible to also modify the session or to
+access the session before a request was fired.  Starting with Flask 0.8 we
+provide a so called “session transaction” which simulates the appropriate
+calls to open a session in the context of the test client and to modify
+it.  At the end of the transaction the session is stored.  This works
+independently of the session backend used:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">test_client</span><span class="p">()</span> <span class="k">as</span> <span class="n">c</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">c</span><span class="o">.</span><span class="n">session_transaction</span><span class="p">()</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>
+        <span class="n">sess</span><span class="p">[</span><span class="s">&#39;a_key&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;a value&#39;</span>
+
+    <span class="c"># once this is reached the session was stored</span>
+</pre></div>
+</div>
+<p>Note that in this case you have to use the <tt class="docutils literal"><span class="pre">sess</span></tt> object instead of the
+<a class="reference internal" href="api.html#flask.session" title="flask.session"><tt class="xref py py-data docutils literal"><span class="pre">flask.session</span></tt></a> proxy.  The object however itself will provide the
+same interface.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="index.html">
+  <img class="logo" src="_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Testing Flask Applications</a><ul>
+<li><a class="reference internal" href="#the-application">The Application</a></li>
+<li><a class="reference internal" href="#the-testing-skeleton">The Testing Skeleton</a></li>
+<li><a class="reference internal" href="#the-first-test">The First Test</a></li>
+<li><a class="reference internal" href="#logging-in-and-out">Logging In and Out</a></li>
+<li><a class="reference internal" href="#test-adding-messages">Test Adding Messages</a></li>
+<li><a class="reference internal" href="#other-testing-tricks">Other Testing Tricks</a></li>
+<li><a class="reference internal" href="#faking-resources-and-context">Faking Resources and Context</a></li>
+<li><a class="reference internal" href="#keeping-the-context-around">Keeping the Context Around</a></li>
+<li><a class="reference internal" href="#accessing-and-modifying-sessions">Accessing and Modifying Sessions</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="templating.html" title="previous chapter">Templates</a></li>
+      <li>Next: <a href="errorhandling.html" title="next chapter">Logging Application Errors</a></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/testing.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

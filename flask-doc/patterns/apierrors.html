@@ -1,0 +1,175 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Implementing API Exceptions &mdash; Flask 0.10.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Flask 0.10.1 documentation" href="../index.html" />
+    <link rel="up" title="Patterns for Flask" href="index.html" />
+    <link rel="next" title="Using URL Processors" href="urlprocessors.html" />
+    <link rel="prev" title="Application Dispatching" href="appdispatch.html" />
+   
+  
+  <link rel="apple-touch-icon" href="../_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="urlprocessors.html" title="Using URL Processors"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="appdispatch.html" title="Application Dispatching"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Flask 0.10.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Patterns for Flask</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="implementing-api-exceptions">
+<h1>Implementing API Exceptions<a class="headerlink" href="#implementing-api-exceptions" title="Permalink to this headline">¶</a></h1>
+<p>It&#8217;s very common to implement RESTful APIs on top of Flask.  One of the
+first thing that developers run into is the realization that the builtin
+exceptions are not expressive enough for APIs and that the content type of
+<tt class="docutils literal"><span class="pre">text/html</span></tt> they are emitting is not very useful for API consumers.</p>
+<p>The better solution than using <tt class="docutils literal"><span class="pre">abort</span></tt> to signal errors for invalid API
+usage is to implement your own exception type and install an error handler
+for it that produces the errors in the format the user is expecting.</p>
+<div class="section" id="simple-exception-class">
+<h2>Simple Exception Class<a class="headerlink" href="#simple-exception-class" title="Permalink to this headline">¶</a></h2>
+<p>The basic idea is to introduce a new exception that can take a proper
+human readable message, a status code for the error and some optional
+payload to give more context for the error.</p>
+<p>This is a simple example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">jsonify</span>
+
+<span class="k">class</span> <span class="nc">InvalidUsage</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="n">status_code</span> <span class="o">=</span> <span class="mi">400</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">payload</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="ne">Exception</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span>
+        <span class="k">if</span> <span class="n">status_code</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">status_code</span> <span class="o">=</span> <span class="n">status_code</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">payload</span> <span class="o">=</span> <span class="n">payload</span>
+
+    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">payload</span> <span class="ow">or</span> <span class="p">())</span>
+        <span class="n">rv</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">message</span>
+        <span class="k">return</span> <span class="n">rv</span>
+</pre></div>
+</div>
+<p>A view can now raise that exception with an error message.  Additionally
+some extra payload can be provided as a dictionary through the <cite>payload</cite>
+parameter.</p>
+</div>
+<div class="section" id="registering-an-error-handler">
+<h2>Registering an Error Handler<a class="headerlink" href="#registering-an-error-handler" title="Permalink to this headline">¶</a></h2>
+<p>At that point views can raise that error, but it would immediately result
+in an internal server error.  The reason for this is that there is no
+handler registered for this error class.  That however is easy to add:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@app.errorhandler</span><span class="p">(</span><span class="n">InvalidAPIUsage</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">handle_invalid_usage</span><span class="p">(</span><span class="n">error</span><span class="p">):</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+    <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">=</span> <span class="n">error</span><span class="o">.</span><span class="n">status_code</span>
+    <span class="k">return</span> <span class="n">response</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="usage-in-views">
+<h2>Usage in Views<a class="headerlink" href="#usage-in-views" title="Permalink to this headline">¶</a></h2>
+<p>Here is how a view can use that functionality:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/foo&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">get_foo</span><span class="p">():</span>
+    <span class="k">raise</span> <span class="n">InvalidUsage</span><span class="p">(</span><span class="s">&#39;This view is gone&#39;</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="mi">410</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="../index.html">
+  <img class="logo" src="../_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Implementing API Exceptions</a><ul>
+<li><a class="reference internal" href="#simple-exception-class">Simple Exception Class</a></li>
+<li><a class="reference internal" href="#registering-an-error-handler">Registering an Error Handler</a></li>
+<li><a class="reference internal" href="#usage-in-views">Usage in Views</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Patterns for Flask</a><ul>
+      <li>Previous: <a href="appdispatch.html" title="previous chapter">Application Dispatching</a></li>
+      <li>Next: <a href="urlprocessors.html" title="next chapter">Using URL Processors</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/patterns/apierrors.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,168 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Foreword for Experienced Programmers &mdash; Flask 0.10.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.10.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Flask 0.10.1 documentation" href="index.html" />
+    <link rel="next" title="Installation" href="installation.html" />
+    <link rel="prev" title="Foreword" href="foreword.html" />
+   
+  
+  <link rel="apple-touch-icon" href="_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="installation.html" title="Installation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="foreword.html" title="Foreword"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Flask 0.10.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="foreword-for-experienced-programmers">
+<span id="advanced-foreword"></span><h1>Foreword for Experienced Programmers<a class="headerlink" href="#foreword-for-experienced-programmers" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="thread-locals-in-flask">
+<h2>Thread-Locals in Flask<a class="headerlink" href="#thread-locals-in-flask" title="Permalink to this headline">¶</a></h2>
+<p>One of the design decisions in Flask was that simple tasks should be simple;
+they should not take a lot of code and yet they should not limit you. Because
+of that, Flask has few design choices that some people might find surprising or
+unorthodox. For example, Flask uses thread-local objects internally so that you
+don’t have to pass objects around from function to function within a request in
+order to stay threadsafe. This approach is convenient, but requires a valid
+request context for dependency injection or when attempting to reuse code which
+uses a value pegged to the request.  The Flask project is honest about
+thread-locals, does not hide them, and calls out in the code and documentation
+where they are used.</p>
+</div>
+<div class="section" id="develop-for-the-web-with-caution">
+<h2>Develop for the Web with Caution<a class="headerlink" href="#develop-for-the-web-with-caution" title="Permalink to this headline">¶</a></h2>
+<p>Always keep security in mind when building web applications.</p>
+<p>If you write a web application, you are probably allowing users to register
+and leave their data on your server.  The users are entrusting you with data.
+And even if you are the only user that might leave data in your application,
+you still want that data to be stored securely.</p>
+<p>Unfortunately, there are many ways the security of a web application can be
+compromised.  Flask protects you against one of the most common security
+problems of modern web applications: cross-site scripting (XSS).  Unless you
+deliberately mark insecure HTML as secure, Flask and the underlying Jinja2
+template engine have you covered.  But there are many more ways to cause
+security problems.</p>
+<p>The documentation will warn you about aspects of web development that require
+attention to security.  Some of these security concerns are far more complex
+than one might think, and we all sometimes underestimate the likelihood that a
+vulnerability will be exploited - until a clever attacker figures out a way to
+exploit our applications.  And don&#8217;t think that your application is not
+important enough to attract an attacker.  Depending on the kind of attack,
+chances are that automated bots are probing for ways to fill your database with
+spam, links to malicious software, and the like.</p>
+<p>Flask is no different from any other framework in that you the developer must
+build with caution, watching for exploits when building to your requirements.</p>
+</div>
+<div class="section" id="the-status-of-python-3">
+<h2>The Status of Python 3<a class="headerlink" href="#the-status-of-python-3" title="Permalink to this headline">¶</a></h2>
+<p>Currently the Python community is in the process of improving libraries to
+support the new iteration of the Python programming language.  While the
+situation is greatly improving there are still some issues that make it
+hard for users to switch over to Python 3 just now.  These problems are
+partially caused by changes in the language that went unreviewed for too
+long, partially also because we have not quite worked out how the lower-
+level API should change to account for the Unicode differences in Python 3.</p>
+<p>We strongly recommend using Python 2.6 and 2.7 with activated Python 3
+warnings during development.  If you plan on upgrading to Python 3 in the
+near future we strongly recommend that you read <a class="reference external" href="http://lucumr.pocoo.org/2011/1/22/forwards-compatible-python/">How to write forwards
+compatible Python code</a>.</p>
+<p>If you do want to dive into Python 3 already have a look at the
+<em class="xref std std-ref">python3_support</em> page.</p>
+<p>Continue to <a class="reference internal" href="installation.html#installation"><em>Installation</em></a> or the <a class="reference internal" href="quickstart.html#quickstart"><em>Quickstart</em></a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="index.html">
+  <img class="logo" src="_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Foreword for Experienced Programmers</a><ul>
+<li><a class="reference internal" href="#thread-locals-in-flask">Thread-Locals in Flask</a></li>
+<li><a class="reference internal" href="#develop-for-the-web-with-caution">Develop for the Web with Caution</a></li>
+<li><a class="reference internal" href="#the-status-of-python-3">The Status of Python 3</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="foreword.html" title="previous chapter">Foreword</a></li>
+      <li>Next: <a href="installation.html" title="next chapter">Installation</a></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/advanced_foreword.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,232 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The Application Context &mdash; Flask 0.10.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.10.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Flask 0.10.1 documentation" href="index.html" />
+    <link rel="next" title="The Request Context" href="reqcontext.html" />
+    <link rel="prev" title="Pluggable Views" href="views.html" />
+   
+  
+  <link rel="apple-touch-icon" href="_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="reqcontext.html" title="The Request Context"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="views.html" title="Pluggable Views"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Flask 0.10.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="the-application-context">
+<span id="app-context"></span><h1>The Application Context<a class="headerlink" href="#the-application-context" title="Permalink to this headline">¶</a></h1>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.9.</span></p>
+<p>One of the design ideas behind Flask is that there are two different
+“states” in which code is executed.  The application setup state in which
+the application implicitly is on the module level.  It starts when the
+<tt class="xref py py-class docutils literal"><span class="pre">Flask</span></tt> object is instantiated, and it implicitly ends when the
+first request comes in.  While the application is in this state a few
+assumptions are true:</p>
+<ul class="simple">
+<li>the programmer can modify the application object safely.</li>
+<li>no request handling happened so far</li>
+<li>you have to have a reference to the application object in order to
+modify it, there is no magic proxy that can give you a reference to
+the application object you&#8217;re currently creating or modifying.</li>
+</ul>
+<p>In contrast, during request handling, a couple of other rules exist:</p>
+<ul class="simple">
+<li>while a request is active, the context local objects
+(<a class="reference internal" href="api.html#flask.request" title="flask.request"><tt class="xref py py-data docutils literal"><span class="pre">flask.request</span></tt></a> and others) point to the current request.</li>
+<li>any code can get hold of these objects at any time.</li>
+</ul>
+<p>There is a third state which is sitting in between a little bit.
+Sometimes you are dealing with an application in a way that is similar to
+how you interact with applications during request handling just that there
+is no request active.  Consider for instance that you&#8217;re sitting in an
+interactive Python shell and interacting with the application, or a
+command line application.</p>
+<p>The application context is what powers the <a class="reference internal" href="api.html#flask.current_app" title="flask.current_app"><tt class="xref py py-data docutils literal"><span class="pre">current_app</span></tt></a>
+context local.</p>
+<div class="section" id="purpose-of-the-application-context">
+<h2>Purpose of the Application Context<a class="headerlink" href="#purpose-of-the-application-context" title="Permalink to this headline">¶</a></h2>
+<p>The main reason for the application&#8217;s context existence is that in the
+past a bunch of functionality was attached to the request context in lack
+of a better solution.  Since one of the pillar&#8217;s of Flask&#8217;s design is that
+you can have more than one application in the same Python process.</p>
+<p>So how does the code find the “right” application?  In the past we
+recommended passing applications around explicitly, but that caused issues
+with libraries that were not designed with that in mind.</p>
+<p>A common workaround for that problem was to use the
+<a class="reference internal" href="api.html#flask.current_app" title="flask.current_app"><tt class="xref py py-data docutils literal"><span class="pre">current_app</span></tt></a> proxy later on, which was bound to the current
+request&#8217;s application reference.  Since however creating such a request
+context is an unnecessarily expensive operation in case there is no
+request around, the application context was introduced.</p>
+</div>
+<div class="section" id="creating-an-application-context">
+<h2>Creating an Application Context<a class="headerlink" href="#creating-an-application-context" title="Permalink to this headline">¶</a></h2>
+<p>To make an application context there are two ways.  The first one is the
+implicit one: whenever a request context is pushed, an application context
+will be created alongside if this is necessary.  As a result of that, you
+can ignore the existence of the application context unless you need it.</p>
+<p>The second way is the explicit way using the
+<a class="reference internal" href="api.html#flask.Flask.app_context" title="flask.Flask.app_context"><tt class="xref py py-meth docutils literal"><span class="pre">app_context()</span></tt></a> method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">current_app</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">app_context</span><span class="p">():</span>
+    <span class="c"># within this block, current_app points to app.</span>
+    <span class="k">print</span> <span class="n">current_app</span><span class="o">.</span><span class="n">name</span>
+</pre></div>
+</div>
+<p>The application context is also used by the <a class="reference internal" href="api.html#flask.url_for" title="flask.url_for"><tt class="xref py py-func docutils literal"><span class="pre">url_for()</span></tt></a>
+function in case a <tt class="docutils literal"><span class="pre">SERVER_NAME</span></tt> was configured.  This allows you to
+generate URLs even in the absence of a request.</p>
+</div>
+<div class="section" id="locality-of-the-context">
+<h2>Locality of the Context<a class="headerlink" href="#locality-of-the-context" title="Permalink to this headline">¶</a></h2>
+<p>The application context is created and destroyed as necessary.  It never
+moves between threads and it will not be shared between requests.  As such
+it is the perfect place to store database connection information and other
+things.  The internal stack object is called <a class="reference internal" href="api.html#flask._app_ctx_stack" title="flask._app_ctx_stack"><tt class="xref py py-data docutils literal"><span class="pre">flask._app_ctx_stack</span></tt></a>.
+Extensions are free to store additional information on the topmost level,
+assuming they pick a sufficiently unique name and should put there
+information there, instead on the <a class="reference internal" href="api.html#flask.g" title="flask.g"><tt class="xref py py-data docutils literal"><span class="pre">flask.g</span></tt></a> object which is reserved
+for user code.</p>
+<p>For more information about that, see <a class="reference internal" href="extensiondev.html#extension-dev"><em>Flask Extension Development</em></a>.</p>
+</div>
+<div class="section" id="context-usage">
+<h2>Context Usage<a class="headerlink" href="#context-usage" title="Permalink to this headline">¶</a></h2>
+<p>The context is typically used to cache resources on there that need to be
+created on a per-request or usage case.  For instance database connects
+are destined to go there.  When storing things on the application context
+unique names should be chosen as this is a place that is shared between
+Flask applications and extensions.</p>
+<p>The most common usage is to split resource management into two parts:</p>
+<ol class="arabic simple">
+<li>an implicit resource caching on the context.</li>
+<li>a context teardown based resource deallocation.</li>
+</ol>
+<p>Generally there would be a <tt class="docutils literal"><span class="pre">get_X()</span></tt> function that creates resource
+<tt class="docutils literal"><span class="pre">X</span></tt> if it does not exist yet and otherwise returns the same resource,
+and a <tt class="docutils literal"><span class="pre">teardown_X()</span></tt> function that is registered as teardown handler.</p>
+<p>This is an example that connects to a database:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">sqlite3</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">g</span>
+
+<span class="k">def</span> <span class="nf">get_db</span><span class="p">():</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s">&#39;_database&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">db</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">db</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">_database</span> <span class="o">=</span> <span class="n">connect_to_database</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">db</span>
+
+<span class="nd">@app.teardown_appcontext</span>
+<span class="k">def</span> <span class="nf">teardown_db</span><span class="p">(</span><span class="n">exception</span><span class="p">):</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s">&#39;_database&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">db</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The first time <tt class="docutils literal"><span class="pre">get_db()</span></tt> is called the connection will be established.
+To make this implicit a <a class="reference external" href="http://werkzeug.pocoo.org/docs/local/#werkzeug.local.LocalProxy" title="(in Werkzeug v0.10)"><tt class="xref py py-class docutils literal"><span class="pre">LocalProxy</span></tt></a> can be used:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">werkzeug.local</span> <span class="kn">import</span> <span class="n">LocalProxy</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">LocalProxy</span><span class="p">(</span><span class="n">get_db</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>That way a user can directly access <tt class="docutils literal"><span class="pre">db</span></tt> which internally calls
+<tt class="docutils literal"><span class="pre">get_db()</span></tt>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="index.html">
+  <img class="logo" src="_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The Application Context</a><ul>
+<li><a class="reference internal" href="#purpose-of-the-application-context">Purpose of the Application Context</a></li>
+<li><a class="reference internal" href="#creating-an-application-context">Creating an Application Context</a></li>
+<li><a class="reference internal" href="#locality-of-the-context">Locality of the Context</a></li>
+<li><a class="reference internal" href="#context-usage">Context Usage</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="views.html" title="previous chapter">Pluggable Views</a></li>
+      <li>Next: <a href="reqcontext.html" title="next chapter">The Request Context</a></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/appcontext.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

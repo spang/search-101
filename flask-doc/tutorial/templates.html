@@ -1,0 +1,212 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Step 6: The Templates &mdash; Flask 0.10.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Flask 0.10.1 documentation" href="../index.html" />
+    <link rel="up" title="Tutorial" href="index.html" />
+    <link rel="next" title="Step 7: Adding Style" href="css.html" />
+    <link rel="prev" title="Step 5: The View Functions" href="views.html" />
+   
+  
+  <link rel="apple-touch-icon" href="../_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="css.html" title="Step 7: Adding Style"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="views.html" title="Step 5: The View Functions"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Flask 0.10.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Tutorial</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="step-6-the-templates">
+<span id="tutorial-templates"></span><h1>Step 6: The Templates<a class="headerlink" href="#step-6-the-templates" title="Permalink to this headline">¶</a></h1>
+<p>Now we should start working on the templates.  If we request the URLs now
+we would only get an exception that Flask cannot find the templates.  The
+templates are using <a class="reference external" href="http://jinja.pocoo.org/2/documentation/templates">Jinja2</a> syntax and have autoescaping enabled by
+default.  This means that unless you mark a value in the code with
+<a class="reference internal" href="../api.html#flask.Markup" title="flask.Markup"><tt class="xref py py-class docutils literal"><span class="pre">Markup</span></tt></a> or with the <tt class="docutils literal"><span class="pre">|safe</span></tt> filter in the template,
+Jinja2 will ensure that special characters such as <tt class="docutils literal"><span class="pre">&lt;</span></tt> or <tt class="docutils literal"><span class="pre">&gt;</span></tt> are
+escaped with their XML equivalents.</p>
+<p>We are also using template inheritance which makes it possible to reuse
+the layout of the website in all pages.</p>
+<p>Put the following templates into the <cite>templates</cite> folder:</p>
+<div class="section" id="layout-html">
+<h2>layout.html<a class="headerlink" href="#layout-html" title="Permalink to this headline">¶</a></h2>
+<p>This template contains the HTML skeleton, the header and a link to log in
+(or log out if the user was already logged in).  It also displays the
+flashed messages if there are any.  The <tt class="docutils literal"><span class="pre">{%</span> <span class="pre">block</span> <span class="pre">body</span> <span class="pre">%}</span></tt> block can be
+replaced by a block of the same name (<tt class="docutils literal"><span class="pre">body</span></tt>) in a child template.</p>
+<p>The <a class="reference internal" href="../api.html#flask.session" title="flask.session"><tt class="xref py py-class docutils literal"><span class="pre">session</span></tt></a> dict is available in the template as well and
+you can use that to check if the user is logged in or not.  Note that in
+Jinja you can access missing attributes and items of objects / dicts which
+makes the following code work, even if there is no <tt class="docutils literal"><span class="pre">'logged_in'</span></tt> key in
+the session:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">&lt;!doctype html&gt;</span>
+<span class="nt">&lt;title&gt;</span>Flaskr<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">stylesheet</span> <span class="na">type=</span><span class="s">text/css</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">url_for</span><span class="o">(</span><span class="s1">&#39;static&#39;</span><span class="o">,</span> <span class="nv">filename</span><span class="o">=</span><span class="s1">&#39;style.css&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">page</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;h1&gt;</span>Flaskr<span class="nt">&lt;/h1&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">metanav</span><span class="nt">&gt;</span>
+  <span class="cp">{%</span> <span class="k">if</span> <span class="k">not</span> <span class="nv">session.logged_in</span> <span class="cp">%}</span>
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">url_for</span><span class="o">(</span><span class="s1">&#39;login&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span>log in<span class="nt">&lt;/a&gt;</span>
+  <span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span>
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">url_for</span><span class="o">(</span><span class="s1">&#39;logout&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span>log out<span class="nt">&lt;/a&gt;</span>
+  <span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+  <span class="nt">&lt;/div&gt;</span>
+  <span class="cp">{%</span> <span class="k">for</span> <span class="nv">message</span> <span class="k">in</span> <span class="nv">get_flashed_messages</span><span class="o">()</span> <span class="cp">%}</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">flash</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">message</span> <span class="cp">}}</span><span class="nt">&lt;/div&gt;</span>
+  <span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+  <span class="cp">{%</span> <span class="k">block</span> <span class="nv">body</span> <span class="cp">%}{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+<span class="nt">&lt;/div&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="show-entries-html">
+<h2>show_entries.html<a class="headerlink" href="#show-entries-html" title="Permalink to this headline">¶</a></h2>
+<p>This template extends the <cite>layout.html</cite> template from above to display the
+messages.  Note that the <cite>for</cite> loop iterates over the messages we passed
+in with the <a class="reference internal" href="../api.html#flask.render_template" title="flask.render_template"><tt class="xref py py-func docutils literal"><span class="pre">render_template()</span></tt></a> function.  We also tell the
+form to submit to your <cite>add_entry</cite> function and use <cite>POST</cite> as <cite>HTTP</cite>
+method:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">extends</span> <span class="s2">&quot;layout.html&quot;</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">body</span> <span class="cp">%}</span>
+  <span class="cp">{%</span> <span class="k">if</span> <span class="nv">session.logged_in</span> <span class="cp">%}</span>
+    <span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">url_for</span><span class="o">(</span><span class="s1">&#39;add_entry&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="na">method=</span><span class="s">post</span> <span class="na">class=</span><span class="s">add-entry</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;dl&gt;</span>
+        <span class="nt">&lt;dt&gt;</span>Title:
+        <span class="nt">&lt;dd&gt;&lt;input</span> <span class="na">type=</span><span class="s">text</span> <span class="na">size=</span><span class="s">30</span> <span class="na">name=</span><span class="s">title</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;dt&gt;</span>Text:
+        <span class="nt">&lt;dd&gt;&lt;textarea</span> <span class="na">name=</span><span class="s">text</span> <span class="na">rows=</span><span class="s">5</span> <span class="na">cols=</span><span class="s">40</span><span class="nt">&gt;&lt;/textarea&gt;</span>
+        <span class="nt">&lt;dd&gt;&lt;input</span> <span class="na">type=</span><span class="s">submit</span> <span class="na">value=</span><span class="s">Share</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;/dl&gt;</span>
+    <span class="nt">&lt;/form&gt;</span>
+  <span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+  <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">entries</span><span class="nt">&gt;</span>
+  <span class="cp">{%</span> <span class="k">for</span> <span class="nv">entry</span> <span class="k">in</span> <span class="nv">entries</span> <span class="cp">%}</span>
+    <span class="nt">&lt;li&gt;&lt;h2&gt;</span><span class="cp">{{</span> <span class="nv">entry.title</span> <span class="cp">}}</span><span class="nt">&lt;/h2&gt;</span><span class="cp">{{</span> <span class="nv">entry.text</span><span class="o">|</span><span class="nf">safe</span> <span class="cp">}}</span>
+  <span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span>
+    <span class="nt">&lt;li&gt;&lt;em&gt;</span>Unbelievable.  No entries here so far<span class="nt">&lt;/em&gt;</span>
+  <span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+  <span class="nt">&lt;/ul&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="login-html">
+<h2>login.html<a class="headerlink" href="#login-html" title="Permalink to this headline">¶</a></h2>
+<p>Finally the login template which basically just displays a form to allow
+the user to login:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">extends</span> <span class="s2">&quot;layout.html&quot;</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">body</span> <span class="cp">%}</span>
+  <span class="nt">&lt;h2&gt;</span>Login<span class="nt">&lt;/h2&gt;</span>
+  <span class="cp">{%</span> <span class="k">if</span> <span class="nv">error</span> <span class="cp">%}</span><span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">error</span><span class="nt">&gt;&lt;strong&gt;</span>Error:<span class="nt">&lt;/strong&gt;</span> <span class="cp">{{</span> <span class="nv">error</span> <span class="cp">}}{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+  <span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">url_for</span><span class="o">(</span><span class="s1">&#39;login&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="na">method=</span><span class="s">post</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;dl&gt;</span>
+      <span class="nt">&lt;dt&gt;</span>Username:
+      <span class="nt">&lt;dd&gt;&lt;input</span> <span class="na">type=</span><span class="s">text</span> <span class="na">name=</span><span class="s">username</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;dt&gt;</span>Password:
+      <span class="nt">&lt;dd&gt;&lt;input</span> <span class="na">type=</span><span class="s">password</span> <span class="na">name=</span><span class="s">password</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;dd&gt;&lt;input</span> <span class="na">type=</span><span class="s">submit</span> <span class="na">value=</span><span class="s">Login</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/dl&gt;</span>
+  <span class="nt">&lt;/form&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>Continue with <a class="reference internal" href="css.html#tutorial-css"><em>Step 7: Adding Style</em></a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="../index.html">
+  <img class="logo" src="../_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Step 6: The Templates</a><ul>
+<li><a class="reference internal" href="#layout-html">layout.html</a></li>
+<li><a class="reference internal" href="#show-entries-html">show_entries.html</a></li>
+<li><a class="reference internal" href="#login-html">login.html</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Tutorial</a><ul>
+      <li>Previous: <a href="views.html" title="previous chapter">Step 5: The View Functions</a></li>
+      <li>Next: <a href="css.html" title="next chapter">Step 7: Adding Style</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/tutorial/templates.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

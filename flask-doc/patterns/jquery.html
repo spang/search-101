@@ -1,0 +1,263 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>AJAX with jQuery &mdash; Flask 0.10.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Flask 0.10.1 documentation" href="../index.html" />
+    <link rel="up" title="Patterns for Flask" href="index.html" />
+    <link rel="next" title="Custom Error Pages" href="errorpages.html" />
+    <link rel="prev" title="Message Flashing" href="flashing.html" />
+   
+  
+  <link rel="apple-touch-icon" href="../_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="errorpages.html" title="Custom Error Pages"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="flashing.html" title="Message Flashing"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Flask 0.10.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Patterns for Flask</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="ajax-with-jquery">
+<h1>AJAX with jQuery<a class="headerlink" href="#ajax-with-jquery" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="http://jquery.com/">jQuery</a> is a small JavaScript library commonly used to simplify working
+with the DOM and JavaScript in general.  It is the perfect tool to make
+web applications more dynamic by exchanging JSON between server and
+client.</p>
+<p>JSON itself is a very lightweight transport format, very similar to how
+Python primitives (numbers, strings, dicts and lists) look like which is
+widely supported and very easy to parse.  It became popular a few years
+ago and quickly replaced XML as transport format in web applications.</p>
+<div class="section" id="loading-jquery">
+<h2>Loading jQuery<a class="headerlink" href="#loading-jquery" title="Permalink to this headline">¶</a></h2>
+<p>In order to use jQuery, you have to download it first and place it in the
+static folder of your application and then ensure it&#8217;s loaded.  Ideally
+you have a layout template that is used for all pages where you just have
+to add a script statement to the bottom of your <cite>&lt;body&gt;</cite> to load jQuery:</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">text/javascript</span> <span class="na">src=</span><span class="s">&quot;{{</span>
+<span class="s">  url_for(&#39;static&#39;, filename=&#39;jquery.js&#39;) }}&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</pre></div>
+</div>
+<p>Another method is using Google&#8217;s <a class="reference external" href="https://developers.google.com/speed/libraries/devguide">AJAX Libraries API</a> to load jQuery:</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script&gt;</span><span class="nb">window</span><span class="p">.</span><span class="nx">jQuery</span> <span class="o">||</span> <span class="nb">document</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s1">&#39;&lt;script src=&quot;{{</span>
+<span class="s1">  url_for(&#39;</span><span class="kr">static</span><span class="s1">&#39;, filename=&#39;</span><span class="nx">jquery</span><span class="p">.</span><span class="nx">js</span><span class="s1">&#39;) }}&quot;&gt;\x3C/script&gt;&#39;</span><span class="p">)</span><span class="nt">&lt;/script&gt;</span>
+</pre></div>
+</div>
+<p>In this case you have to put jQuery into your static folder as a fallback, but it will
+first try to load it directly from Google. This has the advantage that your
+website will probably load faster for users if they went to at least one
+other website before using the same jQuery version from Google because it
+will already be in the browser cache.</p>
+</div>
+<div class="section" id="where-is-my-site">
+<h2>Where is My Site?<a class="headerlink" href="#where-is-my-site" title="Permalink to this headline">¶</a></h2>
+<p>Do you know where your application is?  If you are developing the answer
+is quite simple: it&#8217;s on localhost port something and directly on the root
+of that server.  But what if you later decide to move your application to
+a different location?  For example to <tt class="docutils literal"><span class="pre">http://example.com/myapp</span></tt>?  On
+the server side this never was a problem because we were using the handy
+<a class="reference internal" href="../api.html#flask.url_for" title="flask.url_for"><tt class="xref py py-func docutils literal"><span class="pre">url_for()</span></tt></a> function that could answer that question for
+us, but if we are using jQuery we should not hardcode the path to
+the application but make that dynamic, so how can we do that?</p>
+<p>A simple method would be to add a script tag to our page that sets a
+global variable to the prefix to the root of the application.  Something
+like this:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">text/javascript</span><span class="nt">&gt;</span>
+  <span class="nx">$SCRIPT_ROOT</span> <span class="o">=</span> <span class="cp">{{</span> <span class="nv">request.script_root</span><span class="o">|</span><span class="nf">tojson</span><span class="o">|</span><span class="nf">safe</span> <span class="cp">}}</span><span class="p">;</span>
+<span class="nt">&lt;/script&gt;</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">|safe</span></tt> is necessary in Flask before 0.10 so that Jinja does not
+escape the JSON encoded string with HTML rules.  Usually this would be
+necessary, but we are inside a <cite>script</cite> block here where different rules
+apply.</p>
+<div class="admonition-information-for-pros admonition">
+<p class="first admonition-title">Information for Pros</p>
+<p>In HTML the <cite>script</cite> tag is declared <cite>CDATA</cite> which means that entities
+will not be parsed.  Everything until <tt class="docutils literal"><span class="pre">&lt;/script&gt;</span></tt> is handled as script.
+This also means that there must never be any <tt class="docutils literal"><span class="pre">&lt;/</span></tt> between the script
+tags.  <tt class="docutils literal"><span class="pre">|tojson</span></tt> is kind enough to do the right thing here and
+escape slashes for you (<tt class="docutils literal"><span class="pre">{{</span> <span class="pre">&quot;&lt;/script&gt;&quot;|tojson|safe</span> <span class="pre">}}</span></tt> is rendered as
+<tt class="docutils literal"><span class="pre">&quot;&lt;\/script&gt;&quot;</span></tt>).</p>
+<p class="last">In Flask 0.10 it goes a step further and escapes all HTML tags with
+unicode escapes.  This makes it possible for Flask to automatically
+mark the result as HTML safe.</p>
+</div>
+</div>
+<div class="section" id="json-view-functions">
+<h2>JSON View Functions<a class="headerlink" href="#json-view-functions" title="Permalink to this headline">¶</a></h2>
+<p>Now let&#8217;s create a server side function that accepts two URL arguments of
+numbers which should be added together and then sent back to the
+application in a JSON object.  This is a really ridiculous example and is
+something you usually would do on the client side alone, but a simple
+example that shows how you would use jQuery and Flask nonetheless:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">jsonify</span><span class="p">,</span> <span class="n">render_template</span><span class="p">,</span> <span class="n">request</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/_add_numbers&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">add_numbers</span><span class="p">():</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s">&#39;index.html&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>As you can see I also added an <cite>index</cite> method here that renders a
+template.  This template will load jQuery as above and have a little form
+we can add two numbers and a link to trigger the function on the server
+side.</p>
+<p>Note that we are using the <a class="reference external" href="http://werkzeug.pocoo.org/docs/datastructures/#werkzeug.datastructures.MultiDict.get" title="(in Werkzeug v0.10)"><tt class="xref py py-meth docutils literal"><span class="pre">get()</span></tt></a> method here
+which will never fail.  If the key is missing a default value (here <tt class="docutils literal"><span class="pre">0</span></tt>)
+is returned.  Furthermore it can convert values to a specific type (like
+in our case <cite>int</cite>).  This is especially handy for code that is
+triggered by a script (APIs, JavaScript etc.) because you don&#8217;t need
+special error reporting in that case.</p>
+</div>
+<div class="section" id="the-html">
+<h2>The HTML<a class="headerlink" href="#the-html" title="Permalink to this headline">¶</a></h2>
+<p>Your index.html template either has to extend a <cite>layout.html</cite> template with
+jQuery loaded and the <cite>$SCRIPT_ROOT</cite> variable set, or do that on the top.
+Here&#8217;s the HTML code needed for our little application (<cite>index.html</cite>).
+Notice that we also drop the script directly into the HTML here.  It is
+usually a better idea to have that in a separate script file:</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">text/javascript</span><span class="nt">&gt;</span>
+  <span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;a#calculate&#39;</span><span class="p">).</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nx">$</span><span class="p">.</span><span class="nx">getJSON</span><span class="p">(</span><span class="nx">$SCRIPT_ROOT</span> <span class="o">+</span> <span class="s1">&#39;/_add_numbers&#39;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="nx">a</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;a&quot;]&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">(),</span>
+        <span class="nx">b</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;b&quot;]&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">()</span>
+      <span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#result&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">result</span><span class="p">);</span>
+      <span class="p">});</span>
+      <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;h1&gt;</span>jQuery Example<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;p&gt;&lt;input</span> <span class="na">type=</span><span class="s">text</span> <span class="na">size=</span><span class="s">5</span> <span class="na">name=</span><span class="s">a</span><span class="nt">&gt;</span> +
+   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">text</span> <span class="na">size=</span><span class="s">5</span> <span class="na">name=</span><span class="s">b</span><span class="nt">&gt;</span> =
+   <span class="nt">&lt;span</span> <span class="na">id=</span><span class="s">result</span><span class="nt">&gt;</span>?<span class="nt">&lt;/span&gt;</span>
+<span class="nt">&lt;p&gt;&lt;a</span> <span class="na">href=</span><span class="s">#</span> <span class="na">id=</span><span class="s">calculate</span><span class="nt">&gt;</span>calculate server side<span class="nt">&lt;/a&gt;</span>
+</pre></div>
+</div>
+<p>I won&#8217;t got into detail here about how jQuery works, just a very quick
+explanation of the little bit of code above:</p>
+<ol class="arabic simple">
+<li><tt class="docutils literal"><span class="pre">$(function()</span> <span class="pre">{</span> <span class="pre">...</span> <span class="pre">})</span></tt> specifies code that should run once the
+browser is done loading the basic parts of the page.</li>
+<li><tt class="docutils literal"><span class="pre">$('selector')</span></tt> selects an element and lets you operate on it.</li>
+<li><tt class="docutils literal"><span class="pre">element.bind('event',</span> <span class="pre">func)</span></tt> specifies a function that should run
+when the user clicked on the element.  If that function returns
+<cite>false</cite>, the default behavior will not kick in (in this case, navigate
+to the <cite>#</cite> URL).</li>
+<li><tt class="docutils literal"><span class="pre">$.getJSON(url,</span> <span class="pre">data,</span> <span class="pre">func)</span></tt> sends a <cite>GET</cite> request to <cite>url</cite> and will
+send the contents of the <cite>data</cite> object as query parameters.  Once the
+data arrived, it will call the given function with the return value as
+argument.  Note that we can use the <cite>$SCRIPT_ROOT</cite> variable here that
+we set earlier.</li>
+</ol>
+<p>If you don&#8217;t get the whole picture, download the <a class="reference external" href="http://github.com/mitsuhiko/flask/tree/master/examples/jqueryexample">sourcecode
+for this example</a>
+from github.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="../index.html">
+  <img class="logo" src="../_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">AJAX with jQuery</a><ul>
+<li><a class="reference internal" href="#loading-jquery">Loading jQuery</a></li>
+<li><a class="reference internal" href="#where-is-my-site">Where is My Site?</a></li>
+<li><a class="reference internal" href="#json-view-functions">JSON View Functions</a></li>
+<li><a class="reference internal" href="#the-html">The HTML</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Patterns for Flask</a><ul>
+      <li>Previous: <a href="flashing.html" title="previous chapter">Message Flashing</a></li>
+      <li>Next: <a href="errorpages.html" title="next chapter">Custom Error Pages</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/patterns/jquery.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,180 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Deferred Request Callbacks &mdash; Flask 0.10.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Flask 0.10.1 documentation" href="../index.html" />
+    <link rel="up" title="Patterns for Flask" href="index.html" />
+    <link rel="next" title="Adding HTTP Method Overrides" href="methodoverrides.html" />
+    <link rel="prev" title="Streaming Contents" href="streaming.html" />
+   
+  
+  <link rel="apple-touch-icon" href="../_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="methodoverrides.html" title="Adding HTTP Method Overrides"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="streaming.html" title="Streaming Contents"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Flask 0.10.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Patterns for Flask</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="deferred-request-callbacks">
+<span id="deferred-callbacks"></span><h1>Deferred Request Callbacks<a class="headerlink" href="#deferred-request-callbacks" title="Permalink to this headline">¶</a></h1>
+<p>One of the design principles of Flask is that response objects are created
+and passed down a chain of potential callbacks that can modify them or
+replace them.  When the request handling starts, there is no response
+object yet.  It is created as necessary either by a view function or by
+some other component in the system.</p>
+<p>But what happens if you want to modify the response at a point where the
+response does not exist yet?  A common example for that would be a
+before-request function that wants to set a cookie on the response object.</p>
+<p>One way is to avoid the situation.  Very often that is possible.  For
+instance you can try to move that logic into an after-request callback
+instead.  Sometimes however moving that code there is just not a very
+pleasant experience or makes code look very awkward.</p>
+<p>As an alternative possibility you can attach a bunch of callback functions
+to the <a class="reference internal" href="../api.html#flask.g" title="flask.g"><tt class="xref py py-data docutils literal"><span class="pre">g</span></tt></a> object and call them at the end of the request.
+This way you can defer code execution from anywhere in the application.</p>
+<div class="section" id="the-decorator">
+<h2>The Decorator<a class="headerlink" href="#the-decorator" title="Permalink to this headline">¶</a></h2>
+<p>The following decorator is the key.  It registers a function on a list on
+the <a class="reference internal" href="../api.html#flask.g" title="flask.g"><tt class="xref py py-data docutils literal"><span class="pre">g</span></tt></a> object:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">g</span>
+
+<span class="k">def</span> <span class="nf">after_this_request</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s">&#39;after_request_callbacks&#39;</span><span class="p">):</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">after_request_callbacks</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">after_request_callbacks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">f</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="calling-the-deferred">
+<h2>Calling the Deferred<a class="headerlink" href="#calling-the-deferred" title="Permalink to this headline">¶</a></h2>
+<p>Now you can use the <cite>after_this_request</cite> decorator to mark a function to
+be called at the end of the request.  But we still need to call them.  For
+this the following function needs to be registered as
+<a class="reference internal" href="../api.html#flask.Flask.after_request" title="flask.Flask.after_request"><tt class="xref py py-meth docutils literal"><span class="pre">after_request()</span></tt></a> callback:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@app.after_request</span>
+<span class="k">def</span> <span class="nf">call_after_request_callbacks</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">callback</span> <span class="ow">in</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s">&#39;after_request_callbacks&#39;</span><span class="p">,</span> <span class="p">()):</span>
+        <span class="n">callback</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">response</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="a-practical-example">
+<h2>A Practical Example<a class="headerlink" href="#a-practical-example" title="Permalink to this headline">¶</a></h2>
+<p>Now we can easily at any point in time register a function to be called at
+the end of this particular request.  For example you can remember the
+current language of the user in a cookie in the before-request function:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">request</span>
+
+<span class="nd">@app.before_request</span>
+<span class="k">def</span> <span class="nf">detect_user_language</span><span class="p">():</span>
+    <span class="n">language</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;user_lang&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">language</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">language</span> <span class="o">=</span> <span class="n">guess_language_from_request</span><span class="p">()</span>
+        <span class="nd">@after_this_request</span>
+        <span class="k">def</span> <span class="nf">remember_language</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">set_cookie</span><span class="p">(</span><span class="s">&#39;user_lang&#39;</span><span class="p">,</span> <span class="n">language</span><span class="p">)</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">language</span> <span class="o">=</span> <span class="n">language</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="../index.html">
+  <img class="logo" src="../_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Deferred Request Callbacks</a><ul>
+<li><a class="reference internal" href="#the-decorator">The Decorator</a></li>
+<li><a class="reference internal" href="#calling-the-deferred">Calling the Deferred</a></li>
+<li><a class="reference internal" href="#a-practical-example">A Practical Example</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Patterns for Flask</a><ul>
+      <li>Previous: <a href="streaming.html" title="previous chapter">Streaming Contents</a></li>
+      <li>Next: <a href="methodoverrides.html" title="next chapter">Adding HTTP Method Overrides</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/patterns/deferredcallbacks.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

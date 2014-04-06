@@ -1,0 +1,313 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The Request Context &mdash; Flask 0.10.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.10.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Flask 0.10.1 documentation" href="index.html" />
+    <link rel="next" title="Modular Applications with Blueprints" href="blueprints.html" />
+    <link rel="prev" title="The Application Context" href="appcontext.html" />
+   
+  
+  <link rel="apple-touch-icon" href="_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="blueprints.html" title="Modular Applications with Blueprints"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="appcontext.html" title="The Application Context"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Flask 0.10.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="the-request-context">
+<span id="request-context"></span><h1>The Request Context<a class="headerlink" href="#the-request-context" title="Permalink to this headline">¶</a></h1>
+<p>This document describes the behavior in Flask 0.7 which is mostly in line
+with the old behavior but has some small, subtle differences.</p>
+<p>It is recommended that you read the <a class="reference internal" href="appcontext.html#app-context"><em>The Application Context</em></a> chapter first.</p>
+<div class="section" id="diving-into-context-locals">
+<h2>Diving into Context Locals<a class="headerlink" href="#diving-into-context-locals" title="Permalink to this headline">¶</a></h2>
+<p>Say you have a utility function that returns the URL the user should be
+redirected to.  Imagine it would always redirect to the URL&#8217;s <tt class="docutils literal"><span class="pre">next</span></tt>
+parameter or the HTTP referrer or the index page:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">request</span><span class="p">,</span> <span class="n">url_for</span>
+
+<span class="k">def</span> <span class="nf">redirect_url</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;next&#39;</span><span class="p">)</span> <span class="ow">or</span> \
+           <span class="n">request</span><span class="o">.</span><span class="n">referrer</span> <span class="ow">or</span> \
+           <span class="n">url_for</span><span class="p">(</span><span class="s">&#39;index&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>As you can see, it accesses the request object.  If you try to run this
+from a plain Python shell, this is the exception you will see:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">redirect_url</span><span class="p">()</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+<span class="gr">AttributeError</span>: <span class="n">&#39;NoneType&#39; object has no attribute &#39;request&#39;</span>
+</pre></div>
+</div>
+<p>That makes a lot of sense because we currently do not have a request we
+could access.  So we have to make a request and bind it to the current
+context.  The <a class="reference internal" href="api.html#flask.Flask.test_request_context" title="flask.Flask.test_request_context"><tt class="xref py py-attr docutils literal"><span class="pre">test_request_context</span></tt></a> method can create
+us a <a class="reference internal" href="api.html#flask.ctx.RequestContext" title="flask.ctx.RequestContext"><tt class="xref py py-class docutils literal"><span class="pre">RequestContext</span></tt></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ctx</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">test_request_context</span><span class="p">(</span><span class="s">&#39;/?next=http://example.com/&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This context can be used in two ways.  Either with the <cite>with</cite> statement
+or by calling the <a class="reference internal" href="api.html#flask.ctx.RequestContext.push" title="flask.ctx.RequestContext.push"><tt class="xref py py-meth docutils literal"><span class="pre">push()</span></tt></a> and
+<a class="reference internal" href="api.html#flask.ctx.RequestContext.pop" title="flask.ctx.RequestContext.pop"><tt class="xref py py-meth docutils literal"><span class="pre">pop()</span></tt></a> methods:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ctx</span><span class="o">.</span><span class="n">push</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>From that point onwards you can work with the request object:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">redirect_url</span><span class="p">()</span>
+<span class="go">u&#39;http://example.com/&#39;</span>
+</pre></div>
+</div>
+<p>Until you call <cite>pop</cite>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ctx</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Because the request context is internally maintained as a stack you can
+push and pop multiple times.  This is very handy to implement things like
+internal redirects.</p>
+<p>For more information of how to utilize the request context from the
+interactive Python shell, head over to the <a class="reference internal" href="shell.html#shell"><em>Working with the Shell</em></a> chapter.</p>
+</div>
+<div class="section" id="how-the-context-works">
+<h2>How the Context Works<a class="headerlink" href="#how-the-context-works" title="Permalink to this headline">¶</a></h2>
+<p>If you look into how the Flask WSGI application internally works, you will
+find a piece of code that looks very much like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">wsgi_app</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">environ</span><span class="p">):</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">request_context</span><span class="p">(</span><span class="n">environ</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">full_dispatch_request</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_response</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">handle_exception</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">response</span><span class="p">(</span><span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The method <tt class="xref py py-meth docutils literal"><span class="pre">request_context()</span></tt> returns a new
+<a class="reference internal" href="api.html#flask.ctx.RequestContext" title="flask.ctx.RequestContext"><tt class="xref py py-class docutils literal"><span class="pre">RequestContext</span></tt></a> object and uses it in combination with
+the <cite>with</cite> statement to bind the context.  Everything that is called from
+the same thread from this point onwards until the end of the <cite>with</cite>
+statement will have access to the request globals (<a class="reference internal" href="api.html#flask.request" title="flask.request"><tt class="xref py py-data docutils literal"><span class="pre">flask.request</span></tt></a>
+and others).</p>
+<p>The request context internally works like a stack: The topmost level on
+the stack is the current active request.
+<a class="reference internal" href="api.html#flask.ctx.RequestContext.push" title="flask.ctx.RequestContext.push"><tt class="xref py py-meth docutils literal"><span class="pre">push()</span></tt></a> adds the context to the stack on
+the very top, <a class="reference internal" href="api.html#flask.ctx.RequestContext.pop" title="flask.ctx.RequestContext.pop"><tt class="xref py py-meth docutils literal"><span class="pre">pop()</span></tt></a> removes it from the
+stack again.  On popping the application&#8217;s
+<a class="reference internal" href="api.html#flask.Flask.teardown_request" title="flask.Flask.teardown_request"><tt class="xref py py-func docutils literal"><span class="pre">teardown_request()</span></tt></a> functions are also executed.</p>
+<p>Another thing of note is that the request context will automatically also
+create an <a class="reference internal" href="appcontext.html#app-context"><em>application context</em></a> when it&#8217;s pushed and
+there is no application context for that application so far.</p>
+</div>
+<div class="section" id="callbacks-and-errors">
+<span id="id1"></span><h2>Callbacks and Errors<a class="headerlink" href="#callbacks-and-errors" title="Permalink to this headline">¶</a></h2>
+<p>What happens if an error occurs in Flask during request processing?  This
+particular behavior changed in 0.7 because we wanted to make it easier to
+understand what is actually happening.  The new behavior is quite simple:</p>
+<ol class="arabic simple">
+<li>Before each request, <a class="reference internal" href="api.html#flask.Flask.before_request" title="flask.Flask.before_request"><tt class="xref py py-meth docutils literal"><span class="pre">before_request()</span></tt></a> functions are
+executed.  If one of these functions return a response, the other
+functions are no longer called.  In any case however the return value
+is treated as a replacement for the view&#8217;s return value.</li>
+<li>If the <a class="reference internal" href="api.html#flask.Flask.before_request" title="flask.Flask.before_request"><tt class="xref py py-meth docutils literal"><span class="pre">before_request()</span></tt></a> functions did not return a
+response, the regular request handling kicks in and the view function
+that was matched has the chance to return a response.</li>
+<li>The return value of the view is then converted into an actual response
+object and handed over to the <a class="reference internal" href="api.html#flask.Flask.after_request" title="flask.Flask.after_request"><tt class="xref py py-meth docutils literal"><span class="pre">after_request()</span></tt></a>
+functions which have the chance to replace it or modify it in place.</li>
+<li>At the end of the request the <a class="reference internal" href="api.html#flask.Flask.teardown_request" title="flask.Flask.teardown_request"><tt class="xref py py-meth docutils literal"><span class="pre">teardown_request()</span></tt></a>
+functions are executed.  This always happens, even in case of an
+unhandled exception down the road or if a before-request handler was
+not executed yet or at all (for example in test environments sometimes
+you might want to not execute before-request callbacks).</li>
+</ol>
+<p>Now what happens on errors?  In production mode if an exception is not
+caught, the 500 internal server handler is called.  In development mode
+however the exception is not further processed and bubbles up to the WSGI
+server.  That way things like the interactive debugger can provide helpful
+debug information.</p>
+<p>An important change in 0.7 is that the internal server error is now no
+longer post processed by the after request callbacks and after request
+callbacks are no longer guaranteed to be executed.  This way the internal
+dispatching code looks cleaner and is easier to customize and understand.</p>
+<p>The new teardown functions are supposed to be used as a replacement for
+things that absolutely need to happen at the end of request.</p>
+</div>
+<div class="section" id="teardown-callbacks">
+<h2>Teardown Callbacks<a class="headerlink" href="#teardown-callbacks" title="Permalink to this headline">¶</a></h2>
+<p>The teardown callbacks are special callbacks in that they are executed at
+at different point.  Strictly speaking they are independent of the actual
+request handling as they are bound to the lifecycle of the
+<a class="reference internal" href="api.html#flask.ctx.RequestContext" title="flask.ctx.RequestContext"><tt class="xref py py-class docutils literal"><span class="pre">RequestContext</span></tt></a> object.  When the request context is
+popped, the <a class="reference internal" href="api.html#flask.Flask.teardown_request" title="flask.Flask.teardown_request"><tt class="xref py py-meth docutils literal"><span class="pre">teardown_request()</span></tt></a> functions are called.</p>
+<p>This is important to know if the life of the request context is prolonged
+by using the test client in a with statement or when using the request
+context from the command line:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">test_client</span><span class="p">()</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;/foo&#39;</span><span class="p">)</span>
+    <span class="c"># the teardown functions are still not called at that point</span>
+    <span class="c"># even though the response ended and you have the response</span>
+    <span class="c"># object in your hand</span>
+
+<span class="c"># only when the code reaches this point the teardown functions</span>
+<span class="c"># are called.  Alternatively the same thing happens if another</span>
+<span class="c"># request was triggered from the test client</span>
+</pre></div>
+</div>
+<p>It&#8217;s easy to see the behavior from the command line:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@app.teardown_request</span>
+<span class="gp">... </span><span class="k">def</span> <span class="nf">teardown_request</span><span class="p">(</span><span class="n">exception</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="s">&#39;this runs after request&#39;</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ctx</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">test_request_context</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ctx</span><span class="o">.</span><span class="n">push</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ctx</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+<span class="go">this runs after request</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>Keep in mind that teardown callbacks are always executed, even if
+before-request callbacks were not executed yet but an exception happened.
+Certain parts of the test system might also temporarily create a request
+context without calling the before-request handlers.  Make sure to write
+your teardown-request handlers in a way that they will never fail.</p>
+</div>
+<div class="section" id="notes-on-proxies">
+<span id="id2"></span><h2>Notes On Proxies<a class="headerlink" href="#notes-on-proxies" title="Permalink to this headline">¶</a></h2>
+<p>Some of the objects provided by Flask are proxies to other objects.  The
+reason behind this is that these proxies are shared between threads and
+they have to dispatch to the actual object bound to a thread behind the
+scenes as necessary.</p>
+<p>Most of the time you don&#8217;t have to care about that, but there are some
+exceptions where it is good to know that this object is an actual proxy:</p>
+<ul class="simple">
+<li>The proxy objects do not fake their inherited types, so if you want to
+perform actual instance checks, you have to do that on the instance
+that is being proxied (see <cite>_get_current_object</cite> below).</li>
+<li>if the object reference is important (so for example for sending
+<a class="reference internal" href="signals.html#signals"><em>Signals</em></a>)</li>
+</ul>
+<p>If you need to get access to the underlying object that is proxied, you
+can use the <a class="reference external" href="http://werkzeug.pocoo.org/docs/local/#werkzeug.local.LocalProxy._get_current_object" title="(in Werkzeug v0.10)"><tt class="xref py py-meth docutils literal"><span class="pre">_get_current_object()</span></tt></a> method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">app</span> <span class="o">=</span> <span class="n">current_app</span><span class="o">.</span><span class="n">_get_current_object</span><span class="p">()</span>
+<span class="n">my_signal</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="context-preservation-on-error">
+<h2>Context Preservation on Error<a class="headerlink" href="#context-preservation-on-error" title="Permalink to this headline">¶</a></h2>
+<p>If an error occurs or not, at the end of the request the request context
+is popped and all data associated with it is destroyed.  During
+development however that can be problematic as you might want to have the
+information around for a longer time in case an exception occurred.  In
+Flask 0.6 and earlier in debug mode, if an exception occurred, the
+request context was not popped so that the interactive debugger can still
+provide you with important information.</p>
+<p>Starting with Flask 0.7 you have finer control over that behavior by
+setting the <tt class="docutils literal"><span class="pre">PRESERVE_CONTEXT_ON_EXCEPTION</span></tt> configuration variable.  By
+default it&#8217;s linked to the setting of <tt class="docutils literal"><span class="pre">DEBUG</span></tt>.  If the application is in
+debug mode the context is preserved, in production mode it&#8217;s not.</p>
+<p>Do not force activate <tt class="docutils literal"><span class="pre">PRESERVE_CONTEXT_ON_EXCEPTION</span></tt> in production mode
+as it will cause your application to leak memory on exceptions.  However
+it can be useful during development to get the same error preserving
+behavior as in development mode when attempting to debug an error that
+only occurs under production settings.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="index.html">
+  <img class="logo" src="_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The Request Context</a><ul>
+<li><a class="reference internal" href="#diving-into-context-locals">Diving into Context Locals</a></li>
+<li><a class="reference internal" href="#how-the-context-works">How the Context Works</a></li>
+<li><a class="reference internal" href="#callbacks-and-errors">Callbacks and Errors</a></li>
+<li><a class="reference internal" href="#teardown-callbacks">Teardown Callbacks</a></li>
+<li><a class="reference internal" href="#notes-on-proxies">Notes On Proxies</a></li>
+<li><a class="reference internal" href="#context-preservation-on-error">Context Preservation on Error</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="appcontext.html" title="previous chapter">The Application Context</a></li>
+      <li>Next: <a href="blueprints.html" title="next chapter">Modular Applications with Blueprints</a></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/reqcontext.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

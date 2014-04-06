@@ -1,0 +1,165 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>CGI &mdash; Flask 0.10.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Flask 0.10.1 documentation" href="../index.html" />
+    <link rel="up" title="Deployment Options" href="index.html" />
+    <link rel="next" title="Becoming Big" href="../becomingbig.html" />
+    <link rel="prev" title="FastCGI" href="fastcgi.html" />
+   
+  
+  <link rel="apple-touch-icon" href="../_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../becomingbig.html" title="Becoming Big"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="fastcgi.html" title="FastCGI"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Flask 0.10.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Deployment Options</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="cgi">
+<h1>CGI<a class="headerlink" href="#cgi" title="Permalink to this headline">¶</a></h1>
+<p>If all other deployment methods do not work, CGI will work for sure.
+CGI is supported by all major servers but usually has a sub-optimal
+performance.</p>
+<p>This is also the way you can use a Flask application on Google&#8217;s <a class="reference external" href="http://code.google.com/appengine/">App
+Engine</a>, where execution happens in a CGI-like environment.</p>
+<div class="admonition-watch-out admonition">
+<p class="first admonition-title">Watch Out</p>
+<p>Please make sure in advance that any <tt class="docutils literal"><span class="pre">app.run()</span></tt> calls you might
+have in your application file are inside an <tt class="docutils literal"><span class="pre">if</span> <span class="pre">__name__</span> <span class="pre">==</span>
+<span class="pre">'__main__':</span></tt> block or moved to a separate file.  Just make sure it&#8217;s
+not called because this will always start a local WSGI server which
+we do not want if we deploy that application to CGI / app engine.</p>
+<p class="last">With CGI, you will also have to make sure that your code does not contain
+any <tt class="docutils literal"><span class="pre">print</span></tt> statements, or that <tt class="docutils literal"><span class="pre">sys.stdout</span></tt> is overridden by something
+that doesn&#8217;t write into the HTTP response.</p>
+</div>
+<div class="section" id="creating-a-cgi-file">
+<h2>Creating a <cite>.cgi</cite> file<a class="headerlink" href="#creating-a-cgi-file" title="Permalink to this headline">¶</a></h2>
+<p>First you need to create the CGI application file.  Let&#8217;s call it
+<cite>yourapplication.cgi</cite>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#!/usr/bin/python</span>
+<span class="kn">from</span> <span class="nn">wsgiref.handlers</span> <span class="kn">import</span> <span class="n">CGIHandler</span>
+<span class="kn">from</span> <span class="nn">yourapplication</span> <span class="kn">import</span> <span class="n">app</span>
+
+<span class="n">CGIHandler</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="server-setup">
+<h2>Server Setup<a class="headerlink" href="#server-setup" title="Permalink to this headline">¶</a></h2>
+<p>Usually there are two ways to configure the server.  Either just copy the
+<cite>.cgi</cite> into a <cite>cgi-bin</cite> (and use <cite>mod_rewrite</cite> or something similar to
+rewrite the URL) or let the server point to the file directly.</p>
+<p>In Apache for example you can put something like this into the config:</p>
+<div class="highlight-apache"><div class="highlight"><pre><span class="nb">ScriptAlias</span> <span class="sx">/app</span> <span class="sx">/path/to/the/application.cgi</span>
+</pre></div>
+</div>
+<p>On shared webhosting, though, you might not have access to your Apache config.
+In this case, a file called <cite>.htaccess</cite>, sitting in the public directory you want
+your app to be available, works too but the <cite>ScriptAlias</cite> directive won&#8217;t
+work in that case:</p>
+<div class="highlight-apache"><div class="highlight"><pre><span class="nb">RewriteEngine</span> <span class="k">On</span>
+<span class="nb">RewriteCond</span> %{REQUEST_FILENAME} !-f # Don&#39;t interfere with static files
+<span class="nb">RewriteRule</span> ^(.*)$ <span class="sx">/path/to/the/application.cgi/</span>$1 [L]
+</pre></div>
+</div>
+<p>For more information consult the documentation of your webserver.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="../index.html">
+  <img class="logo" src="../_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">CGI</a><ul>
+<li><a class="reference internal" href="#creating-a-cgi-file">Creating a <cite>.cgi</cite> file</a></li>
+<li><a class="reference internal" href="#server-setup">Server Setup</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Deployment Options</a><ul>
+      <li>Previous: <a href="fastcgi.html" title="previous chapter">FastCGI</a></li>
+      <li>Next: <a href="../becomingbig.html" title="next chapter">Becoming Big</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/deploying/cgi.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

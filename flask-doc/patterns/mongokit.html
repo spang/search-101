@@ -1,0 +1,239 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>MongoKit in Flask &mdash; Flask 0.10.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Flask 0.10.1 documentation" href="../index.html" />
+    <link rel="up" title="Patterns for Flask" href="index.html" />
+    <link rel="next" title="Adding a favicon" href="favicon.html" />
+    <link rel="prev" title="Lazily Loading Views" href="lazyloading.html" />
+   
+  
+  <link rel="apple-touch-icon" href="../_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="favicon.html" title="Adding a favicon"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="lazyloading.html" title="Lazily Loading Views"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Flask 0.10.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Patterns for Flask</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="mongokit-in-flask">
+<h1>MongoKit in Flask<a class="headerlink" href="#mongokit-in-flask" title="Permalink to this headline">¶</a></h1>
+<p>Using a document database rather than a full DBMS gets more common these days.
+This pattern shows how to use MongoKit, a document mapper library, to
+integrate with MongoDB.</p>
+<p>This pattern requires a running MongoDB server and the MongoKit library
+installed.</p>
+<p>There are two very common ways to use MongoKit.  I will outline each of them
+here:</p>
+<div class="section" id="declarative">
+<h2>Declarative<a class="headerlink" href="#declarative" title="Permalink to this headline">¶</a></h2>
+<p>The default behavior of MongoKit is the declarative one that is based on
+common ideas from Django or the SQLAlchemy declarative extension.</p>
+<p>Here an example <cite>app.py</cite> module for your application:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span>
+<span class="kn">from</span> <span class="nn">mongokit</span> <span class="kn">import</span> <span class="n">Connection</span><span class="p">,</span> <span class="n">Document</span>
+
+<span class="c"># configuration</span>
+<span class="n">MONGODB_HOST</span> <span class="o">=</span> <span class="s">&#39;localhost&#39;</span>
+<span class="n">MONGODB_PORT</span> <span class="o">=</span> <span class="mi">27017</span>
+
+<span class="c"># create the little application object</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_object</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="c"># connect to the database</span>
+<span class="n">connection</span> <span class="o">=</span> <span class="n">Connection</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;MONGODB_HOST&#39;</span><span class="p">],</span>
+                        <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;MONGODB_PORT&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>To define your models, just subclass the <cite>Document</cite> class that is imported
+from MongoKit.  If you&#8217;ve seen the SQLAlchemy pattern you may wonder why we do
+not have a session and even do not define a <cite>init_db</cite> function here.  On the
+one hand, MongoKit does not have something like a session.  This sometimes
+makes it more to type but also makes it blazingly fast.  On the other hand,
+MongoDB is schemaless.  This means you can modify the data structure from one
+insert query to the next without any problem.  MongoKit is just schemaless
+too, but implements some validation to ensure data integrity.</p>
+<p>Here is an example document (put this also into <cite>app.py</cite>, e.g.):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">max_length</span><span class="p">(</span><span class="n">length</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">length</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> must be at most </span><span class="si">%s</span><span class="s"> characters long&#39;</span> <span class="o">%</span> <span class="n">length</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">validate</span>
+
+<span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">Document</span><span class="p">):</span>
+    <span class="n">structure</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="nb">unicode</span><span class="p">,</span>
+        <span class="s">&#39;email&#39;</span><span class="p">:</span> <span class="nb">unicode</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">validators</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">max_length</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span>
+        <span class="s">&#39;email&#39;</span><span class="p">:</span> <span class="n">max_length</span><span class="p">(</span><span class="mi">120</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="n">use_dot_notation</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;&lt;User </span><span class="si">%r</span><span class="s">&gt;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+<span class="c"># register the User document with our current connection</span>
+<span class="n">connection</span><span class="o">.</span><span class="n">register</span><span class="p">([</span><span class="n">User</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>This example shows you how to define your schema (named structure), a
+validator for the maximum character length and uses a special MongoKit feature
+called <cite>use_dot_notation</cite>.  Per default MongoKit behaves like a python
+dictionary but with <cite>use_dot_notation</cite> set to <cite>True</cite> you can use your
+documents like you use models in nearly any other ORM by using dots to
+separate between attributes.</p>
+<p>You can insert entries into the database like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">yourapplication.database</span> <span class="kn">import</span> <span class="n">connection</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">yourapplication.models</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">collection</span> <span class="o">=</span> <span class="n">connection</span><span class="p">[</span><span class="s">&#39;test&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">users</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">user</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">User</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">user</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">u&#39;admin&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">user</span><span class="p">[</span><span class="s">&#39;email&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">u&#39;admin@localhost&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">user</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Note that MongoKit is kinda strict with used column types, you must not use a
+common <cite>str</cite> type for either <cite>name</cite> or <cite>email</cite> but unicode.</p>
+<p>Querying is simple as well:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">collection</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">find</span><span class="p">())</span>
+<span class="go">[&lt;User u&#39;admin&#39;&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">collection</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">u&#39;admin&#39;</span><span class="p">})</span>
+<span class="go">&lt;User u&#39;admin&#39;&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="pymongo-compatibility-layer">
+<h2>PyMongo Compatibility Layer<a class="headerlink" href="#pymongo-compatibility-layer" title="Permalink to this headline">¶</a></h2>
+<p>If you just want to use PyMongo, you can do that with MongoKit as well.  You
+may use this process if you need the best performance to get.  Note that this
+example does not show how to couple it with Flask, see the above MongoKit code
+for examples:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">MongoKit</span> <span class="kn">import</span> <span class="n">Connection</span>
+
+<span class="n">connection</span> <span class="o">=</span> <span class="n">Connection</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>To insert data you can use the <cite>insert</cite> method.  We have to get a
+collection first, this is somewhat the same as a table in the SQL world.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">collection</span> <span class="o">=</span> <span class="n">connection</span><span class="p">[</span><span class="s">&#39;test&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">users</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">user</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">u&#39;admin&#39;</span><span class="p">,</span> <span class="s">&#39;email&#39;</span><span class="p">:</span> <span class="s">u&#39;admin@localhost&#39;</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">collection</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>MongoKit will automatically commit for us.</p>
+<p>To query your database, you use the collection directly:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">collection</span><span class="o">.</span><span class="n">find</span><span class="p">())</span>
+<span class="go">[{u&#39;_id&#39;: ObjectId(&#39;4c271729e13823182f000000&#39;), u&#39;name&#39;: u&#39;admin&#39;, u&#39;email&#39;: u&#39;admin@localhost&#39;}]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">collection</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">u&#39;admin&#39;</span><span class="p">})</span>
+<span class="go">{u&#39;_id&#39;: ObjectId(&#39;4c271729e13823182f000000&#39;), u&#39;name&#39;: u&#39;admin&#39;, u&#39;email&#39;: u&#39;admin@localhost&#39;}</span>
+</pre></div>
+</div>
+<p>These results are also dict-like objects:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">u&#39;admin&#39;</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="p">[</span><span class="s">&#39;email&#39;</span><span class="p">]</span>
+<span class="go">u&#39;admin@localhost&#39;</span>
+</pre></div>
+</div>
+<p>For more information about MongoKit, head over to the
+<a class="reference external" href="https://github.com/namlook/mongokit">website</a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="../index.html">
+  <img class="logo" src="../_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">MongoKit in Flask</a><ul>
+<li><a class="reference internal" href="#declarative">Declarative</a></li>
+<li><a class="reference internal" href="#pymongo-compatibility-layer">PyMongo Compatibility Layer</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Patterns for Flask</a><ul>
+      <li>Previous: <a href="lazyloading.html" title="previous chapter">Lazily Loading Views</a></li>
+      <li>Next: <a href="favicon.html" title="next chapter">Adding a favicon</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/patterns/mongokit.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

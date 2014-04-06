@@ -1,0 +1,365 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Pluggable Views &mdash; Flask 0.10.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.10.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Flask 0.10.1 documentation" href="index.html" />
+    <link rel="next" title="The Application Context" href="appcontext.html" />
+    <link rel="prev" title="Signals" href="signals.html" />
+   
+  
+  <link rel="apple-touch-icon" href="_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="appcontext.html" title="The Application Context"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="signals.html" title="Signals"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Flask 0.10.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="pluggable-views">
+<span id="views"></span><h1>Pluggable Views<a class="headerlink" href="#pluggable-views" title="Permalink to this headline">¶</a></h1>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.7.</span></p>
+<p>Flask 0.7 introduces pluggable views inspired by the generic views from
+Django which are based on classes instead of functions.  The main
+intention is that you can replace parts of the implementations and this
+way have customizable pluggable views.</p>
+<div class="section" id="basic-principle">
+<h2>Basic Principle<a class="headerlink" href="#basic-principle" title="Permalink to this headline">¶</a></h2>
+<p>Consider you have a function that loads a list of objects from the
+database and renders into a template:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/users/&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">show_users</span><span class="p">(</span><span class="n">page</span><span class="p">):</span>
+    <span class="n">users</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s">&#39;users.html&#39;</span><span class="p">,</span> <span class="n">users</span><span class="o">=</span><span class="n">users</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This is simple and flexible, but if you want to provide this view in a
+generic fashion that can be adapted to other models and templates as well
+you might want more flexibility.  This is where pluggable class-based
+views come into place.  As the first step to convert this into a class
+based view you would do this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask.views</span> <span class="kn">import</span> <span class="n">View</span>
+
+<span class="k">class</span> <span class="nc">ShowUsers</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">dispatch_request</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">users</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s">&#39;users.html&#39;</span><span class="p">,</span> <span class="n">objects</span><span class="o">=</span><span class="n">users</span><span class="p">)</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s">&#39;/users/&#39;</span><span class="p">,</span> <span class="n">view_func</span><span class="o">=</span><span class="n">ShowUsers</span><span class="o">.</span><span class="n">as_view</span><span class="p">(</span><span class="s">&#39;show_users&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>As you can see what you have to do is to create a subclass of
+<a class="reference internal" href="api.html#flask.views.View" title="flask.views.View"><tt class="xref py py-class docutils literal"><span class="pre">flask.views.View</span></tt></a> and implement
+<a class="reference internal" href="api.html#flask.views.View.dispatch_request" title="flask.views.View.dispatch_request"><tt class="xref py py-meth docutils literal"><span class="pre">dispatch_request()</span></tt></a>.  Then we have to convert that
+class into an actual view function by using the
+<a class="reference internal" href="api.html#flask.views.View.as_view" title="flask.views.View.as_view"><tt class="xref py py-meth docutils literal"><span class="pre">as_view()</span></tt></a> class method.  The string you pass to
+that function is the name of the endpoint that view will then have.  But
+this by itself is not helpful, so let&#8217;s refactor the code a bit:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask.views</span> <span class="kn">import</span> <span class="n">View</span>
+
+<span class="k">class</span> <span class="nc">ListView</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">get_template_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">render_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_template_name</span><span class="p">(),</span> <span class="o">**</span><span class="n">context</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">dispatch_request</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;objects&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_objects</span><span class="p">()}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">render_template</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">UserView</span><span class="p">(</span><span class="n">ListView</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">get_template_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;users.html&#39;</span>
+
+    <span class="k">def</span> <span class="nf">get_objects</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This of course is not that helpful for such a small example, but it&#8217;s good
+enough to explain the basic principle.  When you have a class-based view
+the question comes up what <cite>self</cite> points to.  The way this works is that
+whenever the request is dispatched a new instance of the class is created
+and the <a class="reference internal" href="api.html#flask.views.View.dispatch_request" title="flask.views.View.dispatch_request"><tt class="xref py py-meth docutils literal"><span class="pre">dispatch_request()</span></tt></a> method is called with
+the parameters from the URL rule.  The class itself is instantiated with
+the parameters passed to the <a class="reference internal" href="api.html#flask.views.View.as_view" title="flask.views.View.as_view"><tt class="xref py py-meth docutils literal"><span class="pre">as_view()</span></tt></a> function.
+For instance you can write a class like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">RenderTemplateView</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">template_name</span> <span class="o">=</span> <span class="n">template_name</span>
+    <span class="k">def</span> <span class="nf">dispatch_request</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">template_name</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>And then you can register it like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s">&#39;/about&#39;</span><span class="p">,</span> <span class="n">view_func</span><span class="o">=</span><span class="n">RenderTemplateView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(</span>
+    <span class="s">&#39;about_page&#39;</span><span class="p">,</span> <span class="n">template_name</span><span class="o">=</span><span class="s">&#39;about.html&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="method-hints">
+<h2>Method Hints<a class="headerlink" href="#method-hints" title="Permalink to this headline">¶</a></h2>
+<p>Pluggable views are attached to the application like a regular function by
+either using <a class="reference internal" href="api.html#flask.Flask.route" title="flask.Flask.route"><tt class="xref py py-func docutils literal"><span class="pre">route()</span></tt></a> or better
+<a class="reference internal" href="api.html#flask.Flask.add_url_rule" title="flask.Flask.add_url_rule"><tt class="xref py py-meth docutils literal"><span class="pre">add_url_rule()</span></tt></a>.  That however also means that you would
+have to provide the names of the HTTP methods the view supports when you
+attach this.  In order to move that information to the class you can
+provide a <a class="reference internal" href="api.html#flask.views.View.methods" title="flask.views.View.methods"><tt class="xref py py-attr docutils literal"><span class="pre">methods</span></tt></a> attribute that has this
+information:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MyView</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+    <span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">,</span> <span class="s">&#39;POST&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">dispatch_request</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span><span class="p">:</span>
+            <span class="o">...</span>
+        <span class="o">...</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s">&#39;/myview&#39;</span><span class="p">,</span> <span class="n">view_func</span><span class="o">=</span><span class="n">MyView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(</span><span class="s">&#39;myview&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="method-based-dispatching">
+<h2>Method Based Dispatching<a class="headerlink" href="#method-based-dispatching" title="Permalink to this headline">¶</a></h2>
+<p>For RESTful APIs it&#8217;s especially helpful to execute a different function
+for each HTTP method.  With the <a class="reference internal" href="api.html#flask.views.MethodView" title="flask.views.MethodView"><tt class="xref py py-class docutils literal"><span class="pre">flask.views.MethodView</span></tt></a> you can
+easily do that.  Each HTTP method maps to a function with the same name
+(just in lowercase):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask.views</span> <span class="kn">import</span> <span class="n">MethodView</span>
+
+<span class="k">class</span> <span class="nc">UserAPI</span><span class="p">(</span><span class="n">MethodView</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">users</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="o">...</span>
+
+    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">from_form_data</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">)</span>
+        <span class="o">...</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s">&#39;/users/&#39;</span><span class="p">,</span> <span class="n">view_func</span><span class="o">=</span><span class="n">UserAPI</span><span class="o">.</span><span class="n">as_view</span><span class="p">(</span><span class="s">&#39;users&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>That way you also don&#8217;t have to provide the
+<a class="reference internal" href="api.html#flask.views.View.methods" title="flask.views.View.methods"><tt class="xref py py-attr docutils literal"><span class="pre">methods</span></tt></a> attribute.  It&#8217;s automatically set based
+on the methods defined in the class.</p>
+</div>
+<div class="section" id="decorating-views">
+<h2>Decorating Views<a class="headerlink" href="#decorating-views" title="Permalink to this headline">¶</a></h2>
+<p>Since the view class itself is not the view function that is added to the
+routing system it does not make much sense to decorate the class itself.
+Instead you either have to decorate the return value of
+<a class="reference internal" href="api.html#flask.views.View.as_view" title="flask.views.View.as_view"><tt class="xref py py-meth docutils literal"><span class="pre">as_view()</span></tt></a> by hand:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">user_required</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Checks whether user is logged in or raises error 401.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">g</span><span class="o">.</span><span class="n">user</span><span class="p">:</span>
+            <span class="n">abort</span><span class="p">(</span><span class="mi">401</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">decorator</span>
+
+<span class="n">view</span> <span class="o">=</span> <span class="n">user_required</span><span class="p">(</span><span class="n">UserAPI</span><span class="o">.</span><span class="n">as_view</span><span class="p">(</span><span class="s">&#39;users&#39;</span><span class="p">))</span>
+<span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s">&#39;/users/&#39;</span><span class="p">,</span> <span class="n">view_func</span><span class="o">=</span><span class="n">view</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Starting with Flask 0.8 there is also an alternative way where you can
+specify a list of decorators to apply in the class declaration:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">UserAPI</span><span class="p">(</span><span class="n">MethodView</span><span class="p">):</span>
+    <span class="n">decorators</span> <span class="o">=</span> <span class="p">[</span><span class="n">user_required</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Due to the implicit self from the caller&#8217;s perspective you cannot use
+regular view decorators on the individual methods of the view however,
+keep this in mind.</p>
+</div>
+<div class="section" id="method-views-for-apis">
+<h2>Method Views for APIs<a class="headerlink" href="#method-views-for-apis" title="Permalink to this headline">¶</a></h2>
+<p>Web APIs are often working very closely with HTTP verbs so it makes a lot
+of sense to implement such an API based on the
+<a class="reference internal" href="api.html#flask.views.MethodView" title="flask.views.MethodView"><tt class="xref py py-class docutils literal"><span class="pre">MethodView</span></tt></a>.  That said, you will notice that the API
+will require different URL rules that go to the same method view most of
+the time.  For instance consider that you are exposing a user object on
+the web:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="22%" />
+<col width="56%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>URL</td>
+<td>Method</td>
+<td>Description</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">/users/</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">GET</span></tt></td>
+<td>Gives a list of all users</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">/users/</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">POST</span></tt></td>
+<td>Creates a new user</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">/users/&lt;id&gt;</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">GET</span></tt></td>
+<td>Shows a single user</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">/users/&lt;id&gt;</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">PUT</span></tt></td>
+<td>Updates a single user</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">/users/&lt;id&gt;</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">DELETE</span></tt></td>
+<td>Deletes a single user</td>
+</tr>
+</tbody>
+</table>
+<p>So how would you go about doing that with the
+<a class="reference internal" href="api.html#flask.views.MethodView" title="flask.views.MethodView"><tt class="xref py py-class docutils literal"><span class="pre">MethodView</span></tt></a>?  The trick is to take advantage of the
+fact that you can provide multiple rules to the same view.</p>
+<p>Let&#8217;s assume for the moment the view would look like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">UserAPI</span><span class="p">(</span><span class="n">MethodView</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">user_id</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="c"># return a list of users</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c"># expose a single user</span>
+            <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># create a new user</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+        <span class="c"># delete a single user</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+        <span class="c"># update a single user</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<p>So how do we hook this up with the routing system?  By adding two rules
+and explicitly mentioning the methods for each:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">user_view</span> <span class="o">=</span> <span class="n">UserAPI</span><span class="o">.</span><span class="n">as_view</span><span class="p">(</span><span class="s">&#39;user_api&#39;</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s">&#39;/users/&#39;</span><span class="p">,</span> <span class="n">defaults</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;user_id&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">},</span>
+                 <span class="n">view_func</span><span class="o">=</span><span class="n">user_view</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">,])</span>
+<span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s">&#39;/users/&#39;</span><span class="p">,</span> <span class="n">view_func</span><span class="o">=</span><span class="n">user_view</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;POST&#39;</span><span class="p">,])</span>
+<span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s">&#39;/users/&lt;int:user_id&gt;&#39;</span><span class="p">,</span> <span class="n">view_func</span><span class="o">=</span><span class="n">user_view</span><span class="p">,</span>
+                 <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">,</span> <span class="s">&#39;PUT&#39;</span><span class="p">,</span> <span class="s">&#39;DELETE&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>If you have a lot of APIs that look similar you can refactor that
+registration code:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">register_api</span><span class="p">(</span><span class="n">view</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="n">pk_type</span><span class="o">=</span><span class="s">&#39;int&#39;</span><span class="p">):</span>
+    <span class="n">view_func</span> <span class="o">=</span> <span class="n">view</span><span class="o">.</span><span class="n">as_view</span><span class="p">(</span><span class="n">endpoint</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">defaults</span><span class="o">=</span><span class="p">{</span><span class="n">pk</span><span class="p">:</span> <span class="bp">None</span><span class="p">},</span>
+                     <span class="n">view_func</span><span class="o">=</span><span class="n">view_func</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">,])</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">view_func</span><span class="o">=</span><span class="n">view_func</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;POST&#39;</span><span class="p">,])</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">&lt;</span><span class="si">%s</span><span class="s">:</span><span class="si">%s</span><span class="s">&gt;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">pk_type</span><span class="p">,</span> <span class="n">pk</span><span class="p">),</span> <span class="n">view_func</span><span class="o">=</span><span class="n">view_func</span><span class="p">,</span>
+                     <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">,</span> <span class="s">&#39;PUT&#39;</span><span class="p">,</span> <span class="s">&#39;DELETE&#39;</span><span class="p">])</span>
+
+<span class="n">register_api</span><span class="p">(</span><span class="n">UserAPI</span><span class="p">,</span> <span class="s">&#39;user_api&#39;</span><span class="p">,</span> <span class="s">&#39;/users/&#39;</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="s">&#39;user_id&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="index.html">
+  <img class="logo" src="_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Pluggable Views</a><ul>
+<li><a class="reference internal" href="#basic-principle">Basic Principle</a></li>
+<li><a class="reference internal" href="#method-hints">Method Hints</a></li>
+<li><a class="reference internal" href="#method-based-dispatching">Method Based Dispatching</a></li>
+<li><a class="reference internal" href="#decorating-views">Decorating Views</a></li>
+<li><a class="reference internal" href="#method-views-for-apis">Method Views for APIs</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="signals.html" title="previous chapter">Signals</a></li>
+      <li>Next: <a href="appcontext.html" title="next chapter">The Application Context</a></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/views.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

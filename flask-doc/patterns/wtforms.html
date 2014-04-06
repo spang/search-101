@@ -1,0 +1,226 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Form Validation with WTForms &mdash; Flask 0.10.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Flask 0.10.1 documentation" href="../index.html" />
+    <link rel="up" title="Patterns for Flask" href="index.html" />
+    <link rel="next" title="Template Inheritance" href="templateinheritance.html" />
+    <link rel="prev" title="View Decorators" href="viewdecorators.html" />
+   
+  
+  <link rel="apple-touch-icon" href="../_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="templateinheritance.html" title="Template Inheritance"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="viewdecorators.html" title="View Decorators"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Flask 0.10.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Patterns for Flask</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="form-validation-with-wtforms">
+<h1>Form Validation with WTForms<a class="headerlink" href="#form-validation-with-wtforms" title="Permalink to this headline">¶</a></h1>
+<p>When you have to work with form data submitted by a browser view code
+quickly becomes very hard to read.  There are libraries out there designed
+to make this process easier to manage.  One of them is <a class="reference external" href="http://wtforms.simplecodes.com/">WTForms</a> which we
+will handle here.  If you find yourself in the situation of having many
+forms, you might want to give it a try.</p>
+<p>When you are working with WTForms you have to define your forms as classes
+first.  I recommend breaking up the application into multiple modules
+(<a class="reference internal" href="packages.html#larger-applications"><em>Larger Applications</em></a>) for that and adding a separate module for the
+forms.</p>
+<div class="admonition-getting-most-of-wtforms-with-an-extension admonition">
+<p class="first admonition-title">Getting most of WTForms with an Extension</p>
+<p class="last">The <a class="reference external" href="http://packages.python.org/Flask-WTF/">Flask-WTF</a> extension expands on this pattern and adds a few
+handful little helpers that make working with forms and Flask more
+fun.  You can get it from <a class="reference external" href="http://pypi.python.org/pypi/Flask-WTF">PyPI</a>.</p>
+</div>
+<div class="section" id="the-forms">
+<h2>The Forms<a class="headerlink" href="#the-forms" title="Permalink to this headline">¶</a></h2>
+<p>This is an example form for a typical registration page:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">wtforms</span> <span class="kn">import</span> <span class="n">Form</span><span class="p">,</span> <span class="n">BooleanField</span><span class="p">,</span> <span class="n">TextField</span><span class="p">,</span> <span class="n">PasswordField</span><span class="p">,</span> <span class="n">validators</span>
+
+<span class="k">class</span> <span class="nc">RegistrationForm</span><span class="p">(</span><span class="n">Form</span><span class="p">):</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="s">&#39;Username&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">validators</span><span class="o">.</span><span class="n">Length</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">25</span><span class="p">)])</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">(</span><span class="s">&#39;Email Address&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">validators</span><span class="o">.</span><span class="n">Length</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">35</span><span class="p">)])</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="n">PasswordField</span><span class="p">(</span><span class="s">&#39;New Password&#39;</span><span class="p">,</span> <span class="p">[</span>
+        <span class="n">validators</span><span class="o">.</span><span class="n">Required</span><span class="p">(),</span>
+        <span class="n">validators</span><span class="o">.</span><span class="n">EqualTo</span><span class="p">(</span><span class="s">&#39;confirm&#39;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s">&#39;Passwords must match&#39;</span><span class="p">)</span>
+    <span class="p">])</span>
+    <span class="n">confirm</span> <span class="o">=</span> <span class="n">PasswordField</span><span class="p">(</span><span class="s">&#39;Repeat Password&#39;</span><span class="p">)</span>
+    <span class="n">accept_tos</span> <span class="o">=</span> <span class="n">BooleanField</span><span class="p">(</span><span class="s">&#39;I accept the TOS&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">validators</span><span class="o">.</span><span class="n">Required</span><span class="p">()])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="in-the-view">
+<h2>In the View<a class="headerlink" href="#in-the-view" title="Permalink to this headline">¶</a></h2>
+<p>In the view function, the usage of this form looks like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/register&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">,</span> <span class="s">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">register</span><span class="p">():</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">RegistrationForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span> <span class="ow">and</span> <span class="n">form</span><span class="o">.</span><span class="n">validate</span><span class="p">():</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">username</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">form</span><span class="o">.</span><span class="n">email</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                    <span class="n">form</span><span class="o">.</span><span class="n">password</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">db_session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+        <span class="n">flash</span><span class="p">(</span><span class="s">&#39;Thanks for registering&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s">&#39;login&#39;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s">&#39;register.html&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Notice that we are implying that the view is using SQLAlchemy here
+(<a class="reference internal" href="sqlalchemy.html#sqlalchemy-pattern"><em>SQLAlchemy in Flask</em></a>) but this is no requirement of course.  Adapt
+the code as necessary.</p>
+<p>Things to remember:</p>
+<ol class="arabic simple">
+<li>create the form from the request <tt class="xref py py-attr docutils literal"><span class="pre">form</span></tt> value if
+the data is submitted via the HTTP <cite>POST</cite> method and
+<tt class="xref py py-attr docutils literal"><span class="pre">args</span></tt> if the data is submitted as <cite>GET</cite>.</li>
+<li>to validate the data, call the <tt class="xref py py-func docutils literal"><span class="pre">validate()</span></tt>
+method which will return <cite>True</cite> if the data validates, <cite>False</cite>
+otherwise.</li>
+<li>to access individual values from the form, access <cite>form.&lt;NAME&gt;.data</cite>.</li>
+</ol>
+</div>
+<div class="section" id="forms-in-templates">
+<h2>Forms in Templates<a class="headerlink" href="#forms-in-templates" title="Permalink to this headline">¶</a></h2>
+<p>Now to the template side.  When you pass the form to the templates you can
+easily render them there.  Look at the following example template to see
+how easy this is.  WTForms does half the form generation for us already.
+To make it even nicer, we can write a macro that renders a field with
+label and a list of errors if there are any.</p>
+<p>Here&#8217;s an example <cite>_formhelpers.html</cite> template with such a macro:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">macro</span> <span class="nv">render_field</span><span class="o">(</span><span class="nv">field</span><span class="o">)</span> <span class="cp">%}</span>
+  <span class="nt">&lt;dt&gt;</span><span class="cp">{{</span> <span class="nv">field.label</span> <span class="cp">}}</span>
+  <span class="nt">&lt;dd&gt;</span><span class="cp">{{</span> <span class="nv">field</span><span class="o">(**</span><span class="nv">kwargs</span><span class="o">)|</span><span class="nf">safe</span> <span class="cp">}}</span>
+  <span class="cp">{%</span> <span class="k">if</span> <span class="nv">field.errors</span> <span class="cp">%}</span>
+    <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">errors</span><span class="nt">&gt;</span>
+    <span class="cp">{%</span> <span class="k">for</span> <span class="nv">error</span> <span class="k">in</span> <span class="nv">field.errors</span> <span class="cp">%}</span>
+      <span class="nt">&lt;li&gt;</span><span class="cp">{{</span> <span class="nv">error</span> <span class="cp">}}</span><span class="nt">&lt;/li&gt;</span>
+    <span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+    <span class="nt">&lt;/ul&gt;</span>
+  <span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+  <span class="nt">&lt;/dd&gt;</span>
+<span class="cp">{%</span> <span class="k">endmacro</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>This macro accepts a couple of keyword arguments that are forwarded to
+WTForm&#8217;s field function that renders the field for us.  The keyword
+arguments will be inserted as HTML attributes.  So for example you can
+call <tt class="docutils literal"><span class="pre">render_field(form.username,</span> <span class="pre">class='username')</span></tt> to add a class to
+the input element.  Note that WTForms returns standard Python unicode
+strings, so we have to tell Jinja2 that this data is already HTML escaped
+with the <cite>|safe</cite> filter.</p>
+<p>Here the <cite>register.html</cite> template for the function we used above which
+takes advantage of the <cite>_formhelpers.html</cite> template:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">from</span> <span class="s2">&quot;_formhelpers.html&quot;</span> <span class="k">import</span> <span class="nv">render_field</span> <span class="cp">%}</span>
+<span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">post</span> <span class="na">action=</span><span class="s">&quot;/register&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;dl&gt;</span>
+    <span class="cp">{{</span> <span class="nv">render_field</span><span class="o">(</span><span class="nv">form.username</span><span class="o">)</span> <span class="cp">}}</span>
+    <span class="cp">{{</span> <span class="nv">render_field</span><span class="o">(</span><span class="nv">form.email</span><span class="o">)</span> <span class="cp">}}</span>
+    <span class="cp">{{</span> <span class="nv">render_field</span><span class="o">(</span><span class="nv">form.password</span><span class="o">)</span> <span class="cp">}}</span>
+    <span class="cp">{{</span> <span class="nv">render_field</span><span class="o">(</span><span class="nv">form.confirm</span><span class="o">)</span> <span class="cp">}}</span>
+    <span class="cp">{{</span> <span class="nv">render_field</span><span class="o">(</span><span class="nv">form.accept_tos</span><span class="o">)</span> <span class="cp">}}</span>
+  <span class="nt">&lt;/dl&gt;</span>
+  <span class="nt">&lt;p&gt;&lt;input</span> <span class="na">type=</span><span class="s">submit</span> <span class="na">value=</span><span class="s">Register</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</pre></div>
+</div>
+<p>For more information about WTForms, head over to the <a class="reference external" href="http://wtforms.simplecodes.com/">WTForms
+website</a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="../index.html">
+  <img class="logo" src="../_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Form Validation with WTForms</a><ul>
+<li><a class="reference internal" href="#the-forms">The Forms</a></li>
+<li><a class="reference internal" href="#in-the-view">In the View</a></li>
+<li><a class="reference internal" href="#forms-in-templates">Forms in Templates</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Patterns for Flask</a><ul>
+      <li>Previous: <a href="viewdecorators.html" title="previous chapter">View Decorators</a></li>
+      <li>Next: <a href="templateinheritance.html" title="next chapter">Template Inheritance</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/patterns/wtforms.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

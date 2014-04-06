@@ -1,0 +1,273 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>mod_wsgi (Apache) &mdash; Flask 0.10.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Flask 0.10.1 documentation" href="../index.html" />
+    <link rel="up" title="Deployment Options" href="index.html" />
+    <link rel="next" title="Standalone WSGI Containers" href="wsgi-standalone.html" />
+    <link rel="prev" title="Deployment Options" href="index.html" />
+   
+  
+  <link rel="apple-touch-icon" href="../_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="wsgi-standalone.html" title="Standalone WSGI Containers"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Deployment Options"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Flask 0.10.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Deployment Options</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="mod-wsgi-apache">
+<span id="mod-wsgi-deployment"></span><h1>mod_wsgi (Apache)<a class="headerlink" href="#mod-wsgi-apache" title="Permalink to this headline">¶</a></h1>
+<p>If you are using the <a class="reference external" href="http://httpd.apache.org/">Apache</a> webserver, consider using <a class="reference external" href="http://code.google.com/p/modwsgi/">mod_wsgi</a>.</p>
+<div class="admonition-watch-out admonition">
+<p class="first admonition-title">Watch Out</p>
+<p class="last">Please make sure in advance that any <tt class="docutils literal"><span class="pre">app.run()</span></tt> calls you might
+have in your application file are inside an <tt class="docutils literal"><span class="pre">if</span> <span class="pre">__name__</span> <span class="pre">==</span>
+<span class="pre">'__main__':</span></tt> block or moved to a separate file.  Just make sure it&#8217;s
+not called because this will always start a local WSGI server which
+we do not want if we deploy that application to mod_wsgi.</p>
+</div>
+<div class="section" id="installing-mod-wsgi">
+<h2>Installing <cite>mod_wsgi</cite><a class="headerlink" href="#installing-mod-wsgi" title="Permalink to this headline">¶</a></h2>
+<p>If you don&#8217;t have <cite>mod_wsgi</cite> installed yet you have to either install it
+using a package manager or compile it yourself.  The mod_wsgi
+<a class="reference external" href="http://code.google.com/p/modwsgi/wiki/QuickInstallationGuide">installation instructions</a> cover source installations on UNIX systems.</p>
+<p>If you are using Ubuntu/Debian you can apt-get it and activate it as
+follows:</p>
+<div class="highlight-text"><div class="highlight"><pre># apt-get install libapache2-mod-wsgi
+</pre></div>
+</div>
+<p>On FreeBSD install <cite>mod_wsgi</cite> by compiling the <cite>www/mod_wsgi</cite> port or by
+using pkg_add:</p>
+<div class="highlight-text"><div class="highlight"><pre># pkg_add -r mod_wsgi
+</pre></div>
+</div>
+<p>If you are using pkgsrc you can install <cite>mod_wsgi</cite> by compiling the
+<cite>www/ap2-wsgi</cite> package.</p>
+<p>If you encounter segfaulting child processes after the first apache
+reload you can safely ignore them.  Just restart the server.</p>
+</div>
+<div class="section" id="creating-a-wsgi-file">
+<h2>Creating a <cite>.wsgi</cite> file<a class="headerlink" href="#creating-a-wsgi-file" title="Permalink to this headline">¶</a></h2>
+<p>To run your application you need a <cite>yourapplication.wsgi</cite> file.  This file
+contains the code <cite>mod_wsgi</cite> is executing on startup to get the application
+object.  The object called <cite>application</cite> in that file is then used as
+application.</p>
+<p>For most applications the following file should be sufficient:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">yourapplication</span> <span class="kn">import</span> <span class="n">app</span> <span class="k">as</span> <span class="n">application</span>
+</pre></div>
+</div>
+<p>If you don&#8217;t have a factory function for application creation but a singleton
+instance you can directly import that one as <cite>application</cite>.</p>
+<p>Store that file somewhere that you will find it again (e.g.:
+<cite>/var/www/yourapplication</cite>) and make sure that <cite>yourapplication</cite> and all
+the libraries that are in use are on the python load path.  If you don&#8217;t
+want to install it system wide consider using a <a class="reference external" href="http://pypi.python.org/pypi/virtualenv">virtual python</a>
+instance.  Keep in mind that you will have to actually install your
+application into the virtualenv as well.  Alternatively there is the
+option to just patch the path in the <cite>.wsgi</cite> file before the import:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">&#39;/path/to/the/application&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="configuring-apache">
+<h2>Configuring Apache<a class="headerlink" href="#configuring-apache" title="Permalink to this headline">¶</a></h2>
+<p>The last thing you have to do is to create an Apache configuration file
+for your application.  In this example we are telling <cite>mod_wsgi</cite> to
+execute the application under a different user for security reasons:</p>
+<div class="highlight-apache"><div class="highlight"><pre><span class="nt">&lt;VirtualHost</span> <span class="s">*</span><span class="nt">&gt;</span>
+    <span class="nb">ServerName</span> example.com
+
+    <span class="nb">WSGIDaemonProcess</span> yourapplication <span class="k">user</span>=user1 <span class="k">group</span>=group1 threads=5
+    <span class="nb">WSGIScriptAlias</span> / <span class="sx">/var/www/yourapplication/yourapplication.wsgi</span>
+
+    <span class="nt">&lt;Directory</span> <span class="s">/var/www/yourapplication</span><span class="nt">&gt;</span>
+        <span class="nb">WSGIProcessGroup</span> yourapplication
+        <span class="nb">WSGIApplicationGroup</span> %{GLOBAL}
+        <span class="nb">Order</span> deny,allow
+        <span class="nb">Allow</span> from <span class="k">all</span>
+    <span class="nt">&lt;/Directory&gt;</span>
+<span class="nt">&lt;/VirtualHost&gt;</span>
+</pre></div>
+</div>
+<p>Note: WSGIDaemonProcess isn&#8217;t implemented in Windows and Apache will
+refuse to run with the above configuration. On a Windows system, eliminate those lines:</p>
+<div class="highlight-apache"><div class="highlight"><pre><span class="nt">&lt;VirtualHost</span> <span class="s">*</span><span class="nt">&gt;</span>
+        <span class="nb">ServerName</span> example.com
+        <span class="nb">WSGIScriptAlias</span> / C:\yourdir\yourapp.wsgi
+        <span class="nt">&lt;Directory</span> <span class="s">C:\yourdir</span><span class="nt">&gt;</span>
+                <span class="nb">Order</span> deny,allow
+                <span class="nb">Allow</span> from <span class="k">all</span>
+        <span class="nt">&lt;/Directory&gt;</span>
+<span class="nt">&lt;/VirtualHost&gt;</span>
+</pre></div>
+</div>
+<p>For more information consult the <a class="reference external" href="http://code.google.com/p/modwsgi/wiki/">mod_wsgi wiki</a>.</p>
+</div>
+<div class="section" id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h2>
+<p>If your application does not run, follow this guide to troubleshoot:</p>
+<dl class="docutils">
+<dt><strong>Problem:</strong> application does not run, errorlog shows SystemExit ignored</dt>
+<dd>You have a <tt class="docutils literal"><span class="pre">app.run()</span></tt> call in your application file that is not
+guarded by an <tt class="docutils literal"><span class="pre">if</span> <span class="pre">__name__</span> <span class="pre">==</span> <span class="pre">'__main__':</span></tt> condition.  Either
+remove that <a class="reference internal" href="../api.html#flask.Flask.run" title="flask.Flask.run"><tt class="xref py py-meth docutils literal"><span class="pre">run()</span></tt></a> call from the file and move it
+into a separate <cite>run.py</cite> file or put it into such an if block.</dd>
+<dt><strong>Problem:</strong> application gives permission errors</dt>
+<dd>Probably caused by your application running as the wrong user.  Make
+sure the folders the application needs access to have the proper
+privileges set and the application runs as the correct user
+(<tt class="docutils literal"><span class="pre">user</span></tt> and <tt class="docutils literal"><span class="pre">group</span></tt> parameter to the <cite>WSGIDaemonProcess</cite>
+directive)</dd>
+<dt><strong>Problem:</strong> application dies with an error on print</dt>
+<dd><p class="first">Keep in mind that mod_wsgi disallows doing anything with
+<a class="reference external" href="http://docs.python.org/dev/library/sys.html#sys.stdout" title="(in Python v3.4)"><tt class="xref py py-data docutils literal"><span class="pre">sys.stdout</span></tt></a> and <a class="reference external" href="http://docs.python.org/dev/library/sys.html#sys.stderr" title="(in Python v3.4)"><tt class="xref py py-data docutils literal"><span class="pre">sys.stderr</span></tt></a>.  You can disable this
+protection from the config by setting the <cite>WSGIRestrictStdout</cite> to
+<tt class="docutils literal"><span class="pre">off</span></tt>:</p>
+<div class="highlight-apache"><div class="highlight"><pre><span class="nb">WSGIRestrictStdout</span> <span class="k">Off</span>
+</pre></div>
+</div>
+<p>Alternatively you can also replace the standard out in the .wsgi file
+with a different stream:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span>
+</pre></div>
+</div>
+</dd>
+<dt><strong>Problem:</strong> accessing resources gives IO errors</dt>
+<dd><p class="first">Your application probably is a single .py file you symlinked into
+the site-packages folder.  Please be aware that this does not work,
+instead you either have to put the folder into the pythonpath the
+file is stored in, or convert your application into a package.</p>
+<p class="last">The reason for this is that for non-installed packages, the module
+filename is used to locate the resources and for symlinks the wrong
+filename is picked up.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="support-for-automatic-reloading">
+<h2>Support for Automatic Reloading<a class="headerlink" href="#support-for-automatic-reloading" title="Permalink to this headline">¶</a></h2>
+<p>To help deployment tools you can activate support for automatic
+reloading.  Whenever something changes the <cite>.wsgi</cite> file, <cite>mod_wsgi</cite> will
+reload all the daemon processes for us.</p>
+<p>For that, just add the following directive to your <cite>Directory</cite> section:</p>
+<div class="highlight-apache"><div class="highlight"><pre><span class="nb">WSGIScriptReloading</span> <span class="k">On</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="working-with-virtual-environments">
+<h2>Working with Virtual Environments<a class="headerlink" href="#working-with-virtual-environments" title="Permalink to this headline">¶</a></h2>
+<p>Virtual environments have the advantage that they never install the
+required dependencies system wide so you have a better control over what
+is used where.  If you want to use a virtual environment with mod_wsgi
+you have to modify your <cite>.wsgi</cite> file slightly.</p>
+<p>Add the following lines to the top of your <cite>.wsgi</cite> file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">activate_this</span> <span class="o">=</span> <span class="s">&#39;/path/to/env/bin/activate_this.py&#39;</span>
+<span class="nb">execfile</span><span class="p">(</span><span class="n">activate_this</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">__file__</span><span class="o">=</span><span class="n">activate_this</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>This sets up the load paths according to the settings of the virtual
+environment.  Keep in mind that the path has to be absolute.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="../index.html">
+  <img class="logo" src="../_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">mod_wsgi (Apache)</a><ul>
+<li><a class="reference internal" href="#installing-mod-wsgi">Installing <cite>mod_wsgi</cite></a></li>
+<li><a class="reference internal" href="#creating-a-wsgi-file">Creating a <cite>.wsgi</cite> file</a></li>
+<li><a class="reference internal" href="#configuring-apache">Configuring Apache</a></li>
+<li><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
+<li><a class="reference internal" href="#support-for-automatic-reloading">Support for Automatic Reloading</a></li>
+<li><a class="reference internal" href="#working-with-virtual-environments">Working with Virtual Environments</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Deployment Options</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Deployment Options</a></li>
+      <li>Next: <a href="wsgi-standalone.html" title="next chapter">Standalone WSGI Containers</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/deploying/mod_wsgi.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

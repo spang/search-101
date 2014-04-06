@@ -1,0 +1,254 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Deploying with Distribute &mdash; Flask 0.10.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Flask 0.10.1 documentation" href="../index.html" />
+    <link rel="up" title="Patterns for Flask" href="index.html" />
+    <link rel="next" title="Deploying with Fabric" href="fabric.html" />
+    <link rel="prev" title="Using URL Processors" href="urlprocessors.html" />
+   
+  
+  <link rel="apple-touch-icon" href="../_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="fabric.html" title="Deploying with Fabric"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="urlprocessors.html" title="Using URL Processors"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Flask 0.10.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Patterns for Flask</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="deploying-with-distribute">
+<span id="distribute-deployment"></span><h1>Deploying with Distribute<a class="headerlink" href="#deploying-with-distribute" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="http://pypi.python.org/pypi/distribute">distribute</a>, formerly setuptools, is an extension library that is
+commonly used to (like the name says) distribute Python libraries and
+extensions.  It extends distutils, a basic module installation system
+shipped with Python to also support various more complex constructs that
+make larger applications easier to distribute:</p>
+<ul class="simple">
+<li><strong>support for dependencies</strong>: a library or application can declare a
+list of other libraries it depends on which will be installed
+automatically for you.</li>
+<li><strong>package registry</strong>: setuptools registers your package with your
+Python installation.  This makes it possible to query information
+provided by one package from another package.  The best known feature of
+this system is the entry point support which allows one package to
+declare an &#8220;entry point&#8221; another package can hook into to extend the
+other package.</li>
+<li><strong>installation manager</strong>: <cite>easy_install</cite>, which comes with distribute
+can install other libraries for you.  You can also use <a class="reference external" href="http://pypi.python.org/pypi/pip">pip</a> which
+sooner or later will replace <cite>easy_install</cite> which does more than just
+installing packages for you.</li>
+</ul>
+<p>Flask itself, and all the libraries you can find on the cheeseshop
+are distributed with either distribute, the older setuptools or distutils.</p>
+<p>In this case we assume your application is called
+<cite>yourapplication.py</cite> and you are not using a module, but a <a class="reference internal" href="packages.html#larger-applications"><em>package</em></a>.  Distributing resources with standard modules is
+not supported by <a class="reference external" href="http://pypi.python.org/pypi/distribute">distribute</a> so we will not bother with it.  If you have
+not yet converted your application into a package, head over to the
+<a class="reference internal" href="packages.html#larger-applications"><em>Larger Applications</em></a> pattern to see how this can be done.</p>
+<p>A working deployment with distribute is the first step into more complex
+and more automated deployment scenarios.  If you want to fully automate
+the process, also read the <a class="reference internal" href="fabric.html#fabric-deployment"><em>Deploying with Fabric</em></a> chapter.</p>
+<div class="section" id="basic-setup-script">
+<h2>Basic Setup Script<a class="headerlink" href="#basic-setup-script" title="Permalink to this headline">¶</a></h2>
+<p>Because you have Flask running, you either have setuptools or distribute
+available on your system anyways.  If you do not, fear not, there is a
+script to install it for you: <a class="reference external" href="http://python-distribute.org/distribute_setup.py">distribute_setup.py</a>.  Just download and
+run with your Python interpreter.</p>
+<p>Standard disclaimer applies: <a class="reference internal" href="../installation.html#virtualenv"><em>you better use a virtualenv</em></a>.</p>
+<p>Your setup code always goes into a file named <cite>setup.py</cite> next to your
+application.  The name of the file is only convention, but because
+everybody will look for a file with that name, you better not change it.</p>
+<p>Yes, even if you are using <cite>distribute</cite>, you are importing from a package
+called <cite>setuptools</cite>.  <cite>distribute</cite> is fully backwards compatible with
+<cite>setuptools</cite>, so it also uses the same import name.</p>
+<p>A basic <cite>setup.py</cite> file for a Flask application looks like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span>
+
+<span class="n">setup</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s">&#39;Your Application&#39;</span><span class="p">,</span>
+    <span class="n">version</span><span class="o">=</span><span class="s">&#39;1.0&#39;</span><span class="p">,</span>
+    <span class="n">long_description</span><span class="o">=</span><span class="n">__doc__</span><span class="p">,</span>
+    <span class="n">packages</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;yourapplication&#39;</span><span class="p">],</span>
+    <span class="n">include_package_data</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">zip_safe</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">install_requires</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;Flask&#39;</span><span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Please keep in mind that you have to list subpackages explicitly.  If you
+want distribute to lookup the packages for you automatically, you can use
+the <cite>find_packages</cite> function:</p>
+<div class="highlight-python"><pre>from setuptools import setup, find_packages
+
+setup(
+    ...
+    packages=find_packages()
+)</pre>
+</div>
+<p>Most parameters to the <cite>setup</cite> function should be self explanatory,
+<cite>include_package_data</cite> and <cite>zip_safe</cite> might not be.
+<cite>include_package_data</cite> tells distribute to look for a <cite>MANIFEST.in</cite> file
+and install all the entries that match as package data.  We will use this
+to distribute the static files and templates along with the Python module
+(see <a class="reference internal" href="#distributing-resources"><em>Distributing Resources</em></a>).  The <cite>zip_safe</cite> flag can be used to
+force or prevent zip Archive creation.  In general you probably don&#8217;t want
+your packages to be installed as zip files because some tools do not
+support them and they make debugging a lot harder.</p>
+</div>
+<div class="section" id="distributing-resources">
+<span id="id1"></span><h2>Distributing Resources<a class="headerlink" href="#distributing-resources" title="Permalink to this headline">¶</a></h2>
+<p>If you try to install the package you just created, you will notice that
+folders like <cite>static</cite> or <cite>templates</cite> are not installed for you.  The
+reason for this is that distribute does not know which files to add for
+you.  What you should do, is to create a <cite>MANIFEST.in</cite> file next to your
+<cite>setup.py</cite> file.  This file lists all the files that should be added to
+your tarball:</p>
+<div class="highlight-python"><pre>recursive-include yourapplication/templates *
+recursive-include yourapplication/static *</pre>
+</div>
+<p>Don&#8217;t forget that even if you enlist them in your <cite>MANIFEST.in</cite> file, they
+won&#8217;t be installed for you unless you set the <cite>include_package_data</cite>
+parameter of the <cite>setup</cite> function to <cite>True</cite>!</p>
+</div>
+<div class="section" id="declaring-dependencies">
+<h2>Declaring Dependencies<a class="headerlink" href="#declaring-dependencies" title="Permalink to this headline">¶</a></h2>
+<p>Dependencies are declared in the <cite>install_requires</cite> parameter as list.
+Each item in that list is the name of a package that should be pulled from
+PyPI on installation.  By default it will always use the most recent
+version, but you can also provide minimum and maximum version
+requirements.  Here some examples:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">install_requires</span><span class="o">=</span><span class="p">[</span>
+    <span class="s">&#39;Flask&gt;=0.2&#39;</span><span class="p">,</span>
+    <span class="s">&#39;SQLAlchemy&gt;=0.6&#39;</span><span class="p">,</span>
+    <span class="s">&#39;BrokenPackage&gt;=0.7,&lt;=1.0&#39;</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>I mentioned earlier that dependencies are pulled from PyPI.  What if you
+want to depend on a package that cannot be found on PyPI and won&#8217;t be
+because it is an internal package you don&#8217;t want to share with anyone?
+Just still do as if there was a PyPI entry for it and provide a list of
+alternative locations where distribute should look for tarballs:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">dependency_links</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;http://example.com/yourfiles&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Make sure that page has a directory listing and the links on the page are
+pointing to the actual tarballs with their correct filenames as this is
+how distribute will find the files.  If you have an internal company
+server that contains the packages, provide the URL to that server there.</p>
+</div>
+<div class="section" id="installing-developing">
+<h2>Installing / Developing<a class="headerlink" href="#installing-developing" title="Permalink to this headline">¶</a></h2>
+<p>To install your application (ideally into a virtualenv) just run the
+<cite>setup.py</cite> script with the <cite>install</cite> parameter.  It will install your
+application into the virtualenv&#8217;s site-packages folder and also download
+and install all dependencies:</p>
+<div class="highlight-python"><pre>$ python setup.py install</pre>
+</div>
+<p>If you are developing on the package and also want the requirements to be
+installed, you can use the <cite>develop</cite> command instead:</p>
+<div class="highlight-python"><pre>$ python setup.py develop</pre>
+</div>
+<p>This has the advantage of just installing a link to the site-packages
+folder instead of copying the data over.  You can then continue to work on
+the code without having to run <cite>install</cite> again after each change.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="../index.html">
+  <img class="logo" src="../_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Deploying with Distribute</a><ul>
+<li><a class="reference internal" href="#basic-setup-script">Basic Setup Script</a></li>
+<li><a class="reference internal" href="#distributing-resources">Distributing Resources</a></li>
+<li><a class="reference internal" href="#declaring-dependencies">Declaring Dependencies</a></li>
+<li><a class="reference internal" href="#installing-developing">Installing / Developing</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Patterns for Flask</a><ul>
+      <li>Previous: <a href="urlprocessors.html" title="previous chapter">Using URL Processors</a></li>
+      <li>Next: <a href="fabric.html" title="next chapter">Deploying with Fabric</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/patterns/distribute.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

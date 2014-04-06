@@ -1,0 +1,195 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Streaming Contents &mdash; Flask 0.10.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Flask 0.10.1 documentation" href="../index.html" />
+    <link rel="up" title="Patterns for Flask" href="index.html" />
+    <link rel="next" title="Deferred Request Callbacks" href="deferredcallbacks.html" />
+    <link rel="prev" title="Adding a favicon" href="favicon.html" />
+   
+  
+  <link rel="apple-touch-icon" href="../_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="deferredcallbacks.html" title="Deferred Request Callbacks"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="favicon.html" title="Adding a favicon"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Flask 0.10.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Patterns for Flask</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="streaming-contents">
+<h1>Streaming Contents<a class="headerlink" href="#streaming-contents" title="Permalink to this headline">¶</a></h1>
+<p>Sometimes you want to send an enormous amount of data to the client, much
+more than you want to keep in memory.  When you are generating the data on
+the fly though, how do you send that back to the client without the
+roundtrip to the filesystem?</p>
+<p>The answer is by using generators and direct responses.</p>
+<div class="section" id="basic-usage">
+<h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h2>
+<p>This is a basic view function that generates a lot of CSV data on the fly.
+The trick is to have an inner function that uses a generator to generate
+data and to then invoke that function and pass it to a response object:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Response</span>
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/large.csv&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">generate_large_csv</span><span class="p">():</span>
+    <span class="k">def</span> <span class="nf">generate</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">iter_all_rows</span><span class="p">():</span>
+            <span class="k">yield</span> <span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+    <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">generate</span><span class="p">(),</span> <span class="n">mimetype</span><span class="o">=</span><span class="s">&#39;text/csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Each <tt class="docutils literal"><span class="pre">yield</span></tt> expression is directly sent to the browser.  Note though
+that some WSGI middlewares might break streaming, so be careful there in
+debug environments with profilers and other things you might have enabled.</p>
+</div>
+<div class="section" id="streaming-from-templates">
+<h2>Streaming from Templates<a class="headerlink" href="#streaming-from-templates" title="Permalink to this headline">¶</a></h2>
+<p>The Jinja2 template engine also supports rendering templates piece by
+piece.  This functionality is not directly exposed by Flask because it is
+quite uncommon, but you can easily do it yourself:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Response</span>
+
+<span class="k">def</span> <span class="nf">stream_template</span><span class="p">(</span><span class="n">template_name</span><span class="p">,</span> <span class="o">**</span><span class="n">context</span><span class="p">):</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">update_template_context</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">jinja_env</span><span class="o">.</span><span class="n">get_template</span><span class="p">(</span><span class="n">template_name</span><span class="p">)</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+    <span class="n">rv</span><span class="o">.</span><span class="n">enable_buffering</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rv</span>
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/my-large-page.html&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">render_large_template</span><span class="p">():</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">iter_all_rows</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">stream_template</span><span class="p">(</span><span class="s">&#39;the_template.html&#39;</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="n">rows</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The trick here is to get the template object from the Jinja2 environment
+on the application and to call <tt class="xref py py-meth docutils literal"><span class="pre">stream()</span></tt> instead of
+<tt class="xref py py-meth docutils literal"><span class="pre">render()</span></tt> which returns a stream object instead of a
+string.  Since we&#8217;re bypassing the Flask template render functions and
+using the template object itself we have to make sure to update the render
+context ourselves by calling <a class="reference internal" href="../api.html#flask.Flask.update_template_context" title="flask.Flask.update_template_context"><tt class="xref py py-meth docutils literal"><span class="pre">update_template_context()</span></tt></a>.
+The template is then evaluated as the stream is iterated over.  Since each
+time you do a yield the server will flush the content to the client you
+might want to buffer up a few items in the template which you can do with
+<tt class="docutils literal"><span class="pre">rv.enable_buffering(size)</span></tt>.  <tt class="docutils literal"><span class="pre">5</span></tt> is a sane default.</p>
+</div>
+<div class="section" id="streaming-with-context">
+<h2>Streaming with Context<a class="headerlink" href="#streaming-with-context" title="Permalink to this headline">¶</a></h2>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.9.</span></p>
+<p>Note that when you stream data, the request context is already gone the
+moment the function executes.  Flask 0.9 provides you with a helper that
+can keep the request context around during the execution of the
+generator:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">stream_with_context</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">Response</span>
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/stream&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">streamed_response</span><span class="p">():</span>
+    <span class="k">def</span> <span class="nf">generate</span><span class="p">():</span>
+        <span class="k">yield</span> <span class="s">&#39;Hello &#39;</span>
+        <span class="k">yield</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+        <span class="k">yield</span> <span class="s">&#39;!&#39;</span>
+    <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">stream_with_context</span><span class="p">(</span><span class="n">generate</span><span class="p">()))</span>
+</pre></div>
+</div>
+<p>Without the <a class="reference internal" href="../api.html#flask.stream_with_context" title="flask.stream_with_context"><tt class="xref py py-func docutils literal"><span class="pre">stream_with_context()</span></tt></a> function you would get a
+<tt class="xref py py-class docutils literal"><span class="pre">RuntimeError</span></tt> at that point.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="../index.html">
+  <img class="logo" src="../_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Streaming Contents</a><ul>
+<li><a class="reference internal" href="#basic-usage">Basic Usage</a></li>
+<li><a class="reference internal" href="#streaming-from-templates">Streaming from Templates</a></li>
+<li><a class="reference internal" href="#streaming-with-context">Streaming with Context</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Patterns for Flask</a><ul>
+      <li>Previous: <a href="favicon.html" title="previous chapter">Adding a favicon</a></li>
+      <li>Next: <a href="deferredcallbacks.html" title="next chapter">Deferred Request Callbacks</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/patterns/streaming.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

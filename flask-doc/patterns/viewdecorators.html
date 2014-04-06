@@ -1,0 +1,274 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>View Decorators &mdash; Flask 0.10.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Flask 0.10.1 documentation" href="../index.html" />
+    <link rel="up" title="Patterns for Flask" href="index.html" />
+    <link rel="next" title="Form Validation with WTForms" href="wtforms.html" />
+    <link rel="prev" title="Caching" href="caching.html" />
+   
+  
+  <link rel="apple-touch-icon" href="../_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="wtforms.html" title="Form Validation with WTForms"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="caching.html" title="Caching"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Flask 0.10.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Patterns for Flask</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="view-decorators">
+<h1>View Decorators<a class="headerlink" href="#view-decorators" title="Permalink to this headline">¶</a></h1>
+<p>Python has a really interesting feature called function decorators.  This
+allow some really neat things for web applications.  Because each view in
+Flask is a function decorators can be used to inject additional
+functionality to one or more functions.  The <a class="reference internal" href="../api.html#flask.Flask.route" title="flask.Flask.route"><tt class="xref py py-meth docutils literal"><span class="pre">route()</span></tt></a>
+decorator is the one you probably used already.  But there are use cases
+for implementing your own decorator.  For instance, imagine you have a
+view that should only be used by people that are logged in to.  If a user
+goes to the site and is not logged in, they should be redirected to the
+login page.  This is a good example of a use case where a decorator is an
+excellent solution.</p>
+<div class="section" id="login-required-decorator">
+<h2>Login Required Decorator<a class="headerlink" href="#login-required-decorator" title="Permalink to this headline">¶</a></h2>
+<p>So let&#8217;s implement such a decorator.  A decorator is a function that
+returns a function.  Pretty simple actually.  The only thing you have to
+keep in mind when implementing something like this is to update the
+<cite>__name__</cite>, <cite>__module__</cite> and some other attributes of a function.  This is
+often forgotten, but you don&#8217;t have to do that by hand, there is a
+function for that that is used like a decorator (<a class="reference external" href="http://docs.python.org/dev/library/functools.html#functools.wraps" title="(in Python v3.4)"><tt class="xref py py-func docutils literal"><span class="pre">functools.wraps()</span></tt></a>).</p>
+<p>This example assumes that the login page is called <tt class="docutils literal"><span class="pre">'login'</span></tt> and that
+the current user is stored as <cite>g.user</cite> and <cite>None</cite> if there is no-one
+logged in:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">g</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">redirect</span><span class="p">,</span> <span class="n">url_for</span>
+
+<span class="k">def</span> <span class="nf">login_required</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">decorated_function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">g</span><span class="o">.</span><span class="n">user</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s">&#39;login&#39;</span><span class="p">,</span> <span class="nb">next</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">decorated_function</span>
+</pre></div>
+</div>
+<p>So how would you use that decorator now?  Apply it as innermost decorator
+to a view function.  When applying further decorators, always remember
+that the <a class="reference internal" href="../api.html#flask.Flask.route" title="flask.Flask.route"><tt class="xref py py-meth docutils literal"><span class="pre">route()</span></tt></a> decorator is the outermost:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/secret_page&#39;</span><span class="p">)</span>
+<span class="nd">@login_required</span>
+<span class="k">def</span> <span class="nf">secret_page</span><span class="p">():</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="caching-decorator">
+<h2>Caching Decorator<a class="headerlink" href="#caching-decorator" title="Permalink to this headline">¶</a></h2>
+<p>Imagine you have a view function that does an expensive calculation and
+because of that you would like to cache the generated results for a
+certain amount of time.  A decorator would be nice for that.  We&#8217;re
+assuming you have set up a cache like mentioned in <a class="reference internal" href="caching.html#caching-pattern"><em>Caching</em></a>.</p>
+<p>Here an example cache function.  It generates the cache key from a
+specific prefix (actually a format string) and the current path of the
+request.  Notice that we are using a function that first creates the
+decorator that then decorates the function.  Sounds awful? Unfortunately
+it is a little bit more complex, but the code should still be
+straightforward to read.</p>
+<p>The decorated function will then work as follows</p>
+<ol class="arabic simple">
+<li>get the unique cache key for the current request base on the current
+path.</li>
+<li>get the value for that key from the cache. If the cache returned
+something we will return that value.</li>
+<li>otherwise the original function is called and the return value is
+stored in the cache for the timeout provided (by default 5 minutes).</li>
+</ol>
+<p>Here the code:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">request</span>
+
+<span class="k">def</span> <span class="nf">cached</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">5</span> <span class="o">*</span> <span class="mi">60</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s">&#39;view/</span><span class="si">%s</span><span class="s">&#39;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+        <span class="nd">@wraps</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">decorated_function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="n">cache_key</span> <span class="o">=</span> <span class="n">key</span> <span class="o">%</span> <span class="n">request</span><span class="o">.</span><span class="n">path</span>
+            <span class="n">rv</span> <span class="o">=</span> <span class="n">cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cache_key</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">rv</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">rv</span>
+            <span class="n">rv</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">cache</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">cache_key</span><span class="p">,</span> <span class="n">rv</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">rv</span>
+        <span class="k">return</span> <span class="n">decorated_function</span>
+    <span class="k">return</span> <span class="n">decorator</span>
+</pre></div>
+</div>
+<p>Notice that this assumes an instantiated <cite>cache</cite> object is available, see
+<a class="reference internal" href="caching.html#caching-pattern"><em>Caching</em></a> for more information.</p>
+</div>
+<div class="section" id="templating-decorator">
+<h2>Templating Decorator<a class="headerlink" href="#templating-decorator" title="Permalink to this headline">¶</a></h2>
+<p>A common pattern invented by the TurboGears guys a while back is a
+templating decorator.  The idea of that decorator is that you return a
+dictionary with the values passed to the template from the view function
+and the template is automatically rendered.  With that, the following
+three examples do exactly the same:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s">&#39;index.html&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
+<span class="nd">@templated</span><span class="p">(</span><span class="s">&#39;index.html&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
+<span class="nd">@templated</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>As you can see, if no template name is provided it will use the endpoint
+of the URL map with dots converted to slashes + <tt class="docutils literal"><span class="pre">'.html'</span></tt>.  Otherwise
+the provided template name is used.  When the decorated function returns,
+the dictionary returned is passed to the template rendering function.  If
+<cite>None</cite> is returned, an empty dictionary is assumed, if something else than
+a dictionary is returned we return it from the function unchanged.  That
+way you can still use the redirect function or return simple strings.</p>
+<p>Here the code for that decorator:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">request</span>
+
+<span class="k">def</span> <span class="nf">templated</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+        <span class="nd">@wraps</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">decorated_function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="n">template_name</span> <span class="o">=</span> <span class="n">template</span>
+            <span class="k">if</span> <span class="n">template_name</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">template_name</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">endpoint</span> \
+                    <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">,</span> <span class="s">&#39;/&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;.html&#39;</span>
+            <span class="n">ctx</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">ctx</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">ctx</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">ctx</span>
+            <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="n">template_name</span><span class="p">,</span> <span class="o">**</span><span class="n">ctx</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">decorated_function</span>
+    <span class="k">return</span> <span class="n">decorator</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="endpoint-decorator">
+<h2>Endpoint Decorator<a class="headerlink" href="#endpoint-decorator" title="Permalink to this headline">¶</a></h2>
+<p>When you want to use the werkzeug routing system for more flexibility you
+need to map the endpoint as defined in the <a class="reference external" href="http://werkzeug.pocoo.org/docs/routing/#werkzeug.routing.Rule" title="(in Werkzeug v0.10)"><tt class="xref py py-class docutils literal"><span class="pre">Rule</span></tt></a>
+to a view function. This is possible with this decorator. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span>
+<span class="kn">from</span> <span class="nn">werkzeug.routing</span> <span class="kn">import</span> <span class="n">Rule</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">url_map</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Rule</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="s">&#39;index&#39;</span><span class="p">))</span>
+
+<span class="nd">@app.endpoint</span><span class="p">(</span><span class="s">&#39;index&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">my_index</span><span class="p">():</span>
+    <span class="k">return</span> <span class="s">&quot;Hello world&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="../index.html">
+  <img class="logo" src="../_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">View Decorators</a><ul>
+<li><a class="reference internal" href="#login-required-decorator">Login Required Decorator</a></li>
+<li><a class="reference internal" href="#caching-decorator">Caching Decorator</a></li>
+<li><a class="reference internal" href="#templating-decorator">Templating Decorator</a></li>
+<li><a class="reference internal" href="#endpoint-decorator">Endpoint Decorator</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Patterns for Flask</a><ul>
+      <li>Previous: <a href="caching.html" title="previous chapter">Caching</a></li>
+      <li>Next: <a href="wtforms.html" title="next chapter">Form Validation with WTForms</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/patterns/viewdecorators.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

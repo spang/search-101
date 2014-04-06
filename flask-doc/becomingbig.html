@@ -1,0 +1,201 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Becoming Big &mdash; Flask 0.10.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.10.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Flask 0.10.1 documentation" href="index.html" />
+    <link rel="next" title="API" href="api.html" />
+    <link rel="prev" title="CGI" href="deploying/cgi.html" />
+   
+  
+  <link rel="apple-touch-icon" href="_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="api.html" title="API"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="deploying/cgi.html" title="CGI"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Flask 0.10.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="becoming-big">
+<span id="becomingbig"></span><h1>Becoming Big<a class="headerlink" href="#becoming-big" title="Permalink to this headline">¶</a></h1>
+<p>Here are your options when growing your codebase or scaling your application.</p>
+<div class="section" id="read-the-source">
+<h2>Read the Source.<a class="headerlink" href="#read-the-source" title="Permalink to this headline">¶</a></h2>
+<p>Flask started in part to demonstrate how to build your own framework on top of
+existing well-used tools Werkzeug (WSGI) and Jinja (templating), and as it
+developed, it became useful to a wide audience.  As you grow your codebase,
+don&#8217;t just use Flask &#8211; understand it.  Read the source.  Flask&#8217;s code is
+written to be read; it&#8217;s documentation published so you can use its internal
+APIs.  Flask sticks to documented APIs in upstream libraries, and documents its
+internal utilities so that you can find the hook points needed for your
+project.</p>
+</div>
+<div class="section" id="hook-extend">
+<h2>Hook. Extend.<a class="headerlink" href="#hook-extend" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="api.html#api"><em>API</em></a> docs are full of available overrides, hook points, and
+<a class="reference internal" href="signals.html#signals"><em>Signals</em></a>. You can provide custom classes for things like the request and
+response objects.  Dig deeper on the APIs you use, and look for the
+customizations which are available out of the box in a Flask release.  Look for
+ways in which your project can be refactored into a collection of utilities and
+Flask extensions.  Explore the many <a class="reference external" href="http://flask.pocoo.org/extensions/">extensions</a> in the community, and look for patterns to
+build your own extensions if you do not find the tools you need.</p>
+</div>
+<div class="section" id="subclass">
+<h2>Subclass.<a class="headerlink" href="#subclass" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="api.html#flask.Flask" title="flask.Flask"><tt class="xref py py-class docutils literal"><span class="pre">Flask</span></tt></a> class has many methods designed for subclassing. You
+can quickly add or customize behavior by subclassing <a class="reference internal" href="api.html#flask.Flask" title="flask.Flask"><tt class="xref py py-class docutils literal"><span class="pre">Flask</span></tt></a> (see
+the linked method docs) and using that subclass wherever you instantiate an
+application class. This works well with <a class="reference internal" href="patterns/appfactories.html#app-factories"><em>Application Factories</em></a>.</p>
+</div>
+<div class="section" id="wrap-with-middleware">
+<h2>Wrap with middleware.<a class="headerlink" href="#wrap-with-middleware" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="patterns/appdispatch.html#app-dispatch"><em>Application Dispatching</em></a> chapter shows in detail how to apply middleware. You
+can introduce WSGI middleware to wrap your Flask instances and introduce fixes
+and changes at the layer between your Flask application and your HTTP
+server. Werkzeug includes several <a class="reference external" href="http://werkzeug.pocoo.org/docs/middlewares/">middlewares</a>.</p>
+</div>
+<div class="section" id="fork">
+<h2>Fork.<a class="headerlink" href="#fork" title="Permalink to this headline">¶</a></h2>
+<p>If none of the above options work, fork Flask.  The majority of code of Flask
+is within Werkzeug and Jinja2.  These libraries do the majority of the work.
+Flask is just the paste that glues those together.  For every project there is
+the point where the underlying framework gets in the way (due to assumptions
+the original developers had).  This is natural because if this would not be the
+case, the framework would be a very complex system to begin with which causes a
+steep learning curve and a lot of user frustration.</p>
+<p>This is not unique to Flask.  Many people use patched and modified
+versions of their framework to counter shortcomings.  This idea is also
+reflected in the license of Flask.  You don&#8217;t have to contribute any
+changes back if you decide to modify the framework.</p>
+<p>The downside of forking is of course that Flask extensions will most
+likely break because the new framework has a different import name.
+Furthermore integrating upstream changes can be a complex process,
+depending on the number of changes.  Because of that, forking should be
+the very last resort.</p>
+</div>
+<div class="section" id="scale-like-a-pro">
+<h2>Scale like a pro.<a class="headerlink" href="#scale-like-a-pro" title="Permalink to this headline">¶</a></h2>
+<p>For many web applications the complexity of the code is less an issue than
+the scaling for the number of users or data entries expected.  Flask by
+itself is only limited in terms of scaling by your application code, the
+data store you want to use and the Python implementation and webserver you
+are running on.</p>
+<p>Scaling well means for example that if you double the amount of servers
+you get about twice the performance.  Scaling bad means that if you add a
+new server the application won&#8217;t perform any better or would not even
+support a second server.</p>
+<p>There is only one limiting factor regarding scaling in Flask which are
+the context local proxies.  They depend on context which in Flask is
+defined as being either a thread, process or greenlet.  If your server
+uses some kind of concurrency that is not based on threads or greenlets,
+Flask will no longer be able to support these global proxies.  However the
+majority of servers are using either threads, greenlets or separate
+processes to achieve concurrency which are all methods well supported by
+the underlying Werkzeug library.</p>
+</div>
+<div class="section" id="discuss-with-the-community">
+<h2>Discuss with the community.<a class="headerlink" href="#discuss-with-the-community" title="Permalink to this headline">¶</a></h2>
+<p>The Flask developers keep the framework accessible to users with codebases big
+and small. If you find an obstacle in your way, caused by Flask, don&#8217;t hesitate
+to contact the developers on the mailinglist or IRC channel.  The best way for
+the Flask and Flask extension developers to improve the tools for larger
+applications is getting feedback from users.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="index.html">
+  <img class="logo" src="_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Becoming Big</a><ul>
+<li><a class="reference internal" href="#read-the-source">Read the Source.</a></li>
+<li><a class="reference internal" href="#hook-extend">Hook. Extend.</a></li>
+<li><a class="reference internal" href="#subclass">Subclass.</a></li>
+<li><a class="reference internal" href="#wrap-with-middleware">Wrap with middleware.</a></li>
+<li><a class="reference internal" href="#fork">Fork.</a></li>
+<li><a class="reference internal" href="#scale-like-a-pro">Scale like a pro.</a></li>
+<li><a class="reference internal" href="#discuss-with-the-community">Discuss with the community.</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="deploying/cgi.html" title="previous chapter">CGI</a></li>
+      <li>Next: <a href="api.html" title="next chapter">API</a></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/becomingbig.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

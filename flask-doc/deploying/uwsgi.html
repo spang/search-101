@@ -1,0 +1,166 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>uWSGI &mdash; Flask 0.10.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Flask 0.10.1 documentation" href="../index.html" />
+    <link rel="up" title="Deployment Options" href="index.html" />
+    <link rel="next" title="FastCGI" href="fastcgi.html" />
+    <link rel="prev" title="Standalone WSGI Containers" href="wsgi-standalone.html" />
+   
+  
+  <link rel="apple-touch-icon" href="../_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="fastcgi.html" title="FastCGI"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="wsgi-standalone.html" title="Standalone WSGI Containers"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Flask 0.10.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Deployment Options</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="uwsgi">
+<span id="deploying-uwsgi"></span><h1>uWSGI<a class="headerlink" href="#uwsgi" title="Permalink to this headline">¶</a></h1>
+<p>uWSGI is a deployment option on servers like <a class="reference external" href="http://nginx.org/">nginx</a>, <a class="reference external" href="http://www.lighttpd.net/">lighttpd</a>, and
+<a class="reference external" href="http://www.cherokee-project.com/">cherokee</a>; see <a class="reference internal" href="fastcgi.html#deploying-fastcgi"><em>FastCGI</em></a> and <a class="reference internal" href="wsgi-standalone.html#deploying-wsgi-standalone"><em>Standalone WSGI Containers</em></a>
+for other options.  To use your WSGI application with uWSGI protocol you will
+need a uWSGI server first. uWSGI is both a protocol and an application server;
+the application server can serve uWSGI, FastCGI, and HTTP protocols.</p>
+<p>The most popular uWSGI server is <a class="reference external" href="http://projects.unbit.it/uwsgi/">uwsgi</a>, which we will use for this
+guide.  Make sure to have it installed to follow along.</p>
+<div class="admonition-watch-out admonition">
+<p class="first admonition-title">Watch Out</p>
+<p class="last">Please make sure in advance that any <tt class="docutils literal"><span class="pre">app.run()</span></tt> calls you might
+have in your application file are inside an <tt class="docutils literal"><span class="pre">if</span> <span class="pre">__name__</span> <span class="pre">==</span>
+<span class="pre">'__main__':</span></tt> block or moved to a separate file.  Just make sure it&#8217;s
+not called because this will always start a local WSGI server which
+we do not want if we deploy that application to uWSGI.</p>
+</div>
+<div class="section" id="starting-your-app-with-uwsgi">
+<h2>Starting your app with uwsgi<a class="headerlink" href="#starting-your-app-with-uwsgi" title="Permalink to this headline">¶</a></h2>
+<p><cite>uwsgi</cite> is designed to operate on WSGI callables found in python modules.</p>
+<p>Given a flask application in myapp.py, use the following command:</p>
+<div class="highlight-text"><div class="highlight"><pre>$ uwsgi -s /tmp/uwsgi.sock --module myapp --callable app
+</pre></div>
+</div>
+<p>Or, if you prefer:</p>
+<div class="highlight-text"><div class="highlight"><pre>$ uwsgi -s /tmp/uwsgi.sock -w myapp:app
+</pre></div>
+</div>
+</div>
+<div class="section" id="configuring-nginx">
+<h2>Configuring nginx<a class="headerlink" href="#configuring-nginx" title="Permalink to this headline">¶</a></h2>
+<p>A basic flask uWSGI configuration for nginx looks like this:</p>
+<div class="highlight-python"><pre>location = /yourapplication { rewrite ^ /yourapplication/; }
+location /yourapplication { try_files $uri @yourapplication; }
+location @yourapplication {
+  include uwsgi_params;
+  uwsgi_param SCRIPT_NAME /yourapplication;
+  uwsgi_modifier1 30;
+  uwsgi_pass unix:/tmp/uwsgi.sock;
+}</pre>
+</div>
+<p>This configuration binds the application to <cite>/yourapplication</cite>.  If you want
+to have it in the URL root it&#8217;s a bit simpler because you don&#8217;t have to tell
+it the WSGI <cite>SCRIPT_NAME</cite> or set the uwsgi modifier to make use of it:</p>
+<div class="highlight-python"><pre>location / { try_files $uri @yourapplication; }
+location @yourapplication {
+    include uwsgi_params;
+    uwsgi_pass unix:/tmp/uwsgi.sock;
+}</pre>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="../index.html">
+  <img class="logo" src="../_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">uWSGI</a><ul>
+<li><a class="reference internal" href="#starting-your-app-with-uwsgi">Starting your app with uwsgi</a></li>
+<li><a class="reference internal" href="#configuring-nginx">Configuring nginx</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Deployment Options</a><ul>
+      <li>Previous: <a href="wsgi-standalone.html" title="previous chapter">Standalone WSGI Containers</a></li>
+      <li>Next: <a href="fastcgi.html" title="next chapter">FastCGI</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/deploying/uwsgi.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,184 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Step 2: Application Setup Code &mdash; Flask 0.10.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Flask 0.10.1 documentation" href="../index.html" />
+    <link rel="up" title="Tutorial" href="index.html" />
+    <link rel="next" title="Step 3: Creating The Database" href="dbinit.html" />
+    <link rel="prev" title="Step 1: Database Schema" href="schema.html" />
+   
+  
+  <link rel="apple-touch-icon" href="../_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="dbinit.html" title="Step 3: Creating The Database"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="schema.html" title="Step 1: Database Schema"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Flask 0.10.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Tutorial</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="step-2-application-setup-code">
+<span id="tutorial-setup"></span><h1>Step 2: Application Setup Code<a class="headerlink" href="#step-2-application-setup-code" title="Permalink to this headline">¶</a></h1>
+<p>Now that we have the schema in place we can create the application module.
+Let&#8217;s call it <cite>flaskr.py</cite> inside the <cite>flaskr</cite> folder.  For starters we
+will add the imports we will need as well as the config section.  For
+small applications it&#8217;s a possibility to drop the configuration directly
+into the module which we will be doing here.  However a cleaner solution
+would be to create a separate <cite>.ini</cite> or <cite>.py</cite> file and load that or import
+the values from there.</p>
+<p>In <cite>flaskr.py</cite>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># all the imports</span>
+<span class="kn">import</span> <span class="nn">sqlite3</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">redirect</span><span class="p">,</span> <span class="n">url_for</span><span class="p">,</span> \
+     <span class="n">abort</span><span class="p">,</span> <span class="n">render_template</span><span class="p">,</span> <span class="n">flash</span>
+
+<span class="c"># configuration</span>
+<span class="n">DATABASE</span> <span class="o">=</span> <span class="s">&#39;/tmp/flaskr.db&#39;</span>
+<span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">SECRET_KEY</span> <span class="o">=</span> <span class="s">&#39;development key&#39;</span>
+<span class="n">USERNAME</span> <span class="o">=</span> <span class="s">&#39;admin&#39;</span>
+<span class="n">PASSWORD</span> <span class="o">=</span> <span class="s">&#39;default&#39;</span>
+</pre></div>
+</div>
+<p>Next we can create our actual application and initialize it with the
+config from the same file, in <cite>flaskr.py</cite>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># create our little application :)</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_object</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="../api.html#flask.Config.from_object" title="flask.Config.from_object"><tt class="xref py py-meth docutils literal"><span class="pre">from_object()</span></tt></a> will look at the given object (if it&#8217;s a
+string it will import it) and then look for all uppercase variables
+defined there.  In our case, the configuration we just wrote a few lines
+of code above.  You can also move that into a separate file.</p>
+<p>Usually, it is a good idea to load a configuration from a configurable
+file. This is what <a class="reference internal" href="../api.html#flask.Config.from_envvar" title="flask.Config.from_envvar"><tt class="xref py py-meth docutils literal"><span class="pre">from_envvar()</span></tt></a> can do, replacing the
+<a class="reference internal" href="../api.html#flask.Config.from_object" title="flask.Config.from_object"><tt class="xref py py-meth docutils literal"><span class="pre">from_object()</span></tt></a> line above:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_envvar</span><span class="p">(</span><span class="s">&#39;FLASKR_SETTINGS&#39;</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>That way someone can set an environment variable called
+<span class="target" id="index-0"></span><tt class="xref std std-envvar docutils literal"><span class="pre">FLASKR_SETTINGS</span></tt> to specify a config file to be loaded which will then
+override the default values. The silent switch just tells Flask to not complain
+if no such environment key is set.</p>
+<p>The <cite>secret_key</cite> is needed to keep the client-side sessions secure.
+Choose that key wisely and as hard to guess and complex as possible.  The
+debug flag enables or disables the interactive debugger.  <em>Never leave
+debug mode activated in a production system</em>, because it will allow users to
+execute code on the server!</p>
+<p>We also add a method to easily connect to the database specified.  That
+can be used to open a connection on request and also from the interactive
+Python shell or a script.  This will come in handy later.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">connect_db</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;DATABASE&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Finally we just add a line to the bottom of the file that fires up the
+server if we want to run that file as a standalone application:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>With that out of the way you should be able to start up the application
+without problems.  Do this with the following command:</p>
+<div class="highlight-python"><pre>python flaskr.py</pre>
+</div>
+<p>You will see a message telling you that server has started along with
+the address at which you can access it.</p>
+<p>When you head over to the server in your browser you will get an 404
+page not found error because we don&#8217;t have any views yet.  But we will
+focus on that a little later.  First we should get the database working.</p>
+<div class="admonition-externally-visible-server admonition">
+<p class="first admonition-title">Externally Visible Server</p>
+<p class="last">Want your server to be publicly available?  Check out the
+<a class="reference internal" href="../quickstart.html#public-server"><em>externally visible server</em></a> section for more
+information.</p>
+</div>
+<p>Continue with <a class="reference internal" href="dbinit.html#tutorial-dbinit"><em>Step 3: Creating The Database</em></a>.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="../index.html">
+  <img class="logo" src="../_static/flask.png" alt="Logo"/>
+</a></p><h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Tutorial</a><ul>
+      <li>Previous: <a href="schema.html" title="previous chapter">Step 1: Database Schema</a></li>
+      <li>Next: <a href="dbinit.html" title="next chapter">Step 3: Creating The Database</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/tutorial/setup.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

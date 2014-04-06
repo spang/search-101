@@ -1,0 +1,257 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Patterns for Flask &mdash; Flask 0.10.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Flask 0.10.1 documentation" href="../index.html" />
+    <link rel="next" title="Larger Applications" href="packages.html" />
+    <link rel="prev" title="Working with the Shell" href="../shell.html" />
+   
+  
+  <link rel="apple-touch-icon" href="../_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="packages.html" title="Larger Applications"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../shell.html" title="Working with the Shell"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Flask 0.10.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="patterns-for-flask">
+<span id="patterns"></span><h1>Patterns for Flask<a class="headerlink" href="#patterns-for-flask" title="Permalink to this headline">¶</a></h1>
+<p>Certain things are common enough that the chances are high you will find
+them in most web applications.  For example quite a lot of applications
+are using relational databases and user authentication.  In that case,
+chances are they will open a database connection at the beginning of the
+request and get the information of the currently logged in user.  At the
+end of the request, the database connection is closed again.</p>
+<p>There are more user contributed snippets and patterns in the <a class="reference external" href="http://flask.pocoo.org/snippets/">Flask
+Snippet Archives</a>.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="packages.html">Larger Applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="packages.html#simple-packages">Simple Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="packages.html#working-with-blueprints">Working with Blueprints</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="appfactories.html">Application Factories</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="appfactories.html#basic-factories">Basic Factories</a></li>
+<li class="toctree-l2"><a class="reference internal" href="appfactories.html#using-applications">Using Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="appfactories.html#factory-improvements">Factory Improvements</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="appdispatch.html">Application Dispatching</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="appdispatch.html#working-with-this-document">Working with this Document</a></li>
+<li class="toctree-l2"><a class="reference internal" href="appdispatch.html#combining-applications">Combining Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="appdispatch.html#dispatch-by-subdomain">Dispatch by Subdomain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="appdispatch.html#dispatch-by-path">Dispatch by Path</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="apierrors.html">Implementing API Exceptions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="apierrors.html#simple-exception-class">Simple Exception Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apierrors.html#registering-an-error-handler">Registering an Error Handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apierrors.html#usage-in-views">Usage in Views</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="urlprocessors.html">Using URL Processors</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="urlprocessors.html#internationalized-application-urls">Internationalized Application URLs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="urlprocessors.html#internationalized-blueprint-urls">Internationalized Blueprint URLs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="distribute.html">Deploying with Distribute</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="distribute.html#basic-setup-script">Basic Setup Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distribute.html#distributing-resources">Distributing Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distribute.html#declaring-dependencies">Declaring Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distribute.html#installing-developing">Installing / Developing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fabric.html">Deploying with Fabric</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fabric.html#creating-the-first-fabfile">Creating the first Fabfile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fabric.html#running-fabfiles">Running Fabfiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fabric.html#the-wsgi-file">The WSGI File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fabric.html#the-configuration-file">The Configuration File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fabric.html#first-deployment">First Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fabric.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sqlite3.html">Using SQLite 3 with Flask</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sqlite3.html#connect-on-demand">Connect on Demand</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sqlite3.html#easy-querying">Easy Querying</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sqlite3.html#initial-schemas">Initial Schemas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sqlalchemy.html">SQLAlchemy in Flask</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sqlalchemy.html#flask-sqlalchemy-extension">Flask-SQLAlchemy Extension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sqlalchemy.html#declarative">Declarative</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sqlalchemy.html#manual-object-relational-mapping">Manual Object Relational Mapping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sqlalchemy.html#sql-abstraction-layer">SQL Abstraction Layer</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fileuploads.html">Uploading Files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fileuploads.html#a-gentle-introduction">A Gentle Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fileuploads.html#improving-uploads">Improving Uploads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fileuploads.html#upload-progress-bars">Upload Progress Bars</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fileuploads.html#an-easier-solution">An Easier Solution</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="caching.html">Caching</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="caching.html#setting-up-a-cache">Setting up a Cache</a></li>
+<li class="toctree-l2"><a class="reference internal" href="caching.html#using-a-cache">Using a Cache</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="viewdecorators.html">View Decorators</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="viewdecorators.html#login-required-decorator">Login Required Decorator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viewdecorators.html#caching-decorator">Caching Decorator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viewdecorators.html#templating-decorator">Templating Decorator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viewdecorators.html#endpoint-decorator">Endpoint Decorator</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="wtforms.html">Form Validation with WTForms</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="wtforms.html#the-forms">The Forms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wtforms.html#in-the-view">In the View</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wtforms.html#forms-in-templates">Forms in Templates</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="templateinheritance.html">Template Inheritance</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="templateinheritance.html#base-template">Base Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templateinheritance.html#child-template">Child Template</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="flashing.html">Message Flashing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="flashing.html#simple-flashing">Simple Flashing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashing.html#flashing-with-categories">Flashing With Categories</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashing.html#filtering-flash-messages">Filtering Flash Messages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="jquery.html">AJAX with jQuery</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="jquery.html#loading-jquery">Loading jQuery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jquery.html#where-is-my-site">Where is My Site?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jquery.html#json-view-functions">JSON View Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jquery.html#the-html">The HTML</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="errorpages.html">Custom Error Pages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="errorpages.html#common-error-codes">Common Error Codes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="errorpages.html#error-handlers">Error Handlers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lazyloading.html">Lazily Loading Views</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lazyloading.html#converting-to-centralized-url-map">Converting to Centralized URL Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lazyloading.html#loading-late">Loading Late</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mongokit.html">MongoKit in Flask</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mongokit.html#declarative">Declarative</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mongokit.html#pymongo-compatibility-layer">PyMongo Compatibility Layer</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="favicon.html">Adding a favicon</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="favicon.html#see-also">See also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="streaming.html">Streaming Contents</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="streaming.html#basic-usage">Basic Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming.html#streaming-from-templates">Streaming from Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming.html#streaming-with-context">Streaming with Context</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="deferredcallbacks.html">Deferred Request Callbacks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="deferredcallbacks.html#the-decorator">The Decorator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deferredcallbacks.html#calling-the-deferred">Calling the Deferred</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deferredcallbacks.html#a-practical-example">A Practical Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="methodoverrides.html">Adding HTTP Method Overrides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="requestchecksum.html">Request Content Checksums</a></li>
+<li class="toctree-l1"><a class="reference internal" href="celery.html">Celery Based Background Tasks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="celery.html#installing-celery">Installing Celery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="celery.html#configuring-celery">Configuring Celery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="celery.html#minimal-example">Minimal Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="celery.html#running-the-celery-worker">Running the Celery Worker</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="../index.html">
+  <img class="logo" src="../_static/flask.png" alt="Logo"/>
+</a></p><h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../shell.html" title="previous chapter">Working with the Shell</a></li>
+      <li>Next: <a href="packages.html" title="next chapter">Larger Applications</a></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/patterns/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

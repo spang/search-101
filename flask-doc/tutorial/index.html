@@ -1,0 +1,137 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Tutorial &mdash; Flask 0.10.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Flask 0.10.1 documentation" href="../index.html" />
+    <link rel="next" title="Introducing Flaskr" href="introduction.html" />
+    <link rel="prev" title="Quickstart" href="../quickstart.html" />
+   
+  
+  <link rel="apple-touch-icon" href="../_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="introduction.html" title="Introducing Flaskr"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../quickstart.html" title="Quickstart"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Flask 0.10.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="tutorial">
+<span id="id1"></span><h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+<p>You want to develop an application with Python and Flask?  Here you have
+the chance to learn that by example.  In this tutorial we will create a
+simple microblog application.  It only supports one user that can create
+text-only entries and there are no feeds or comments, but it still
+features everything you need to get started.  We will use Flask and SQLite
+as database which comes out of the box with Python, so there is nothing
+else you need.</p>
+<p>If you want the full sourcecode in advance or for comparison, check out
+the <a class="reference external" href="http://github.com/mitsuhiko/flask/tree/master/examples/flaskr/">example source</a>.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introducing Flaskr</a></li>
+<li class="toctree-l1"><a class="reference internal" href="folders.html">Step 0: Creating The Folders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="schema.html">Step 1: Database Schema</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Step 2: Application Setup Code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dbinit.html">Step 3: Creating The Database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dbcon.html">Step 4: Request Database Connections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="views.html">Step 5: The View Functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="views.html#show-entries">Show Entries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="views.html#add-new-entry">Add New Entry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="views.html#login-and-logout">Login and Logout</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="templates.html">Step 6: The Templates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#layout-html">layout.html</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#show-entries-html">show_entries.html</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#login-html">login.html</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="css.html">Step 7: Adding Style</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">Bonus: Testing the Application</a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="../index.html">
+  <img class="logo" src="../_static/flask.png" alt="Logo"/>
+</a></p><h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../quickstart.html" title="previous chapter">Quickstart</a></li>
+      <li>Next: <a href="introduction.html" title="next chapter">Introducing Flaskr</a></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/tutorial/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

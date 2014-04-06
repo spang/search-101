@@ -1,0 +1,291 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Application Dispatching &mdash; Flask 0.10.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Flask 0.10.1 documentation" href="../index.html" />
+    <link rel="up" title="Patterns for Flask" href="index.html" />
+    <link rel="next" title="Implementing API Exceptions" href="apierrors.html" />
+    <link rel="prev" title="Application Factories" href="appfactories.html" />
+   
+  
+  <link rel="apple-touch-icon" href="../_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="apierrors.html" title="Implementing API Exceptions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="appfactories.html" title="Application Factories"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Flask 0.10.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Patterns for Flask</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="application-dispatching">
+<span id="app-dispatch"></span><h1>Application Dispatching<a class="headerlink" href="#application-dispatching" title="Permalink to this headline">¶</a></h1>
+<p>Application dispatching is the process of combining multiple Flask
+applications on the WSGI level.  You can not only combine Flask
+applications into something larger but any WSGI application.  This would
+even allow you to run a Django and a Flask application in the same
+interpreter side by side if you want.  The usefulness of this depends on
+how the applications work internally.</p>
+<p>The fundamental difference from the <a class="reference internal" href="packages.html#larger-applications"><em>module approach</em></a> is that in this case you are running the same or
+different Flask applications that are entirely isolated from each other.
+They run different configurations and are dispatched on the WSGI level.</p>
+<div class="section" id="working-with-this-document">
+<h2>Working with this Document<a class="headerlink" href="#working-with-this-document" title="Permalink to this headline">¶</a></h2>
+<p>Each of the techniques and examples below results in an <tt class="docutils literal"><span class="pre">application</span></tt> object
+that can be run with any WSGI server.  For production, see <a class="reference internal" href="../deploying/index.html#deployment"><em>Deployment Options</em></a>.
+For development, Werkzeug provides a builtin server for development available
+at <a class="reference external" href="http://werkzeug.pocoo.org/docs/serving/#werkzeug.serving.run_simple" title="(in Werkzeug v0.10)"><tt class="xref py py-func docutils literal"><span class="pre">werkzeug.serving.run_simple()</span></tt></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">werkzeug.serving</span> <span class="kn">import</span> <span class="n">run_simple</span>
+<span class="n">run_simple</span><span class="p">(</span><span class="s">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">5000</span><span class="p">,</span> <span class="n">application</span><span class="p">,</span> <span class="n">use_reloader</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that <a class="reference external" href="http://werkzeug.pocoo.org/docs/serving/#werkzeug.serving.run_simple" title="(in Werkzeug v0.10)"><tt class="xref py py-func docutils literal"><span class="pre">run_simple</span></tt></a> is not intended for
+use in production.  Use a <a class="reference internal" href="../deploying/index.html#deployment"><em>full-blown WSGI server</em></a>.</p>
+<p>In order to use the interactive debuggger, debugging must be enabled both on
+the application and the simple server, here is the &#8220;hello world&#8221; example with
+debugging and <a class="reference external" href="http://werkzeug.pocoo.org/docs/serving/#werkzeug.serving.run_simple" title="(in Werkzeug v0.10)"><tt class="xref py py-func docutils literal"><span class="pre">run_simple</span></tt></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span>
+<span class="kn">from</span> <span class="nn">werkzeug.serving</span> <span class="kn">import</span> <span class="n">run_simple</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="bp">True</span>
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">hello_world</span><span class="p">():</span>
+    <span class="k">return</span> <span class="s">&#39;Hello World!&#39;</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">run_simple</span><span class="p">(</span><span class="s">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">5000</span><span class="p">,</span> <span class="n">app</span><span class="p">,</span>
+               <span class="n">use_reloader</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">use_debugger</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">use_evalex</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="combining-applications">
+<h2>Combining Applications<a class="headerlink" href="#combining-applications" title="Permalink to this headline">¶</a></h2>
+<p>If you have entirely separated applications and you want them to work next
+to each other in the same Python interpreter process you can take
+advantage of the <a class="reference external" href="http://werkzeug.pocoo.org/docs/middlewares/#werkzeug.wsgi.DispatcherMiddleware" title="(in Werkzeug v0.10)"><tt class="xref py py-class docutils literal"><span class="pre">werkzeug.wsgi.DispatcherMiddleware</span></tt></a>.  The idea
+here is that each Flask application is a valid WSGI application and they
+are combined by the dispatcher middleware into a larger one that
+dispatched based on prefix.</p>
+<p>For example you could have your main application run on <cite>/</cite> and your
+backend interface on <cite>/backend</cite>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">werkzeug.wsgi</span> <span class="kn">import</span> <span class="n">DispatcherMiddleware</span>
+<span class="kn">from</span> <span class="nn">frontend_app</span> <span class="kn">import</span> <span class="n">application</span> <span class="k">as</span> <span class="n">frontend</span>
+<span class="kn">from</span> <span class="nn">backend_app</span> <span class="kn">import</span> <span class="n">application</span> <span class="k">as</span> <span class="n">backend</span>
+
+<span class="n">application</span> <span class="o">=</span> <span class="n">DispatcherMiddleware</span><span class="p">(</span><span class="n">frontend</span><span class="p">,</span> <span class="p">{</span>
+    <span class="s">&#39;/backend&#39;</span><span class="p">:</span>     <span class="n">backend</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="dispatch-by-subdomain">
+<h2>Dispatch by Subdomain<a class="headerlink" href="#dispatch-by-subdomain" title="Permalink to this headline">¶</a></h2>
+<p>Sometimes you might want to use multiple instances of the same application
+with different configurations.  Assuming the application is created inside
+a function and you can call that function to instantiate it, that is
+really easy to implement.  In order to develop your application to support
+creating new instances in functions have a look at the
+<a class="reference internal" href="appfactories.html#app-factories"><em>Application Factories</em></a> pattern.</p>
+<p>A very common example would be creating applications per subdomain.  For
+instance you configure your webserver to dispatch all requests for all
+subdomains to your application and you then use the subdomain information
+to create user-specific instances.  Once you have your server set up to
+listen on all subdomains you can use a very simple WSGI application to do
+the dynamic application creation.</p>
+<p>The perfect level for abstraction in that regard is the WSGI layer.  You
+write your own WSGI application that looks at the request that comes and
+delegates it to your Flask application.  If that application does not
+exist yet, it is dynamically created and remembered:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Lock</span>
+
+<span class="k">class</span> <span class="nc">SubdomainDispatcher</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">create_app</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="n">domain</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_app</span> <span class="o">=</span> <span class="n">create_app</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lock</span> <span class="o">=</span> <span class="n">Lock</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">instances</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">get_application</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">):</span>
+        <span class="n">host</span> <span class="o">=</span> <span class="n">host</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="n">host</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">),</span> <span class="s">&#39;Configuration error&#39;</span>
+        <span class="n">subdomain</span> <span class="o">=</span> <span class="n">host</span><span class="p">[:</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">)]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="p">:</span>
+            <span class="n">app</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">instances</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">subdomain</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">app</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">app</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_app</span><span class="p">(</span><span class="n">subdomain</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">instances</span><span class="p">[</span><span class="n">subdomain</span><span class="p">]</span> <span class="o">=</span> <span class="n">app</span>
+            <span class="k">return</span> <span class="n">app</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
+        <span class="n">app</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_application</span><span class="p">(</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;HTTP_HOST&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">app</span><span class="p">(</span><span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This dispatcher can then be used like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">myapplication</span> <span class="kn">import</span> <span class="n">create_app</span><span class="p">,</span> <span class="n">get_user_for_subdomain</span>
+<span class="kn">from</span> <span class="nn">werkzeug.exceptions</span> <span class="kn">import</span> <span class="n">NotFound</span>
+
+<span class="k">def</span> <span class="nf">make_app</span><span class="p">(</span><span class="n">subdomain</span><span class="p">):</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">get_user_for_subdomain</span><span class="p">(</span><span class="n">subdomain</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">user</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="c"># if there is no user for that subdomain we still have</span>
+        <span class="c"># to return a WSGI application that handles that request.</span>
+        <span class="c"># We can then just return the NotFound() exception as</span>
+        <span class="c"># application which will render a default 404 page.</span>
+        <span class="c"># You might also redirect the user to the main page then</span>
+        <span class="k">return</span> <span class="n">NotFound</span><span class="p">()</span>
+
+    <span class="c"># otherwise create the application for the specific user</span>
+    <span class="k">return</span> <span class="n">create_app</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+
+<span class="n">application</span> <span class="o">=</span> <span class="n">SubdomainDispatcher</span><span class="p">(</span><span class="s">&#39;example.com&#39;</span><span class="p">,</span> <span class="n">make_app</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="dispatch-by-path">
+<h2>Dispatch by Path<a class="headerlink" href="#dispatch-by-path" title="Permalink to this headline">¶</a></h2>
+<p>Dispatching by a path on the URL is very similar.  Instead of looking at
+the <cite>Host</cite> header to figure out the subdomain one simply looks at the
+request path up to the first slash:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Lock</span>
+<span class="kn">from</span> <span class="nn">werkzeug.wsgi</span> <span class="kn">import</span> <span class="n">pop_path_info</span><span class="p">,</span> <span class="n">peek_path_info</span>
+
+<span class="k">class</span> <span class="nc">PathDispatcher</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default_app</span><span class="p">,</span> <span class="n">create_app</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default_app</span> <span class="o">=</span> <span class="n">default_app</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_app</span> <span class="o">=</span> <span class="n">create_app</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lock</span> <span class="o">=</span> <span class="n">Lock</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">instances</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">get_application</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="p">:</span>
+            <span class="n">app</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">instances</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">app</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">app</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_app</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">app</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">instances</span><span class="p">[</span><span class="n">prefix</span><span class="p">]</span> <span class="o">=</span> <span class="n">app</span>
+            <span class="k">return</span> <span class="n">app</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
+        <span class="n">app</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_application</span><span class="p">(</span><span class="n">peek_path_info</span><span class="p">(</span><span class="n">environ</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">app</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">pop_path_info</span><span class="p">(</span><span class="n">environ</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">app</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_app</span>
+        <span class="k">return</span> <span class="n">app</span><span class="p">(</span><span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The big difference between this and the subdomain one is that this one
+falls back to another application if the creator function returns <cite>None</cite>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">myapplication</span> <span class="kn">import</span> <span class="n">create_app</span><span class="p">,</span> <span class="n">default_app</span><span class="p">,</span> <span class="n">get_user_for_prefix</span>
+
+<span class="k">def</span> <span class="nf">make_app</span><span class="p">(</span><span class="n">prefix</span><span class="p">):</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">get_user_for_prefix</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">user</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">create_app</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+
+<span class="n">application</span> <span class="o">=</span> <span class="n">PathDispatcher</span><span class="p">(</span><span class="n">default_app</span><span class="p">,</span> <span class="n">make_app</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="../index.html">
+  <img class="logo" src="../_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Application Dispatching</a><ul>
+<li><a class="reference internal" href="#working-with-this-document">Working with this Document</a></li>
+<li><a class="reference internal" href="#combining-applications">Combining Applications</a></li>
+<li><a class="reference internal" href="#dispatch-by-subdomain">Dispatch by Subdomain</a></li>
+<li><a class="reference internal" href="#dispatch-by-path">Dispatch by Path</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Patterns for Flask</a><ul>
+      <li>Previous: <a href="appfactories.html" title="previous chapter">Application Factories</a></li>
+      <li>Next: <a href="apierrors.html" title="next chapter">Implementing API Exceptions</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/patterns/appdispatch.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

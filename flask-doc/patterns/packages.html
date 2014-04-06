@@ -1,0 +1,219 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Larger Applications &mdash; Flask 0.10.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Flask 0.10.1 documentation" href="../index.html" />
+    <link rel="up" title="Patterns for Flask" href="index.html" />
+    <link rel="next" title="Application Factories" href="appfactories.html" />
+    <link rel="prev" title="Patterns for Flask" href="index.html" />
+   
+  
+  <link rel="apple-touch-icon" href="../_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="appfactories.html" title="Application Factories"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Patterns for Flask"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Flask 0.10.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Patterns for Flask</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="larger-applications">
+<span id="id1"></span><h1>Larger Applications<a class="headerlink" href="#larger-applications" title="Permalink to this headline">¶</a></h1>
+<p>For larger applications it&#8217;s a good idea to use a package instead of a
+module.  That is quite simple.  Imagine a small application looks like
+this:</p>
+<div class="highlight-python"><pre>/yourapplication
+    /yourapplication.py
+    /static
+        /style.css
+    /templates
+        layout.html
+        index.html
+        login.html
+        ...</pre>
+</div>
+<div class="section" id="simple-packages">
+<h2>Simple Packages<a class="headerlink" href="#simple-packages" title="Permalink to this headline">¶</a></h2>
+<p>To convert that into a larger one, just create a new folder
+<cite>yourapplication</cite> inside the existing one and move everything below it.
+Then rename <cite>yourapplication.py</cite> to <cite>__init__.py</cite>.  (Make sure to delete
+all <cite>.pyc</cite> files first, otherwise things would most likely break)</p>
+<p>You should then end up with something like that:</p>
+<div class="highlight-python"><pre>/yourapplication
+    /yourapplication
+        /__init__.py
+        /static
+            /style.css
+        /templates
+            layout.html
+            index.html
+            login.html
+            ...</pre>
+</div>
+<p>But how do you run your application now?  The naive <tt class="docutils literal"><span class="pre">python</span>
+<span class="pre">yourapplication/__init__.py</span></tt> will not work.  Let&#8217;s just say that Python
+does not want modules in packages to be the startup file.  But that is not
+a big problem, just add a new file called <cite>runserver.py</cite> next to the inner
+<cite>yourapplication</cite> folder with the following contents:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">yourapplication</span> <span class="kn">import</span> <span class="n">app</span>
+<span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>What did we gain from this?  Now we can restructure the application a bit
+into multiple modules.  The only thing you have to remember is the
+following quick checklist:</p>
+<ol class="arabic simple">
+<li>the <cite>Flask</cite> application object creation has to be in the
+<cite>__init__.py</cite> file.  That way each module can import it safely and the
+<cite>__name__</cite> variable will resolve to the correct package.</li>
+<li>all the view functions (the ones with a <a class="reference internal" href="../api.html#flask.Flask.route" title="flask.Flask.route"><tt class="xref py py-meth docutils literal"><span class="pre">route()</span></tt></a>
+decorator on top) have to be imported in the <cite>__init__.py</cite> file.
+Not the object itself, but the module it is in. Import the view module
+<strong>after the application object is created</strong>.</li>
+</ol>
+<p>Here&#8217;s an example <cite>__init__.py</cite>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">yourapplication.views</span>
+</pre></div>
+</div>
+<p>And this is what <cite>views.py</cite> would look like:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">yourapplication</span> <span class="kn">import</span> <span class="n">app</span>
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+    <span class="k">return</span> <span class="s">&#39;Hello World!&#39;</span>
+</pre></div>
+</div>
+<p>You should then end up with something like that:</p>
+<div class="highlight-python"><pre>/yourapplication
+    /runserver.py
+    /yourapplication
+        /__init__.py
+        /views.py
+        /static
+            /style.css
+        /templates
+            layout.html
+            index.html
+            login.html
+            ...</pre>
+</div>
+<div class="admonition-circular-imports admonition">
+<p class="first admonition-title">Circular Imports</p>
+<p>Every Python programmer hates them, and yet we just added some:
+circular imports (That&#8217;s when two modules depend on each other.  In this
+case <cite>views.py</cite> depends on <cite>__init__.py</cite>).  Be advised that this is a
+bad idea in general but here it is actually fine.  The reason for this is
+that we are not actually using the views in <cite>__init__.py</cite> and just
+ensuring the module is imported and we are doing that at the bottom of
+the file.</p>
+<p class="last">There are still some problems with that approach but if you want to use
+decorators there is no way around that.  Check out the
+<a class="reference internal" href="../becomingbig.html#becomingbig"><em>Becoming Big</em></a> section for some inspiration how to deal with that.</p>
+</div>
+</div>
+<div class="section" id="working-with-blueprints">
+<span id="working-with-modules"></span><h2>Working with Blueprints<a class="headerlink" href="#working-with-blueprints" title="Permalink to this headline">¶</a></h2>
+<p>If you have larger applications it&#8217;s recommended to divide them into
+smaller groups where each group is implemented with the help of a
+blueprint.  For a gentle introduction into this topic refer to the
+<a class="reference internal" href="../blueprints.html#blueprints"><em>Modular Applications with Blueprints</em></a> chapter of the documentation.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="../index.html">
+  <img class="logo" src="../_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Larger Applications</a><ul>
+<li><a class="reference internal" href="#simple-packages">Simple Packages</a></li>
+<li><a class="reference internal" href="#working-with-blueprints">Working with Blueprints</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Patterns for Flask</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Patterns for Flask</a></li>
+      <li>Next: <a href="appfactories.html" title="next chapter">Application Factories</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/patterns/packages.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

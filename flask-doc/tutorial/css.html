@@ -1,0 +1,132 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Step 7: Adding Style &mdash; Flask 0.10.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Flask 0.10.1 documentation" href="../index.html" />
+    <link rel="up" title="Tutorial" href="index.html" />
+    <link rel="next" title="Bonus: Testing the Application" href="testing.html" />
+    <link rel="prev" title="Step 6: The Templates" href="templates.html" />
+   
+  
+  <link rel="apple-touch-icon" href="../_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="testing.html" title="Bonus: Testing the Application"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="templates.html" title="Step 6: The Templates"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Flask 0.10.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Tutorial</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="step-7-adding-style">
+<span id="tutorial-css"></span><h1>Step 7: Adding Style<a class="headerlink" href="#step-7-adding-style" title="Permalink to this headline">¶</a></h1>
+<p>Now that everything else works, it&#8217;s time to add some style to the
+application.  Just create a stylesheet called <cite>style.css</cite> in the <cite>static</cite>
+folder we created before:</p>
+<div class="highlight-css"><div class="highlight"><pre><span class="nt">body</span>            <span class="p">{</span> <span class="k">font-family</span><span class="o">:</span> <span class="k">sans-serif</span><span class="p">;</span> <span class="k">background</span><span class="o">:</span> <span class="m">#eee</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">a</span><span class="o">,</span> <span class="nt">h1</span><span class="o">,</span> <span class="nt">h2</span>       <span class="p">{</span> <span class="k">color</span><span class="o">:</span> <span class="m">#377ba8</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">h1</span><span class="o">,</span> <span class="nt">h2</span>          <span class="p">{</span> <span class="k">font-family</span><span class="o">:</span> <span class="s1">&#39;Georgia&#39;</span><span class="o">,</span> <span class="k">serif</span><span class="p">;</span> <span class="k">margin</span><span class="o">:</span> <span class="m">0</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">h1</span>              <span class="p">{</span> <span class="k">border-bottom</span><span class="o">:</span> <span class="m">2px</span> <span class="k">solid</span> <span class="m">#eee</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">h2</span>              <span class="p">{</span> <span class="k">font-size</span><span class="o">:</span> <span class="m">1.2em</span><span class="p">;</span> <span class="p">}</span>
+
+<span class="nc">.page</span>           <span class="p">{</span> <span class="k">margin</span><span class="o">:</span> <span class="m">2em</span> <span class="k">auto</span><span class="p">;</span> <span class="k">width</span><span class="o">:</span> <span class="m">35em</span><span class="p">;</span> <span class="k">border</span><span class="o">:</span> <span class="m">5px</span> <span class="k">solid</span> <span class="m">#ccc</span><span class="p">;</span>
+                  <span class="k">padding</span><span class="o">:</span> <span class="m">0.8em</span><span class="p">;</span> <span class="k">background</span><span class="o">:</span> <span class="nb">white</span><span class="p">;</span> <span class="p">}</span>
+<span class="nc">.entries</span>        <span class="p">{</span> <span class="k">list-style</span><span class="o">:</span> <span class="k">none</span><span class="p">;</span> <span class="k">margin</span><span class="o">:</span> <span class="m">0</span><span class="p">;</span> <span class="k">padding</span><span class="o">:</span> <span class="m">0</span><span class="p">;</span> <span class="p">}</span>
+<span class="nc">.entries</span> <span class="nt">li</span>     <span class="p">{</span> <span class="k">margin</span><span class="o">:</span> <span class="m">0.8em</span> <span class="m">1.2em</span><span class="p">;</span> <span class="p">}</span>
+<span class="nc">.entries</span> <span class="nt">li</span> <span class="nt">h2</span>  <span class="p">{</span> <span class="k">margin-left</span><span class="o">:</span> <span class="m">-1em</span><span class="p">;</span> <span class="p">}</span>
+<span class="nc">.add-entry</span>      <span class="p">{</span> <span class="k">font-size</span><span class="o">:</span> <span class="m">0.9em</span><span class="p">;</span> <span class="k">border-bottom</span><span class="o">:</span> <span class="m">1px</span> <span class="k">solid</span> <span class="m">#ccc</span><span class="p">;</span> <span class="p">}</span>
+<span class="nc">.add-entry</span> <span class="nt">dl</span>   <span class="p">{</span> <span class="k">font-weight</span><span class="o">:</span> <span class="k">bold</span><span class="p">;</span> <span class="p">}</span>
+<span class="nc">.metanav</span>        <span class="p">{</span> <span class="k">text-align</span><span class="o">:</span> <span class="k">right</span><span class="p">;</span> <span class="k">font-size</span><span class="o">:</span> <span class="m">0.8em</span><span class="p">;</span> <span class="k">padding</span><span class="o">:</span> <span class="m">0.3em</span><span class="p">;</span>
+                  <span class="k">margin-bottom</span><span class="o">:</span> <span class="m">1em</span><span class="p">;</span> <span class="k">background</span><span class="o">:</span> <span class="m">#fafafa</span><span class="p">;</span> <span class="p">}</span>
+<span class="nc">.flash</span>          <span class="p">{</span> <span class="k">background</span><span class="o">:</span> <span class="m">#cee5F5</span><span class="p">;</span> <span class="k">padding</span><span class="o">:</span> <span class="m">0.5em</span><span class="p">;</span>
+                  <span class="k">border</span><span class="o">:</span> <span class="m">1px</span> <span class="k">solid</span> <span class="m">#aacbe2</span><span class="p">;</span> <span class="p">}</span>
+<span class="nc">.error</span>          <span class="p">{</span> <span class="k">background</span><span class="o">:</span> <span class="m">#f0d6d6</span><span class="p">;</span> <span class="k">padding</span><span class="o">:</span> <span class="m">0.5em</span><span class="p">;</span> <span class="p">}</span>
+</pre></div>
+</div>
+<p>Continue with <a class="reference internal" href="testing.html#tutorial-testing"><em>Bonus: Testing the Application</em></a>.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="../index.html">
+  <img class="logo" src="../_static/flask.png" alt="Logo"/>
+</a></p><h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Tutorial</a><ul>
+      <li>Previous: <a href="templates.html" title="previous chapter">Step 6: The Templates</a></li>
+      <li>Next: <a href="testing.html" title="next chapter">Bonus: Testing the Application</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/tutorial/css.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

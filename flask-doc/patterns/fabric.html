@@ -1,0 +1,298 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Deploying with Fabric &mdash; Flask 0.10.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Flask 0.10.1 documentation" href="../index.html" />
+    <link rel="up" title="Patterns for Flask" href="index.html" />
+    <link rel="next" title="Using SQLite 3 with Flask" href="sqlite3.html" />
+    <link rel="prev" title="Deploying with Distribute" href="distribute.html" />
+   
+  
+  <link rel="apple-touch-icon" href="../_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="sqlite3.html" title="Using SQLite 3 with Flask"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="distribute.html" title="Deploying with Distribute"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Flask 0.10.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Patterns for Flask</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="deploying-with-fabric">
+<span id="fabric-deployment"></span><h1>Deploying with Fabric<a class="headerlink" href="#deploying-with-fabric" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="http://fabfile.org/">Fabric</a> is a tool for Python similar to Makefiles but with the ability
+to execute commands on a remote server.  In combination with a properly
+set up Python package (<a class="reference internal" href="packages.html#larger-applications"><em>Larger Applications</em></a>) and a good concept for
+configurations (<a class="reference internal" href="../config.html#config"><em>Configuration Handling</em></a>) it is very easy to deploy Flask
+applications to external servers.</p>
+<p>Before we get started, here a quick checklist of things we have to ensure
+upfront:</p>
+<ul class="simple">
+<li>Fabric 1.0 has to be installed locally.  This tutorial assumes the
+latest version of Fabric.</li>
+<li>The application already has to be a package and requires a working
+<cite>setup.py</cite> file (<a class="reference internal" href="distribute.html#distribute-deployment"><em>Deploying with Distribute</em></a>).</li>
+<li>In the following example we are using <cite>mod_wsgi</cite> for the remote
+servers.  You can of course use your own favourite server there, but
+for this example we chose Apache + <cite>mod_wsgi</cite> because it&#8217;s very easy
+to setup and has a simple way to reload applications without root
+access.</li>
+</ul>
+<div class="section" id="creating-the-first-fabfile">
+<h2>Creating the first Fabfile<a class="headerlink" href="#creating-the-first-fabfile" title="Permalink to this headline">¶</a></h2>
+<p>A fabfile is what controls what Fabric executes.  It is named <cite>fabfile.py</cite>
+and executed by the <cite>fab</cite> command.  All the functions defined in that file
+will show up as <cite>fab</cite> subcommands.  They are executed on one or more
+hosts.  These hosts can be defined either in the fabfile or on the command
+line.  In this case we will add them to the fabfile.</p>
+<p>This is a basic first example that has the ability to upload the current
+sourcecode to the server and install it into a pre-existing
+virtual environment:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">fabric.api</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c"># the user to use for the remote commands</span>
+<span class="n">env</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="s">&#39;appuser&#39;</span>
+<span class="c"># the servers where the commands are executed</span>
+<span class="n">env</span><span class="o">.</span><span class="n">hosts</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;server1.example.com&#39;</span><span class="p">,</span> <span class="s">&#39;server2.example.com&#39;</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">pack</span><span class="p">():</span>
+    <span class="c"># create a new source distribution as tarball</span>
+    <span class="n">local</span><span class="p">(</span><span class="s">&#39;python setup.py sdist --formats=gztar&#39;</span><span class="p">,</span> <span class="n">capture</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">deploy</span><span class="p">():</span>
+    <span class="c"># figure out the release name and version</span>
+    <span class="n">dist</span> <span class="o">=</span> <span class="n">local</span><span class="p">(</span><span class="s">&#39;python setup.py --fullname&#39;</span><span class="p">,</span> <span class="n">capture</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="c"># upload the source tarball to the temporary folder on the server</span>
+    <span class="n">put</span><span class="p">(</span><span class="s">&#39;dist/</span><span class="si">%s</span><span class="s">.tar.gz&#39;</span> <span class="o">%</span> <span class="n">dist</span><span class="p">,</span> <span class="s">&#39;/tmp/yourapplication.tar.gz&#39;</span><span class="p">)</span>
+    <span class="c"># create a place where we can unzip the tarball, then enter</span>
+    <span class="c"># that directory and unzip it</span>
+    <span class="n">run</span><span class="p">(</span><span class="s">&#39;mkdir /tmp/yourapplication&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">cd</span><span class="p">(</span><span class="s">&#39;/tmp/yourapplication&#39;</span><span class="p">):</span>
+        <span class="n">run</span><span class="p">(</span><span class="s">&#39;tar xzf /tmp/yourapplication.tar.gz&#39;</span><span class="p">)</span>
+        <span class="c"># now setup the package with our virtual environment&#39;s</span>
+        <span class="c"># python interpreter</span>
+        <span class="n">run</span><span class="p">(</span><span class="s">&#39;/var/www/yourapplication/env/bin/python setup.py install&#39;</span><span class="p">)</span>
+    <span class="c"># now that all is set up, delete the folder again</span>
+    <span class="n">run</span><span class="p">(</span><span class="s">&#39;rm -rf /tmp/yourapplication /tmp/yourapplication.tar.gz&#39;</span><span class="p">)</span>
+    <span class="c"># and finally touch the .wsgi file so that mod_wsgi triggers</span>
+    <span class="c"># a reload of the application</span>
+    <span class="n">run</span><span class="p">(</span><span class="s">&#39;touch /var/www/yourapplication.wsgi&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The example above is well documented and should be straightforward.  Here
+a recap of the most common commands fabric provides:</p>
+<ul class="simple">
+<li><cite>run</cite> - executes a command on a remote server</li>
+<li><cite>local</cite> - executes a command on the local machine</li>
+<li><cite>put</cite> - uploads a file to the remote server</li>
+<li><cite>cd</cite> - changes the directory on the serverside.  This has to be used
+in combination with the <cite>with</cite> statement.</li>
+</ul>
+</div>
+<div class="section" id="running-fabfiles">
+<h2>Running Fabfiles<a class="headerlink" href="#running-fabfiles" title="Permalink to this headline">¶</a></h2>
+<p>Now how do you execute that fabfile?  You use the <cite>fab</cite> command.  To
+deploy the current version of the code on the remote server you would use
+this command:</p>
+<div class="highlight-python"><pre>$ fab pack deploy</pre>
+</div>
+<p>However this requires that our server already has the
+<tt class="docutils literal"><span class="pre">/var/www/yourapplication</span></tt> folder created and
+<tt class="docutils literal"><span class="pre">/var/www/yourapplication/env</span></tt> to be a virtual environment.  Furthermore
+are we not creating the configuration or <cite>.wsgi</cite> file on the server.  So
+how do we bootstrap a new server into our infrastructure?</p>
+<p>This now depends on the number of servers we want to set up.  If we just
+have one application server (which the majority of applications will
+have), creating a command in the fabfile for this is overkill.  But
+obviously you can do that.  In that case you would probably call it
+<cite>setup</cite> or <cite>bootstrap</cite> and then pass the servername explicitly on the
+command line:</p>
+<div class="highlight-python"><pre>$ fab -H newserver.example.com bootstrap</pre>
+</div>
+<p>To setup a new server you would roughly do these steps:</p>
+<ol class="arabic">
+<li><p class="first">Create the directory structure in <tt class="docutils literal"><span class="pre">/var/www</span></tt>:</p>
+<div class="highlight-python"><pre>$ mkdir /var/www/yourapplication
+$ cd /var/www/yourapplication
+$ virtualenv --distribute env</pre>
+</div>
+</li>
+<li><p class="first">Upload a new <cite>application.wsgi</cite> file to the server and the
+configuration file for the application (eg: <cite>application.cfg</cite>)</p>
+</li>
+<li><p class="first">Create a new Apache config for <cite>yourapplication</cite> and activate it.
+Make sure to activate watching for changes of the <cite>.wsgi</cite> file so
+that we can automatically reload the application by touching it.
+(See <a class="reference internal" href="../deploying/mod_wsgi.html#mod-wsgi-deployment"><em>mod_wsgi (Apache)</em></a> for more information)</p>
+</li>
+</ol>
+<p>So now the question is, where do the <cite>application.wsgi</cite> and
+<cite>application.cfg</cite> files come from?</p>
+</div>
+<div class="section" id="the-wsgi-file">
+<h2>The WSGI File<a class="headerlink" href="#the-wsgi-file" title="Permalink to this headline">¶</a></h2>
+<p>The WSGI file has to import the application and also to set an environment
+variable so that the application knows where to look for the config.  This
+is a short example that does exactly that:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;YOURAPPLICATION_CONFIG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;/var/www/yourapplication/application.cfg&#39;</span>
+<span class="kn">from</span> <span class="nn">yourapplication</span> <span class="kn">import</span> <span class="n">app</span>
+</pre></div>
+</div>
+<p>The application itself then has to initialize itself like this to look for
+the config at that environment variable:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_object</span><span class="p">(</span><span class="s">&#39;yourapplication.default_config&#39;</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_envvar</span><span class="p">(</span><span class="s">&#39;YOURAPPLICATION_CONFIG&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This approach is explained in detail in the <a class="reference internal" href="../config.html#config"><em>Configuration Handling</em></a> section of the
+documentation.</p>
+</div>
+<div class="section" id="the-configuration-file">
+<h2>The Configuration File<a class="headerlink" href="#the-configuration-file" title="Permalink to this headline">¶</a></h2>
+<p>Now as mentioned above, the application will find the correct
+configuration file by looking up the <cite>YOURAPPLICATION_CONFIG</cite> environment
+variable.  So we have to put the configuration in a place where the
+application will able to find it.  Configuration files have the unfriendly
+quality of being different on all computers, so you do not version them
+usually.</p>
+<p>A popular approach is to store configuration files for different servers
+in a separate version control repository and check them out on all
+servers.  Then symlink the file that is active for the server into the
+location where it&#8217;s expected (eg: <tt class="docutils literal"><span class="pre">/var/www/yourapplication</span></tt>).</p>
+<p>Either way, in our case here we only expect one or two servers and we can
+upload them ahead of time by hand.</p>
+</div>
+<div class="section" id="first-deployment">
+<h2>First Deployment<a class="headerlink" href="#first-deployment" title="Permalink to this headline">¶</a></h2>
+<p>Now we can do our first deployment.  We have set up the servers so that
+they have their virtual environments and activated apache configs.  Now we
+can pack up the application and deploy it:</p>
+<div class="highlight-python"><pre>$ fab pack deploy</pre>
+</div>
+<p>Fabric will now connect to all servers and run the commands as written
+down in the fabfile.  First it will execute pack so that we have our
+tarball ready and then it will execute deploy and upload the source code
+to all servers and install it there.  Thanks to the <cite>setup.py</cite> file we
+will automatically pull in the required libraries into our virtual
+environment.</p>
+</div>
+<div class="section" id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Permalink to this headline">¶</a></h2>
+<p>From that point onwards there is so much that can be done to make
+deployment actually fun:</p>
+<ul class="simple">
+<li>Create a <cite>bootstrap</cite> command that initializes new servers.  It could
+initialize a new virtual environment, setup apache appropriately etc.</li>
+<li>Put configuration files into a separate version control repository
+and symlink the active configs into place.</li>
+<li>You could also put your application code into a repository and check
+out the latest version on the server and then install.  That way you
+can also easily go back to older versions.</li>
+<li>hook in testing functionality so that you can deploy to an external
+server and run the testsuite.</li>
+</ul>
+<p>Working with Fabric is fun and you will notice that it&#8217;s quite magical to
+type <tt class="docutils literal"><span class="pre">fab</span> <span class="pre">deploy</span></tt> and see your application being deployed automatically
+to one or more remote servers.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="../index.html">
+  <img class="logo" src="../_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Deploying with Fabric</a><ul>
+<li><a class="reference internal" href="#creating-the-first-fabfile">Creating the first Fabfile</a></li>
+<li><a class="reference internal" href="#running-fabfiles">Running Fabfiles</a></li>
+<li><a class="reference internal" href="#the-wsgi-file">The WSGI File</a></li>
+<li><a class="reference internal" href="#the-configuration-file">The Configuration File</a></li>
+<li><a class="reference internal" href="#first-deployment">First Deployment</a></li>
+<li><a class="reference internal" href="#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Patterns for Flask</a><ul>
+      <li>Previous: <a href="distribute.html" title="previous chapter">Deploying with Distribute</a></li>
+      <li>Next: <a href="sqlite3.html" title="next chapter">Using SQLite 3 with Flask</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/patterns/fabric.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

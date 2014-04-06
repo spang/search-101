@@ -1,0 +1,201 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Celery Based Background Tasks &mdash; Flask 0.10.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Flask 0.10.1 documentation" href="../index.html" />
+    <link rel="up" title="Patterns for Flask" href="index.html" />
+    <link rel="next" title="Deployment Options" href="../deploying/index.html" />
+    <link rel="prev" title="Request Content Checksums" href="requestchecksum.html" />
+   
+  
+  <link rel="apple-touch-icon" href="../_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../deploying/index.html" title="Deployment Options"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="requestchecksum.html" title="Request Content Checksums"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Flask 0.10.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Patterns for Flask</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="celery-based-background-tasks">
+<h1>Celery Based Background Tasks<a class="headerlink" href="#celery-based-background-tasks" title="Permalink to this headline">¶</a></h1>
+<p>Celery is a task queue for Python with batteries included.  It used to
+have a Flask integration but it became unnecessary after some
+restructuring of the internals of Celery with Version 3.  This guide fills
+in the blanks in how to properly use Celery with Flask but assumes that
+you generally already read the <a class="reference external" href="http://docs.celeryproject.org/en/master/getting-started/first-steps-with-celery.html">First Steps with Celery</a>
+guide in the official Celery documentation.</p>
+<div class="section" id="installing-celery">
+<h2>Installing Celery<a class="headerlink" href="#installing-celery" title="Permalink to this headline">¶</a></h2>
+<p>Celery is on the Python Package Index (PyPI), so it can be installed with
+standard Python tools like <tt class="docutils literal"><span class="pre">pip</span></tt> or <tt class="docutils literal"><span class="pre">easy_install</span></tt>:</p>
+<div class="highlight-python"><pre>$ pip install celery</pre>
+</div>
+</div>
+<div class="section" id="configuring-celery">
+<h2>Configuring Celery<a class="headerlink" href="#configuring-celery" title="Permalink to this headline">¶</a></h2>
+<p>The first thing you need is a Celery instance, this is called the celery
+application.  It serves the same purpose as the <a class="reference internal" href="../api.html#flask.Flask" title="flask.Flask"><tt class="xref py py-class docutils literal"><span class="pre">Flask</span></tt></a>
+object in Flask, just for Celery.  Since this instance is used as the
+entry-point for everything you want to do in Celery, like creating tasks
+and managing workers, it must be possible for other modules to import it.</p>
+<p>For instance you can place this in a <tt class="docutils literal"><span class="pre">tasks</span></tt> module.  While you can use
+Celery without any reconfiguration with Flask, it becomes a bit nicer by
+subclassing tasks and adding support for Flask&#8217;s application contexts and
+hooking it up with the Flask configuration.</p>
+<p>This is all that is necessary to properly integrate Celery with Flask:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">celery</span> <span class="kn">import</span> <span class="n">Celery</span>
+
+<span class="k">def</span> <span class="nf">make_celery</span><span class="p">(</span><span class="n">app</span><span class="p">):</span>
+    <span class="n">celery</span> <span class="o">=</span> <span class="n">Celery</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">import_name</span><span class="p">,</span> <span class="n">broker</span><span class="o">=</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;CELERY_BROKER_URL&#39;</span><span class="p">])</span>
+    <span class="n">celery</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">TaskBase</span> <span class="o">=</span> <span class="n">celery</span><span class="o">.</span><span class="n">Task</span>
+    <span class="k">class</span> <span class="nc">ContextTask</span><span class="p">(</span><span class="n">TaskBase</span><span class="p">):</span>
+        <span class="n">abstract</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">app_context</span><span class="p">():</span>
+                <span class="k">return</span> <span class="n">TaskBase</span><span class="o">.</span><span class="n">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">celery</span><span class="o">.</span><span class="n">Task</span> <span class="o">=</span> <span class="n">ContextTask</span>
+    <span class="k">return</span> <span class="n">celery</span>
+</pre></div>
+</div>
+<p>The function creates a new Celery object, configures it with the broker
+from the application config, updates the rest of the Celery config from
+the Flask config and then creates a subclass of the task that wraps the
+task execution in an application context.</p>
+</div>
+<div class="section" id="minimal-example">
+<h2>Minimal Example<a class="headerlink" href="#minimal-example" title="Permalink to this headline">¶</a></h2>
+<p>With what we have above this is the minimal example of using Celery with
+Flask:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+    <span class="n">CELERY_BROKER_URL</span><span class="o">=</span><span class="s">&#39;redis://localhost:6379&#39;</span><span class="p">,</span>
+    <span class="n">CELERY_RESULT_BACKEND</span><span class="o">=</span><span class="s">&#39;redis://localhost:6379&#39;</span>
+<span class="p">)</span>
+<span class="n">celery</span> <span class="o">=</span> <span class="n">make_celery</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+
+
+<span class="nd">@celery.task</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">add_together</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</pre></div>
+</div>
+<p>This task can now be called in the background:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">add_together</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span><span class="mi">23</span><span class="p">,</span> <span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+<span class="go">65</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="running-the-celery-worker">
+<h2>Running the Celery Worker<a class="headerlink" href="#running-the-celery-worker" title="Permalink to this headline">¶</a></h2>
+<p>Now if you jumped in and already executed the above code you will be
+disappointed to learn that your <tt class="docutils literal"><span class="pre">.wait()</span></tt> will never actually return.
+That&#8217;s because you also need to run celery.  You can do that by running
+celery as a worker:</p>
+<div class="highlight-python"><pre>$ celery -A your_application worker</pre>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">your_application</span></tt> string has to point to your application&#8217;s package
+or module that creates the <cite>celery</cite> object.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="../index.html">
+  <img class="logo" src="../_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Celery Based Background Tasks</a><ul>
+<li><a class="reference internal" href="#installing-celery">Installing Celery</a></li>
+<li><a class="reference internal" href="#configuring-celery">Configuring Celery</a></li>
+<li><a class="reference internal" href="#minimal-example">Minimal Example</a></li>
+<li><a class="reference internal" href="#running-the-celery-worker">Running the Celery Worker</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Patterns for Flask</a><ul>
+      <li>Previous: <a href="requestchecksum.html" title="previous chapter">Request Content Checksums</a></li>
+      <li>Next: <a href="../deploying/index.html" title="next chapter">Deployment Options</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/patterns/celery.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

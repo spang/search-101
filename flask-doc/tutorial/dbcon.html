@@ -1,0 +1,158 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Step 4: Request Database Connections &mdash; Flask 0.10.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Flask 0.10.1 documentation" href="../index.html" />
+    <link rel="up" title="Tutorial" href="index.html" />
+    <link rel="next" title="Step 5: The View Functions" href="views.html" />
+    <link rel="prev" title="Step 3: Creating The Database" href="dbinit.html" />
+   
+  
+  <link rel="apple-touch-icon" href="../_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="views.html" title="Step 5: The View Functions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dbinit.html" title="Step 3: Creating The Database"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Flask 0.10.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Tutorial</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="step-4-request-database-connections">
+<span id="tutorial-dbcon"></span><h1>Step 4: Request Database Connections<a class="headerlink" href="#step-4-request-database-connections" title="Permalink to this headline">¶</a></h1>
+<p>Now we know how we can open database connections and use them for scripts,
+but how can we elegantly do that for requests?  We will need the database
+connection in all our functions so it makes sense to initialize them
+before each request and shut them down afterwards.</p>
+<p>Flask allows us to do that with the <a class="reference internal" href="../api.html#flask.Flask.before_request" title="flask.Flask.before_request"><tt class="xref py py-meth docutils literal"><span class="pre">before_request()</span></tt></a>,
+<a class="reference internal" href="../api.html#flask.Flask.after_request" title="flask.Flask.after_request"><tt class="xref py py-meth docutils literal"><span class="pre">after_request()</span></tt></a> and <a class="reference internal" href="../api.html#flask.Flask.teardown_request" title="flask.Flask.teardown_request"><tt class="xref py py-meth docutils literal"><span class="pre">teardown_request()</span></tt></a>
+decorators:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@app.before_request</span>
+<span class="k">def</span> <span class="nf">before_request</span><span class="p">():</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">connect_db</span><span class="p">()</span>
+
+<span class="nd">@app.teardown_request</span>
+<span class="k">def</span> <span class="nf">teardown_request</span><span class="p">(</span><span class="n">exception</span><span class="p">):</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s">&#39;db&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">db</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Functions marked with <a class="reference internal" href="../api.html#flask.Flask.before_request" title="flask.Flask.before_request"><tt class="xref py py-meth docutils literal"><span class="pre">before_request()</span></tt></a> are called before
+a request and passed no arguments.  Functions marked with
+<a class="reference internal" href="../api.html#flask.Flask.after_request" title="flask.Flask.after_request"><tt class="xref py py-meth docutils literal"><span class="pre">after_request()</span></tt></a> are called after a request and
+passed the response that will be sent to the client.  They have to return
+that response object or a different one.  They are however not guaranteed
+to be executed if an exception is raised, this is where functions marked with
+<a class="reference internal" href="../api.html#flask.Flask.teardown_request" title="flask.Flask.teardown_request"><tt class="xref py py-meth docutils literal"><span class="pre">teardown_request()</span></tt></a> come in.  They get called after the
+response has been constructed.  They are not allowed to modify the request, and
+their return values are ignored.  If an exception occurred while the request was
+being processed, it is passed to each function; otherwise, <cite>None</cite> is passed in.</p>
+<p>We store our current database connection on the special <a class="reference internal" href="../api.html#flask.g" title="flask.g"><tt class="xref py py-data docutils literal"><span class="pre">g</span></tt></a>
+object that Flask provides for us.  This object stores information for one
+request only and is available from within each function.  Never store such
+things on other objects because this would not work with threaded
+environments.  That special <a class="reference internal" href="../api.html#flask.g" title="flask.g"><tt class="xref py py-data docutils literal"><span class="pre">g</span></tt></a> object does some magic behind
+the scenes to ensure it does the right thing.</p>
+<p>For an even better way to handle such resources see the <a class="reference internal" href="../patterns/sqlite3.html#sqlite3"><em>Using SQLite 3 with Flask</em></a>
+documentation.</p>
+<p>Continue to <a class="reference internal" href="views.html#tutorial-views"><em>Step 5: The View Functions</em></a>.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p>Where do I put this code?</p>
+<p>If you&#8217;ve been following along in this tutorial, you might be wondering
+where to put the code from this step and the next.  A logical place is to
+group these module-level functions together, and put your new
+<tt class="docutils literal"><span class="pre">before_request</span></tt> and <tt class="docutils literal"><span class="pre">teardown_request</span></tt> functions below your existing
+<tt class="docutils literal"><span class="pre">init_db</span></tt> function (following the tutorial line-by-line).</p>
+<p class="last">If you need a moment to find your bearings, take a look at how the <a class="reference external" href="http://github.com/mitsuhiko/flask/tree/master/examples/flaskr/">example
+source</a> is organized.  In Flask, you can put all of your application code
+into a single Python module.  You don&#8217;t have to, and if your app <a class="reference internal" href="../patterns/packages.html#larger-applications"><em>grows
+larger</em></a>, it&#8217;s a good idea not to.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="../index.html">
+  <img class="logo" src="../_static/flask.png" alt="Logo"/>
+</a></p><h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Tutorial</a><ul>
+      <li>Previous: <a href="dbinit.html" title="previous chapter">Step 3: Creating The Database</a></li>
+      <li>Next: <a href="views.html" title="next chapter">Step 5: The View Functions</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/tutorial/dbcon.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

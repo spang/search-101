@@ -1,0 +1,407 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Logging Application Errors &mdash; Flask 0.10.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.10.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Flask 0.10.1 documentation" href="index.html" />
+    <link rel="next" title="Configuration Handling" href="config.html" />
+    <link rel="prev" title="Testing Flask Applications" href="testing.html" />
+   
+  
+  <link rel="apple-touch-icon" href="_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="config.html" title="Configuration Handling"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="testing.html" title="Testing Flask Applications"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Flask 0.10.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="logging-application-errors">
+<span id="application-errors"></span><h1>Logging Application Errors<a class="headerlink" href="#logging-application-errors" title="Permalink to this headline">¶</a></h1>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.3.</span></p>
+<p>Applications fail, servers fail.  Sooner or later you will see an exception
+in production.  Even if your code is 100% correct, you will still see
+exceptions from time to time.  Why?  Because everything else involved will
+fail.  Here some situations where perfectly fine code can lead to server
+errors:</p>
+<ul class="simple">
+<li>the client terminated the request early and the application was still
+reading from the incoming data.</li>
+<li>the database server was overloaded and could not handle the query.</li>
+<li>a filesystem is full</li>
+<li>a harddrive crashed</li>
+<li>a backend server overloaded</li>
+<li>a programming error in a library you are using</li>
+<li>network connection of the server to another system failed.</li>
+</ul>
+<p>And that&#8217;s just a small sample of issues you could be facing.  So how do we
+deal with that sort of problem?  By default if your application runs in
+production mode, Flask will display a very simple page for you and log the
+exception to the <a class="reference internal" href="api.html#flask.Flask.logger" title="flask.Flask.logger"><tt class="xref py py-attr docutils literal"><span class="pre">logger</span></tt></a>.</p>
+<p>But there is more you can do, and we will cover some better setups to deal
+with errors.</p>
+<div class="section" id="error-mails">
+<h2>Error Mails<a class="headerlink" href="#error-mails" title="Permalink to this headline">¶</a></h2>
+<p>If the application runs in production mode (which it will do on your
+server) you won&#8217;t see any log messages by default.  Why is that?  Flask
+tries to be a zero-configuration framework.  Where should it drop the logs
+for you if there is no configuration?  Guessing is not a good idea because
+chances are, the place it guessed is not the place where the user has
+permission to create a logfile.  Also, for most small applications nobody
+will look at the logs anyways.</p>
+<p>In fact, I promise you right now that if you configure a logfile for the
+application errors you will never look at it except for debugging an issue
+when a user reported it for you.  What you want instead is a mail the
+second the exception happened.  Then you get an alert and you can do
+something about it.</p>
+<p>Flask uses the Python builtin logging system, and it can actually send
+you mails for errors which is probably what you want.  Here is how you can
+configure the Flask logger to send you mails for exceptions:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ADMINS</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;yourname@example.com&#39;</span><span class="p">]</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">app</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">logging</span>
+    <span class="kn">from</span> <span class="nn">logging.handlers</span> <span class="kn">import</span> <span class="n">SMTPHandler</span>
+    <span class="n">mail_handler</span> <span class="o">=</span> <span class="n">SMTPHandler</span><span class="p">(</span><span class="s">&#39;127.0.0.1&#39;</span><span class="p">,</span>
+                               <span class="s">&#39;server-error@example.com&#39;</span><span class="p">,</span>
+                               <span class="n">ADMINS</span><span class="p">,</span> <span class="s">&#39;YourApplication Failed&#39;</span><span class="p">)</span>
+    <span class="n">mail_handler</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">mail_handler</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>So what just happened?  We created a new
+<a class="reference external" href="http://docs.python.org/dev/library/logging.handlers.html#logging.handlers.SMTPHandler" title="(in Python v3.4)"><tt class="xref py py-class docutils literal"><span class="pre">SMTPHandler</span></tt></a> that will send mails with the mail
+server listening on <tt class="docutils literal"><span class="pre">127.0.0.1</span></tt> to all the <cite>ADMINS</cite> from the address
+<em>server-error&#64;example.com</em> with the subject &#8220;YourApplication Failed&#8221;.  If
+your mail server requires credentials, these can also be provided.  For
+that check out the documentation for the
+<a class="reference external" href="http://docs.python.org/dev/library/logging.handlers.html#logging.handlers.SMTPHandler" title="(in Python v3.4)"><tt class="xref py py-class docutils literal"><span class="pre">SMTPHandler</span></tt></a>.</p>
+<p>We also tell the handler to only send errors and more critical messages.
+Because we certainly don&#8217;t want to get a mail for warnings or other
+useless logs that might happen during request handling.</p>
+<p>Before you run that in production, please also look at <a class="reference internal" href="#logformat"><em>Controlling the Log Format</em></a> to
+put more information into that error mail.  That will save you from a lot
+of frustration.</p>
+</div>
+<div class="section" id="logging-to-a-file">
+<h2>Logging to a File<a class="headerlink" href="#logging-to-a-file" title="Permalink to this headline">¶</a></h2>
+<p>Even if you get mails, you probably also want to log warnings.  It&#8217;s a
+good idea to keep as much information around that might be required to
+debug a problem.  Please note that Flask itself will not issue any
+warnings in the core system, so it&#8217;s your responsibility to warn in the
+code if something seems odd.</p>
+<p>There are a couple of handlers provided by the logging system out of the
+box but not all of them are useful for basic error logging.  The most
+interesting are probably the following:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://docs.python.org/dev/library/logging.handlers.html#logging.FileHandler" title="(in Python v3.4)"><tt class="xref py py-class docutils literal"><span class="pre">FileHandler</span></tt></a> - logs messages to a file on the
+filesystem.</li>
+<li><a class="reference external" href="http://docs.python.org/dev/library/logging.handlers.html#logging.handlers.RotatingFileHandler" title="(in Python v3.4)"><tt class="xref py py-class docutils literal"><span class="pre">RotatingFileHandler</span></tt></a> - logs messages to a file
+on the filesystem and will rotate after a certain number of messages.</li>
+<li><a class="reference external" href="http://docs.python.org/dev/library/logging.handlers.html#logging.handlers.NTEventLogHandler" title="(in Python v3.4)"><tt class="xref py py-class docutils literal"><span class="pre">NTEventLogHandler</span></tt></a> - will log to the system
+event log of a Windows system.  If you are deploying on a Windows box,
+this is what you want to use.</li>
+<li><a class="reference external" href="http://docs.python.org/dev/library/logging.handlers.html#logging.handlers.SysLogHandler" title="(in Python v3.4)"><tt class="xref py py-class docutils literal"><span class="pre">SysLogHandler</span></tt></a> - sends logs to a UNIX
+syslog.</li>
+</ul>
+<p>Once you picked your log handler, do like you did with the SMTP handler
+above, just make sure to use a lower setting (I would recommend
+<cite>WARNING</cite>):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="ow">not</span> <span class="n">app</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">logging</span>
+    <span class="kn">from</span> <span class="nn">themodule</span> <span class="kn">import</span> <span class="n">TheHandlerYouWant</span>
+    <span class="n">file_handler</span> <span class="o">=</span> <span class="n">TheHandlerYouWant</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">file_handler</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">file_handler</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="controlling-the-log-format">
+<span id="logformat"></span><h2>Controlling the Log Format<a class="headerlink" href="#controlling-the-log-format" title="Permalink to this headline">¶</a></h2>
+<p>By default a handler will only write the message string into a file or
+send you that message as mail.  A log record stores more information,
+and it makes a lot of sense to configure your logger to also contain that
+information so that you have a better idea of why that error happened, and
+more importantly, where it did.</p>
+<p>A formatter can be instantiated with a format string.  Note that
+tracebacks are appended to the log entry automatically.  You don&#8217;t have to
+do that in the log formatter format string.</p>
+<p>Here some example setups:</p>
+<div class="section" id="email">
+<h3>Email<a class="headerlink" href="#email" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">Formatter</span>
+<span class="n">mail_handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">Formatter</span><span class="p">(</span><span class="s">&#39;&#39;&#39;</span>
+<span class="s">Message type:       </span><span class="si">%(levelname)s</span><span class="s"></span>
+<span class="s">Location:           </span><span class="si">%(pathname)s</span><span class="s">:</span><span class="si">%(lineno)d</span><span class="s"></span>
+<span class="s">Module:             </span><span class="si">%(module)s</span><span class="s"></span>
+<span class="s">Function:           </span><span class="si">%(funcName)s</span><span class="s"></span>
+<span class="s">Time:               </span><span class="si">%(asctime)s</span><span class="s"></span>
+
+<span class="s">Message:</span>
+
+<span class="si">%(message)s</span><span class="s"></span>
+<span class="s">&#39;&#39;&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="file-logging">
+<h3>File logging<a class="headerlink" href="#file-logging" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">Formatter</span>
+<span class="n">file_handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">Formatter</span><span class="p">(</span>
+    <span class="s">&#39;</span><span class="si">%(asctime)s</span><span class="s"> </span><span class="si">%(levelname)s</span><span class="s">: </span><span class="si">%(message)s</span><span class="s"> &#39;</span>
+    <span class="s">&#39;[in </span><span class="si">%(pathname)s</span><span class="s">:</span><span class="si">%(lineno)d</span><span class="s">]&#39;</span>
+<span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="complex-log-formatting">
+<h3>Complex Log Formatting<a class="headerlink" href="#complex-log-formatting" title="Permalink to this headline">¶</a></h3>
+<p>Here is a list of useful formatting variables for the format string.  Note
+that this list is not complete, consult the official documentation of the
+<a class="reference external" href="http://docs.python.org/dev/library/logging.html#logging" title="(in Python v3.4)"><tt class="xref py py-mod docutils literal"><span class="pre">logging</span></tt></a> package for a full list.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="26%" />
+<col width="74%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Format</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">%(levelname)s</span></tt></td>
+<td>Text logging level for the message
+(<tt class="docutils literal"><span class="pre">'DEBUG'</span></tt>, <tt class="docutils literal"><span class="pre">'INFO'</span></tt>, <tt class="docutils literal"><span class="pre">'WARNING'</span></tt>,
+<tt class="docutils literal"><span class="pre">'ERROR'</span></tt>, <tt class="docutils literal"><span class="pre">'CRITICAL'</span></tt>).</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">%(pathname)s</span></tt></td>
+<td>Full pathname of the source file where the
+logging call was issued (if available).</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">%(filename)s</span></tt></td>
+<td>Filename portion of pathname.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">%(module)s</span></tt></td>
+<td>Module (name portion of filename).</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">%(funcName)s</span></tt></td>
+<td>Name of function containing the logging call.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">%(lineno)d</span></tt></td>
+<td>Source line number where the logging call was
+issued (if available).</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">%(asctime)s</span></tt></td>
+<td>Human-readable time when the LogRecord` was
+created.  By default this is of the form
+<tt class="docutils literal"><span class="pre">&quot;2003-07-08</span> <span class="pre">16:49:45,896&quot;</span></tt> (the numbers after
+the comma are millisecond portion of the time).
+This can be changed by subclassing the formatter
+and overriding the
+<a class="reference external" href="http://docs.python.org/dev/library/logging.html#logging.Formatter.formatTime" title="(in Python v3.4)"><tt class="xref py py-meth docutils literal"><span class="pre">formatTime()</span></tt></a> method.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">%(message)s</span></tt></td>
+<td>The logged message, computed as <tt class="docutils literal"><span class="pre">msg</span> <span class="pre">%</span> <span class="pre">args</span></tt></td>
+</tr>
+</tbody>
+</table>
+<p>If you want to further customize the formatting, you can subclass the
+formatter.  The formatter has three interesting methods:</p>
+<dl class="docutils">
+<dt><a class="reference external" href="http://docs.python.org/dev/library/logging.html#logging.Formatter.format" title="(in Python v3.4)"><tt class="xref py py-meth docutils literal"><span class="pre">format()</span></tt></a>:</dt>
+<dd>handles the actual formatting.  It is passed a
+<a class="reference external" href="http://docs.python.org/dev/library/logging.html#logging.LogRecord" title="(in Python v3.4)"><tt class="xref py py-class docutils literal"><span class="pre">LogRecord</span></tt></a> object and has to return the formatted
+string.</dd>
+<dt><a class="reference external" href="http://docs.python.org/dev/library/logging.html#logging.Formatter.formatTime" title="(in Python v3.4)"><tt class="xref py py-meth docutils literal"><span class="pre">formatTime()</span></tt></a>:</dt>
+<dd>called for <cite>asctime</cite> formatting.  If you want a different time format
+you can override this method.</dd>
+<dt><a class="reference external" href="http://docs.python.org/dev/library/logging.html#logging.Formatter.formatException" title="(in Python v3.4)"><tt class="xref py py-meth docutils literal"><span class="pre">formatException()</span></tt></a></dt>
+<dd>called for exception formatting.  It is passed an <tt class="xref py py-attr docutils literal"><span class="pre">exc_info</span></tt>
+tuple and has to return a string.  The default is usually fine, you
+don&#8217;t have to override it.</dd>
+</dl>
+<p>For more information, head over to the official documentation.</p>
+</div>
+</div>
+<div class="section" id="other-libraries">
+<h2>Other Libraries<a class="headerlink" href="#other-libraries" title="Permalink to this headline">¶</a></h2>
+<p>So far we only configured the logger your application created itself.
+Other libraries might log themselves as well.  For example, SQLAlchemy uses
+logging heavily in its core.  While there is a method to configure all
+loggers at once in the <a class="reference external" href="http://docs.python.org/dev/library/logging.html#logging" title="(in Python v3.4)"><tt class="xref py py-mod docutils literal"><span class="pre">logging</span></tt></a> package, I would not recommend using
+it.  There might be a situation in which you want to have multiple
+separate applications running side by side in the same Python interpreter
+and then it becomes impossible to have different logging setups for those.</p>
+<p>Instead, I would recommend figuring out which loggers you are interested
+in, getting the loggers with the <a class="reference external" href="http://docs.python.org/dev/library/logging.html#logging.getLogger" title="(in Python v3.4)"><tt class="xref py py-func docutils literal"><span class="pre">getLogger()</span></tt></a> function and
+iterating over them to attach handlers:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">getLogger</span>
+<span class="n">loggers</span> <span class="o">=</span> <span class="p">[</span><span class="n">app</span><span class="o">.</span><span class="n">logger</span><span class="p">,</span> <span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;sqlalchemy&#39;</span><span class="p">),</span>
+           <span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;otherlibrary&#39;</span><span class="p">)]</span>
+<span class="k">for</span> <span class="n">logger</span> <span class="ow">in</span> <span class="n">loggers</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">mail_handler</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">file_handler</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="debugging-application-errors">
+<h1>Debugging Application Errors<a class="headerlink" href="#debugging-application-errors" title="Permalink to this headline">¶</a></h1>
+<p>For production applications, configure your application with logging and
+notifications as described in <a class="reference internal" href="#application-errors"><em>Logging Application Errors</em></a>.  This section provides
+pointers when debugging deployment configuration and digging deeper with a
+full-featured Python debugger.</p>
+<div class="section" id="when-in-doubt-run-manually">
+<h2>When in Doubt, Run Manually<a class="headerlink" href="#when-in-doubt-run-manually" title="Permalink to this headline">¶</a></h2>
+<p>Having problems getting your application configured for production?  If you
+have shell access to your host, verify that you can run your application
+manually from the shell in the deployment environment.  Be sure to run under
+the same user account as the configured deployment to troubleshoot permission
+issues.  You can use Flask&#8217;s builtin development server with <cite>debug=True</cite> on
+your production host, which is helpful in catching configuration issues, but
+<strong>be sure to do this temporarily in a controlled environment.</strong> Do not run in
+production with <cite>debug=True</cite>.</p>
+</div>
+<div class="section" id="working-with-debuggers">
+<span id="id1"></span><h2>Working with Debuggers<a class="headerlink" href="#working-with-debuggers" title="Permalink to this headline">¶</a></h2>
+<p>To dig deeper, possibly to trace code execution, Flask provides a debugger out
+of the box (see <a class="reference internal" href="quickstart.html#debug-mode"><em>Debug Mode</em></a>).  If you would like to use another Python
+debugger, note that debuggers interfere with each other.  You have to set some
+options in order to use your favorite debugger:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">debug</span></tt>        - whether to enable debug mode and catch exceptinos</li>
+<li><tt class="docutils literal"><span class="pre">use_debugger</span></tt> - whether to use the internal Flask debugger</li>
+<li><tt class="docutils literal"><span class="pre">use_reloader</span></tt> - whether to reload and fork the process on exception</li>
+</ul>
+<p><tt class="docutils literal"><span class="pre">debug</span></tt> must be True (i.e., exceptions must be caught) in order for the other
+two options to have any value.</p>
+<p>If you&#8217;re using Aptana/Eclipse for debugging you&#8217;ll need to set both
+<tt class="docutils literal"><span class="pre">use_debugger</span></tt> and <tt class="docutils literal"><span class="pre">use_reloader</span></tt> to False.</p>
+<p>A possible useful pattern for configuration is to set the following in your
+config.yaml (change the block as appropriate for your application, of course):</p>
+<div class="highlight-python"><pre>FLASK:
+    DEBUG: True
+    DEBUG_WITH_APTANA: True</pre>
+</div>
+<p>Then in your application&#8217;s entry-point (main.py), you could have something like:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="c"># To allow aptana to receive errors, set use_debugger=False</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">create_app</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="s">&quot;config.yaml&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">app</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span> <span class="n">use_debugger</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c"># Disable Flask&#39;s debugger if external debugger is requested</span>
+        <span class="n">use_debugger</span> <span class="o">=</span> <span class="ow">not</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;DEBUG_WITH_APTANA&#39;</span><span class="p">))</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">use_debugger</span><span class="o">=</span><span class="n">use_debugger</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="n">app</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span>
+            <span class="n">use_reloader</span><span class="o">=</span><span class="n">use_debugger</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s">&#39;0.0.0.0&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="index.html">
+  <img class="logo" src="_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Logging Application Errors</a><ul>
+<li><a class="reference internal" href="#error-mails">Error Mails</a></li>
+<li><a class="reference internal" href="#logging-to-a-file">Logging to a File</a></li>
+<li><a class="reference internal" href="#controlling-the-log-format">Controlling the Log Format</a><ul>
+<li><a class="reference internal" href="#email">Email</a></li>
+<li><a class="reference internal" href="#file-logging">File logging</a></li>
+<li><a class="reference internal" href="#complex-log-formatting">Complex Log Formatting</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#other-libraries">Other Libraries</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#debugging-application-errors">Debugging Application Errors</a><ul>
+<li><a class="reference internal" href="#when-in-doubt-run-manually">When in Doubt, Run Manually</a></li>
+<li><a class="reference internal" href="#working-with-debuggers">Working with Debuggers</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="testing.html" title="previous chapter">Testing Flask Applications</a></li>
+      <li>Next: <a href="config.html" title="next chapter">Configuration Handling</a></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/errorhandling.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

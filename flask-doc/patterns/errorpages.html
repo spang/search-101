@@ -1,0 +1,182 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Custom Error Pages &mdash; Flask 0.10.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Flask 0.10.1 documentation" href="../index.html" />
+    <link rel="up" title="Patterns for Flask" href="index.html" />
+    <link rel="next" title="Lazily Loading Views" href="lazyloading.html" />
+    <link rel="prev" title="AJAX with jQuery" href="jquery.html" />
+   
+  
+  <link rel="apple-touch-icon" href="../_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="lazyloading.html" title="Lazily Loading Views"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="jquery.html" title="AJAX with jQuery"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Flask 0.10.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Patterns for Flask</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="custom-error-pages">
+<h1>Custom Error Pages<a class="headerlink" href="#custom-error-pages" title="Permalink to this headline">¶</a></h1>
+<p>Flask comes with a handy <a class="reference internal" href="../api.html#flask.abort" title="flask.abort"><tt class="xref py py-func docutils literal"><span class="pre">abort()</span></tt></a> function that aborts a
+request with an HTTP error code early.  It will also provide a plain black
+and white error page for you with a basic description, but nothing fancy.</p>
+<p>Depending on the error code it is less or more likely for the user to
+actually see such an error.</p>
+<div class="section" id="common-error-codes">
+<h2>Common Error Codes<a class="headerlink" href="#common-error-codes" title="Permalink to this headline">¶</a></h2>
+<p>The following error codes are some that are often displayed to the user,
+even if the application behaves correctly:</p>
+<dl class="docutils">
+<dt><em>404 Not Found</em></dt>
+<dd>The good old &#8220;chap, you made a mistake typing that URL&#8221; message.  So
+common that even novices to the internet know that 404 means: damn,
+the thing I was looking for is not there.  It&#8217;s a very good idea to
+make sure there is actually something useful on a 404 page, at least a
+link back to the index.</dd>
+<dt><em>403 Forbidden</em></dt>
+<dd>If you have some kind of access control on your website, you will have
+to send a 403 code for disallowed resources.  So make sure the user
+is not lost when they try to access a forbidden resource.</dd>
+<dt><em>410 Gone</em></dt>
+<dd>Did you know that there the &#8220;404 Not Found&#8221; has a brother named &#8220;410
+Gone&#8221;?  Few people actually implement that, but the idea is that
+resources that previously existed and got deleted answer with 410
+instead of 404.  If you are not deleting documents permanently from
+the database but just mark them as deleted, do the user a favour and
+use the 410 code instead and display a message that what they were
+looking for was deleted for all eternity.</dd>
+<dt><em>500 Internal Server Error</em></dt>
+<dd>Usually happens on programming errors or if the server is overloaded.
+A terrible good idea to have a nice page there, because your
+application <em>will</em> fail sooner or later (see also:
+<a class="reference internal" href="../errorhandling.html#application-errors"><em>Logging Application Errors</em></a>).</dd>
+</dl>
+</div>
+<div class="section" id="error-handlers">
+<h2>Error Handlers<a class="headerlink" href="#error-handlers" title="Permalink to this headline">¶</a></h2>
+<p>An error handler is a function, just like a view function, but it is
+called when an error happens and is passed that error.  The error is most
+likely a <a class="reference external" href="http://werkzeug.pocoo.org/docs/exceptions/#werkzeug.exceptions.HTTPException" title="(in Werkzeug v0.10)"><tt class="xref py py-exc docutils literal"><span class="pre">HTTPException</span></tt></a>, but in one case it
+can be a different error: a handler for internal server errors will be
+passed other exception instances as well if they are uncaught.</p>
+<p>An error handler is registered with the <a class="reference internal" href="../api.html#flask.Flask.errorhandler" title="flask.Flask.errorhandler"><tt class="xref py py-meth docutils literal"><span class="pre">errorhandler()</span></tt></a>
+decorator and the error code of the exception.  Keep in mind that Flask
+will <em>not</em> set the error code for you, so make sure to also provide the
+HTTP status code when returning a response.</p>
+<p>Here an example implementation for a &#8220;404 Page Not Found&#8221; exception:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">render_template</span>
+
+<span class="nd">@app.errorhandler</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">page_not_found</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s">&#39;404.html&#39;</span><span class="p">),</span> <span class="mi">404</span>
+</pre></div>
+</div>
+<p>An example template might be this:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">extends</span> <span class="s2">&quot;layout.html&quot;</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">title</span> <span class="cp">%}</span>Page Not Found<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">body</span> <span class="cp">%}</span>
+  <span class="nt">&lt;h1&gt;</span>Page Not Found<span class="nt">&lt;/h1&gt;</span>
+  <span class="nt">&lt;p&gt;</span>What you were looking for is just not there.
+  <span class="nt">&lt;p&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">url_for</span><span class="o">(</span><span class="s1">&#39;index&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span>go somewhere nice<span class="nt">&lt;/a&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="../index.html">
+  <img class="logo" src="../_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Custom Error Pages</a><ul>
+<li><a class="reference internal" href="#common-error-codes">Common Error Codes</a></li>
+<li><a class="reference internal" href="#error-handlers">Error Handlers</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Patterns for Flask</a><ul>
+      <li>Previous: <a href="jquery.html" title="previous chapter">AJAX with jQuery</a></li>
+      <li>Next: <a href="lazyloading.html" title="next chapter">Lazily Loading Views</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/patterns/errorpages.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

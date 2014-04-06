@@ -1,0 +1,161 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Foreword &mdash; Flask 0.10.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.10.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Flask 0.10.1 documentation" href="index.html" />
+    <link rel="next" title="Foreword for Experienced Programmers" href="advanced_foreword.html" />
+    <link rel="prev" title="Welcome to Flask" href="index.html" />
+   
+  
+  <link rel="apple-touch-icon" href="_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="advanced_foreword.html" title="Foreword for Experienced Programmers"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to Flask"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Flask 0.10.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="foreword">
+<h1>Foreword<a class="headerlink" href="#foreword" title="Permalink to this headline">¶</a></h1>
+<p>Read this before you get started with Flask.  This hopefully answers some
+questions about the purpose and goals of the project, and when you
+should or should not be using it.</p>
+<div class="section" id="what-does-micro-mean">
+<h2>What does &#8220;micro&#8221; mean?<a class="headerlink" href="#what-does-micro-mean" title="Permalink to this headline">¶</a></h2>
+<p>“Micro” does not mean that your whole web application has to fit into a single
+Python file, although it certainly can. Nor does it mean that Flask is lacking
+in functionality. The &#8220;micro&#8221; in microframework means Flask aims to keep the
+core simple but extensible. Flask won&#8217;t make many decisions for you, such as
+what database to use. Those decisions that it does make, such as what
+templating engine to use, are easy to change.  Everything else is up to you, so
+that Flask can be everything you need and nothing you don&#8217;t.</p>
+<p>By default, Flask does not include a database abstraction layer, form
+validation or anything else where different libraries already exist that can
+handle that. Instead, Flask supports extensions to add such functionality to
+your application as if it was implemented in Flask itself. Numerous extensions
+provide database integration, form validation, upload handling, various open
+authentication technologies, and more. Flask may be &#8220;micro&#8221;, but it&#8217;s ready for
+production use on a variety of needs.</p>
+</div>
+<div class="section" id="configuration-and-conventions">
+<h2>Configuration and Conventions<a class="headerlink" href="#configuration-and-conventions" title="Permalink to this headline">¶</a></h2>
+<p>Flask has many configuration values, with sensible defaults, and a few
+conventions when getting started.  By convention templates and static files are
+stored in subdirectories within the application&#8217;s Python source tree, with the
+names <cite>templates</cite> and <cite>static</cite> respectively. While this can be changed you
+usually don&#8217;t have to, especially when getting started.</p>
+</div>
+<div class="section" id="growing-with-flask">
+<h2>Growing with Flask<a class="headerlink" href="#growing-with-flask" title="Permalink to this headline">¶</a></h2>
+<p>Once you have Flask up and running, you&#8217;ll find a variety of extensions
+available in the community to integrate your project for production. The Flask
+core team reviews extensions and ensures approved extensions do not break with
+future releases.</p>
+<p>As your codebase grows, you are free to make the design decisions appropriate
+for your project.  Flask will continue to provide a very simple glue layer to
+the best that Python has to offer.  You can implement advanced patterns in
+SQLAlchemy or another database tool, introduce non-relational data persistence
+as appropriate, and take advantage of framework-agnostic tools built for WSGI,
+the Python web interface.</p>
+<p>Flask includes many hooks to customize its behavior. Should you need more
+customization, the Flask class is built for subclassing. If you are interested
+in that, check out the <a class="reference internal" href="becomingbig.html#becomingbig"><em>Becoming Big</em></a> chapter.  If you are curious about
+the Flask design principles, head over to the section about <a class="reference internal" href="design.html#design"><em>Design Decisions in Flask</em></a>.</p>
+<p>Continue to <a class="reference internal" href="installation.html#installation"><em>Installation</em></a>, the <a class="reference internal" href="quickstart.html#quickstart"><em>Quickstart</em></a>, or the
+<a class="reference internal" href="advanced_foreword.html#advanced-foreword"><em>Foreword for Experienced Programmers</em></a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="index.html">
+  <img class="logo" src="_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Foreword</a><ul>
+<li><a class="reference internal" href="#what-does-micro-mean">What does &#8220;micro&#8221; mean?</a></li>
+<li><a class="reference internal" href="#configuration-and-conventions">Configuration and Conventions</a></li>
+<li><a class="reference internal" href="#growing-with-flask">Growing with Flask</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to Flask</a></li>
+      <li>Next: <a href="advanced_foreword.html" title="next chapter">Foreword for Experienced Programmers</a></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/foreword.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>
