@@ -8,7 +8,7 @@ from glob import glob
 from whoosh import index
 from whoosh.fields import Schema, ID, TEXT, DATETIME
 
-schema = Schema(id=ID(unique=True), title=TEXT(stored=True),
+schema = Schema(id=ID(unique=True, stored=True), title=TEXT(stored=True),
                 author=TEXT(stored=True), release_date=DATETIME, language=TEXT,
                 content=TEXT)
 

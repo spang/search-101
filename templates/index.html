@@ -19,7 +19,7 @@ url_for('static', filename='jquery.js') }}"></script></script>
         console.log(data);
         var output = '<table><tr><th>title</th><th>author</th></tr>';
         $.each(data['results'], function(i, entry) {
-          output += '<tr><td class="title">' + entry.title + '</td>';
+          output += '<tr><td class="title"><a href="/book/' + entry.id + '">' + entry.title + '</a></td>';
           output += '<td class="author">' + entry.author + '</td></tr>';
         });
         output += '</table>';
