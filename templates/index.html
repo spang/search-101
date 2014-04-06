@@ -12,7 +12,7 @@ url_for('static', filename='jquery.js') }}"></script></script>
 
 <script type=text/javascript>
   $(function() {
-    $('#searchButton').click(function() {
+    function doSearch() {
       $.getJSON($SCRIPT_ROOT + '/_search', {
         query: $('input[name="query"]').val()
       }, function(data) {
@@ -25,7 +25,17 @@ url_for('static', filename='jquery.js') }}"></script></script>
         output += '</table>';
         $("#result").html(output);
       });
+    };
+    $('#searchButton').click(function() {
+      doSearch();
       return false;
+    });
+    // also trigger search when 'enter' is pressed anywhere on the page
+    $('body').keypress(function(e) {
+      if (e.which === 13) {
+        doSearch();
+        return false;
+      }
     });
   });
 </script>
