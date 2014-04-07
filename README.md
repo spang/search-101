@@ -24,7 +24,7 @@ From there:
 
 * `git clone https://github.com/spang/search-101.git`
 * `cd search-101`
-* `virtualenv .`
+* `virtualenv --no-site-packages .`
 * `source bin/activate`
 * `pip install -r requirements.txt`
 
