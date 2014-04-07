@@ -9,14 +9,16 @@ in Montreal!
 If you don't already have Python installed and your preferred text editor
 up and running, refer to the [Boston Python
 Workshop](https://openhatch.org/wiki/Boston_Python_Workshop_6/Friday)
-installation instructions for Windows, Mac, and Linux.
+installation instructions for Windows, Mac, and Linux. *Note that this
+tutorial currently only supports Python 2.7. Patches for Python 3 support
+accepted, but unless you want to do that, please make sure to use Python
+2.7!*
 
-In addition to Python 2.7 (patches for Python 3 support accepted, but it's not
-currently supported) and your favourite text editor, you should install
-[http://www.virtualenv.org/](http://www.virtualenv.org/) virtualenv on your
-machine using `pip install virtualenv` (Mac and Linux users will need to prefix
-the command with `sudo`, or Linux users can install using your distro's package
-manager, `sudo apt-get install python-virtualenv` on Debian/Ubuntu.)
+In addition to Python 2.7 and your favourite text editor, you should install
+[virtualenv](http://www.virtualenv.org/) virtualenv on your machine using `pip
+install virtualenv` (Mac and Linux users will need to prefix the command with
+`sudo`, or Linux users can install using your distro's package manager, `sudo
+apt-get install python-virtualenv` on Debian/Ubuntu.)
 
 From there:
 
