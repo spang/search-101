@@ -15,10 +15,10 @@ accepted, but unless you want to do that, please make sure to use Python
 2.7!*
 
 In addition to Python 2.7 and your favourite text editor, you should install
-[virtualenv](http://www.virtualenv.org/) virtualenv on your machine using `pip
-install virtualenv` (Mac and Linux users will need to prefix the command with
-`sudo`, or Linux users can install using your distro's package manager, `sudo
-apt-get install python-virtualenv` on Debian/Ubuntu.)
+[virtualenv](http://www.virtualenv.org/) on your machine using `pip install
+virtualenv` (Mac and Linux users will need to prefix the command with `sudo`,
+or Linux users can install using your distro's package manager, `sudo apt-get
+install python-virtualenv` on Debian/Ubuntu.)
 
 From there:
 
