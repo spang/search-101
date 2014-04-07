@@ -1,7 +1,7 @@
 Pygments==1.6
 Whoosh==2.6.0
 argparse==1.2.1
-ipython==1.2.1
+ipython==2.0.0
 wsgiref==0.1.2
 python-dateutil==2.2
 Flask==0.10.1
