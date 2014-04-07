@@ -50,3 +50,11 @@ It will print out something like:
 
 You can then access the handout by opening up `http://127.0.0.1:8888/` in
 your browser.
+
+# Acknowledgements
+
+We couldn't have created this tutorial alone. Thanks to the following folks
+who chipped in feedback and suggestions along the way:
+
+* Ari Pollak
+* Kragen Sitaker
