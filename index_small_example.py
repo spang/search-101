@@ -29,7 +29,7 @@ else:
 writer = ix.writer()
 
 for i, d in enumerate(docs):
-    print "processing document", i
+    print "processing document {0}; document contents: {1}".format(i, d)
     writer.update_document(id=unicode(i), content=d)
 writer.commit()
 
