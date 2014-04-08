@@ -58,3 +58,10 @@ who chipped in feedback and suggestions along the way:
 
 * Ari Pollak
 * Kragen Sitaker
+* Matt Chaput (who is also, by the way, the author of Whoosh)
+
+# Citations
+
+Non-people references we used when creating this material.
+
+* History of IR: http://ciir-publications.cs.umass.edu/getpdf.php?id=1066
