@@ -11,7 +11,7 @@ from whoosh.fields import Schema, ID, TEXT
 
 schema = Schema(id=ID(unique=True), content=TEXT)
 
-docs = [u"Ce matin j'ai boivé un café.",
+docs = [u"Ce matin j'ai bu un café.",
         u"I've been emailing all day long.",
         u"http://www.python.org/",
         u"I love Python!",
