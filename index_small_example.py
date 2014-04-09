@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+# vim: set fileencoding=utf-8 :
+from __future__ import unicode_literals
+
 import os
 
 from whoosh import index
@@ -8,9 +11,10 @@ from whoosh.fields import Schema, ID, TEXT
 
 schema = Schema(id=ID(unique=True), content=TEXT)
 
-docs = [u"The quick brown fox jumps over the lazy dog.",
-        u"I love Python!",
+docs = [u"Ce matin j'ai boivé un café.",
+        u"I've been emailing all day long.",
         u"http://www.python.org/",
+        u"I love Python!",
         u"I never want to send another email ever again.",
         u"Email email email. Sooo many emails.",
         ]
