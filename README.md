@@ -51,6 +51,12 @@ It will print out something like:
 You can then access the handout by opening up `http://127.0.0.1:8888/` in
 your browser.
 
+# Slides
+
+We use a short slide deck to guide us through the event, you can find it at:
+
+    http://www.haikudeck.com/p/EXQ3NPRJ3X/search-101
+
 # Acknowledgements
 
 We couldn't have created this tutorial alone. Thanks to the following folks
