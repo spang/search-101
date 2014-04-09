@@ -24,12 +24,10 @@ INDEX_DIR = "ex_index"
 if not os.path.exists(INDEX_DIR):
     os.mkdir(INDEX_DIR)
 
-if index.exists_in(INDEX_DIR):
-    ix = index.open_dir(INDEX_DIR)
-    print "updating existing index in '{}'".format(INDEX_DIR)
-else:
-    ix = index.create_in(INDEX_DIR, schema)
-    print "creating index in '{}'".format(INDEX_DIR)
+# blindly overwrite any existing index to make sure the result has only the
+# intended documents in it
+ix = index.create_in(INDEX_DIR, schema)
+print "creating index in '{}'".format(INDEX_DIR)
 writer = ix.writer()
 
 for i, d in enumerate(docs):
