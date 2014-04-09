@@ -39,8 +39,8 @@ If this works, you should then be ready to go!
 
 # The handout
 
-We've provided a digital copy of the paper handout in the form of an IPython
-notebook. You can run it locally by running this command in this folder:
+We've provided a digital handout in the form of an IPython notebook. You can
+run it locally by running this command in this folder:
 
     ipython notebook --pylab inline
 
