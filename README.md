@@ -51,6 +51,10 @@ It will print out something like:
 You can then access the handout by opening up `http://127.0.0.1:8888/` in
 your browser.
 
+If you don't want to or can't use ipython, you can reference a static version
+of the handout, available [here](http://nbviewer.ipython.org/urls/raw.githubusercontent.com/spang/search-101/master/Search%20101%20Handout.ipynb?create=1).
+Just follow along with an ordinary python prompt.
+
 # Slides
 
 We use a short slide deck to guide us through the event, you can find it at:
