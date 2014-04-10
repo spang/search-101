@@ -5,5 +5,5 @@ python-dateutil==2.2
 Flask==0.10.1
 ipython==2.0.0
 # extra ipython deps for notebook
-pyzmq==2.1.11
+pyzmq==14.1.1
 tornado==3.2
